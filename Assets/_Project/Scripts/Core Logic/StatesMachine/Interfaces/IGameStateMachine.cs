@@ -1,0 +1,12 @@
+using System.Threading.Tasks;
+
+namespace _Project.Scripts.Logic.StatesMachine.Interfaces
+{
+  public interface IGameStateMachine
+  {
+    void Enter<TState>() where TState : class, IState;
+    void Enter<TState, TPayload>(TPayload payload) where TState : class, IPayloadedState<TPayload>;
+    Task AsyncEnter<TState, TPayload>(TPayload payload) where TState : class, IPayloadedState<TPayload>;
+    Task AsyncEnter<TState>() where TState : class, IState;
+  }
+}
