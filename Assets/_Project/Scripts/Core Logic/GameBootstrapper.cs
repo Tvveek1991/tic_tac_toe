@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
+using _Project.Scripts.Core_Logic.StatesMachine.States;
 using _Project.Scripts.Features.Splashscreen;
 using _Project.Scripts.Logic.StatesMachine.Interfaces;
-using _Project.Scripts.Logic.StatesMachine.States;
 using _Project.Scripts.Services._Interfaces;
 using AppacheAds.Scripts.Interfaces;
 using AppacheAnalytics.Scripts.Interfaces;
@@ -12,7 +12,7 @@ using FlurrySDK;
 using UnityEngine;
 using Zenject;
 
-namespace _Project.Scripts.Logic
+namespace _Project.Scripts.Core_Logic
 {
   public class GameBootstrapper : MonoBehaviour
   {

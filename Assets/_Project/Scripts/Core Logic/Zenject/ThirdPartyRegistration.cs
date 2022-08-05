@@ -5,7 +5,7 @@ using AppacheRemote;
 using AppacheRemote.Scripts.Interfaces;
 using Zenject;
 
-namespace _Project.Scripts.Logic.Zenject
+namespace _Project.Scripts.Core_Logic.Zenject
 {
   public class ThirdPartyRegistration : MonoInstaller
   {

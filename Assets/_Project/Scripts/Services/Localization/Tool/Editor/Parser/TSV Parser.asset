@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a78412ab7d303c74fae4c4975383346e, type: 3}
+  m_Name: TSV Parser
+  m_EditorClassIdentifier: 
+  debug:
+    keys: 0
+    values: 0
+    createdJSON: 0
+  TSVText: {fileID: 102900000, guid: ec7f6772a923b8240b9be7c8fbffbbe6, type: 3}
+  folder: {fileID: 102900000, guid: 5129bb9917689c54cb220d2e6a096288, type: 3}

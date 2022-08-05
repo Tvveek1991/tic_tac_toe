@@ -1,13 +1,13 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using _Project.Scripts.Core_Logic.StatesMachine.States;
 using _Project.Scripts.Logic.StatesMachine.Interfaces;
-using _Project.Scripts.Logic.StatesMachine.States;
 using JetBrains.Annotations;
 using UnityEngine;
 using Zenject;
 
-namespace _Project.Scripts.Logic.StatesMachine
+namespace _Project.Scripts.Core_Logic.StatesMachine
 {
   [UsedImplicitly]
   public class GameStateMachine : IGameStateMachine
@@ -15,11 +15,16 @@ namespace _Project.Scripts.Logic.StatesMachine
     private readonly Dictionary<Type, IExitableState> _states;
     private IExitableState _activeExitableState;
 
-    public GameStateMachine(IFactory<LoadGameServicesState> loadGameServicesStateFactory)
+    public GameStateMachine(
+      IFactory<LoadGameServicesState> loadGameServicesStateFactory,
+      IFactory<LoadPolicyState> loadPolicyStateFactory,
+      IFactory<LoadHomeState> loadHomeStateFactory)
     {
-      _states = new Dictionary<Type, IExitableState>
+        _states = new Dictionary<Type, IExitableState>
       {
-        [typeof(LoadGameServicesState)] = loadGameServicesStateFactory.Create()
+        [typeof(LoadGameServicesState)] = loadGameServicesStateFactory.Create(),
+        [typeof(LoadPolicyState)] = loadPolicyStateFactory.Create(),
+        [typeof(LoadHomeState)] = loadHomeStateFactory.Create()
       };
       
       SetupStateMachineStates();

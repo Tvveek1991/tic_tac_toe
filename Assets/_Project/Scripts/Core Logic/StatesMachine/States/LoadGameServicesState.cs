@@ -1,7 +1,7 @@
 using System.Threading.Tasks;
 using _Project.Scripts.Logic.StatesMachine.Interfaces;
 
-namespace _Project.Scripts.Logic.StatesMachine.States
+namespace _Project.Scripts.Core_Logic.StatesMachine.States
 {
   public class LoadGameServicesState : IState
   {
@@ -17,7 +17,7 @@ namespace _Project.Scripts.Logic.StatesMachine.States
     
     public void Enter()
     {
-      //TODO: Переход к стартовому состоянию
+      _gameStateMachine.Enter<LoadPolicyState>();
     }
   }
 }
