@@ -4,6 +4,7 @@ using _Project.Scripts.Core_Logic.StatesMachine.States;
 using _Project.Scripts.Features.Splashscreen;
 using _Project.Scripts.Logic.StatesMachine.Interfaces;
 using _Project.Scripts.Services._Interfaces;
+using _Project.Scripts.Services.Network;
 using AppacheAds.Scripts.Interfaces;
 using AppacheAnalytics.Scripts.Interfaces;
 using AppacheAnalytics.Scripts.Logic;
@@ -17,12 +18,13 @@ namespace _Project.Scripts.Core_Logic
   public class GameBootstrapper : MonoBehaviour
   {
     private IAssetProvider _assetProvider;
+    private INetworkController _networkController;
     private ICurrentScreen _screenManager;
-    
+
     private IAnalytics _analytics;
     private IRemote _remote;
     private IAdsService _adsService;
-    
+
     private IGameStateMachine _gameStateMachine;
     private SplashLogic _splashLogic;
 
@@ -33,15 +35,17 @@ namespace _Project.Scripts.Core_Logic
     }
 
     [Inject]
-    public void Construct(IAssetProvider assetProvider, 
-      IRemote remote, 
+    public void Construct(IAssetProvider assetProvider,
+      IRemote remote,
       IAdsService adsService,
       IAnalytics analytics,
+      INetworkController networkController,
       IGameStateMachine gameStateMachine)
     {
       _adsService = adsService;
       _remote = remote;
       _assetProvider = assetProvider;
+      _networkController = networkController;
       _analytics = analytics;
       _gameStateMachine = gameStateMachine;
     }
@@ -64,6 +68,7 @@ namespace _Project.Scripts.Core_Logic
       InitializeAnalytics();
       InitializeCrashlytics();
       InitializeAds();
+      InitializeNetwork();
     }
 
     private void PrewarmServices()
@@ -73,10 +78,7 @@ namespace _Project.Scripts.Core_Logic
 
     private void InitializeAds()
     {
-      _adsService.Initialize(_remote.GetPlacementType(), () =>
-      {
-        _splashLogic.Complete();
-      });
+      _adsService.Initialize(_remote.GetPlacementType(), () => { _splashLogic.Complete(); });
     }
 
     private void InitializeAnalytics()
@@ -111,11 +113,16 @@ namespace _Project.Scripts.Core_Logic
           Debug.LogError($"Could not resolve all Firebase dependencies: {dependencyStatus}");
       });
     }
+    
+    private void InitializeNetwork()
+    {
+      _networkController.LaunchService();
+    }
 
     private void LaunchGameStateMachine()
     {
-      _adsService.CurrentInterstitial.ShowInterstitial("start", 
-        _gameStateMachine.Enter<LoadGameServicesState>, 
+      _adsService.CurrentInterstitial.ShowInterstitial("start",
+        _gameStateMachine.Enter<LoadGameServicesState>,
         _gameStateMachine.Enter<LoadGameServicesState>);
     }
   }

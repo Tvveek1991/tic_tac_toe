@@ -247,8 +247,8 @@ PlayerSettings:
   AndroidTargetDevices: 0
   AndroidSplashScreenScale: 0
   androidSplashScreen: {fileID: 0}
-  AndroidKeystoreName: '{dedicated}: Desktop/userDebug.keystore'
-  AndroidKeyaliasName: debug
+  AndroidKeystoreName: C:/Users/emmaa/Desktop/Keys/appocalypses.jks
+  AndroidKeyaliasName: appocalypses
   AndroidBuildApkPerCpuArchitecture: 0
   AndroidTVCompatibility: 0
   AndroidIsGame: 1
