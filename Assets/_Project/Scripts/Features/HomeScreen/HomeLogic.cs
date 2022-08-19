@@ -1,4 +1,6 @@
 using _Project.Scripts.Core_Logic.Screens;
+using _Project.Scripts.Core_Logic.StatesMachine.States;
+using _Project.Scripts.Features.HomeScreen.Mono;
 using _Project.Scripts.Features.Policy;
 using _Project.Scripts.Logic.StatesMachine.Interfaces;
 using _Project.Scripts.Services._Interfaces;
@@ -12,7 +14,7 @@ using UnityEngine;
 
 namespace _Project.Scripts.Features.HomeScreen
 {
-  public class HomeScreenLogic
+  public class HomeLogic
   {
     private readonly IHomeFactory _homeFactory;
     private readonly IUiFactory _uiFactory;
@@ -30,7 +32,7 @@ namespace _Project.Scripts.Features.HomeScreen
 
     private MoneyCounter MoneyCounter { get; set; }
 
-    public HomeScreenLogic(IGameStateMachine gameStateMachine, IAssetProvider assetProvider, ICurrentScreen currentScreen,
+    public HomeLogic(IGameStateMachine gameStateMachine, IAssetProvider assetProvider, ICurrentScreen currentScreen,
       IGameSaveSystem gameSaveSystem, IAdsService adsService, IAnalytics analytics,
       ILocaleSystem localeSystem, IAudioService audioService, IRemote remote, IMoneyService moneyService)
     {
@@ -49,12 +51,12 @@ namespace _Project.Scripts.Features.HomeScreen
       _uiFactory = new UiFactory(assetProvider);
     }
 
-    public void CreateHomeScreen()
+    public void CreateHomeView()
     {
       _currentScreen.SetCurrentScreen(ScreenNames.Home);
 
-      var homeScreen = _homeFactory.CreateHomeScreen();
-      homeScreen.Construct(_localeSystem, ToGallery, ToSecretary, OpenSettingsWindow, ToShop, ToGames, ToStories, ToIapShop, ToNoAds);
+      HomeView homeScreen = _homeFactory.CreateHomeView();
+      homeScreen.Construct(_localeSystem, OpenSettingsWindow, ToShop, ToGame, ToGameMode, ToIapShop, ToNoAds);
 
       CreateSounds(homeScreen);
 
@@ -70,60 +72,55 @@ namespace _Project.Scripts.Features.HomeScreen
       MoneyCounter.Construct(_moneyService);
     }
 
-    private void CreateSounds(Mono.HomeScreen homeScreen)
+    private void CreateSounds(Mono.HomeView homeView)
     {
-      new ButtonSound(_audioService, homeScreen.GalleryButton.gameObject, AudioId.SoundButton);
-      new ButtonSound(_audioService, homeScreen.SecretaryButton.gameObject, AudioId.SoundButton);
-      new ButtonSound(_audioService, homeScreen.IapShopButton.gameObject, AudioId.SoundButton);
-      new ButtonSound(_audioService, homeScreen.SettingsButton.gameObject, AudioId.SoundButton);
-      new ButtonSound(_audioService, homeScreen.GamesButton.gameObject, AudioId.SoundButton);
-      new ButtonSound(_audioService, homeScreen.ShopButton.gameObject, AudioId.SoundButton);
-      new ButtonSound(_audioService, homeScreen.NoAdsButton.gameObject, AudioId.SoundButton);
-      new ButtonSound(_audioService, homeScreen.StoriesButton.gameObject, AudioId.SoundButton);
+      new ButtonSound(_audioService, homeView.ShopButton.gameObject, AudioId.SoundButton);
+      new ButtonSound(_audioService, homeView.NoAdsButton.gameObject, AudioId.SoundButton);
+      new ButtonSound(_audioService, homeView.IapShopButton.gameObject, AudioId.SoundButton);
+      new ButtonSound(_audioService, homeView.SettingsButton.gameObject, AudioId.SoundButton);
+      new ButtonSound(_audioService, homeView.ModeButton.gameObject, AudioId.SoundButton);
+      new ButtonSound(_audioService, homeView.StartButton.gameObject, AudioId.SoundButton);
     }
 
     private void CheckNetwork()
     {
-      if (Application.internetReachability != NetworkReachability.NotReachable) return;
+      if (Application.internetReachability != NetworkReachability.NotReachable) 
+        return;
 
       /*_uiFactory.SpawnNoInternetConnection();
       _uiFactory.NoInternetWindow.Construct(_localeSystem, _audioService, () => { _uiFactory.ClearNoInternetWindow(); });*/
     }
 
-    public void CloseHomeScreen()
+    public void CloseHomeView()
     {
       Object.Destroy(MoneyCounter.gameObject);
       
-      _homeFactory.ClearHomeScreen();
+      _homeFactory.ClearHomeView();
       _uiFactory.ClearSettingsWindow();
-    }
-
-    private void ToGallery()
-    {
-      Debug.Log("Open gallery");
-    }
-
-    private void ToSecretary()
-    {
-      // _gameStateMachine.Enter<LoadSecretaryState>();
-      /*_adsService.CurrentInterstitial.ShowInterstitial(ScreenNames.Secretary,
-        _gameStateMachine.Enter<LoadSecretaryState>,
-        _gameStateMachine.Enter<LoadSecretaryState>);*/
     }
 
     private void ToShop()
     {
-      Debug.Log("Open shop");
+      // _gameStateMachine.Enter<LoadShopState>();
+      /*_adsService.CurrentInterstitial.ShowInterstitial(ScreenNames.Shop,
+        _gameStateMachine.Enter<LoadShopState>,
+        _gameStateMachine.Enter<LoadShopState>);*/
     }
 
-    private void ToGames()
+    private void ToGame()
     {
-      Debug.Log("Open games");
+      _gameStateMachine.Enter<LoadGameState>();
+      /*_adsService.CurrentInterstitial.ShowInterstitial(ScreenNames.Game,
+        _gameStateMachine.Enter<LoadGameState>,
+        _gameStateMachine.Enter<LoadGameState>);*/
     }
 
-    private void ToStories()
+    private void ToGameMode()
     {
-      Debug.Log("Open stories");
+      // _gameStateMachine.Enter<LoadModeState>();
+      /*_adsService.CurrentInterstitial.ShowInterstitial(ScreenNames.Mode,
+        _gameStateMachine.Enter<LoadModeState>,
+        _gameStateMachine.Enter<LoadModeState>);*/
     }
 
     private void ToIapShop()

@@ -24,7 +24,7 @@ namespace _Project.Scripts.Core_Logic.StatesMachine.States
 
     private IGameStateMachine _gameStateMachine;
 
-    private HomeScreenLogic _homeScreenLogic;
+    private HomeLogic _homeLogic;
 
     public LoadHomeState(IAssetProvider assetProvider, ICurrentScreen currentScreen,
       IGameSaveSystem gameSaveSystem, IAdsService adsService, IAnalytics analytics,
@@ -46,13 +46,13 @@ namespace _Project.Scripts.Core_Logic.StatesMachine.States
 
     public void Enter()
     {
-      _homeScreenLogic = new HomeScreenLogic(_gameStateMachine, _assetProvider, _currentScreen, _gameSaveSystem, _adsService,
+      _homeLogic = new HomeLogic(_gameStateMachine, _assetProvider, _currentScreen, _gameSaveSystem, _adsService,
         _analytics, _localeSystem, _audioService, _remote, _moneyService);
-      _homeScreenLogic.CreateHomeScreen();
+      _homeLogic.CreateHomeView();
     }
 
     public void Exit() =>
-      _homeScreenLogic.CloseHomeScreen();
+      _homeLogic.CloseHomeView();
 
     public Task AsyncEnter() =>
       throw new NotImplementedException();

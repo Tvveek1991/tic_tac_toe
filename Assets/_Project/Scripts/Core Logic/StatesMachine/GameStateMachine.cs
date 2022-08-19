@@ -18,13 +18,15 @@ namespace _Project.Scripts.Core_Logic.StatesMachine
     public GameStateMachine(
       IFactory<LoadGameServicesState> loadGameServicesStateFactory,
       IFactory<LoadPolicyState> loadPolicyStateFactory,
-      IFactory<LoadHomeState> loadHomeStateFactory)
+      IFactory<LoadHomeState> loadHomeStateFactory,
+      IFactory<LoadGameState> loadGameStateFactory)
     {
         _states = new Dictionary<Type, IExitableState>
       {
         [typeof(LoadGameServicesState)] = loadGameServicesStateFactory.Create(),
         [typeof(LoadPolicyState)] = loadPolicyStateFactory.Create(),
-        [typeof(LoadHomeState)] = loadHomeStateFactory.Create()
+        [typeof(LoadHomeState)] = loadHomeStateFactory.Create(),
+        [typeof(LoadGameState)] = loadGameStateFactory.Create()
       };
       
       SetupStateMachineStates();

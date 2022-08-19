@@ -9,28 +9,24 @@ using UnityEngine.UI;
 
 namespace _Project.Scripts.Features.HomeScreen.Mono
 {
-  public class HomeScreen : MonoBehaviour
+  public class HomeView : MonoBehaviour
   {
     public Button ShopButton;
-    public Button GalleryButton;
-    public Button SettingsButton;
-    public Button SecretaryButton;
-    public Button GamesButton;
-    public Button StoriesButton;
-    public Button IapShopButton;
+    public Button ModeButton;
+    public Button StartButton;
     public Button NoAdsButton;
+    public Button IapShopButton;
+    public Button SettingsButton;
 
-    public void Construct(ILocaleSystem localeSystem, Action toGallery, Action toSecretary, Action openSettingsWindow,
-      Action toShop, Action toGames, Action toStories, Action toIapShop, Action toNoAds)
+    public void Construct(ILocaleSystem localeSystem, Action openSettingsWindow, Action toShop, Action toGame, Action toGameMode,
+      Action toIapShop, Action toNoAds)
     {
       ShopButton.onClick.AddListener(toShop.Invoke);
-      GamesButton.onClick.AddListener(toGames.Invoke);
-      GalleryButton.onClick.AddListener(toGallery.Invoke);
-      StoriesButton.onClick.AddListener(toStories.Invoke);
-      IapShopButton.onClick.AddListener(toIapShop.Invoke);
-      SettingsButton.onClick.AddListener(openSettingsWindow.Invoke);
-      SecretaryButton.onClick.AddListener(toSecretary.Invoke);
       NoAdsButton.onClick.AddListener(toNoAds.Invoke);
+      StartButton.onClick.AddListener(toGame.Invoke);
+      IapShopButton.onClick.AddListener(toIapShop.Invoke);
+      ModeButton.onClick.AddListener(toGameMode.Invoke);
+      SettingsButton.onClick.AddListener(openSettingsWindow.Invoke);
 
       CreateAnimations();
 
@@ -47,17 +43,13 @@ namespace _Project.Scripts.Features.HomeScreen.Mono
       });
     }
 
-    public void Clear() { }
-
     private void CreateAnimations()
     {
       new ButtonAnimation(ShopButton.transform);
-      new ButtonAnimation(GamesButton.transform);
-      new ButtonAnimation(GalleryButton.transform);
-      new ButtonAnimation(StoriesButton.transform);
+      new ButtonAnimation(StartButton.transform);
+      new ButtonAnimation(ModeButton.transform);
       new ButtonAnimation(IapShopButton.transform);
       new ButtonAnimation(SettingsButton.transform);
-      new ButtonAnimation(SecretaryButton.transform);
       new ButtonAnimation(NoAdsButton.transform);
     }
   }
