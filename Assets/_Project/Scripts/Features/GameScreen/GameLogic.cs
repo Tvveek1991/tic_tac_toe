@@ -1,4 +1,6 @@
 using _Project.Scripts.Core_Logic.StatesMachine.States;
+using _Project.Scripts.Features.Games;
+using _Project.Scripts.Features.Games.Classic;
 using _Project.Scripts.Features.GameScreen.Mono;
 using _Project.Scripts.Logic.StatesMachine.Interfaces;
 using _Project.Scripts.Services._Interfaces;
@@ -27,10 +29,11 @@ namespace _Project.Scripts.Features.GameScreen
     private readonly IGameStateMachine _gameStateMachine;
 
     private GameView _gameView;
-    
+
     private GameObject _battleField;
-    
-    public GameLogic(IGameStateMachine gameStateMachine, IAssetProvider assetProvider, ICurrentScreen currentScreen, 
+    private BaseFieldLogic _baseFieldLogic;
+
+    public GameLogic(IGameStateMachine gameStateMachine, IAssetProvider assetProvider, ICurrentScreen currentScreen,
       IGameSaveSystem gameSaveSystem, IAdsService adsService, IAnalytics analytics, ILocaleSystem localeSystem,
       IAudioService audioService, IRemote remote)
     {
@@ -53,18 +56,23 @@ namespace _Project.Scripts.Features.GameScreen
       _gameView = _gameFactory.CreatViewScreen();
       _gameView.Construct(OnClickBack);
 
-      _battleField = _gameFactory.CreatBattleField();
+      _battleField = _gameFactory.CreateBattleField();
+      
+      _baseFieldLogic = new ClassicLogic(_assetProvider, _audioService, _battleField.transform);
+      _baseFieldLogic.Construct();
 
       CreateSounds(_gameView);
     }
 
     public void ClearGalleryView()
     {
-      if (_gameView)
-        Object.Destroy(_gameView.gameObject);
-
+      if (!_gameView) 
+        return;
+      
+      Object.Destroy(_battleField.gameObject);
+      Object.Destroy(_gameView.gameObject);
     }
-    
+
     private void OnClickBack()
     {
       _gameStateMachine.Enter<LoadHomeState>();
@@ -73,7 +81,7 @@ namespace _Project.Scripts.Features.GameScreen
         _gameStateMachine.Enter<LoadHomeState>);*/
     }
 
-    
+
     private void CreateSounds(GameView gameView)
     {
       new ButtonSound(_audioService, gameView.BackButton.gameObject, AudioId.SoundButton);

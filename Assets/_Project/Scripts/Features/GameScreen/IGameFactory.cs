@@ -6,6 +6,6 @@ namespace _Project.Scripts.Features.GameScreen
   public interface IGameFactory
   {
     GameView CreatViewScreen();
-    GameObject CreatBattleField();
+    GameObject CreateBattleField();
   }
 }

@@ -26,7 +26,7 @@ namespace _Project.Scripts.Features.GameScreen
       return Object.Instantiate(gameView, parent);
     }
     
-    public GameObject CreatBattleField()
+    public GameObject CreateBattleField()
     {
       var battleField = _assetProvider.GetResource<GameObject>(BattleFieldPath);
       return Object.Instantiate(battleField);
