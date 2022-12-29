@@ -1,75 +1,66 @@
 {
   "dependencies": {
     "com.appache.ads": {
-      "version": "0.6.8",
+      "version": "1.0.8",
       "depth": 0,
       "source": "registry",
       "dependencies": {
-        "com.appache.analytics": "0.2.1",
-        "com.appache.remote": "0.0.9"
+        "com.appache.analytics": "0.3.7",
+        "com.appache.remote": "0.1.0"
       },
-      "url": "http://143.198.224.118:4873"
+      "url": "http://137.184.90.91:4873"
     },
     "com.appache.analytics": {
-      "version": "0.2.1",
+      "version": "0.3.7",
       "depth": 1,
       "source": "registry",
       "dependencies": {
-        "com.google.firebase.analytics": "8.0.0"
+        "com.google.firebase.analytics": "9.4.0"
       },
-      "url": "http://143.198.224.118:4873"
+      "url": "http://137.184.90.91:4873"
     },
     "com.appache.remote": {
-      "version": "0.0.9",
+      "version": "0.1.0",
       "depth": 0,
       "source": "registry",
       "dependencies": {
-        "com.google.firebase.remote-config": "8.0.0"
+        "com.google.firebase.remote-config": "9.4.0"
       },
-      "url": "http://143.198.224.118:4873"
+      "url": "http://137.184.90.91:4873"
     },
     "com.google.external-dependency-manager": {
-      "version": "1.2.165",
-      "depth": 2,
+      "version": "1.2.172",
+      "depth": 3,
       "source": "registry",
       "dependencies": {},
-      "url": "http://143.198.224.118:4873"
+      "url": "http://137.184.90.91:4873"
     },
     "com.google.firebase.analytics": {
-      "version": "8.0.0",
+      "version": "9.4.0",
       "depth": 2,
       "source": "registry",
       "dependencies": {
-        "com.google.firebase.app": "8.0.0"
+        "com.google.firebase.app": "9.4.0"
       },
-      "url": "http://143.198.224.118:4873"
+      "url": "http://137.184.90.91:4873"
     },
     "com.google.firebase.app": {
-      "version": "8.0.0",
-      "depth": 1,
+      "version": "9.4.0",
+      "depth": 2,
       "source": "registry",
       "dependencies": {
-        "com.google.external-dependency-manager": "1.2.165"
+        "com.google.external-dependency-manager": "1.2.172"
       },
-      "url": "http://143.198.224.118:4873"
-    },
-    "com.google.firebase.crashlytics": {
-      "version": "8.0.0",
-      "depth": 0,
-      "source": "registry",
-      "dependencies": {
-        "com.google.firebase.app": "8.0.0"
-      },
-      "url": "http://143.198.224.118:4873"
+      "url": "http://137.184.90.91:4873"
     },
     "com.google.firebase.remote-config": {
-      "version": "8.0.0",
+      "version": "9.4.0",
       "depth": 1,
       "source": "registry",
       "dependencies": {
-        "com.google.firebase.app": "8.0.0"
+        "com.google.firebase.app": "9.4.0"
       },
-      "url": "http://143.198.224.118:4873"
+      "url": "http://137.184.90.91:4873"
     },
     "com.unity.2d.sprite": {
       "version": "1.0.0",
@@ -87,7 +78,7 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.collab-proxy": {
-      "version": "1.15.18",
+      "version": "1.17.2",
       "depth": 0,
       "source": "registry",
       "dependencies": {
@@ -120,16 +111,16 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.ide.rider": {
-      "version": "2.0.7",
+      "version": "3.0.15",
       "depth": 0,
       "source": "registry",
       "dependencies": {
-        "com.unity.test-framework": "1.1.1"
+        "com.unity.ext.nunit": "1.0.6"
       },
       "url": "https://packages.unity.com"
     },
     "com.unity.ide.visualstudio": {
-      "version": "2.0.15",
+      "version": "2.0.16",
       "depth": 0,
       "source": "registry",
       "dependencies": {
