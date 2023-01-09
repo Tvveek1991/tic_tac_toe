@@ -1,29 +1,17 @@
+using _Project.Scripts.Features.Games.Classic.Mono;
 using _Project.Scripts.Services._Interfaces;
-using UnityEngine;
 
 namespace _Project.Scripts.Features.Games
 {
   public abstract class BaseFieldLogic
   {
-    protected Transform FieldParent;
+    public GameFieldView GameField { get; set; }
     
     protected IAudioService AudioService;
-    protected IAssetProvider AssetProvider;
-    
-    public BaseFieldLogic(IAssetProvider assetProvider, IAudioService audioService, Transform fieldParent)
+
+    protected BaseFieldLogic(IAudioService audioService)
     {
       AudioService = audioService;
-      AssetProvider = assetProvider;
-    }
-
-    public virtual void Construct()
-    {
-      Debug.Log("Base");
-    }
-
-    public virtual void CalculateField(int height = 3, int width = 3)
-    {
-      
     }
   }
 }

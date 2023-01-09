@@ -23,14 +23,12 @@ namespace _Project.Scripts.Features.GameScreen
     private readonly IAdsService _adsService;
     private readonly ILocaleSystem _localeSystem;
     private readonly IAudioService _audioService;
-    private readonly IAssetProvider _assetProvider;
     private readonly ICurrentScreen _currentScreen;
     private readonly IGameSaveSystem _gameSaveSystem;
     private readonly IGameStateMachine _gameStateMachine;
 
     private GameView _gameView;
 
-    private GameObject _battleField;
     private BaseFieldLogic _baseFieldLogic;
 
     public GameLogic(IGameStateMachine gameStateMachine, IAssetProvider assetProvider, ICurrentScreen currentScreen,
@@ -42,7 +40,6 @@ namespace _Project.Scripts.Features.GameScreen
       _adsService = adsService;
       _localeSystem = localeSystem;
       _audioService = audioService;
-      _assetProvider = assetProvider;
       _currentScreen = currentScreen;
       _gameSaveSystem = gameSaveSystem;
       _gameStateMachine = gameStateMachine;
@@ -55,11 +52,8 @@ namespace _Project.Scripts.Features.GameScreen
     {
       _gameView = _gameFactory.CreatViewScreen();
       _gameView.Construct(OnClickBack);
-
-      _battleField = _gameFactory.CreateBattleField();
       
-      _baseFieldLogic = new ClassicLogic(_assetProvider, _audioService, _battleField.transform);
-      _baseFieldLogic.Construct();
+      _baseFieldLogic = new ClassicFieldLogic(_gameFactory, _audioService);
 
       CreateSounds(_gameView);
     }
@@ -69,7 +63,6 @@ namespace _Project.Scripts.Features.GameScreen
       if (!_gameView) 
         return;
       
-      Object.Destroy(_battleField.gameObject);
       Object.Destroy(_gameView.gameObject);
     }
 

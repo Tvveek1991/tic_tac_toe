@@ -1,3 +1,4 @@
+using _Project.Scripts.Features.Games.Classic.Mono;
 using _Project.Scripts.Features.GameScreen.Mono;
 using _Project.Scripts.Services._Interfaces;
 using UnityEngine;
@@ -6,11 +7,10 @@ namespace _Project.Scripts.Features.GameScreen
 {
   public class GameFactory : IGameFactory
   {
-    private const string GameViewPath = "Features/GameScreen/Game Window";
-    private const string BattleFieldPath = "Features/GameScreen/BattleField";
-
     private const string BaseCanvas = "Canvas";
-
+    
+    private const string GameViewPath = "Features/GameScreen/Game Window";
+    
     private readonly IAssetProvider _assetProvider;
 
     public GameFactory(IAssetProvider assetProvider)
@@ -26,10 +26,10 @@ namespace _Project.Scripts.Features.GameScreen
       return Object.Instantiate(gameView, parent);
     }
     
-    public GameObject CreateBattleField()
+    public GameFieldView CreateField(string path)
     {
-      var battleField = _assetProvider.GetResource<GameObject>(BattleFieldPath);
-      return Object.Instantiate(battleField);
+      var gameField = _assetProvider.GetResource<GameFieldView>(path);
+      return Object.Instantiate(gameField);
     }
   }
 }
