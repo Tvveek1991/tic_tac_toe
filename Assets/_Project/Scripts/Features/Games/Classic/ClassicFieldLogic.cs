@@ -12,8 +12,8 @@ namespace _Project.Scripts.Features.Games.Classic
     private const int ToWin = 3;
     private const int FieldSizeX = 3;
     private const int FieldSizeY = 3;
-    
-    private SymbolSign[,] _field = new SymbolSign[3, 3];
+
+    private SymbolCell[,] _cells = new SymbolCell[FieldSizeY, FieldSizeX];
 
     public ClassicFieldLogic(IGameFactory gameFactory, IAudioService audioService) : base(audioService)
     {
@@ -21,11 +21,20 @@ namespace _Project.Scripts.Features.Games.Classic
 
       GameField = gameFactory.CreateField(ClassicFieldPath);
       
-      GameField.ChangeSignButton.onClick.AddListener(() =>
-      {
-        Debug.Log(CheckWin(SymbolSign.X));
-        _field[Random.Range(0, 3), Random.Range(0, 3)] = SymbolSign.X;
-      });
+      CreateCellsField();
+    }
+
+    public void SetFieldCell(SymbolSign symbol)
+    {
+      _cells[Random.Range(0, 3), Random.Range(0, 3)].SetSymbol(symbol);
+      CheckWin(symbol);
+    }
+
+    private void CreateCellsField()
+    {
+      for (var y = 0; y < FieldSizeY; ++y)
+      for (var x = 0; x < FieldSizeX; ++x)
+        _cells[y, x] = GameField.GetPlayablePoint[y * FieldSizeY + x];
     }
 
     private bool CheckWin(SymbolSign symbol)
@@ -40,7 +49,7 @@ namespace _Project.Scripts.Features.Games.Classic
             return true;
           if (CheckLine(i, j, 0, 1, ToWin, symbol))
             return true;
-          if (CheckLine(i, j, 1, -1, ToWin, symbol)) 
+          if (CheckLine(i, j, 1, -1, ToWin, symbol))
             return true;
         }
       }
@@ -58,8 +67,7 @@ namespace _Project.Scripts.Features.Games.Classic
 
       for (var i = 0; i < len; i++)
       {
-        Debug.Log(_field[y + i * vy, x + i * vx]);
-        if (_field[y + i * vy, x + i * vx] != sign)
+        if (_cells[y + i * vy, x + i * vx].GetSymbol != sign)
           return false;
       }
 
@@ -67,6 +75,6 @@ namespace _Project.Scripts.Features.Games.Classic
     }
 
     private bool IsValidCell(int farX, int farY)
-      => ((farX >= 0) && (farX <= FieldSizeX)) && ((farY >= 0) && (farY <= FieldSizeY));  
+      => ((farX >= 0) && (farX <= FieldSizeX)) && ((farY >= 0) && (farY <= FieldSizeY));
   }
 }

@@ -7,11 +7,11 @@ namespace _Project.Scripts.Features.Games.Classic.Mono
   public class GameFieldView : MonoBehaviour
   {
     [SerializeField] private Button _changeSignButton;
-    [SerializeField] private List<Transform> PlayablePoints;
+    [SerializeField] private List<SymbolCell> PlayablePoints;
 
     public Button ChangeSignButton => _changeSignButton;
     
-    public List<Transform> GetPlayablePoint => 
+    public List<SymbolCell> GetPlayablePoint => 
       PlayablePoints;
   }
 }
