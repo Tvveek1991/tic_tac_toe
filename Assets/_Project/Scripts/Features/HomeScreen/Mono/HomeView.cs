@@ -49,6 +49,7 @@ namespace _Project.Scripts.Features.HomeScreen.Mono
     {
       new ButtonAnimation(ShopButton.transform);
       new ButtonAnimation(CreateButton.transform);
+      new ButtonAnimation(ConnectButton.transform);
       new ButtonAnimation(ModeButton.transform);
       new ButtonAnimation(IapShopButton.transform);
       new ButtonAnimation(SettingsButton.transform);
