@@ -1,15 +1,12 @@
 using _Project.Scripts.Core_Logic.StatesMachine.States;
-using _Project.Scripts.Features.Games;
-using _Project.Scripts.Features.Games.Classic;
 using _Project.Scripts.Features.GameScreen.Mono;
 using _Project.Scripts.Logic.StatesMachine.Interfaces;
 using _Project.Scripts.Services._Interfaces;
-using _Project.Scripts.Services.Audio;
 using _Project.Scripts.Services.Localization.Logic;
 using AppacheAds.Scripts.Interfaces;
 using AppacheAnalytics.Scripts.Interfaces;
 using AppacheRemote.Scripts.Interfaces;
-using UnityEngine;
+using Unity.Netcode;
 
 namespace _Project.Scripts.Features.GameScreen
 {
@@ -28,8 +25,7 @@ namespace _Project.Scripts.Features.GameScreen
     private readonly IGameStateMachine _gameStateMachine;
 
     private GameView _gameView;
-
-    private BaseFieldLogic _baseFieldLogic;
+    private NetworkManager _networkManager;
 
     public GameLogic(IGameStateMachine gameStateMachine, IAssetProvider assetProvider, ICurrentScreen currentScreen,
       IGameSaveSystem gameSaveSystem, IAdsService adsService, IAnalytics analytics, ILocaleSystem localeSystem,
@@ -44,26 +40,26 @@ namespace _Project.Scripts.Features.GameScreen
       _gameSaveSystem = gameSaveSystem;
       _gameStateMachine = gameStateMachine;
 
+      _networkManager = NetworkManager.Singleton;
+      
       _uiFactory = new UiFactory(assetProvider);
-      _gameFactory = new GameFactory(assetProvider);
+      _gameFactory = new GameFactory(assetProvider, localeSystem, audioService);
     }
 
-    public void CreateGameView()
+    public void Enter()
     {
-      _gameView = _gameFactory.CreatViewScreen();
-      _gameView.Construct(OnClickBack);
+      _gameFactory.CreateField();
+      _gameFactory.BaseFieldLogic.Construct();
       
-      _baseFieldLogic = new ClassicFieldLogic(_gameFactory, _audioService);
-
-      CreateSounds(_gameView);
+      _gameFactory.CreateScreen();
+      _gameFactory.GameViewLogic.Construct(_audioService, OnClickBack);
+      _gameFactory.GameViewLogic.OpenWindow();
+      
     }
 
-    public void ClearGalleryView()
+    public void Exit()
     {
-      if (!_gameView) 
-        return;
-      
-      Object.Destroy(_gameView.gameObject);
+      _gameFactory.ClearScreen();
     }
 
     private void OnClickBack()
@@ -73,11 +69,11 @@ namespace _Project.Scripts.Features.GameScreen
         _gameStateMachine.Enter<LoadHomeState>,
         _gameStateMachine.Enter<LoadHomeState>);*/
     }
-
-
-    private void CreateSounds(GameView gameView)
-    {
-      new ButtonSound(_audioService, gameView.BackButton.gameObject, AudioId.SoundButton);
-    }
+    
+    private void OnStartHost() =>
+      _networkManager.StartHost();
+    
+    private void OnStartClient() =>
+      _networkManager.StartClient();
   }
 }

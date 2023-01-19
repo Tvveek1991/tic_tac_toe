@@ -1,12 +1,13 @@
-using _Project.Scripts.Features.Games.Classic.Mono;
-using _Project.Scripts.Features.GameScreen.Mono;
-using UnityEngine;
+using _Project.Scripts.Features.Games.Classic;
 
 namespace _Project.Scripts.Features.GameScreen
 {
   public interface IGameFactory
   {
-    GameView CreatViewScreen();
-    GameFieldView CreateField(string path);
+    void CreateScreen();
+    void CreateField();
+    void ClearScreen();
+    IClassicFieldLogic BaseFieldLogic { get; }
+    IGameViewLogic GameViewLogic { get; }
   }
 }

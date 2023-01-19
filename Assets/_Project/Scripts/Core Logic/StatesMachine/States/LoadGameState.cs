@@ -48,11 +48,11 @@ namespace _Project.Scripts.Core_Logic.StatesMachine.States
     {
       _gameLogic = new GameLogic(_gameStateMachine, _assetProvider, _currentScreen, _gameSaveSystem, _adsService,
         _analytics, _localeSystem, _audioService, _remote);
-      _gameLogic.CreateGameView();
+      _gameLogic.Enter();
     }
 
     public void Exit() =>
-      _gameLogic.ClearGalleryView();
+      _gameLogic.Exit();
 
     public Task AsyncEnter() =>
       throw new NotImplementedException();

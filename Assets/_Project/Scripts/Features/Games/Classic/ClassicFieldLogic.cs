@@ -1,40 +1,38 @@
-using _Project.Scripts.Features.GameScreen;
+using _Project.Scripts.Features.Games.Classic.Mono;
 using _Project.Scripts.Features.GameScreen.Serialize;
 using _Project.Scripts.Services._Interfaces;
 using UnityEngine;
 
 namespace _Project.Scripts.Features.Games.Classic
 {
-  public class ClassicFieldLogic : BaseFieldLogic
+  public class ClassicFieldLogic : BaseFieldLogic, IClassicFieldLogic
   {
-    private const string ClassicFieldPath = "Features/GameScreen/Fields/ClassicField";
-
     private const int ToWin = 3;
     private const int FieldSizeX = 3;
     private const int FieldSizeY = 3;
 
-    private SymbolCell[,] _cells = new SymbolCell[FieldSizeY, FieldSizeX];
+    private readonly SymbolCell[,] _cells = new SymbolCell[FieldSizeY, FieldSizeX];
 
-    public ClassicFieldLogic(IGameFactory gameFactory, IAudioService audioService) : base(audioService)
+    public ClassicFieldLogic(GameFieldView gameFieldView, IAudioService audioService) : base(gameFieldView, audioService)
     {
-      AudioService = audioService;
+    }
 
-      GameField = gameFactory.CreateField(ClassicFieldPath);
-      
+    public void Construct()
+    {
       CreateCellsField();
     }
 
     public void SetFieldCell(SymbolSign symbol)
     {
       _cells[Random.Range(0, 3), Random.Range(0, 3)].SetSymbol(symbol);
-      CheckWin(symbol);
+      Debug.Log(CheckWin(symbol));
     }
 
     private void CreateCellsField()
     {
       for (var y = 0; y < FieldSizeY; ++y)
       for (var x = 0; x < FieldSizeX; ++x)
-        _cells[y, x] = GameField.GetPlayablePoint[y * FieldSizeY + x];
+        _cells[y, x] = GameFieldView.GetPlayablePoint[y * FieldSizeY + x];
     }
 
     private bool CheckWin(SymbolSign symbol)

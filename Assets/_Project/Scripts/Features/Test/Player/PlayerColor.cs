@@ -1,11 +1,6 @@
 using Unity.Netcode;
 using UnityEngine;
 
-/// <summary>
-/// Simple server-authoritative example.
-/// Also shows reactive checks instead of per-frame checks
-/// If you have questions, pop into discord and have a chat https://discord.gg/tarodev
-/// </summary>
 public class PlayerColor : NetworkBehaviour {
     private readonly NetworkVariable<Color> _netColor = new NetworkVariable<Color>();
     private readonly Color[] _colors = { Color.red, Color.blue, Color.green, Color.yellow, Color.black, Color.white, Color.magenta, Color.gray };

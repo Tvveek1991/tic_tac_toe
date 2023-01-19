@@ -1,35 +1,62 @@
+using _Project.Scripts.Core_Logic.Common;
+using _Project.Scripts.Features.Games.Classic;
 using _Project.Scripts.Features.Games.Classic.Mono;
 using _Project.Scripts.Features.GameScreen.Mono;
 using _Project.Scripts.Services._Interfaces;
+using _Project.Scripts.Services.Localization.Logic;
 using UnityEngine;
 
 namespace _Project.Scripts.Features.GameScreen
 {
-  public class GameFactory : IGameFactory
+  public class GameFactory : GameObjectFactory, IGameFactory
   {
-    private const string BaseCanvas = "Canvas";
-    
+    private const string CanvasPath = "Canvas";
+
     private const string GameViewPath = "Features/GameScreen/Game Window";
     
-    private readonly IAssetProvider _assetProvider;
+    private const string ClassicFieldPath = "Features/GameScreen/Fields/Classic Field";
+    
+    private GameView GameView { get; set; }
+    private GameFieldView GameField { get; set; }
+    
+    public IClassicFieldLogic BaseFieldLogic { get; private set; }
+    public IGameViewLogic GameViewLogic { get; private set; }
 
-    public GameFactory(IAssetProvider assetProvider)
+    private readonly ILocaleSystem _localeSystem;
+    private readonly IAudioService _audioService;
+
+    public GameFactory(IAssetProvider assetProvider, ILocaleSystem localeSystem, IAudioService audioService) : base(assetProvider)
     {
-      _assetProvider = assetProvider;
-    }
-
-    public GameView CreatViewScreen()
-    {
-      Transform parent = GameObject.Find(BaseCanvas).transform;
-
-      var gameView = _assetProvider.GetResource<GameView>(GameViewPath);
-      return Object.Instantiate(gameView, parent);
+      _localeSystem = localeSystem;
+      _audioService = audioService;
     }
     
-    public GameFieldView CreateField(string path)
+    public void CreateScreen()
     {
-      var gameField = _assetProvider.GetResource<GameFieldView>(path);
-      return Object.Instantiate(gameField);
+      GameView = Create<GameView>(GameViewPath, GameObject.Find(CanvasPath).transform);
+      GameViewLogic = new GameViewLogic(GameView, _localeSystem);
     }
+    
+    public void CreateField()
+    {
+      GameField = Create<GameFieldView>(ClassicFieldPath);
+      BaseFieldLogic = new ClassicFieldLogic(GameField, _audioService);
+    }
+    
+    public void ClearScreen()
+    {
+      if (GameView != null)
+      {
+        Clear(GameView.gameObject);
+        GameView = null;
+      }
+      
+      if (GameField != null)
+      {
+        Clear(GameField.gameObject);
+        GameField = null;
+      }
+    }
+
   }
 }
