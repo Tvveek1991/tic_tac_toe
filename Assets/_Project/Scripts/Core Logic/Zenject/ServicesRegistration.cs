@@ -16,7 +16,7 @@ namespace _Project.Scripts.Core_Logic.Zenject
   public class ServicesRegistration : MonoInstaller
   {
     public override void InstallBindings()
-    {      
+    {
       BindSingleService<IAssetProvider, AssetProvider>();
       BindSingleService<IMoneyService, MoneyService>();
       BindSingleService<ILocaleSystem, LocaleSystem>();
@@ -24,7 +24,7 @@ namespace _Project.Scripts.Core_Logic.Zenject
       BindSingleService<ICurrentScreen, ScreenManager>();
       BindSingleService<IGameSaveSystem, GameSaveSystem>();
       BindSingleService<ITimerController, TimerController>();
-      BindSingleService<INetworkController, NetworkController>();
+      BindSingleService<INetwork, Network>();
     }
 
     private void BindSingleService<T, T2>() where T2 : T => 

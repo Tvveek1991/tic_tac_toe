@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
+using _Project.Scripts.Core_Logic.StatesMachine.Interfaces;
 using _Project.Scripts.Core_Logic.StatesMachine.States;
 using _Project.Scripts.Features.Splashscreen;
-using _Project.Scripts.Logic.StatesMachine.Interfaces;
 using _Project.Scripts.Services._Interfaces;
 using _Project.Scripts.Services.Network;
 using AppacheAds.Scripts.Interfaces;
@@ -18,7 +18,7 @@ namespace _Project.Scripts.Core_Logic
   public class GameBootstrapper : MonoBehaviour
   {
     private IAssetProvider _assetProvider;
-    private INetworkController _networkController;
+    private INetwork _network;
     private ICurrentScreen _screenManager;
 
     private IAnalytics _analytics;
@@ -39,13 +39,13 @@ namespace _Project.Scripts.Core_Logic
       IRemote remote,
       IAdsService adsService,
       IAnalytics analytics,
-      INetworkController networkController,
+      INetwork network,
       IGameStateMachine gameStateMachine)
     {
       _adsService = adsService;
       _remote = remote;
       _assetProvider = assetProvider;
-      _networkController = networkController;
+      _network = network;
       _analytics = analytics;
       _gameStateMachine = gameStateMachine;
     }
@@ -116,7 +116,7 @@ namespace _Project.Scripts.Core_Logic
     
     private void InitializeNetwork()
     {
-      _networkController.LaunchService();
+      _network.LaunchService();
     }
 
     private void LaunchGameStateMachine()

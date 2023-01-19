@@ -1,7 +1,7 @@
 using System.Threading.Tasks;
 using _Project.Scripts.Core_Logic.Screens;
+using _Project.Scripts.Core_Logic.StatesMachine.Interfaces;
 using _Project.Scripts.Features.Policy;
-using _Project.Scripts.Logic.StatesMachine.Interfaces;
 using _Project.Scripts.Services._Interfaces;
 using _Project.Scripts.Services.Localization.Logic;
 using AppacheAnalytics.Scripts.Interfaces;

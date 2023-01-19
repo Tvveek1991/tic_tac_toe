@@ -1,5 +1,5 @@
 using System.Threading.Tasks;
-using _Project.Scripts.Logic.StatesMachine.Interfaces;
+using _Project.Scripts.Core_Logic.StatesMachine.Interfaces;
 
 namespace _Project.Scripts.Core_Logic.StatesMachine.States
 {

@@ -1,8 +1,8 @@
 using _Project.Scripts.Core_Logic.Screens;
+using _Project.Scripts.Core_Logic.StatesMachine.Interfaces;
 using _Project.Scripts.Core_Logic.StatesMachine.States;
 using _Project.Scripts.Features.HomeScreen.Mono;
 using _Project.Scripts.Features.Policy;
-using _Project.Scripts.Logic.StatesMachine.Interfaces;
 using _Project.Scripts.Services._Interfaces;
 using _Project.Scripts.Services.Audio;
 using _Project.Scripts.Services.Localization.Logic;
@@ -55,10 +55,10 @@ namespace _Project.Scripts.Features.HomeScreen
     {
       _currentScreen.SetCurrentScreen(ScreenNames.Home);
 
-      HomeView homeScreen = _homeFactory.CreateHomeView();
-      homeScreen.Construct(_localeSystem, OpenSettingsWindow, ToShop, ToGame, ToGameMode, ToIapShop, ToNoAds);
+      _homeFactory.CreateHomeView();
+      _homeFactory.HomeView.Construct(_localeSystem, OpenSettingsWindow, ToShop, ToGame, ToGameMode, ToIapShop, ToNoAds);
 
-      CreateSounds(homeScreen);
+      CreateSounds(_homeFactory.HomeView);
 
       IPrivacyPolicyFactory privacyPolicyFactory = new PrivacyPolicyFactory(_assetProvider);
 
@@ -72,14 +72,14 @@ namespace _Project.Scripts.Features.HomeScreen
       MoneyCounter.Construct(_moneyService);
     }
 
-    private void CreateSounds(Mono.HomeView homeView)
+    private void CreateSounds(HomeView homeView)
     {
       new ButtonSound(_audioService, homeView.ShopButton.gameObject, AudioId.SoundButton);
       new ButtonSound(_audioService, homeView.NoAdsButton.gameObject, AudioId.SoundButton);
       new ButtonSound(_audioService, homeView.IapShopButton.gameObject, AudioId.SoundButton);
       new ButtonSound(_audioService, homeView.SettingsButton.gameObject, AudioId.SoundButton);
       new ButtonSound(_audioService, homeView.ModeButton.gameObject, AudioId.SoundButton);
-      new ButtonSound(_audioService, homeView.StartButton.gameObject, AudioId.SoundButton);
+      new ButtonSound(_audioService, homeView.CreateButton.gameObject, AudioId.SoundButton);
     }
 
     private void CheckNetwork()
@@ -107,9 +107,9 @@ namespace _Project.Scripts.Features.HomeScreen
         _gameStateMachine.Enter<LoadShopState>);*/
     }
 
-    private void ToGame()
+    private void ToGame(bool isHost)
     {
-      _gameStateMachine.Enter<LoadGameState>();
+      _gameStateMachine.Enter<LoadGameState, bool>(isHost);
       /*_adsService.CurrentInterstitial.ShowInterstitial(ScreenNames.Game,
         _gameStateMachine.Enter<LoadGameState>,
         _gameStateMachine.Enter<LoadGameState>);*/

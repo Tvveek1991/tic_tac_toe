@@ -13,17 +13,19 @@ namespace _Project.Scripts.Features.HomeScreen.Mono
   {
     public Button ShopButton;
     public Button ModeButton;
-    public Button StartButton;
+    public Button CreateButton;
+    public Button ConnectButton;
     public Button NoAdsButton;
     public Button IapShopButton;
     public Button SettingsButton;
 
-    public void Construct(ILocaleSystem localeSystem, Action openSettingsWindow, Action toShop, Action toGame, Action toGameMode,
+    public void Construct(ILocaleSystem localeSystem, Action openSettingsWindow, Action toShop, Action<bool> toGame, Action toGameMode,
       Action toIapShop, Action toNoAds)
     {
       ShopButton.onClick.AddListener(toShop.Invoke);
       NoAdsButton.onClick.AddListener(toNoAds.Invoke);
-      StartButton.onClick.AddListener(toGame.Invoke);
+      CreateButton.onClick.AddListener(() => toGame.Invoke(true));
+      ConnectButton.onClick.AddListener(() => toGame.Invoke(false));
       IapShopButton.onClick.AddListener(toIapShop.Invoke);
       ModeButton.onClick.AddListener(toGameMode.Invoke);
       SettingsButton.onClick.AddListener(openSettingsWindow.Invoke);
@@ -46,7 +48,7 @@ namespace _Project.Scripts.Features.HomeScreen.Mono
     private void CreateAnimations()
     {
       new ButtonAnimation(ShopButton.transform);
-      new ButtonAnimation(StartButton.transform);
+      new ButtonAnimation(CreateButton.transform);
       new ButtonAnimation(ModeButton.transform);
       new ButtonAnimation(IapShopButton.transform);
       new ButtonAnimation(SettingsButton.transform);

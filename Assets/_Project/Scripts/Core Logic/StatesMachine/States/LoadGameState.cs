@@ -1,18 +1,20 @@
 using System;
 using System.Threading.Tasks;
+using _Project.Scripts.Core_Logic.StatesMachine.Interfaces;
 using _Project.Scripts.Features.GameScreen;
-using _Project.Scripts.Logic.StatesMachine.Interfaces;
 using _Project.Scripts.Services._Interfaces;
 using _Project.Scripts.Services.Localization.Logic;
+using _Project.Scripts.Services.Network;
 using AppacheAds.Scripts.Interfaces;
 using AppacheAnalytics.Scripts.Interfaces;
 using AppacheRemote.Scripts.Interfaces;
 
 namespace _Project.Scripts.Core_Logic.StatesMachine.States
 {
-  public class LoadGameState : IState
+  public class LoadGameState : IPayloadedState<bool>
   {
     private readonly IRemote _remote;
+    private readonly INetwork _network;
     private readonly IAnalytics _analytics;
     private readonly IAdsService _adsService;
     private readonly ILocaleSystem _localeSystem;
@@ -26,11 +28,12 @@ namespace _Project.Scripts.Core_Logic.StatesMachine.States
 
     private GameLogic _gameLogic;
 
-    public LoadGameState(IAssetProvider assetProvider, ICurrentScreen currentScreen,
-      IGameSaveSystem gameSaveSystem, IAdsService adsService, IAnalytics analytics,
-      ILocaleSystem localeSystem, IAudioService audioService, IRemote remote, IMoneyService moneyService)
+    public LoadGameState(IAssetProvider assetProvider, ICurrentScreen currentScreen, IGameSaveSystem gameSaveSystem,
+      IAdsService adsService, IAnalytics analytics, ILocaleSystem localeSystem, IAudioService audioService, IRemote remote,
+      IMoneyService moneyService, INetwork network)
     {
       _remote = remote;
+      _network = network;
       _analytics = analytics;
       _adsService = adsService;
       _localeSystem = localeSystem;
@@ -44,17 +47,17 @@ namespace _Project.Scripts.Core_Logic.StatesMachine.States
     public void Construct(IGameStateMachine gameStateMachine) =>
       _gameStateMachine = gameStateMachine;
 
-    public void Enter()
+    public void Enter(bool isHost)
     {
       _gameLogic = new GameLogic(_gameStateMachine, _assetProvider, _currentScreen, _gameSaveSystem, _adsService,
-        _analytics, _localeSystem, _audioService, _remote);
-      _gameLogic.Enter();
+        _analytics, _localeSystem, _audioService, _remote, _network);
+      _gameLogic.Enter(isHost);
     }
 
     public void Exit() =>
       _gameLogic.Exit();
 
-    public Task AsyncEnter() =>
+    public Task AsyncEnter(bool gameLogic) =>
       throw new NotImplementedException();
   }
 }

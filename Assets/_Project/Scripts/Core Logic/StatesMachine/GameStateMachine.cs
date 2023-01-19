@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using _Project.Scripts.Core_Logic.StatesMachine.Interfaces;
 using _Project.Scripts.Core_Logic.StatesMachine.States;
-using _Project.Scripts.Logic.StatesMachine.Interfaces;
 using JetBrains.Annotations;
 using UnityEngine;
 using Zenject;
@@ -21,18 +21,21 @@ namespace _Project.Scripts.Core_Logic.StatesMachine
       IFactory<LoadHomeState> loadHomeStateFactory,
       IFactory<LoadGameState> loadGameStateFactory)
     {
-        _states = new Dictionary<Type, IExitableState>
+      _states = new Dictionary<Type, IExitableState>
       {
         [typeof(LoadGameServicesState)] = loadGameServicesStateFactory.Create(),
         [typeof(LoadPolicyState)] = loadPolicyStateFactory.Create(),
         [typeof(LoadHomeState)] = loadHomeStateFactory.Create(),
         [typeof(LoadGameState)] = loadGameStateFactory.Create()
       };
-      
+
       SetupStateMachineStates();
 
       Debug.Log("Game State Machine Initialize");
     }
+
+    public IExitableState GetState(Type type) =>
+      _states[type];
 
     public void Enter<TState>() where TState : class, IState
     {

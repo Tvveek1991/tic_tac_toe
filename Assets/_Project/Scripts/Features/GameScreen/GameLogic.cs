@@ -1,12 +1,12 @@
+using _Project.Scripts.Core_Logic.StatesMachine.Interfaces;
 using _Project.Scripts.Core_Logic.StatesMachine.States;
 using _Project.Scripts.Features.GameScreen.Mono;
-using _Project.Scripts.Logic.StatesMachine.Interfaces;
 using _Project.Scripts.Services._Interfaces;
 using _Project.Scripts.Services.Localization.Logic;
+using _Project.Scripts.Services.Network;
 using AppacheAds.Scripts.Interfaces;
 using AppacheAnalytics.Scripts.Interfaces;
 using AppacheRemote.Scripts.Interfaces;
-using Unity.Netcode;
 
 namespace _Project.Scripts.Features.GameScreen
 {
@@ -16,6 +16,7 @@ namespace _Project.Scripts.Features.GameScreen
     private readonly IGameFactory _gameFactory;
 
     private readonly IRemote _remote;
+    private readonly INetwork _network;
     private readonly IAnalytics _analytics;
     private readonly IAdsService _adsService;
     private readonly ILocaleSystem _localeSystem;
@@ -24,14 +25,14 @@ namespace _Project.Scripts.Features.GameScreen
     private readonly IGameSaveSystem _gameSaveSystem;
     private readonly IGameStateMachine _gameStateMachine;
 
-    private GameView _gameView;
-    private NetworkManager _networkManager;
+    private GameViewMono _gameViewMono;
 
     public GameLogic(IGameStateMachine gameStateMachine, IAssetProvider assetProvider, ICurrentScreen currentScreen,
       IGameSaveSystem gameSaveSystem, IAdsService adsService, IAnalytics analytics, ILocaleSystem localeSystem,
-      IAudioService audioService, IRemote remote)
+      IAudioService audioService, IRemote remote, INetwork network)
     {
       _remote = remote;
+      _network = network;
       _analytics = analytics;
       _adsService = adsService;
       _localeSystem = localeSystem;
@@ -40,13 +41,11 @@ namespace _Project.Scripts.Features.GameScreen
       _gameSaveSystem = gameSaveSystem;
       _gameStateMachine = gameStateMachine;
 
-      _networkManager = NetworkManager.Singleton;
-      
       _uiFactory = new UiFactory(assetProvider);
       _gameFactory = new GameFactory(assetProvider, localeSystem, audioService);
     }
 
-    public void Enter()
+    public void Enter(bool isHost)
     {
       _gameFactory.CreateField();
       _gameFactory.BaseFieldLogic.Construct();
@@ -54,7 +53,8 @@ namespace _Project.Scripts.Features.GameScreen
       _gameFactory.CreateScreen();
       _gameFactory.GameViewLogic.Construct(_audioService, OnClickBack);
       _gameFactory.GameViewLogic.OpenWindow();
-      
+
+      OnSpawnPlayer(isHost);
     }
 
     public void Exit()
@@ -70,10 +70,7 @@ namespace _Project.Scripts.Features.GameScreen
         _gameStateMachine.Enter<LoadHomeState>);*/
     }
     
-    private void OnStartHost() =>
-      _networkManager.StartHost();
-    
-    private void OnStartClient() =>
-      _networkManager.StartClient();
+    private void OnSpawnPlayer(bool isHost) =>
+      _network.OnPlayerSpawn(isHost);
   }
 }

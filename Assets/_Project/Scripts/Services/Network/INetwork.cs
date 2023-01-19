@@ -1,7 +1,8 @@
 namespace _Project.Scripts.Services.Network
 {
-  public interface INetworkController
+  public interface INetwork
   {
     void LaunchService();
+    void OnPlayerSpawn(bool isHost);
   }
 }

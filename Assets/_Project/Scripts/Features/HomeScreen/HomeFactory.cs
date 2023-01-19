@@ -1,34 +1,26 @@
+using _Project.Scripts.Core_Logic.Common;
 using _Project.Scripts.Features.HomeScreen.Mono;
 using _Project.Scripts.Services._Interfaces;
 using UnityEngine;
 
 namespace _Project.Scripts.Features.HomeScreen
 {
-  public class HomeFactory : IHomeFactory
+  public class HomeFactory : GameObjectFactory, IHomeFactory
   {
-    private const string HomeViewPath = "Features/HomeScreen/Home";
-
     private const string BaseCanvas = "Canvas";
-
-    private readonly IAssetProvider _assetProvider;
+    
+    private const string HomeViewPath = "Features/HomeScreen/Home";
 
     public HomeView HomeView { get; private set; }
 
-    public HomeFactory(IAssetProvider assetProvider)
+    public HomeFactory(IAssetProvider assetProvider) : base(assetProvider)
     {
-      _assetProvider = assetProvider;
     }
 
-    public HomeView CreateHomeView()
+    public void CreateHomeView()
     {
       ClearHomeView();
-
-      Transform parent = GameObject.Find(BaseCanvas).transform;
-
-      var homeScreen = _assetProvider.GetResource<HomeView>(HomeViewPath);
-      HomeView = Object.Instantiate(homeScreen, parent);
-
-      return HomeView;
+      HomeView = Create<HomeView>(HomeViewPath, GameObject.Find(BaseCanvas).transform);
     }
 
     public void ClearHomeView()

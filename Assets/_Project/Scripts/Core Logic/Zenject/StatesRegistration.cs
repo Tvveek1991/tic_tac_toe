@@ -1,6 +1,6 @@
 using _Project.Scripts.Core_Logic.StatesMachine;
+using _Project.Scripts.Core_Logic.StatesMachine.Interfaces;
 using _Project.Scripts.Core_Logic.StatesMachine.States;
-using _Project.Scripts.Logic.StatesMachine.Interfaces;
 using Zenject;
 
 namespace _Project.Scripts.Core_Logic.Zenject

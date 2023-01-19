@@ -16,7 +16,7 @@ namespace _Project.Scripts.Features.GameScreen
     
     private const string ClassicFieldPath = "Features/GameScreen/Fields/Classic Field";
     
-    private GameView GameView { get; set; }
+    private GameViewMono GameViewMono { get; set; }
     private GameFieldView GameField { get; set; }
     
     public IClassicFieldLogic BaseFieldLogic { get; private set; }
@@ -33,8 +33,8 @@ namespace _Project.Scripts.Features.GameScreen
     
     public void CreateScreen()
     {
-      GameView = Create<GameView>(GameViewPath, GameObject.Find(CanvasPath).transform);
-      GameViewLogic = new GameViewLogic(GameView, _localeSystem);
+      GameViewMono = Create<GameViewMono>(GameViewPath, GameObject.Find(CanvasPath).transform);
+      GameViewLogic = new GameViewLogic(GameViewMono, _localeSystem);
     }
     
     public void CreateField()
@@ -45,10 +45,10 @@ namespace _Project.Scripts.Features.GameScreen
     
     public void ClearScreen()
     {
-      if (GameView != null)
+      if (GameViewMono != null)
       {
-        Clear(GameView.gameObject);
-        GameView = null;
+        Clear(GameViewMono.gameObject);
+        GameViewMono = null;
       }
       
       if (GameField != null)

@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace _Project.Scripts.Logic.StatesMachine.Interfaces
+namespace _Project.Scripts.Core_Logic.StatesMachine.Interfaces
 {
   public interface IExitableState
   {

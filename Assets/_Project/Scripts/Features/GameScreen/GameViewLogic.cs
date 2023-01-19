@@ -12,23 +12,23 @@ namespace _Project.Scripts.Features.GameScreen
 {
   public class GameViewLogic : IGameViewLogic
   {
-    private readonly GameView _gameView;
+    private readonly GameViewMono _gameViewMono;
 
     private readonly ILocaleSystem _localeSystem;
 
-    public GameViewLogic(GameView gameView, ILocaleSystem localeSystem)
+    public GameViewLogic(GameViewMono gameViewMono, ILocaleSystem localeSystem)
     {
-      _gameView = gameView;
+      _gameViewMono = gameViewMono;
       _localeSystem = localeSystem;
     }
 
     public void Construct(IAudioService audioService, Action onBack)
     {
       // Localize(_localeSystem);
-      _gameView.gameObject.SetActive(false);
+      _gameViewMono.gameObject.SetActive(false);
       // AppendClickSound(audioService);
 
-      _gameView.BackButton.onClick.AddListener(() => onBack?.Invoke());
+      _gameViewMono.BackButton.onClick.AddListener(() => onBack?.Invoke());
       
       AppendButtonsAnimation();
     }
@@ -38,12 +38,12 @@ namespace _Project.Scripts.Features.GameScreen
 
     private void AppearAnimation()
     {
-      _gameView.gameObject.SetActive(true);
+      _gameViewMono.gameObject.SetActive(true);
     }
     
     private void Localize(ILocaleSystem localeSystem)
     {
-      List<LocalizedMainText> localizedTexts = _gameView.GetComponentsInChildren<LocalizedMainText>(true).ToList();
+      List<LocalizedMainText> localizedTexts = _gameViewMono.GetComponentsInChildren<LocalizedMainText>(true).ToList();
       localizedTexts.ForEach(item =>
       {
         item.Construct(localeSystem);
@@ -53,12 +53,12 @@ namespace _Project.Scripts.Features.GameScreen
 
     private void AppendButtonsAnimation()
     {
-      new ButtonAnimation(_gameView.BackButton.transform);
+      new ButtonAnimation(_gameViewMono.BackButton.transform);
     }
 
     private void AppendClickSound(IAudioService audioService)
     {
-      _gameView.BackButton.onClick.AddListener((() => audioService.Play(AudioId.SoundButton)));
+      _gameViewMono.BackButton.onClick.AddListener((() => audioService.Play(AudioId.SoundButton)));
     }
   }
 }
