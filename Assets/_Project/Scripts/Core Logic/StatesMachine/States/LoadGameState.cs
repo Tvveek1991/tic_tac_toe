@@ -57,7 +57,7 @@ namespace _Project.Scripts.Core_Logic.StatesMachine.States
     public void Exit() =>
       _gameLogic.Exit();
 
-    public Task AsyncEnter(bool gameLogic) =>
+    public Task AsyncEnter(bool isHost) =>
       throw new NotImplementedException();
   }
 }

@@ -8,7 +8,7 @@ namespace _Project.Scripts.Services.Network
   {
     private const string NetworkManagerPath = "Features/Network/Network Manager";
 
-    private NetworkManager _networkManager;
+    public NetworkManager NetworkManager { get; private set; }
 
     public Network(IAssetProvider assetProvider) : base(assetProvider) { }
 
@@ -21,9 +21,9 @@ namespace _Project.Scripts.Services.Network
         return;
       
       if (isHost)
-        _networkManager.StartHost();
+        NetworkManager.StartHost();
       else
-        _networkManager.StartClient();
+        NetworkManager.StartClient();
     }
 
     /*public void StartServer()
@@ -33,6 +33,6 @@ namespace _Project.Scripts.Services.Network
     }*/
 
     private void SpawnNetworkManager() => 
-      _networkManager = Create<NetworkManager>(NetworkManagerPath);
+      NetworkManager = Create<NetworkManager>(NetworkManagerPath);
   }
 }

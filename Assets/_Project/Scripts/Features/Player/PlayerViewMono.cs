@@ -21,12 +21,6 @@ namespace _Project.Scripts.Features.Player
     [Space(20)] public CanvasGroup PlayerColor;
     public CanvasGroup PlayerStatus;
 
-    private void Awake()
-    {
-      _netColor.OnValueChanged += OnValueChanged;
-      _netMessage.OnValueChanged += OnValueChanged;
-    }
-
     public override void OnDestroy()
     {
       _netColor.OnValueChanged -= OnValueChanged;
@@ -39,6 +33,14 @@ namespace _Project.Scripts.Features.Player
       Message.text = next ? "Your turn" : "Enemy turn";
 
     public override void OnNetworkSpawn()
+    {
+      _netColor.OnValueChanged += OnValueChanged;
+      _netMessage.OnValueChanged += OnValueChanged;
+      
+      OnCreate();
+    }
+
+    private void OnCreate()
     {
       if (IsOwner)
       {
@@ -59,16 +61,17 @@ namespace _Project.Scripts.Features.Player
       Message.text = message;
 
     [ServerRpc]
-    private void CommitNetworkColorServerRpc(Color color) => 
+    private void CommitNetworkColorServerRpc(Color color)
+    {
+      print(_colors.Count);
       _netColor.Value = color;
+      _colors.Remove(color);
+    }
 
     private Color GetNewColor()
     {
-      // Color color = _colors[Random.Range(0, _colors.Count)];
-      /*Color color = _colors[0];
-      _colors.Remove(color);*/
+      // return _colors[Random.Range(0, _colors.Count)];
       return _colors[_index++ % _colors.Count];
-      ;
     }
   }
 }
