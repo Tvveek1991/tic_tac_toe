@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace _Project.Scripts.Features.Games.Classic.Mono
 {
-  public class GameFieldView : MonoBehaviour
+  public class GameField : MonoBehaviour
   {
     [SerializeField] private List<SymbolCell> PlayablePoints;
     

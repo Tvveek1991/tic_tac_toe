@@ -13,7 +13,7 @@ namespace _Project.Scripts.Features.Games.Classic
 
     private readonly SymbolCell[,] _cells = new SymbolCell[FieldSizeY, FieldSizeX];
 
-    public ClassicFieldLogic(GameFieldView gameFieldView, IAudioService audioService) : base(gameFieldView, audioService)
+    public ClassicFieldLogic(GameField gameField, IAudioService audioService) : base(gameField, audioService)
     {
     }
 
@@ -22,17 +22,19 @@ namespace _Project.Scripts.Features.Games.Classic
       CreateCellsField();
     }
 
-    public void SetFieldCell(SymbolSign symbol)
-    {
-      _cells[Random.Range(0, 3), Random.Range(0, 3)].SetSymbol(symbol);
-      Debug.Log(CheckWin(symbol));
-    }
-
     private void CreateCellsField()
     {
       for (var y = 0; y < FieldSizeY; ++y)
       for (var x = 0; x < FieldSizeX; ++x)
-        _cells[y, x] = GameFieldView.GetPlayablePoint[y * FieldSizeY + x];
+      {
+        _cells[y, x] = GameField.GetPlayablePoint[y * FieldSizeY + x];
+        _cells[y, x].Construct(SetFieldCell);
+      }
+    }
+
+    private void SetFieldCell(SymbolSign symbol)
+    {
+      Debug.Log(CheckWin(symbol));
     }
 
     private bool CheckWin(SymbolSign symbol)

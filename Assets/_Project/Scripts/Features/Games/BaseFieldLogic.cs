@@ -5,13 +5,13 @@ namespace _Project.Scripts.Features.Games
 {
   public abstract class BaseFieldLogic
   {
-    protected readonly GameFieldView GameFieldView;
+    protected readonly GameField GameField;
     
     protected IAudioService AudioService;
 
-    protected BaseFieldLogic(GameFieldView gameFieldView, IAudioService audioService)
+    protected BaseFieldLogic(GameField gameField, IAudioService audioService)
     {
-      GameFieldView = gameFieldView;
+      GameField = gameField;
       AudioService = audioService;
     }
   }

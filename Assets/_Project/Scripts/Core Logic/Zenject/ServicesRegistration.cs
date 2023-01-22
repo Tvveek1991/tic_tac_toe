@@ -1,6 +1,7 @@
 using _Project.Scripts.Services._Interfaces;
 using _Project.Scripts.Services.AssetProvider;
 using _Project.Scripts.Services.Audio;
+using _Project.Scripts.Services.InputResolver;
 using _Project.Scripts.Services.Localization.Logic;
 using _Project.Scripts.Services.Money;
 using _Project.Scripts.Services.Network;
@@ -24,6 +25,7 @@ namespace _Project.Scripts.Core_Logic.Zenject
       BindSingleService<ICurrentScreen, ScreenManager>();
       BindSingleService<IGameSaveSystem, GameSaveSystem>();
       BindSingleService<ITimerController, TimerController>();
+      BindSingleService<IInputResolver, InputResolver>();
       BindSingleService<INetwork, Network>();
     }
 

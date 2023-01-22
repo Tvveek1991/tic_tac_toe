@@ -17,7 +17,7 @@ namespace _Project.Scripts.Features.GameScreen
     private const string ClassicFieldPath = "Features/GameScreen/Fields/Classic Field";
     
     private GameViewMono GameViewMono { get; set; }
-    private GameFieldView GameField { get; set; }
+    private GameField GameField { get; set; }
     
     public IClassicFieldLogic BaseFieldLogic { get; private set; }
     public IGameViewLogic GameViewLogic { get; private set; }
@@ -39,7 +39,7 @@ namespace _Project.Scripts.Features.GameScreen
     
     public void CreateField()
     {
-      GameField = Create<GameFieldView>(ClassicFieldPath);
+      GameField = Create<GameField>(ClassicFieldPath);
       BaseFieldLogic = new ClassicFieldLogic(GameField, _audioService);
     }
     
