@@ -1,12 +1,15 @@
 using _Project.Scripts.Core_Logic.StatesMachine.Interfaces;
 using _Project.Scripts.Core_Logic.StatesMachine.States;
 using _Project.Scripts.Features.GameScreen.Mono;
+using _Project.Scripts.Features.Player;
 using _Project.Scripts.Services._Interfaces;
 using _Project.Scripts.Services.Localization.Logic;
 using _Project.Scripts.Services.Network;
 using AppacheAds.Scripts.Interfaces;
 using AppacheAnalytics.Scripts.Interfaces;
 using AppacheRemote.Scripts.Interfaces;
+using Unity.Netcode;
+using UnityEngine;
 
 namespace _Project.Scripts.Features.GameScreen
 {
@@ -24,6 +27,7 @@ namespace _Project.Scripts.Features.GameScreen
     private readonly ICurrentScreen _currentScreen;
     private readonly IGameSaveSystem _gameSaveSystem;
     private readonly IGameStateMachine _gameStateMachine;
+    private readonly IAssetProvider _assetProvider;
 
     private GameViewMono _gameViewMono;
 
@@ -38,6 +42,7 @@ namespace _Project.Scripts.Features.GameScreen
       _localeSystem = localeSystem;
       _audioService = audioService;
       _currentScreen = currentScreen;
+      _assetProvider = assetProvider;
       _gameSaveSystem = gameSaveSystem;
       _gameStateMachine = gameStateMachine;
 

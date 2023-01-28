@@ -34,7 +34,7 @@ namespace _Project.Scripts.Features.Games.Classic
 
     private void SetFieldCell(SymbolSign symbol)
     {
-      Debug.Log(CheckWin(symbol));
+      Debug.Log("Win is " + CheckWin(symbol) + (CheckWin(symbol)? " Is" + symbol : ""));
     }
 
     private bool CheckWin(SymbolSign symbol)
@@ -75,6 +75,6 @@ namespace _Project.Scripts.Features.Games.Classic
     }
 
     private bool IsValidCell(int farX, int farY)
-      => ((farX >= 0) && (farX <= FieldSizeX)) && ((farY >= 0) && (farY <= FieldSizeY));
+      => ((farX >= 0) && (farX < FieldSizeX)) && ((farY >= 0) && (farY < FieldSizeY));
   }
 }

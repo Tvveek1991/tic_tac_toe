@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using _Project.Scripts.Features.Games;
+using _Project.Scripts.Features.GameScreen.Serialize;
 using TMPro;
 using UnityEngine;
 using Unity.Netcode;
@@ -10,8 +12,9 @@ namespace _Project.Scripts.Features.Player
   {
     private readonly NetworkVariable<Color> _netColor = new NetworkVariable<Color>();
     private readonly NetworkVariable<bool> _netMessage = new NetworkVariable<bool>();
-    
+
     private readonly List<Color> _colors = new List<Color> {Color.red, Color.blue, Color.green, Color.yellow};
+    private SymbolSign _symbolSign;
     
     private int _index;
 
@@ -27,16 +30,17 @@ namespace _Project.Scripts.Features.Player
       _netMessage.OnValueChanged -= OnValueChanged;
     }
 
-    private void OnValueChanged(Color previous, Color next) => 
+    private void OnValueChanged(Color previous, Color next) =>
       SymbolColor.color = next;
-    private void OnValueChanged(bool previous, bool next) => 
+
+    private void OnValueChanged(bool previous, bool next) =>
       Message.text = next ? "Your turn" : "Enemy turn";
 
     public override void OnNetworkSpawn()
     {
       _netColor.OnValueChanged += OnValueChanged;
       _netMessage.OnValueChanged += OnValueChanged;
-      
+
       OnCreate();
     }
 
@@ -57,19 +61,37 @@ namespace _Project.Scripts.Features.Player
     }
 
     [ServerRpc]
-    public void CommitNetworkMessageServerRpc(string message) => 
+    public void CommitNetworkMessageServerRpc(string message) =>
       Message.text = message;
+
+    private void Update()
+    {
+      //Переделать связку с объектами
+      if(!Input.GetMouseButtonDown(0) || !IsOwner)
+        return;
+      
+      Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+      RaycastHit hit;
+
+      if (Physics.Raycast(ray, out hit))
+      {
+        GameObject hitObject = hit.transform.gameObject;
+        Debug.Log(hitObject.name);
+        
+        hitObject.GetComponent<SymbolCell>().SetSymbol(_symbolSign);
+      }
+    }
 
     [ServerRpc]
     private void CommitNetworkColorServerRpc(Color color)
     {
-      print(_colors.Count);
       _netColor.Value = color;
       _colors.Remove(color);
     }
 
     private Color GetNewColor()
     {
+      _symbolSign = (SymbolSign)(_index + 1);
       // return _colors[Random.Range(0, _colors.Count)];
       return _colors[_index++ % _colors.Count];
     }

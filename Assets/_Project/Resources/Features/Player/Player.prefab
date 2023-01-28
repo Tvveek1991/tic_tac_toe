@@ -698,7 +698,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ddb45ee4189bc8241907cb363fc1b76a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  changeTurn: {fileID: 1064761497658243087}
   SymbolColor: {fileID: 6722363254733796891}
   Message: {fileID: 7023246449197250715}
   PlayerColor: {fileID: 8921021711778145720}
