@@ -57,6 +57,8 @@ namespace _Project.Scripts.Features.Player
         PlayerStatus.alpha = 0;
 
         SymbolColor.color = _netColor.Value;
+
+        enabled = false;
       }
     }
 
@@ -66,10 +68,15 @@ namespace _Project.Scripts.Features.Player
 
     private void Update()
     {
-      //Переделать связку с объектами
-      if(!Input.GetMouseButtonDown(0) || !IsOwner)
+      //ToDo Переделать связку с объектами
+      if (!Input.GetMouseButtonDown(0) || !IsOwner)
         return;
       
+      CheckCell();
+    }
+
+    private void CheckCell()
+    {
       Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
       RaycastHit hit;
 
@@ -77,8 +84,8 @@ namespace _Project.Scripts.Features.Player
       {
         GameObject hitObject = hit.transform.gameObject;
         Debug.Log(hitObject.name);
-        
-        hitObject.GetComponent<SymbolCell>().SetSymbol(_symbolSign);
+
+        hitObject.GetComponent<SymbolCell>().SetSymbolServerRpc(_symbolSign);
       }
     }
 
