@@ -10,6 +10,8 @@ namespace _Project.Scripts.Features.Player
 {
   public class PlayerViewMono : NetworkBehaviour
   {
+    private readonly Vector3 _spawnPosition = new Vector3(0, 1, -10);
+
     private readonly NetworkVariable<Color> _netColor = new NetworkVariable<Color>();
     private readonly NetworkVariable<bool> _netMessage = new NetworkVariable<bool>();
 
@@ -38,6 +40,8 @@ namespace _Project.Scripts.Features.Player
 
     public override void OnNetworkSpawn()
     {
+      transform.position = _spawnPosition;
+      
       _netColor.OnValueChanged += OnValueChanged;
       _netMessage.OnValueChanged += OnValueChanged;
 
