@@ -62,10 +62,6 @@ namespace _Project.Scripts.Features.Player
       }
     }
 
-    [ServerRpc]
-    public void CommitNetworkMessageServerRpc(string message) =>
-      Message.text = message;
-
     private void Update()
     {
       //ToDo Переделать связку с объектами
@@ -99,7 +95,6 @@ namespace _Project.Scripts.Features.Player
     private Color GetNewColor()
     {
       _symbolSign = (SymbolSign)(_index + 1);
-      // return _colors[Random.Range(0, _colors.Count)];
       return _colors[_index++ % _colors.Count];
     }
   }

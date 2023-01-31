@@ -33,7 +33,7 @@ namespace _Project.Scripts.Features.Games
       _netSymbol.OnValueChanged -= OnValueChanged;
     }
 
-    [ServerRpc(RequireOwnership = false)] //ToDo Узнать про модификатор, не делает ли он доверие к клиенту
+    [ServerRpc(RequireOwnership = false)] //Because owner of object is Host we need stand RequireOwnership at this attribute
     public void SetSymbolServerRpc(SymbolSign symbol)
     {
       _netSymbol.Value = symbol;
