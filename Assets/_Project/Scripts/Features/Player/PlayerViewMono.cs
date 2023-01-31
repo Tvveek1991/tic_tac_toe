@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using _Project.Scripts.Features.Games;
 using _Project.Scripts.Features.GameScreen.Serialize;
+using Sirenix.Utilities;
 using TMPro;
 using UnityEngine;
 using Unity.Netcode;
@@ -83,8 +84,6 @@ namespace _Project.Scripts.Features.Player
       if (Physics.Raycast(ray, out hit))
       {
         GameObject hitObject = hit.transform.gameObject;
-        Debug.Log(hitObject.name);
-
         hitObject.GetComponent<SymbolCell>().SetSymbolServerRpc(_symbolSign);
       }
     }

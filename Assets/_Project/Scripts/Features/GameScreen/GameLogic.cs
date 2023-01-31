@@ -60,8 +60,6 @@ namespace _Project.Scripts.Features.GameScreen
       _gameFactory.GameViewLogic.OpenWindow();
 
       OnSpawnPlayer(isHost);
-      
-       // Debug.Log(_network.NetworkManager.ide);
     }
 
     public void Exit()
