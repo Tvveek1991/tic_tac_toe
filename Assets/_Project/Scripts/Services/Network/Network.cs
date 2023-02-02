@@ -21,7 +21,7 @@ namespace _Project.Scripts.Services.Network
     public void LaunchService() => 
       SpawnNetworkManager();
 
-    public void OnPlayerSpawn(bool isHost)
+    public void ConnectClient(bool isHost)
     {
       if (NetworkManager.Singleton.IsClient || NetworkManager.Singleton.IsServer) 
         return;
@@ -32,7 +32,7 @@ namespace _Project.Scripts.Services.Network
         NetworkManager.StartClient();
     }
 
-    public void SpawnPlayers()
+    public void SpawnPlayersObject()
     {
       foreach (KeyValuePair<ulong, NetworkClient> item in NetworkManager.ConnectedClients)
       {

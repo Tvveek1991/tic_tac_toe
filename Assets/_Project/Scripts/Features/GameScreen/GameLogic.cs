@@ -89,6 +89,6 @@ namespace _Project.Scripts.Features.GameScreen
     }
     
     private void OnSpawnPlayer(bool isHost) =>
-     _network.OnPlayerSpawn(isHost);
+     _network.ConnectClient(isHost);
   }
 }

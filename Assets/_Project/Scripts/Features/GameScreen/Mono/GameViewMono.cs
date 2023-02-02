@@ -49,7 +49,7 @@ namespace _Project.Scripts.Features.GameScreen.Mono
         LoadScreen.DOFade(0, .5f);
 
         if (IsHost)
-          _network.SpawnPlayers();
+          _network.SpawnPlayersObject();
       }
     }
 

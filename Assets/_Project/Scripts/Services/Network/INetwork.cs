@@ -8,8 +8,8 @@ namespace _Project.Scripts.Services.Network
   {
     NetworkManager NetworkManager { get; }
     PlayerViewMono PlayerViewMono { get; }
-    void OnPlayerSpawn(bool isHost);
+    void ConnectClient(bool isHost);
     void LaunchService();
-    void SpawnPlayers();
+    void SpawnPlayersObject();
   }
 }
