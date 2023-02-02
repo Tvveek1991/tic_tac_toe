@@ -114,10 +114,8 @@ namespace _Project.Scripts.Core_Logic
       });
     }
     
-    private void InitializeNetwork()
-    {
+    private void InitializeNetwork() => 
       _network.LaunchService();
-    }
 
     private void LaunchGameStateMachine()
     {

@@ -4,6 +4,7 @@ using _Project.Scripts.Features.Games.Classic.Mono;
 using _Project.Scripts.Features.GameScreen.Mono;
 using _Project.Scripts.Services._Interfaces;
 using _Project.Scripts.Services.Localization.Logic;
+using _Project.Scripts.Services.Network;
 using UnityEngine;
 
 namespace _Project.Scripts.Features.GameScreen
@@ -22,11 +23,13 @@ namespace _Project.Scripts.Features.GameScreen
     public IClassicFieldLogic BaseFieldLogic { get; private set; }
     public IGameViewLogic GameViewLogic { get; private set; }
 
+    private readonly INetwork _network;
     private readonly ILocaleSystem _localeSystem;
     private readonly IAudioService _audioService;
 
-    public GameFactory(IAssetProvider assetProvider, ILocaleSystem localeSystem, IAudioService audioService) : base(assetProvider)
+    public GameFactory(IAssetProvider assetProvider, ILocaleSystem localeSystem, IAudioService audioService, INetwork network) : base(assetProvider)
     {
+      _network = network;
       _localeSystem = localeSystem;
       _audioService = audioService;
     }
@@ -34,7 +37,7 @@ namespace _Project.Scripts.Features.GameScreen
     public void CreateScreen()
     {
       GameViewMono = Create<GameViewMono>(GameViewPath, GameObject.Find(CanvasPath).transform);
-      GameViewLogic = new GameViewLogic(GameViewMono, _localeSystem);
+      GameViewLogic = new GameViewLogic(GameViewMono, _localeSystem, _network);
     }
     
     public void CreateField()

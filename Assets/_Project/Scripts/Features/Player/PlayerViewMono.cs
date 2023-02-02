@@ -41,6 +41,7 @@ namespace _Project.Scripts.Features.Player
 
     public override void OnNetworkSpawn()
     {
+      Debug.Log("ID: " + OwnerClientId);
       transform.position = _spawnPosition;
       
       _netColor.OnValueChanged += OnValueChanged;
@@ -51,6 +52,8 @@ namespace _Project.Scripts.Features.Player
 
     private void OnCreate()
     {
+      name = "newPlayer_" + OwnerClientId;
+      
       if (IsOwner)
       {
         _index = (int) OwnerClientId;
@@ -72,6 +75,9 @@ namespace _Project.Scripts.Features.Player
       //ToDo Переделать связку с объектами
       if (!Input.GetMouseButtonDown(0) || !IsOwner)
         return;
+      
+      if (IsHost)
+        Debug.Log(NetworkManager.ConnectedClients.Count);
       
       CheckCell();
     }

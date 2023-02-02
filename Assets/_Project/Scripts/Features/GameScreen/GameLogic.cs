@@ -1,19 +1,24 @@
+using System;
+using System.Threading.Tasks;
 using _Project.Scripts.Core_Logic.StatesMachine.Interfaces;
 using _Project.Scripts.Core_Logic.StatesMachine.States;
 using _Project.Scripts.Features.GameScreen.Mono;
 using _Project.Scripts.Features.Player;
+using _Project.Scripts.Services;
 using _Project.Scripts.Services._Interfaces;
 using _Project.Scripts.Services.Localization.Logic;
 using _Project.Scripts.Services.Network;
 using AppacheAds.Scripts.Interfaces;
 using AppacheAnalytics.Scripts.Interfaces;
 using AppacheRemote.Scripts.Interfaces;
+using Sirenix.Utilities;
 using Unity.Netcode;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace _Project.Scripts.Features.GameScreen
 {
-  public class GameLogic
+  public class GameLogic : NetworkBehaviour
   {
     private readonly IUiFactory _uiFactory;
     private readonly IGameFactory _gameFactory;
@@ -29,8 +34,8 @@ namespace _Project.Scripts.Features.GameScreen
     private readonly IGameStateMachine _gameStateMachine;
     private readonly IAssetProvider _assetProvider;
 
-    private GameViewMono _gameViewMono;
-
+    private PlayerViewMono _playerViewMono;
+    
     public GameLogic(IGameStateMachine gameStateMachine, IAssetProvider assetProvider, ICurrentScreen currentScreen,
       IGameSaveSystem gameSaveSystem, IAdsService adsService, IAnalytics analytics, ILocaleSystem localeSystem,
       IAudioService audioService, IRemote remote, INetwork network)
@@ -47,7 +52,7 @@ namespace _Project.Scripts.Features.GameScreen
       _gameStateMachine = gameStateMachine;
 
       _uiFactory = new UiFactory(assetProvider);
-      _gameFactory = new GameFactory(assetProvider, localeSystem, audioService);
+      _gameFactory = new GameFactory(assetProvider, localeSystem, audioService, network);
     }
 
     public void Enter(bool isHost)
@@ -62,10 +67,8 @@ namespace _Project.Scripts.Features.GameScreen
       OnSpawnPlayer(isHost);
     }
 
-    public void Exit()
-    {
+    public void Exit() => 
       _gameFactory.ClearScreen();
-    }
 
     private void OnClickBack()
     {
@@ -74,8 +77,18 @@ namespace _Project.Scripts.Features.GameScreen
         _gameStateMachine.Enter<LoadHomeState>,
         _gameStateMachine.Enter<LoadHomeState>);*/
     }
+
+    private void StartGame()
+    {
+      
+    }
+
+    private void OnChangeTurn()
+    {
+      
+    }
     
     private void OnSpawnPlayer(bool isHost) =>
-      _network.OnPlayerSpawn(isHost);
+     _network.OnPlayerSpawn(isHost);
   }
 }

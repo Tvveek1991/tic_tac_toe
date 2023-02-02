@@ -7,6 +7,7 @@ using _Project.Scripts.Services._Interfaces;
 using _Project.Scripts.Services.Audio;
 using _Project.Scripts.Services.Localization.Logic;
 using _Project.Scripts.Services.Localization.Mono;
+using _Project.Scripts.Services.Network;
 
 namespace _Project.Scripts.Features.GameScreen
 {
@@ -14,12 +15,14 @@ namespace _Project.Scripts.Features.GameScreen
   {
     private readonly GameViewMono _gameViewMono;
 
+    private readonly INetwork _network;
     private readonly ILocaleSystem _localeSystem;
 
-    public GameViewLogic(GameViewMono gameViewMono, ILocaleSystem localeSystem)
+    public GameViewLogic(GameViewMono gameViewMono, ILocaleSystem localeSystem, INetwork network)
     {
-      _gameViewMono = gameViewMono;
+      _network = network;
       _localeSystem = localeSystem;
+      _gameViewMono = gameViewMono;
     }
 
     public void Construct(IAudioService audioService, Action onBack)
@@ -27,10 +30,12 @@ namespace _Project.Scripts.Features.GameScreen
       // Localize(_localeSystem);
       _gameViewMono.gameObject.SetActive(false);
       // AppendClickSound(audioService);
-
-      _gameViewMono.BackButton.onClick.AddListener(() => onBack?.Invoke());
       
+      _gameViewMono.BackButton.onClick.AddListener(() => onBack?.Invoke());
+
       AppendButtonsAnimation();
+
+      _gameViewMono.Construct(_network);
     }
 
     public void OpenWindow() =>
@@ -40,7 +45,7 @@ namespace _Project.Scripts.Features.GameScreen
     {
       _gameViewMono.gameObject.SetActive(true);
     }
-    
+
     private void Localize(ILocaleSystem localeSystem)
     {
       List<LocalizedMainText> localizedTexts = _gameViewMono.GetComponentsInChildren<LocalizedMainText>(true).ToList();

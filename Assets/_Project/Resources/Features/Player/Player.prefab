@@ -605,6 +605,7 @@ GameObject:
   - component: {fileID: 4200125469048045231}
   - component: {fileID: -7193614603490057663}
   - component: {fileID: 8824920286284077655}
+  - component: {fileID: 6872603730753753063}
   m_Layer: 0
   m_Name: Player
   m_TagString: MainCamera
@@ -702,6 +703,19 @@ MonoBehaviour:
   Message: {fileID: 7023246449197250715}
   PlayerColor: {fileID: 8921021711778145720}
   PlayerStatus: {fileID: 1575484296752940087}
+--- !u!114 &6872603730753753063
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5373767681313460904}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 717a02054ef2699498e6bd4234fd7995, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _containerSource: 0
 --- !u!1 &6969651800969321303
 GameObject:
   m_ObjectHideFlags: 0

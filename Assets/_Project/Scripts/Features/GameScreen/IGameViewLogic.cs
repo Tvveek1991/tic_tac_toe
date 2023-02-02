@@ -7,6 +7,5 @@ namespace _Project.Scripts.Features.GameScreen
   {
     void Construct(IAudioService audioService, Action onClickBack);
     void OpenWindow();
-
   }
 }
