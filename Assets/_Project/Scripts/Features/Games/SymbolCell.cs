@@ -12,14 +12,18 @@ namespace _Project.Scripts.Features.Games
     
     private readonly List<Color> _colors = new List<Color> {Color.red, Color.blue, Color.green, Color.yellow};
 
+    private MeshFilter _meshFilter;
     private MeshRenderer _meshRenderer;
 
     private Action<SymbolSign> _onClickCell;
 
+    public List<Mesh> MeshFilters = new List<Mesh>();
+    
     public void Construct(Action<SymbolSign> onClickCell)
     {
       _onClickCell = onClickCell;
 
+      _meshFilter = GetComponentsInChildren<MeshFilter>()[1];
       _meshRenderer = GetComponentsInChildren<MeshRenderer>()[1];
     }
 
@@ -44,6 +48,7 @@ namespace _Project.Scripts.Features.Games
     
     private void OnValueChanged(SymbolSign previous, SymbolSign next)
     {
+      _meshFilter.mesh = MeshFilters[(int) next - 1];
       _meshRenderer.material.color = _colors[(int) next - 1];
       _meshRenderer.enabled = true;
 

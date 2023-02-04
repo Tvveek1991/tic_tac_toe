@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using _Project.Scripts.Features.Games;
 using _Project.Scripts.Features.GameScreen.Serialize;
-using Sirenix.Utilities;
 using TMPro;
 using UnityEngine;
 using Unity.Netcode;
@@ -13,15 +12,16 @@ namespace _Project.Scripts.Features.Player
   {
     private readonly Vector3 _spawnPosition = new Vector3(0, 1, -10);
 
-    private readonly NetworkVariable<Color> _netColor = new NetworkVariable<Color>();
+    private readonly NetworkVariable<SymbolSign> _netSymbolSign = new NetworkVariable<SymbolSign>();
     private readonly NetworkVariable<bool> _netMessage = new NetworkVariable<bool>();
 
-    private readonly List<Color> _colors = new List<Color> {Color.red, Color.blue, Color.green, Color.yellow};
-    private SymbolSign _symbolSign;
+    private readonly List<Color> _colors = new List<Color> {Color.green, Color.red, Color.blue};
     
     private int _index;
 
-    public Image SymbolColor;
+    public List<Sprite> Sprites = new List<Sprite>();
+    
+    public Image SymbolImage;
     public TextMeshProUGUI Message;
 
     [Space(20)] public CanvasGroup PlayerColor;
@@ -29,12 +29,15 @@ namespace _Project.Scripts.Features.Player
 
     public override void OnDestroy()
     {
-      _netColor.OnValueChanged -= OnValueChanged;
+      _netSymbolSign.OnValueChanged -= OnValueChanged;
       _netMessage.OnValueChanged -= OnValueChanged;
     }
 
-    private void OnValueChanged(Color previous, Color next) =>
-      SymbolColor.color = next;
+    private void OnValueChanged(SymbolSign previous, SymbolSign next)
+    {
+      SymbolImage.sprite = Sprites[(int) next];
+      SymbolImage.color = _colors[(int)next];
+    }
 
     private void OnValueChanged(bool previous, bool next) =>
       Message.text = next ? "Your turn" : "Enemy turn";
@@ -44,7 +47,7 @@ namespace _Project.Scripts.Features.Player
       Debug.Log("ID: " + OwnerClientId);
       transform.position = _spawnPosition;
       
-      _netColor.OnValueChanged += OnValueChanged;
+      _netSymbolSign.OnValueChanged += OnValueChanged;
       _netMessage.OnValueChanged += OnValueChanged;
 
       OnCreate();
@@ -63,8 +66,9 @@ namespace _Project.Scripts.Features.Player
       {
         PlayerColor.alpha = 0;
         PlayerStatus.alpha = 0;
-
-        SymbolColor.color = _netColor.Value;
+        
+        SymbolImage.sprite = Sprites[(int)_netSymbolSign.Value];
+        SymbolImage.color = _colors[(int)_netSymbolSign.Value];
 
         enabled = false;
       }
@@ -90,21 +94,15 @@ namespace _Project.Scripts.Features.Player
       if (Physics.Raycast(ray, out hit))
       {
         GameObject hitObject = hit.transform.gameObject;
-        hitObject.GetComponent<SymbolCell>().SetSymbolServerRpc(_symbolSign);
+        hitObject.GetComponent<SymbolCell>().SetSymbolServerRpc(_netSymbolSign.Value);
       }
     }
 
     [ServerRpc]
-    private void CommitNetworkColorServerRpc(Color color)
-    {
-      _netColor.Value = color;
-      _colors.Remove(color);
-    }
+    private void CommitNetworkColorServerRpc(SymbolSign symbol) =>
+      _netSymbolSign.Value = symbol;
 
-    private Color GetNewColor()
-    {
-      _symbolSign = (SymbolSign)(_index + 1);
-      return _colors[_index++ % _colors.Count];
-    }
+    private SymbolSign GetNewColor() => 
+      (SymbolSign)(_index + 1);
   }
 }
