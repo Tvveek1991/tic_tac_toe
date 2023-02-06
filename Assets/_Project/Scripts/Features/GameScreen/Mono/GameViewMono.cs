@@ -1,3 +1,6 @@
+using System;
+using System.Collections.Generic;
+using _Project.Scripts.Features.Player;
 using _Project.Scripts.Services.Network;
 using DG.Tweening;
 using TMPro;
@@ -21,13 +24,18 @@ namespace _Project.Scripts.Features.GameScreen.Mono
     public TextMeshProUGUI LoadProgress => loadProgress;
 
     private INetwork _network;
-    
-    public void Construct(INetwork network)
+    private IGameFactory _gameFactory;
+
+    private Action _onLoadClient;
+
+    public void Construct(INetwork network, IGameFactory gameFactory, Action onLoadClient)
     {
       _network = network;
+      _gameFactory = gameFactory;
+      _onLoadClient = onLoadClient;
     }
-    
-    public override void OnDestroy() => 
+
+    public override void OnDestroy() =>
       _netPlayersCount.OnValueChanged -= OnValueChanged;
 
     public override void OnNetworkSpawn()
@@ -41,12 +49,20 @@ namespace _Project.Scripts.Features.GameScreen.Mono
     {
       LoadProgress.text = next + "/2 Players";
 
+      if (IsOwner)
+      {
+        _onLoadClient?.Invoke();
+      }
+
       if (next == 2)
       {
         LoadScreen.DOFade(0, .5f);
-        
+
         if (IsHost)
-          _network.SpawnPlayerObject();
+        {
+          _network.ConnectPlayersToNetwork();
+          
+        }
       }
     }
 

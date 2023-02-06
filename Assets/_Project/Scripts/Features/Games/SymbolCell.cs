@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using _Project.Scripts.Features.Data;
 using UnityEngine;
 using _Project.Scripts.Features.GameScreen.Serialize;
+using _Project.Scripts.Services._Interfaces;
 using _Project.Scripts.Services.GameMetaProvider;
 using Unity.Netcode;
 
@@ -19,10 +20,10 @@ namespace _Project.Scripts.Features.Games
 
     private Dictionary<SymbolSign, PlayerData> _playerData;
     
-    public void Construct(Action<SymbolSign> onClickCell, Dictionary<SymbolSign, PlayerData> playerData)
+    public void Construct(Action<SymbolSign> onClickCell, IGameMetaProvider gameMetaProvider)
     {
       _onClickCell = onClickCell;
-      _playerData = playerData;
+      _playerData = gameMetaProvider.GetPlayerData();
 
       _meshFilter = GetComponentsInChildren<MeshFilter>()[1];
       _meshRenderer = GetComponentsInChildren<MeshRenderer>()[1];

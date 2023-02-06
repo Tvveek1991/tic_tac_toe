@@ -1,6 +1,8 @@
+using System;
 using System.Collections.Generic;
 using _Project.Scripts.Features.Games;
 using _Project.Scripts.Features.GameScreen.Serialize;
+using _Project.Scripts.Services._Interfaces;
 using _Project.Scripts.Services.GameMetaProvider;
 using UnityEngine;
 using Unity.Netcode;
@@ -18,8 +20,6 @@ namespace _Project.Scripts.Features.Player
 
     private Dictionary<SymbolSign, PlayerData> _playerData;
 
-    public List<Sprite> Sprites = new List<Sprite>();
-
     public Image SymbolImage;
 
     [Space(20)] public CanvasGroup PlayerColor;
@@ -30,16 +30,14 @@ namespace _Project.Scripts.Features.Player
       _netSymbolSign.OnValueChanged -= OnValueChanged;
     }
 
-    public void Construct(Dictionary<SymbolSign, PlayerData> playerData)
+    public void Construct(IGameMetaProvider playerData)
     {
-      _playerData = playerData;
+      _playerData = playerData.GetPlayerData(); //ToDO Основной камень предкновения здесь (Не удалось привязать Player клиента к основному дереву)
+      Debug.Log(_playerData == null);
     }
 
-    private void OnValueChanged(SymbolSign previous, SymbolSign next)
-    {
-      // SymbolImage.sprite = _playerData[next].SymbolData.Icon;
-       // SymbolImage.color = _playerData[next].Color;
-    }
+    private void OnValueChanged(SymbolSign previous, SymbolSign next) => 
+      ChangeIcon(next);
 
     public override void OnNetworkSpawn()
     {
@@ -49,10 +47,9 @@ namespace _Project.Scripts.Features.Player
     private void OnCreate()
     {
       transform.position = _spawnPosition;
-
+      
       _netSymbolSign.OnValueChanged += OnValueChanged;
-        
-      Debug.Log("newPlayer_: " + OwnerClientId);
+
       name = "newPlayer_" + OwnerClientId;
 
       if (IsOwner)
@@ -65,11 +62,16 @@ namespace _Project.Scripts.Features.Player
         PlayerColor.alpha = 0;
         PlayerStatus.alpha = 0;
 
-        // SymbolImage.sprite = _playerData[_netSymbolSign.Value].SymbolData.Icon;
-        // SymbolImage.color = _playerData[_netSymbolSign.Value].Color;
+        ChangeIcon(_netSymbolSign.Value);
 
         enabled = false;
       }
+    }
+
+    private void ChangeIcon(SymbolSign symbol)
+    {
+      /*SymbolImage.sprite = _playerData[symbol].SymbolData.Icon;
+      SymbolImage.color = _playerData[symbol].Color;*/
     }
 
     private void Update()
@@ -78,8 +80,8 @@ namespace _Project.Scripts.Features.Player
       if (!Input.GetMouseButtonDown(0) || !IsOwner)
         return;
 
-      if (IsHost)
-        Debug.Log(NetworkManager.ConnectedClients.Count);
+      if (IsOwner)
+        Debug.Log(name);
 
       CheckCell();
     }
@@ -101,6 +103,6 @@ namespace _Project.Scripts.Features.Player
       _netSymbolSign.Value = symbol;
 
     private SymbolSign GetNewColor() =>
-      (SymbolSign)(_index + 1);
+      (SymbolSign) (_index + 1);
   }
 }

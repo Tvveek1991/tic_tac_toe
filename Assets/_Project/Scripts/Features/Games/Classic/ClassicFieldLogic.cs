@@ -20,18 +20,18 @@ namespace _Project.Scripts.Features.Games.Classic
     {
     }
 
-    public void Construct(Dictionary<SymbolSign, PlayerData> playerData)
+    public void Construct(IGameMetaProvider gameMetaProvider)
     {
-      CreateCellsField(playerData);
+      CreateCellsField(gameMetaProvider);
     }
 
-    private void CreateCellsField(Dictionary<SymbolSign, PlayerData> playerData)
+    private void CreateCellsField(IGameMetaProvider gameMetaProvider)
     {
       for (var y = 0; y < FieldSizeY; ++y)
       for (var x = 0; x < FieldSizeX; ++x)
       {
         _cells[y, x] = GameField.GetPlayablePoint[y * FieldSizeY + x];
-        _cells[y, x].Construct(SetFieldCell, playerData);
+        _cells[y, x].Construct(SetFieldCell, gameMetaProvider);
       }
     }
 

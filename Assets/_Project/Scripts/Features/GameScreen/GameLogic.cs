@@ -1,6 +1,5 @@
 using _Project.Scripts.Core_Logic.StatesMachine.Interfaces;
 using _Project.Scripts.Core_Logic.StatesMachine.States;
-using _Project.Scripts.Features.Player;
 using _Project.Scripts.Services._Interfaces;
 using _Project.Scripts.Services.Localization.Logic;
 using _Project.Scripts.Services.Network;
@@ -26,8 +25,6 @@ namespace _Project.Scripts.Features.GameScreen
     private readonly IGameMetaProvider _gameMetaProvider;
     private readonly IGameStateMachine _gameStateMachine;
     private readonly IAssetProvider _assetProvider;
-
-    private PlayerViewMono _playerViewMono;
     
     public GameLogic(IGameStateMachine gameStateMachine, IAssetProvider assetProvider, ICurrentScreen currentScreen,
       IGameSaveSystem gameSaveSystem, IAdsService adsService, IAnalytics analytics, ILocaleSystem localeSystem,
@@ -46,19 +43,19 @@ namespace _Project.Scripts.Features.GameScreen
       _gameStateMachine = gameStateMachine;
 
       _uiFactory = new UiFactory(assetProvider);
-      _gameFactory = new GameFactory(assetProvider, localeSystem, audioService, network);
+      _gameFactory = new GameFactory(assetProvider, localeSystem, audioService, network, gameMetaProvider);
     }
 
     public void Enter(bool isHost)
     {
       _gameFactory.CreateField();
-      _gameFactory.BaseFieldLogic.Construct(_gameMetaProvider.GetPlayerData());
+      _gameFactory.BaseFieldLogic.Construct(_gameMetaProvider);
       
       _gameFactory.CreateScreen();
-      _gameFactory.GameViewLogic.Construct(_audioService, OnClickBack);
+      _gameFactory.GameViewLogic.Construct(_audioService, _gameFactory, OnClickBack, OnLoadClient);
       _gameFactory.GameViewLogic.OpenWindow();
 
-      OnSpawnPlayer(isHost);
+      ConnectClient(isHost);
     }
 
     public void Exit() => 
@@ -72,17 +69,15 @@ namespace _Project.Scripts.Features.GameScreen
         _gameStateMachine.Enter<LoadHomeState>);*/
     }
 
-    private void StartGame()
-    {
-      
-    }
+    private void ConnectClient(bool isHost) =>
+      _network.ConnectClient(isHost);
+
+    private void OnLoadClient() => 
+      _gameFactory.SpawnPlayerObject();
 
     private void OnChangeTurn()
     {
       
     }
-    
-    private void OnSpawnPlayer(bool isHost) =>
-     _network.ConnectClient(isHost);
   }
 }
