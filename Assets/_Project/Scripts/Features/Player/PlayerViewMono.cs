@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using _Project.Scripts.Features.Games;
 using _Project.Scripts.Features.GameScreen.Serialize;
-using TMPro;
+using _Project.Scripts.Services.GameMetaProvider;
 using UnityEngine;
 using Unity.Netcode;
 using UnityEngine.UI;
@@ -13,16 +13,14 @@ namespace _Project.Scripts.Features.Player
     private readonly Vector3 _spawnPosition = new Vector3(0, 1, -10);
 
     private readonly NetworkVariable<SymbolSign> _netSymbolSign = new NetworkVariable<SymbolSign>();
-    private readonly NetworkVariable<bool> _netMessage = new NetworkVariable<bool>();
 
-    private readonly List<Color> _colors = new List<Color> {Color.green, Color.red, Color.blue};
-    
     private int _index;
 
+    private Dictionary<SymbolSign, PlayerData> _playerData;
+
     public List<Sprite> Sprites = new List<Sprite>();
-    
+
     public Image SymbolImage;
-    public TextMeshProUGUI Message;
 
     [Space(20)] public CanvasGroup PlayerColor;
     public CanvasGroup PlayerStatus;
@@ -30,33 +28,33 @@ namespace _Project.Scripts.Features.Player
     public override void OnDestroy()
     {
       _netSymbolSign.OnValueChanged -= OnValueChanged;
-      _netMessage.OnValueChanged -= OnValueChanged;
+    }
+
+    public void Construct(Dictionary<SymbolSign, PlayerData> playerData)
+    {
+      _playerData = playerData;
     }
 
     private void OnValueChanged(SymbolSign previous, SymbolSign next)
     {
-      SymbolImage.sprite = Sprites[(int) next];
-      SymbolImage.color = _colors[(int)next];
+      // SymbolImage.sprite = _playerData[next].SymbolData.Icon;
+       // SymbolImage.color = _playerData[next].Color;
     }
-
-    private void OnValueChanged(bool previous, bool next) =>
-      Message.text = next ? "Your turn" : "Enemy turn";
 
     public override void OnNetworkSpawn()
     {
-      Debug.Log("ID: " + OwnerClientId);
-      transform.position = _spawnPosition;
-      
-      _netSymbolSign.OnValueChanged += OnValueChanged;
-      _netMessage.OnValueChanged += OnValueChanged;
-
       OnCreate();
     }
 
     private void OnCreate()
     {
+      transform.position = _spawnPosition;
+
+      _netSymbolSign.OnValueChanged += OnValueChanged;
+        
+      Debug.Log("newPlayer_: " + OwnerClientId);
       name = "newPlayer_" + OwnerClientId;
-      
+
       if (IsOwner)
       {
         _index = (int) OwnerClientId;
@@ -66,9 +64,9 @@ namespace _Project.Scripts.Features.Player
       {
         PlayerColor.alpha = 0;
         PlayerStatus.alpha = 0;
-        
-        SymbolImage.sprite = Sprites[(int)_netSymbolSign.Value];
-        SymbolImage.color = _colors[(int)_netSymbolSign.Value];
+
+        // SymbolImage.sprite = _playerData[_netSymbolSign.Value].SymbolData.Icon;
+        // SymbolImage.color = _playerData[_netSymbolSign.Value].Color;
 
         enabled = false;
       }
@@ -79,10 +77,10 @@ namespace _Project.Scripts.Features.Player
       //ToDo Переделать связку с объектами
       if (!Input.GetMouseButtonDown(0) || !IsOwner)
         return;
-      
+
       if (IsHost)
         Debug.Log(NetworkManager.ConnectedClients.Count);
-      
+
       CheckCell();
     }
 
@@ -102,7 +100,7 @@ namespace _Project.Scripts.Features.Player
     private void CommitNetworkColorServerRpc(SymbolSign symbol) =>
       _netSymbolSign.Value = symbol;
 
-    private SymbolSign GetNewColor() => 
+    private SymbolSign GetNewColor() =>
       (SymbolSign)(_index + 1);
   }
 }

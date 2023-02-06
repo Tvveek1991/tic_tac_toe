@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using _Project.Scripts.Features.GameScreen.Serialize;
 
 namespace _Project.Scripts.Services._data
 {
@@ -14,7 +15,10 @@ namespace _Project.Scripts.Services._data
 
     public uint MoneyCount = 100;
 
-    public List<string> ChosenPassiveContent = new List<string>();
-    public List<string> UnlockedPassiveContent = new List<string>();
+    public string ChosenModelX;
+    public string ChosenModelO;
+    
+    public string ChosenColorX;
+    public string ChosenColorO;
   }
 }

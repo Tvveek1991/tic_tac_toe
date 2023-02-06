@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
+using _Project.Scripts.Features.Data;
 using UnityEngine;
 using _Project.Scripts.Features.GameScreen.Serialize;
+using _Project.Scripts.Services.GameMetaProvider;
 using Unity.Netcode;
 
 namespace _Project.Scripts.Features.Games
@@ -9,19 +11,18 @@ namespace _Project.Scripts.Features.Games
   public class SymbolCell : NetworkBehaviour
   {
     private readonly NetworkVariable<SymbolSign> _netSymbol = new NetworkVariable<SymbolSign>();
-    
-    private readonly List<Color> _colors = new List<Color> {Color.red, Color.blue, Color.green, Color.yellow};
 
     private MeshFilter _meshFilter;
     private MeshRenderer _meshRenderer;
 
     private Action<SymbolSign> _onClickCell;
 
-    public List<Mesh> MeshFilters = new List<Mesh>();
+    private Dictionary<SymbolSign, PlayerData> _playerData;
     
-    public void Construct(Action<SymbolSign> onClickCell)
+    public void Construct(Action<SymbolSign> onClickCell, Dictionary<SymbolSign, PlayerData> playerData)
     {
       _onClickCell = onClickCell;
+      _playerData = playerData;
 
       _meshFilter = GetComponentsInChildren<MeshFilter>()[1];
       _meshRenderer = GetComponentsInChildren<MeshRenderer>()[1];
@@ -48,8 +49,9 @@ namespace _Project.Scripts.Features.Games
     
     private void OnValueChanged(SymbolSign previous, SymbolSign next)
     {
-      _meshFilter.mesh = MeshFilters[(int) next - 1];
-      _meshRenderer.material.color = _colors[(int) next - 1];
+      _meshFilter.mesh = _playerData[next].SymbolData.Mesh;
+      _meshRenderer.material = _playerData[next].SymbolData.Material;
+      _meshRenderer.material.color = _playerData[next].Color;
       _meshRenderer.enabled = true;
 
       _onClickCell.Invoke(next);

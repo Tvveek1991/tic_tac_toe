@@ -10,6 +10,6 @@ namespace _Project.Scripts.Services.Network
     PlayerViewMono PlayerViewMono { get; }
     void ConnectClient(bool isHost);
     void LaunchService();
-    void SpawnPlayersObject();
+    void SpawnPlayerObject();
   }
 }

@@ -1,6 +1,7 @@
 using _Project.Scripts.Services._Interfaces;
 using _Project.Scripts.Services.AssetProvider;
 using _Project.Scripts.Services.Audio;
+using _Project.Scripts.Services.GameMetaProvider;
 using _Project.Scripts.Services.InputResolver;
 using _Project.Scripts.Services.Localization.Logic;
 using _Project.Scripts.Services.Money;
@@ -19,6 +20,7 @@ namespace _Project.Scripts.Core_Logic.Zenject
     public override void InstallBindings()
     {
       BindSingleService<IAssetProvider, AssetProvider>();
+      BindSingleService<IGameMetaProvider, GameMetaProvider>();
       BindSingleService<IMoneyService, MoneyService>();
       BindSingleService<ILocaleSystem, LocaleSystem>();
       BindSingleService<IAudioService, AudioService>();

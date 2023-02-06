@@ -1,6 +1,9 @@
+using System.Collections.Generic;
+using _Project.Scripts.Features.Data;
 using _Project.Scripts.Features.Games.Classic.Mono;
 using _Project.Scripts.Features.GameScreen.Serialize;
 using _Project.Scripts.Services._Interfaces;
+using _Project.Scripts.Services.GameMetaProvider;
 using UnityEngine;
 
 namespace _Project.Scripts.Features.Games.Classic
@@ -17,18 +20,18 @@ namespace _Project.Scripts.Features.Games.Classic
     {
     }
 
-    public void Construct()
+    public void Construct(Dictionary<SymbolSign, PlayerData> playerData)
     {
-      CreateCellsField();
+      CreateCellsField(playerData);
     }
 
-    private void CreateCellsField()
+    private void CreateCellsField(Dictionary<SymbolSign, PlayerData> playerData)
     {
       for (var y = 0; y < FieldSizeY; ++y)
       for (var x = 0; x < FieldSizeX; ++x)
       {
         _cells[y, x] = GameField.GetPlayablePoint[y * FieldSizeY + x];
-        _cells[y, x].Construct(SetFieldCell);
+        _cells[y, x].Construct(SetFieldCell, playerData);
       }
     }
 

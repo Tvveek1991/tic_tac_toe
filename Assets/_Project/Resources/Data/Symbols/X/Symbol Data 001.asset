@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5b5ec39ba2530e4e80867090a5250c9, type: 3}
+  m_Name: Symbol Data 001
+  m_EditorClassIdentifier: 
+  Id: d877ae44-8e79-4928-a3b1-695d9aa8b466
+  Name: ClassicX
+  Description: 
+  _mesh: {fileID: 2061150301263699924, guid: 96a36c263a068214e8fa3b06b9413daf, type: 3}
+  _material: {fileID: 2100000, guid: 9ab957ab3d704dc42aecb2a92b842ed6, type: 2}
+  _icon: {fileID: 21300000, guid: 567787ab75ddbdb438a14598c07d87be, type: 3}

@@ -32,12 +32,11 @@ namespace _Project.Scripts.Services.Network
         NetworkManager.StartClient();
     }
 
-    public void SpawnPlayersObject()
+    public void SpawnPlayerObject()
     {
       foreach (KeyValuePair<ulong, NetworkClient> item in NetworkManager.ConnectedClients)
       {
         PlayerViewMono = Create<PlayerViewMono>(PlayerPath);
-        Debug.Log(item.Value.ClientId);
         PlayerViewMono.NetworkObject.SpawnAsPlayerObject(item.Value.ClientId ,true);
       }
     }

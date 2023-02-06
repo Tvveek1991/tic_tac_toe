@@ -27,10 +27,8 @@ namespace _Project.Scripts.Features.GameScreen.Mono
       _network = network;
     }
     
-    public override void OnDestroy()
-    {
+    public override void OnDestroy() => 
       _netPlayersCount.OnValueChanged -= OnValueChanged;
-    }
 
     public override void OnNetworkSpawn()
     {
@@ -46,9 +44,9 @@ namespace _Project.Scripts.Features.GameScreen.Mono
       if (next == 2)
       {
         LoadScreen.DOFade(0, .5f);
-
+        
         if (IsHost)
-          _network.SpawnPlayersObject();
+          _network.SpawnPlayerObject();
       }
     }
 
@@ -58,7 +56,7 @@ namespace _Project.Scripts.Features.GameScreen.Mono
       Debug.Log("I am " + OwnerClientId);
       Debug.Log(NetworkManager.ConnectedClients.Count);
 
-      _netPlayersCount.Value = NetworkManager.ConnectedClients.Count;
+      _netPlayersCount.Value = _network.NetworkManager.ConnectedClients.Count;
     }
   }
 }
