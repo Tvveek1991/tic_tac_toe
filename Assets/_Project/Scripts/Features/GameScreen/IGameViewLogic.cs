@@ -5,7 +5,7 @@ namespace _Project.Scripts.Features.GameScreen
 {
   public interface IGameViewLogic
   {
-    void Construct(IAudioService audioService, IGameFactory gameFactory, Action onClickBack, Action onLoadComplete);
+    void Construct(IAudioService audioService, IGameMetaProvider gameMetaProvider, Action onClickBack, Action onLoadComplete);
     void OpenWindow();
   }
 }

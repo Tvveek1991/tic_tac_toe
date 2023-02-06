@@ -52,7 +52,7 @@ namespace _Project.Scripts.Features.GameScreen
       _gameFactory.BaseFieldLogic.Construct(_gameMetaProvider);
       
       _gameFactory.CreateScreen();
-      _gameFactory.GameViewLogic.Construct(_audioService, _gameFactory, OnClickBack, OnLoadClient);
+      _gameFactory.GameViewLogic.Construct(_audioService, _gameMetaProvider, OnClickBack, OnLoadClient);
       _gameFactory.GameViewLogic.OpenWindow();
 
       ConnectClient(isHost);

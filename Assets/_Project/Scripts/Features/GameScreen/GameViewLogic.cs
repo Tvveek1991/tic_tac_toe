@@ -25,7 +25,7 @@ namespace _Project.Scripts.Features.GameScreen
       _gameViewMono = gameViewMono;
     }
 
-    public void Construct(IAudioService audioService, IGameFactory gameFactory, Action onBack, Action onLoadComplete)
+    public void Construct(IAudioService audioService, IGameMetaProvider gameMetaProvider, Action onBack, Action onLoadComplete)
     {
       // Localize(_localeSystem);
       _gameViewMono.gameObject.SetActive(false);
@@ -35,7 +35,7 @@ namespace _Project.Scripts.Features.GameScreen
 
       AppendButtonsAnimation();
 
-      _gameViewMono.Construct(_network, gameFactory, onLoadComplete);
+      _gameViewMono.Construct(_network, gameMetaProvider, onLoadComplete);
     }
 
     public void OpenWindow() =>

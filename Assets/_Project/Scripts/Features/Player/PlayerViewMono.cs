@@ -12,7 +12,7 @@ namespace _Project.Scripts.Features.Player
 {
   public class PlayerViewMono : NetworkBehaviour
   {
-    private readonly Vector3 _spawnPosition = new Vector3(0, 1, -10);
+    private readonly Vector3 _spawnPosition = new Vector3(0, 10, 1);
 
     private readonly NetworkVariable<SymbolSign> _netSymbolSign = new NetworkVariable<SymbolSign>();
 

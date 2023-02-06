@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using _Project.Scripts.Features.Player;
+using _Project.Scripts.Services._Interfaces;
 using _Project.Scripts.Services.Network;
 using DG.Tweening;
 using TMPro;
@@ -12,6 +13,9 @@ namespace _Project.Scripts.Features.GameScreen.Mono
 {
   public class GameViewMono : NetworkBehaviour
   {
+    [SerializeField] private List<PlayerViewMono> _playersViewMono;
+    
+    [Space(20)]
     [SerializeField] private Button backButton;
 
     [SerializeField] private CanvasGroup loadScreen;
@@ -24,15 +28,17 @@ namespace _Project.Scripts.Features.GameScreen.Mono
     public TextMeshProUGUI LoadProgress => loadProgress;
 
     private INetwork _network;
-    private IGameFactory _gameFactory;
+    private IGameMetaProvider _gameMetaProvider;
 
     private Action _onLoadClient;
 
-    public void Construct(INetwork network, IGameFactory gameFactory, Action onLoadClient)
+    public void Construct(INetwork network, IGameMetaProvider gameMetaProvider, Action onLoadClient)
     {
       _network = network;
-      _gameFactory = gameFactory;
       _onLoadClient = onLoadClient;
+      _gameMetaProvider = gameMetaProvider;
+      
+      _playersViewMono.ForEach(item => item.Construct(gameMetaProvider));
     }
 
     public override void OnDestroy() =>
@@ -61,7 +67,6 @@ namespace _Project.Scripts.Features.GameScreen.Mono
         if (IsHost)
         {
           _network.ConnectPlayersToNetwork();
-          
         }
       }
     }
