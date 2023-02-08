@@ -1,8 +1,10 @@
 using _Project.Scripts.Core_Logic.StatesMachine.Interfaces;
 using _Project.Scripts.Core_Logic.StatesMachine.States;
+using _Project.Scripts.Services;
 using _Project.Scripts.Services._Interfaces;
 using _Project.Scripts.Services.Localization.Logic;
 using _Project.Scripts.Services.Network;
+using _Project.Scripts.Services.Network.Mono;
 using AppacheAds.Scripts.Interfaces;
 using AppacheAnalytics.Scripts.Interfaces;
 using AppacheRemote.Scripts.Interfaces;
@@ -25,7 +27,7 @@ namespace _Project.Scripts.Features.GameScreen
     private readonly IGameMetaProvider _gameMetaProvider;
     private readonly IGameStateMachine _gameStateMachine;
     private readonly IAssetProvider _assetProvider;
-    
+
     public GameLogic(IGameStateMachine gameStateMachine, IAssetProvider assetProvider, ICurrentScreen currentScreen,
       IGameSaveSystem gameSaveSystem, IAdsService adsService, IAnalytics analytics, ILocaleSystem localeSystem,
       IAudioService audioService, IRemote remote, INetwork network, IGameMetaProvider gameMetaProvider)
@@ -48,17 +50,19 @@ namespace _Project.Scripts.Features.GameScreen
 
     public void Enter(bool isHost)
     {
+      _network.CreateClientDataTransmitter(_gameFactory, _gameMetaProvider);
+
       _gameFactory.CreateField();
       _gameFactory.BaseFieldLogic.Construct(_gameMetaProvider);
-      
+
       _gameFactory.CreateScreen();
-      _gameFactory.GameViewLogic.Construct(_audioService, _gameMetaProvider, OnClickBack, OnLoadClient);
+      _gameFactory.GameViewLogic.Construct(_audioService, OnClickBack, OnCreateNonConnectionPlayer);
       _gameFactory.GameViewLogic.OpenWindow();
 
       ConnectClient(isHost);
     }
 
-    public void Exit() => 
+    public void Exit() =>
       _gameFactory.ClearScreen();
 
     private void OnClickBack()
@@ -72,12 +76,11 @@ namespace _Project.Scripts.Features.GameScreen
     private void ConnectClient(bool isHost) =>
       _network.ConnectClient(isHost);
 
-    private void OnLoadClient() => 
+    private void OnCreateNonConnectionPlayer() =>
       _gameFactory.SpawnPlayerObject();
 
     private void OnChangeTurn()
     {
-      
     }
   }
 }

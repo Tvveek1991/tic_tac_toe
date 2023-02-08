@@ -3,11 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using _Project.Scripts.Animation;
 using _Project.Scripts.Features.GameScreen.Mono;
+using _Project.Scripts.Features.GameScreen.Serialize;
+using _Project.Scripts.Features.Player;
 using _Project.Scripts.Services._Interfaces;
 using _Project.Scripts.Services.Audio;
+using _Project.Scripts.Services.GameMetaProvider;
 using _Project.Scripts.Services.Localization.Logic;
 using _Project.Scripts.Services.Localization.Mono;
 using _Project.Scripts.Services.Network;
+using Unity.Netcode;
+using UnityEngine;
 
 namespace _Project.Scripts.Features.GameScreen
 {
@@ -17,16 +22,27 @@ namespace _Project.Scripts.Features.GameScreen
 
     private readonly INetwork _network;
     private readonly ILocaleSystem _localeSystem;
+    private readonly IGameMetaProvider _gameMetaProvider;
+    
+    private Dictionary<SymbolSign, PlayerData> _playerData;
 
-    public GameViewLogic(GameViewMono gameViewMono, ILocaleSystem localeSystem, INetwork network)
+    private Action _onCreateNonConnectionPlayer;
+
+    private readonly List<PlayerViewMono> _spawnPool = new List<PlayerViewMono>();
+    
+    public GameViewLogic(GameViewMono gameViewMono, ILocaleSystem localeSystem, INetwork network, IGameMetaProvider gameMetaProvider)
     {
       _network = network;
       _localeSystem = localeSystem;
       _gameViewMono = gameViewMono;
+      _gameMetaProvider = gameMetaProvider;
     }
 
-    public void Construct(IAudioService audioService, IGameMetaProvider gameMetaProvider, Action onBack, Action onLoadComplete)
+    public void Construct(IAudioService audioService, Action onBack, Action onCreateNonConnectionPlayer)
     {
+      _onCreateNonConnectionPlayer = onCreateNonConnectionPlayer;
+      _playerData = _gameMetaProvider.GetPlayerData();
+      
       // Localize(_localeSystem);
       _gameViewMono.gameObject.SetActive(false);
       // AppendClickSound(audioService);
@@ -35,12 +51,12 @@ namespace _Project.Scripts.Features.GameScreen
 
       AppendButtonsAnimation();
 
-      _gameViewMono.Construct(_network, gameMetaProvider, onLoadComplete);
+      _gameViewMono.Construct(ConnectClientServerRpc, ConnectPlayersToNetworkServerRpc);
     }
 
     public void OpenWindow() =>
       AppearAnimation();
-
+    
     private void AppearAnimation()
     {
       _gameViewMono.gameObject.SetActive(true);
@@ -64,6 +80,37 @@ namespace _Project.Scripts.Features.GameScreen
     private void AppendClickSound(IAudioService audioService)
     {
       _gameViewMono.BackButton.onClick.AddListener((() => audioService.Play(AudioId.SoundButton)));
+    }
+    
+    
+    
+    
+
+    public void SetPlayerUi(SymbolSign symbol)
+    {
+      _gameViewMono.SymbolImage.sprite = _playerData[symbol].SymbolData.Icon;
+      _gameViewMono.SymbolImage.color = _playerData[symbol].Color;
+    }
+    
+    [ServerRpc]
+    private void ConnectClientServerRpc()
+    {
+      Debug.Log("Start Spawn Player");
+
+      _onCreateNonConnectionPlayer?.Invoke();
+      _spawnPool.Add(_gameMetaProvider.GetPlayerViewMono());
+    }
+    
+    [ServerRpc(RequireOwnership = false)]
+    private void ConnectPlayersToNetworkServerRpc() 
+    {
+      Debug.Log("Client Count: " + _network.NetworkManager.ConnectedClients.Count);
+
+      for (var i = 0; i < _network.NetworkManager.ConnectedClients.Count; i++)
+      {
+        _spawnPool[i].NetworkObject.SpawnAsPlayerObject((uint) i, true);
+        Debug.Log("SpawnedPlayer + " + i);
+      }
     }
   }
 }

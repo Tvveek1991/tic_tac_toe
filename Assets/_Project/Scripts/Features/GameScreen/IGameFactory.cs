@@ -5,7 +5,6 @@ namespace _Project.Scripts.Features.GameScreen
 {
   public interface IGameFactory
   {
-    PlayerViewMono PlayerViewMono { get; set; }
     void CreateScreen();
     void CreateField();
     void SpawnPlayerObject();

@@ -20,7 +20,6 @@ namespace _Project.Scripts.Features.GameScreen
     
     private GameViewMono GameViewMono { get; set; }
     private GameField GameField { get; set; }
-    public PlayerViewMono PlayerViewMono { get; set; }
     
     public IClassicFieldLogic BaseFieldLogic { get; private set; }
     public IGameViewLogic GameViewLogic { get; private set; }
@@ -42,7 +41,7 @@ namespace _Project.Scripts.Features.GameScreen
     public void CreateScreen()
     {
       GameViewMono = Create<GameViewMono>(GameViewPath, GameObject.Find(CanvasPath).transform);
-      GameViewLogic = new GameViewLogic(GameViewMono, _localeSystem, _network);
+      GameViewLogic = new GameViewLogic(GameViewMono, _localeSystem, _network, _gameMetaProvider);
     }
     
     public void CreateField()
@@ -53,10 +52,8 @@ namespace _Project.Scripts.Features.GameScreen
     
     public void SpawnPlayerObject()
     {
-      PlayerViewMono = Create<PlayerViewMono>(PlayerPath);
-      PlayerViewMono.Construct(_gameMetaProvider);
-      
-      _network.AddPlayer(PlayerViewMono);
+      var playerViewMono = Create<PlayerViewMono>(PlayerPath);
+      _gameMetaProvider.SetPlayerViewMono(playerViewMono);
     }
 
     public void ClearScreen()
@@ -71,11 +68,6 @@ namespace _Project.Scripts.Features.GameScreen
       {
         Clear(GameField.gameObject);
         GameField = null;
-      }
-      if (PlayerViewMono != null)
-      {
-        Clear(PlayerViewMono.gameObject);
-        PlayerViewMono = null;
       }
     }
 

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using _Project.Scripts.Features.Data;
 using _Project.Scripts.Features.GameScreen.Serialize;
+using _Project.Scripts.Features.Player;
 using _Project.Scripts.Services._Interfaces;
 using UnityEngine;
 
@@ -15,7 +16,9 @@ namespace _Project.Scripts.Services.GameMetaProvider
 
     private const string CustomCrossDataPath = "Data/Symbols/X";
     private const string CustomZeroDataPath = "Data/Symbols/O";
-
+    
+    private PlayerViewMono PlayerViewMono { get; set; }
+    
     private List<SymbolData> SymbolDataX { get; set; }
     private List<SymbolData> SymbolDataO { get; set; }
 
@@ -28,6 +31,12 @@ namespace _Project.Scripts.Services.GameMetaProvider
 
       PreloadData();
     }
+
+    public void SetPlayerViewMono(PlayerViewMono playerViewMono) => 
+      PlayerViewMono = playerViewMono;
+
+    public PlayerViewMono GetPlayerViewMono() =>
+      PlayerViewMono;
 
     public Dictionary<SymbolSign, PlayerData> GetPlayerData() =>
       _playerData;

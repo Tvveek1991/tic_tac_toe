@@ -1,12 +1,13 @@
 using System;
 using System.Collections.Generic;
 using _Project.Scripts.Features.Games;
+using _Project.Scripts.Features.GameScreen;
 using _Project.Scripts.Features.GameScreen.Serialize;
 using _Project.Scripts.Services._Interfaces;
 using _Project.Scripts.Services.GameMetaProvider;
+using _Project.Scripts.Services.Network.Mono;
 using UnityEngine;
 using Unity.Netcode;
-using UnityEngine.UI;
 
 namespace _Project.Scripts.Features.Player
 {
@@ -18,61 +19,8 @@ namespace _Project.Scripts.Features.Player
 
     private int _index;
 
-    private Dictionary<SymbolSign, PlayerData> _playerData;
-
-    public Image SymbolImage;
-
-    [Space(20)] public CanvasGroup PlayerColor;
-    public CanvasGroup PlayerStatus;
-
-    public override void OnDestroy()
-    {
-      _netSymbolSign.OnValueChanged -= OnValueChanged;
-    }
-
-    public void Construct(IGameMetaProvider playerData)
-    {
-      _playerData = playerData.GetPlayerData(); //ToDO Основной камень предкновения здесь (Не удалось привязать Player клиента к основному дереву)
-      Debug.Log(_playerData == null);
-    }
-
-    private void OnValueChanged(SymbolSign previous, SymbolSign next) => 
-      ChangeIcon(next);
-
-    public override void OnNetworkSpawn()
-    {
-      OnCreate();
-    }
-
-    private void OnCreate()
-    {
-      transform.position = _spawnPosition;
-      
-      _netSymbolSign.OnValueChanged += OnValueChanged;
-
-      name = "newPlayer_" + OwnerClientId;
-
-      if (IsOwner)
-      {
-        _index = (int) OwnerClientId;
-        CommitNetworkColorServerRpc(GetNewColor());
-      }
-      else
-      {
-        PlayerColor.alpha = 0;
-        PlayerStatus.alpha = 0;
-
-        ChangeIcon(_netSymbolSign.Value);
-
-        enabled = false;
-      }
-    }
-
-    private void ChangeIcon(SymbolSign symbol)
-    {
-      /*SymbolImage.sprite = _playerData[symbol].SymbolData.Icon;
-      SymbolImage.color = _playerData[symbol].Color;*/
-    }
+    private IGameFactory _gameFactory;
+    private IGameMetaProvider _gameMetaProvider;
 
     private void Update()
     {
@@ -80,10 +28,40 @@ namespace _Project.Scripts.Features.Player
       if (!Input.GetMouseButtonDown(0) || !IsOwner)
         return;
 
-      if (IsOwner)
-        Debug.Log(name);
-
       CheckCell();
+    }
+
+    public override void OnDestroy() =>
+      _netSymbolSign.OnValueChanged -= OnValueChanged;
+
+    private void Construct(IGameFactory gameFactory, IGameMetaProvider gameMetaProvider)
+    {
+      _gameFactory = gameFactory;
+      _gameMetaProvider = gameMetaProvider;
+
+      _gameMetaProvider.SetPlayerViewMono(this);
+
+      _index = (int) OwnerClientId;
+      CommitNetworkColorServerRpc(GetSymbol());
+    }
+
+    public override void OnNetworkSpawn()
+    {
+      _netSymbolSign.OnValueChanged += OnValueChanged;
+
+      name = IsOwner ? "Player_" + OwnerClientId : "Second Player";
+      Debug.Log(name + " " + OwnerClientId);
+
+      if (IsOwner)
+        Construct(ClientDataTransmitter.Instance.GetGameFactory(), ClientDataTransmitter.Instance.GetGameMetaProvider());
+      else
+        enabled = false;
+    }
+
+    private void OnValueChanged(SymbolSign previous, SymbolSign next)
+    {
+      if (IsOwner)
+        _gameFactory.GameViewLogic.SetPlayerUi(next);
     }
 
     private void CheckCell()
@@ -102,7 +80,7 @@ namespace _Project.Scripts.Features.Player
     private void CommitNetworkColorServerRpc(SymbolSign symbol) =>
       _netSymbolSign.Value = symbol;
 
-    private SymbolSign GetNewColor() =>
+    private SymbolSign GetSymbol() =>
       (SymbolSign) (_index + 1);
   }
 }

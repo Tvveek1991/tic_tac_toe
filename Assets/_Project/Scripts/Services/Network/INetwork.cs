@@ -1,6 +1,5 @@
-using System.Collections.Generic;
-using _Project.Scripts.Features.Player;
-using _Project.Scripts.Services.Network.Mono;
+using _Project.Scripts.Features.GameScreen;
+using _Project.Scripts.Services._Interfaces;
 using Unity.Netcode;
 
 namespace _Project.Scripts.Services.Network
@@ -10,7 +9,6 @@ namespace _Project.Scripts.Services.Network
     NetworkManager NetworkManager { get; }
     void ConnectClient(bool isHost);
     void LaunchService();
-    void ConnectPlayersToNetwork();
-    void AddPlayer(PlayerViewMono playerViewMono);
+    void CreateClientDataTransmitter(IGameFactory metaProvider, IGameMetaProvider gameMetaProvider);
   }
 }

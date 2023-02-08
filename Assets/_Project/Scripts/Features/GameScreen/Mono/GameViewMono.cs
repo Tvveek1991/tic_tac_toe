@@ -1,8 +1,4 @@
 using System;
-using System.Collections.Generic;
-using _Project.Scripts.Features.Player;
-using _Project.Scripts.Services._Interfaces;
-using _Project.Scripts.Services.Network;
 using DG.Tweening;
 using TMPro;
 using Unity.Netcode;
@@ -13,71 +9,56 @@ namespace _Project.Scripts.Features.GameScreen.Mono
 {
   public class GameViewMono : NetworkBehaviour
   {
-    [SerializeField] private List<PlayerViewMono> _playersViewMono;
-    
-    [Space(20)]
-    [SerializeField] private Button backButton;
+    [Space(20)] [SerializeField] private Button backButton;
 
     [SerializeField] private CanvasGroup loadScreen;
     [SerializeField] private TextMeshProUGUI loadProgress;
 
+    [Header("Player UI")] [SerializeField] private CanvasGroup TurnStatus;
+    [SerializeField] private Image symbolImage;
+
     private readonly NetworkVariable<int> _netPlayersCount = new NetworkVariable<int>();
+
+    private Action _onClientConnect;
+    private Action _onLoadComplete;
 
     public Button BackButton => backButton;
     public CanvasGroup LoadScreen => loadScreen;
     public TextMeshProUGUI LoadProgress => loadProgress;
+    public Image SymbolImage => symbolImage;
 
-    private INetwork _network;
-    private IGameMetaProvider _gameMetaProvider;
-
-    private Action _onLoadClient;
-
-    public void Construct(INetwork network, IGameMetaProvider gameMetaProvider, Action onLoadClient)
+    public void Construct(Action onClientConnect, Action onLoadComplete)
     {
-      _network = network;
-      _onLoadClient = onLoadClient;
-      _gameMetaProvider = gameMetaProvider;
-      
-      _playersViewMono.ForEach(item => item.Construct(gameMetaProvider));
+      _onLoadComplete = onLoadComplete;
+      _onClientConnect = onClientConnect;
+    }
+
+    public override void OnNetworkSpawn()
+    {
+      _netPlayersCount.OnValueChanged += OnValueChanged;
+      CheckClientsCountServerRpc();
     }
 
     public override void OnDestroy() =>
       _netPlayersCount.OnValueChanged -= OnValueChanged;
 
-    public override void OnNetworkSpawn()
+    private void OnValueChanged(int previous, int playersCount)
     {
-      _netPlayersCount.OnValueChanged += OnValueChanged;
+      LoadProgress.text = playersCount + "/2 Players";
 
-      CheckPlayersServerRpc();
-    }
+      if (IsHost)
+        _onClientConnect?.Invoke();
 
-    private void OnValueChanged(int previous, int next)
-    {
-      LoadProgress.text = next + "/2 Players";
+      if (playersCount < 2) return;
 
-      if (IsOwner)
-      {
-        _onLoadClient?.Invoke();
-      }
+      if (IsHost)
+        _onLoadComplete?.Invoke();
 
-      if (next == 2)
-      {
-        LoadScreen.DOFade(0, .5f);
-
-        if (IsHost)
-        {
-          _network.ConnectPlayersToNetwork();
-        }
-      }
+      LoadScreen.DOFade(0, .5f);
     }
 
     [ServerRpc(RequireOwnership = false)]
-    private void CheckPlayersServerRpc()
-    {
-      Debug.Log("I am " + OwnerClientId);
-      Debug.Log(NetworkManager.ConnectedClients.Count);
-
-      _netPlayersCount.Value = _network.NetworkManager.ConnectedClients.Count;
-    }
+    private void CheckClientsCountServerRpc() =>
+      _netPlayersCount.Value = NetworkManager.ConnectedClients.Count;
   }
 }
