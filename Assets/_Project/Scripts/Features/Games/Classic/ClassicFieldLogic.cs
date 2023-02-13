@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using _Project.Scripts.Features.Data;
 using _Project.Scripts.Features.Games.Classic.Mono;
 using _Project.Scripts.Features.GameScreen.Serialize;
 using _Project.Scripts.Services._Interfaces;
@@ -15,29 +14,41 @@ namespace _Project.Scripts.Features.Games.Classic
     private const int FieldSizeY = 3;
 
     private readonly SymbolCell[,] _cells = new SymbolCell[FieldSizeY, FieldSizeX];
+    private readonly Dictionary<SymbolSign, PlayerData> _playerData;
 
-    public ClassicFieldLogic(GameField gameField, IAudioService audioService) : base(gameField, audioService)
+    private SymbolSign _playerSymbol;
+
+    public ClassicFieldLogic(GameField gameField, IAudioService audioService, IGameMetaProvider gameMetaProvider) : base(gameField, audioService, gameMetaProvider)
     {
+      _playerData = gameMetaProvider.GetPlayerData();
+      CreateCellsField();
     }
 
-    public void Construct(IGameMetaProvider gameMetaProvider)
-    {
-      CreateCellsField(gameMetaProvider);
-    }
-
-    private void CreateCellsField(IGameMetaProvider gameMetaProvider)
+    private void CreateCellsField()
     {
       for (var y = 0; y < FieldSizeY; ++y)
       for (var x = 0; x < FieldSizeX; ++x)
       {
         _cells[y, x] = GameField.GetPlayablePoint[y * FieldSizeY + x];
-        _cells[y, x].Construct(SetFieldCell, gameMetaProvider);
+        int x1 = x;
+        int y1 = y;
+        _cells[y, x].Construct(
+          delegate(SymbolSign symbol)
+          {
+            _playerSymbol = symbol;
+            SetFieldCell(x1, y1);
+          });
       }
     }
 
-    private void SetFieldCell(SymbolSign symbol)
+    private void SetFieldCell(int x, int y)
     {
-      Debug.Log("Win is " + CheckWin(symbol) + (CheckWin(symbol)? " Is" + symbol : ""));
+      _cells[y, x].MeshFilter.mesh = _playerData[_playerSymbol].SymbolData.Mesh;
+      _cells[y, x].MeshRenderer.material = _playerData[_playerSymbol].SymbolData.Material;
+      _cells[y, x].MeshRenderer.material.color = _playerData[_playerSymbol].Color;
+      _cells[y, x].MeshRenderer.enabled = true;
+
+      Debug.Log("Win is " + CheckWin(_playerSymbol) + (CheckWin(_playerSymbol) ? " Is" + _playerSymbol : ""));
     }
 
     private bool CheckWin(SymbolSign symbol)

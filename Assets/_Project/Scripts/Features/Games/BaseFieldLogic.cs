@@ -7,12 +7,14 @@ namespace _Project.Scripts.Features.Games
   {
     protected readonly GameField GameField;
     
-    protected IAudioService AudioService;
+    protected readonly IAudioService AudioService;
+    protected readonly IGameMetaProvider GameMetaProvider;
 
-    protected BaseFieldLogic(GameField gameField, IAudioService audioService)
+    protected BaseFieldLogic(GameField gameField, IAudioService audioService, IGameMetaProvider gameMetaProvider)
     {
       GameField = gameField;
       AudioService = audioService;
+      GameMetaProvider = gameMetaProvider;
     }
   }
 }

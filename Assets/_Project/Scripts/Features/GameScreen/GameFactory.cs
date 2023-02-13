@@ -47,7 +47,7 @@ namespace _Project.Scripts.Features.GameScreen
     public void CreateField()
     {
       GameField = Create<GameField>(ClassicFieldPath);
-      BaseFieldLogic = new ClassicFieldLogic(GameField, _audioService);
+      BaseFieldLogic = new ClassicFieldLogic(GameField, _audioService, _gameMetaProvider);
     }
     
     public void SpawnPlayerObject()
