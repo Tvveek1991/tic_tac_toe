@@ -1,10 +1,8 @@
 using _Project.Scripts.Core_Logic.StatesMachine.Interfaces;
 using _Project.Scripts.Core_Logic.StatesMachine.States;
-using _Project.Scripts.Services;
 using _Project.Scripts.Services._Interfaces;
 using _Project.Scripts.Services.Localization.Logic;
 using _Project.Scripts.Services.Network;
-using _Project.Scripts.Services.Network.Mono;
 using AppacheAds.Scripts.Interfaces;
 using AppacheAnalytics.Scripts.Interfaces;
 using AppacheRemote.Scripts.Interfaces;
@@ -77,9 +75,5 @@ namespace _Project.Scripts.Features.GameScreen
 
     private void OnCreateNonConnectionPlayer() =>
       _gameFactory.SpawnPlayerObject();
-
-    private void OnChangeTurn()
-    {
-    }
   }
 }

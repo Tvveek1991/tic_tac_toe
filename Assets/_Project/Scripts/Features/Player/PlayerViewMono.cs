@@ -11,8 +11,10 @@ namespace _Project.Scripts.Features.Player
   public class PlayerViewMono : NetworkBehaviour
   {
     private readonly NetworkVariable<SymbolSign> _netSymbolSign = new NetworkVariable<SymbolSign>();
+    private readonly NetworkVariable<bool> _netIsPlayerTurn = new NetworkVariable<bool>();
 
     private int _index;
+    
     private Camera _camera;
     private BoxCollider2D _boxCollider;
 
@@ -47,6 +49,13 @@ namespace _Project.Scripts.Features.Player
       if (IsOwner)
         Construct(ClientDataTransmitter.Instance.GetGameFactory(), ClientDataTransmitter.Instance.GetGameMetaProvider());
     }
+    
+    [ServerRpc(RequireOwnership = false)]
+    public void SetPlayerTurnServerRpc(bool isPlayerTurn)
+    {
+      Debug.Log(name + " " + OwnerClientId + " Is " + isPlayerTurn);
+      _netIsPlayerTurn.Value = isPlayerTurn;
+    }
 
     private void OnValueChanged(SymbolSign previous, SymbolSign next)
     {
@@ -65,7 +74,7 @@ namespace _Project.Scripts.Features.Player
 
     private void OnMouseDown()
     {
-      if(!IsOwner)
+      if(!IsOwner || !_netIsPlayerTurn.Value)
         return;
       
       Ray ray = _camera.ScreenPointToRay(Application.isEditor ? Input.mousePosition : (Vector3)Input.touches[0].position);

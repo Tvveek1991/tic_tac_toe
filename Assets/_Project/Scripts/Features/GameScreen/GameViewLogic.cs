@@ -13,6 +13,7 @@ using _Project.Scripts.Services.Localization.Mono;
 using _Project.Scripts.Services.Network;
 using Unity.Netcode;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace _Project.Scripts.Features.GameScreen
 {
@@ -23,13 +24,13 @@ namespace _Project.Scripts.Features.GameScreen
     private readonly INetwork _network;
     private readonly ILocaleSystem _localeSystem;
     private readonly IGameMetaProvider _gameMetaProvider;
-    
+
     private Dictionary<SymbolSign, PlayerData> _playerData;
 
     private Action _onCreateNonConnectionPlayer;
 
     private readonly List<PlayerViewMono> _spawnPool = new List<PlayerViewMono>();
-    
+
     public GameViewLogic(GameViewMono gameViewMono, ILocaleSystem localeSystem, INetwork network, IGameMetaProvider gameMetaProvider)
     {
       _network = network;
@@ -42,21 +43,21 @@ namespace _Project.Scripts.Features.GameScreen
     {
       _onCreateNonConnectionPlayer = onCreateNonConnectionPlayer;
       _playerData = _gameMetaProvider.GetPlayerData();
-      
+
       // Localize(_localeSystem);
       _gameViewMono.gameObject.SetActive(false);
       // AppendClickSound(audioService);
-      
+
       _gameViewMono.BackButton.onClick.AddListener(() => onBack?.Invoke());
 
       AppendButtonsAnimation();
 
-      _gameViewMono.Construct(ConnectClientServerRpc, ConnectPlayersToNetworkServerRpc);
+      _gameViewMono.Construct(ConnectClientServerRpc, ConnectPlayersToNetworkServerRpc, RefreshUiServerRpc);
     }
 
     public void OpenWindow() =>
       AppearAnimation();
-    
+
     private void AppearAnimation()
     {
       _gameViewMono.gameObject.SetActive(true);
@@ -81,17 +82,21 @@ namespace _Project.Scripts.Features.GameScreen
     {
       _gameViewMono.BackButton.onClick.AddListener((() => audioService.Play(AudioId.SoundButton)));
     }
-    
-    
-    
-    
+
 
     public void SetPlayerUi(SymbolSign symbol)
     {
       _gameViewMono.SymbolImage.sprite = _playerData[symbol].SymbolData.Icon;
       _gameViewMono.SymbolImage.color = _playerData[symbol].Color;
     }
-    
+
+    /*[ServerRpc(RequireOwnership = false)]
+    public void ChangeTurn()
+    {
+      _activePlayer = (++_activePlayer) % _spawnPool.Count;
+      RefreshUi();
+    }*/
+
     [ServerRpc]
     private void ConnectClientServerRpc()
     {
@@ -100,9 +105,9 @@ namespace _Project.Scripts.Features.GameScreen
       _onCreateNonConnectionPlayer?.Invoke();
       _spawnPool.Add(_gameMetaProvider.GetPlayerViewMono());
     }
-    
-    [ServerRpc(RequireOwnership = false)]
-    private void ConnectPlayersToNetworkServerRpc() 
+
+    [ServerRpc]
+    private void ConnectPlayersToNetworkServerRpc()
     {
       Debug.Log("Client Count: " + _network.NetworkManager.ConnectedClients.Count);
 
@@ -111,6 +116,13 @@ namespace _Project.Scripts.Features.GameScreen
         _spawnPool[i].NetworkObject.SpawnAsPlayerObject((uint) i, true);
         Debug.Log("SpawnedPlayer + " + i);
       }
+    }
+    
+    [ServerRpc(RequireOwnership = false)]
+    private void RefreshUiServerRpc(int activePlayer)
+    {
+      _gameMetaProvider.GetPlayerViewMono().SetPlayerTurnServerRpc(_gameMetaProvider.GetPlayerViewMono().OwnerClientId == (ulong) activePlayer);
+      _gameViewMono.TurnText.text = _gameMetaProvider.GetPlayerViewMono().OwnerClientId == (ulong) activePlayer ? "Your turn" : "Enemy turn";
     }
   }
 }

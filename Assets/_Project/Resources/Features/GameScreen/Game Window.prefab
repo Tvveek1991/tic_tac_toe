@@ -254,7 +254,7 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 324946242046490875}
   m_Enabled: 1
-  m_Alpha: 0
+  m_Alpha: 1
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
@@ -1294,11 +1294,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4fdeb38666c391f4ab9ec85bac6b9604, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _spawnPool: []
   backButton: {fileID: 7438626919811166838}
   loadScreen: {fileID: 6320083171083987804}
   loadProgress: {fileID: 2398095912273619991}
-  TurnStatus: {fileID: 7751486397206329163}
+  turnCanvasGroup: {fileID: 7751486397206329163}
+  turnText: {fileID: 4757908049684434160}
   symbolImage: {fileID: 208056216432729259}
 --- !u!114 &395483870342025764
 MonoBehaviour:
@@ -1590,7 +1590,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\u0412\u0430\u0448 \u0445\u043E\u0434"
+  m_text: Empty
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
