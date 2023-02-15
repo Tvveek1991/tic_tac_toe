@@ -13,7 +13,6 @@ using _Project.Scripts.Services.Localization.Mono;
 using _Project.Scripts.Services.Network;
 using Unity.Netcode;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
 namespace _Project.Scripts.Features.GameScreen
 {
@@ -52,7 +51,7 @@ namespace _Project.Scripts.Features.GameScreen
 
       AppendButtonsAnimation();
 
-      _gameViewMono.Construct(ConnectClientServerRpc, ConnectPlayersToNetworkServerRpc, RefreshUiServerRpc);
+      _gameViewMono.Construct(ConnectClientObjectServerRpc, ConnectPlayersToNetworkServerRpc, RefreshAfterChangeTurnServerRpc);
     }
 
     public void OpenWindow() =>
@@ -90,18 +89,16 @@ namespace _Project.Scripts.Features.GameScreen
       _gameViewMono.SymbolImage.color = _playerData[symbol].Color;
     }
 
-    /*[ServerRpc(RequireOwnership = false)]
-    public void ChangeTurn()
+    [ServerRpc(RequireOwnership = false)]
+    public void ChangeTurnServerRpc()
     {
-      _activePlayer = (++_activePlayer) % _spawnPool.Count;
-      RefreshUi();
-    }*/
+      // _gameViewMono.ChangeTurnServerRpc();
+    }
 
     [ServerRpc]
-    private void ConnectClientServerRpc()
+    private void ConnectClientObjectServerRpc()
     {
-      Debug.Log("Start Spawn Player");
-
+      // Debug.Log("Start Spawn Player");
       _onCreateNonConnectionPlayer?.Invoke();
       _spawnPool.Add(_gameMetaProvider.GetPlayerViewMono());
     }
@@ -109,17 +106,16 @@ namespace _Project.Scripts.Features.GameScreen
     [ServerRpc]
     private void ConnectPlayersToNetworkServerRpc()
     {
-      Debug.Log("Client Count: " + _network.NetworkManager.ConnectedClients.Count);
-
+      // Debug.Log("Client Count: " + _network.NetworkManager.ConnectedClients.Count);
       for (var i = 0; i < _network.NetworkManager.ConnectedClients.Count; i++)
       {
         _spawnPool[i].NetworkObject.SpawnAsPlayerObject((uint) i, true);
-        Debug.Log("SpawnedPlayer + " + i);
+        // Debug.Log("SpawnedPlayer + " + i);
       }
     }
     
     [ServerRpc(RequireOwnership = false)]
-    private void RefreshUiServerRpc(int activePlayer)
+    private void RefreshAfterChangeTurnServerRpc(int activePlayer)
     {
       _gameMetaProvider.GetPlayerViewMono().SetPlayerTurnServerRpc(_gameMetaProvider.GetPlayerViewMono().OwnerClientId == (ulong) activePlayer);
       _gameViewMono.TurnText.text = _gameMetaProvider.GetPlayerViewMono().OwnerClientId == (ulong) activePlayer ? "Your turn" : "Enemy turn";

@@ -22,9 +22,9 @@ namespace _Project.Scripts.Features.GameScreen.Mono
     private readonly NetworkVariable<int> _netPlayersCount = new NetworkVariable<int>();
     private readonly NetworkVariable<int> _netActivePlayer = new NetworkVariable<int>();
 
-    private Action<int> _refreshUi;
+    private Action<int> _onChosenFirstTurningPlayer;
     private Action _onClientConnect;
-    private Action _onLoadComplete;
+    private Action _onConnectedPlayersToNetwork;
 
     public Button BackButton => backButton;
     public CanvasGroup LoadScreen => loadScreen;
@@ -32,11 +32,11 @@ namespace _Project.Scripts.Features.GameScreen.Mono
     public TextMeshProUGUI TurnText => turnText;
     public Image SymbolImage => symbolImage;
 
-    public void Construct(Action onClientConnect, Action onLoadComplete, Action<int> refreshUi)
+    public void Construct(Action onClientConnect, Action onConnectedPlayersToNetwork, Action<int> refreshAfterChangeTurn)
     {
-      _refreshUi = refreshUi;
-      _onLoadComplete = onLoadComplete;
       _onClientConnect = onClientConnect;
+      _onChosenFirstTurningPlayer = refreshAfterChangeTurn;
+      _onConnectedPlayersToNetwork = onConnectedPlayersToNetwork;
     }
 
     public override void OnNetworkSpawn()
@@ -52,9 +52,13 @@ namespace _Project.Scripts.Features.GameScreen.Mono
       _netActivePlayer.OnValueChanged -= OnValueActivePlayerChanged;
     }
 
+    [ServerRpc]
+    public void ChangeTurnServerRpc() => 
+      _netActivePlayer.Value = ++_netActivePlayer.Value % NetworkManager.ConnectedClients.Count;
+    
     private void OnValueActivePlayerChanged(int previous, int newValue)
     {
-      _refreshUi?.Invoke(newValue);
+      Debug.Log("it is changed Oo + " + newValue );
     }
 
     private void OnValueChanged(int previous, int playersCount)
@@ -69,15 +73,24 @@ namespace _Project.Scripts.Features.GameScreen.Mono
 
       if (IsHost)
       {
-        _onLoadComplete?.Invoke();
-        _netActivePlayer.Value = Random.Range(0, 2);
+        _onConnectedPlayersToNetwork?.Invoke();
+        SetFirstTurningPlayerServerRpc();
       }
 
+      _onChosenFirstTurningPlayer?.Invoke(_netActivePlayer.Value);
+      
       LoadScreen.DOFade(0, .5f);
     }
 
     [ServerRpc(RequireOwnership = false)]
     private void CheckClientsCountServerRpc() =>
       _netPlayersCount.Value = NetworkManager.ConnectedClients.Count;
+
+    [ServerRpc]
+    private void SetFirstTurningPlayerServerRpc()
+    {
+      _netActivePlayer.Value = Random.Range(0, NetworkManager.ConnectedClients.Count);
+      Debug.Log("First Player is " + _netActivePlayer.Value);
+    }
   }
 }

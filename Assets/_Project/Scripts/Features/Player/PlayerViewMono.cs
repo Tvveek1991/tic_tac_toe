@@ -10,8 +10,8 @@ namespace _Project.Scripts.Features.Player
 {
   public class PlayerViewMono : NetworkBehaviour
   {
-    private readonly NetworkVariable<SymbolSign> _netSymbolSign = new NetworkVariable<SymbolSign>();
     private readonly NetworkVariable<bool> _netIsPlayerTurn = new NetworkVariable<bool>();
+    private readonly NetworkVariable<SymbolSign> _netSymbolSign = new NetworkVariable<SymbolSign>();
 
     private int _index;
     
@@ -21,8 +21,27 @@ namespace _Project.Scripts.Features.Player
     private IGameFactory _gameFactory;
     private IGameMetaProvider _gameMetaProvider;
 
-    public override void OnDestroy() =>
+    private void OnMouseDown()
+    {
+      if(!IsOwner || !_netIsPlayerTurn.Value)
+        return;
+      
+      Ray ray = _camera.ScreenPointToRay(Application.isEditor ? Input.mousePosition : (Vector3)Input.touches[0].position);
+
+      if (!Physics.Raycast(ray, out RaycastHit hit)) 
+        return;
+      
+      var cell = hit.transform.gameObject.GetComponent<SymbolCell>();
+      cell.SetSymbolServerRpc(_netSymbolSign.Value);
+
+      // ChangeTurnStatusServerRpc();
+    }
+
+    public override void OnDestroy()
+    {
       _netSymbolSign.OnValueChanged -= OnValueChanged;
+      _netIsPlayerTurn.OnValueChanged -= OnValueChangedPlayerTurn;
+    }
 
     private void Construct(IGameFactory gameFactory, IGameMetaProvider gameMetaProvider)
     {
@@ -49,20 +68,36 @@ namespace _Project.Scripts.Features.Player
       if (IsOwner)
         Construct(ClientDataTransmitter.Instance.GetGameFactory(), ClientDataTransmitter.Instance.GetGameMetaProvider());
     }
-    
+
     [ServerRpc(RequireOwnership = false)]
     public void SetPlayerTurnServerRpc(bool isPlayerTurn)
     {
       Debug.Log(name + " " + OwnerClientId + " Is " + isPlayerTurn);
       _netIsPlayerTurn.Value = isPlayerTurn;
+
+      /*if (!test)
+      {
+        test = true;
+        _netIsPlayerTurn.OnValueChanged += OnValueChangedPlayerTurn;
+      }*/
     }
+
+    // private bool test;
 
     private void OnValueChanged(SymbolSign previous, SymbolSign next)
     {
       if (!IsOwner)
         return;
-
+      
       _gameFactory.GameViewLogic.SetPlayerUi(next);
+    }
+
+    private void OnValueChangedPlayerTurn(bool previous, bool next)
+    {
+      if (!IsOwner)
+        return;
+
+      _gameFactory.GameViewLogic.ChangeTurnServerRpc();
     }
 
     [ServerRpc]
@@ -72,18 +107,8 @@ namespace _Project.Scripts.Features.Player
     private SymbolSign GetSymbol() =>
       (SymbolSign) (_index + 1);
 
-    private void OnMouseDown()
-    {
-      if(!IsOwner || !_netIsPlayerTurn.Value)
-        return;
-      
-      Ray ray = _camera.ScreenPointToRay(Application.isEditor ? Input.mousePosition : (Vector3)Input.touches[0].position);
-
-      if (!Physics.Raycast(ray, out RaycastHit hit)) 
-        return;
-      
-      var cell = hit.transform.gameObject.GetComponent<SymbolCell>();
-      cell.SetSymbolServerRpc(_netSymbolSign.Value);
-    }
+    [ServerRpc]
+    private void ChangeTurnStatusServerRpc() =>
+      _netIsPlayerTurn.Value = !_netIsPlayerTurn.Value;
   }
 }
