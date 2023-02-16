@@ -41,28 +41,25 @@ namespace _Project.Scripts.Features.GameScreen.Mono
 
     public override void OnNetworkSpawn()
     {
-      _netPlayersCount.OnValueChanged += OnValueChanged;
-      _netActivePlayer.OnValueChanged += OnValueActivePlayerChanged;
+      _netPlayersCount.OnValueChanged += OnCountChanged;
+      _netActivePlayer.OnValueChanged += OnActivePlayerChanged;
       CheckClientsCountServerRpc();
     }
 
     public override void OnDestroy()
     {
-      _netPlayersCount.OnValueChanged -= OnValueChanged;
-      _netActivePlayer.OnValueChanged -= OnValueActivePlayerChanged;
+      _netPlayersCount.OnValueChanged -= OnCountChanged;
+      _netActivePlayer.OnValueChanged -= OnActivePlayerChanged;
     }
 
     [ServerRpc(RequireOwnership = false)]
     public void ChangeTurningPlayerServerRpc() => 
       _netActivePlayer.Value = ++_netActivePlayer.Value % NetworkManager.ConnectedClients.Count;
 
-    private void OnValueActivePlayerChanged(int previous, int newValue)
-    {
-      Debug.Log("it is changed Oo + " + newValue );
+    private void OnActivePlayerChanged(int previous, int newValue) => 
       _onChosenFirstTurningPlayer?.Invoke(_netActivePlayer.Value);
-    }
 
-    private void OnValueChanged(int previous, int playersCount)
+    private void OnCountChanged(int previous, int playersCount)
     {
       LoadProgress.text = playersCount + "/2 Players";
 
@@ -90,7 +87,7 @@ namespace _Project.Scripts.Features.GameScreen.Mono
     [ServerRpc]
     private void SetFirstTurningPlayerServerRpc()
     {
-      _netActivePlayer.Value = 0;//Random.Range(0, NetworkManager.ConnectedClients.Count);
+      _netActivePlayer.Value = Random.Range(0, NetworkManager.ConnectedClients.Count);
       Debug.Log("First Player is " + _netActivePlayer.Value);
     }
   }

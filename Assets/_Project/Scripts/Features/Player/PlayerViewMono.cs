@@ -37,11 +37,8 @@ namespace _Project.Scripts.Features.Player
       _gameFactory.GameViewLogic.ChangeTurningPlayerServerRpc();
     }
 
-    public override void OnDestroy()
-    {
+    public override void OnDestroy() =>
       _netSymbolSign.OnValueChanged -= OnValueChanged;
-      _netIsPlayerTurn.OnValueChanged -= OnValueChangedPlayerTurn;
-    }
 
     private void Construct(IGameFactory gameFactory, IGameMetaProvider gameMetaProvider)
     {
@@ -74,15 +71,7 @@ namespace _Project.Scripts.Features.Player
     {
       Debug.Log(name + " " + OwnerClientId + " Is " + isPlayerTurn);
       _netIsPlayerTurn.Value = isPlayerTurn;
-
-      /*if (!test)
-      {
-        test = true;
-        _netIsPlayerTurn.OnValueChanged += OnValueChangedPlayerTurn;
-      }*/
     }
-
-    // private bool test;
 
     private void OnValueChanged(SymbolSign previous, SymbolSign next)
     {
@@ -90,14 +79,6 @@ namespace _Project.Scripts.Features.Player
         return;
       
       _gameFactory.GameViewLogic.SetPlayerUi(next);
-    }
-
-    private void OnValueChangedPlayerTurn(bool previous, bool next)
-    {
-      if (!IsOwner)
-        return;
-
-      _gameFactory.GameViewLogic.ChangeTurningPlayerServerRpc();
     }
 
     [ServerRpc]
