@@ -9,6 +9,6 @@ namespace _Project.Scripts.Features.GameScreen
     void Construct(IAudioService audioService, Action onClickBack, Action onCreateNonConnectionPlayer = null);
     void OpenWindow();
     void SetPlayerUi(SymbolSign symbol);
-    void ChangeTurnServerRpc();
+    void ChangeTurningPlayerServerRpc();
   }
 }

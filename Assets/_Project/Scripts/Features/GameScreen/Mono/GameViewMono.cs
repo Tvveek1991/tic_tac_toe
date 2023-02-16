@@ -52,13 +52,14 @@ namespace _Project.Scripts.Features.GameScreen.Mono
       _netActivePlayer.OnValueChanged -= OnValueActivePlayerChanged;
     }
 
-    [ServerRpc]
-    public void ChangeTurnServerRpc() => 
+    [ServerRpc(RequireOwnership = false)]
+    public void ChangeTurningPlayerServerRpc() => 
       _netActivePlayer.Value = ++_netActivePlayer.Value % NetworkManager.ConnectedClients.Count;
-    
+
     private void OnValueActivePlayerChanged(int previous, int newValue)
     {
       Debug.Log("it is changed Oo + " + newValue );
+      _onChosenFirstTurningPlayer?.Invoke(_netActivePlayer.Value);
     }
 
     private void OnValueChanged(int previous, int playersCount)
@@ -89,7 +90,7 @@ namespace _Project.Scripts.Features.GameScreen.Mono
     [ServerRpc]
     private void SetFirstTurningPlayerServerRpc()
     {
-      _netActivePlayer.Value = Random.Range(0, NetworkManager.ConnectedClients.Count);
+      _netActivePlayer.Value = 0;//Random.Range(0, NetworkManager.ConnectedClients.Count);
       Debug.Log("First Player is " + _netActivePlayer.Value);
     }
   }

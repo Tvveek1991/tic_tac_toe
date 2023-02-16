@@ -12,7 +12,6 @@ using _Project.Scripts.Services.Localization.Logic;
 using _Project.Scripts.Services.Localization.Mono;
 using _Project.Scripts.Services.Network;
 using Unity.Netcode;
-using UnityEngine;
 
 namespace _Project.Scripts.Features.GameScreen
 {
@@ -82,7 +81,6 @@ namespace _Project.Scripts.Features.GameScreen
       _gameViewMono.BackButton.onClick.AddListener((() => audioService.Play(AudioId.SoundButton)));
     }
 
-
     public void SetPlayerUi(SymbolSign symbol)
     {
       _gameViewMono.SymbolImage.sprite = _playerData[symbol].SymbolData.Icon;
@@ -90,10 +88,8 @@ namespace _Project.Scripts.Features.GameScreen
     }
 
     [ServerRpc(RequireOwnership = false)]
-    public void ChangeTurnServerRpc()
-    {
-      // _gameViewMono.ChangeTurnServerRpc();
-    }
+    public void ChangeTurningPlayerServerRpc() =>
+      _gameViewMono.ChangeTurningPlayerServerRpc();
 
     [ServerRpc]
     private void ConnectClientObjectServerRpc()

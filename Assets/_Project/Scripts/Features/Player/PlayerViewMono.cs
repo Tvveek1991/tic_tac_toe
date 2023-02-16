@@ -34,7 +34,7 @@ namespace _Project.Scripts.Features.Player
       var cell = hit.transform.gameObject.GetComponent<SymbolCell>();
       cell.SetSymbolServerRpc(_netSymbolSign.Value);
 
-      // ChangeTurnStatusServerRpc();
+      _gameFactory.GameViewLogic.ChangeTurningPlayerServerRpc();
     }
 
     public override void OnDestroy()
@@ -97,7 +97,7 @@ namespace _Project.Scripts.Features.Player
       if (!IsOwner)
         return;
 
-      _gameFactory.GameViewLogic.ChangeTurnServerRpc();
+      _gameFactory.GameViewLogic.ChangeTurningPlayerServerRpc();
     }
 
     [ServerRpc]
@@ -106,9 +106,5 @@ namespace _Project.Scripts.Features.Player
 
     private SymbolSign GetSymbol() =>
       (SymbolSign) (_index + 1);
-
-    [ServerRpc]
-    private void ChangeTurnStatusServerRpc() =>
-      _netIsPlayerTurn.Value = !_netIsPlayerTurn.Value;
   }
 }
