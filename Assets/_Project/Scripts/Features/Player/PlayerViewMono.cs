@@ -31,9 +31,14 @@ namespace _Project.Scripts.Features.Player
       if (!Physics.Raycast(ray, out RaycastHit hit)) 
         return;
       
+      Debug.Log(hit.transform.gameObject.name);
+      
       var cell = hit.transform.gameObject.GetComponent<SymbolCell>();
-      cell.SetSymbolServerRpc(_netSymbolSign.Value);
 
+      if (cell.GetSymbol != SymbolSign.None)
+        return;
+      
+      cell.SetSymbolServerRpc(_netSymbolSign.Value);
       _gameFactory.GameViewLogic.ChangeTurningPlayerServerRpc();
     }
 
