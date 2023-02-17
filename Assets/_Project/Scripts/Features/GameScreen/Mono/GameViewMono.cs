@@ -54,10 +54,10 @@ namespace _Project.Scripts.Features.GameScreen.Mono
 
     [ServerRpc(RequireOwnership = false)]
     public void ChangeTurningPlayerServerRpc() => 
-      _netActivePlayer.Value = ++_netActivePlayer.Value % NetworkManager.ConnectedClients.Count;
+      _netActivePlayer.Value = (_netActivePlayer.Value + 1) % NetworkManager.ConnectedClients.Count;
 
     private void OnActivePlayerChanged(int previous, int newValue) => 
-      _onChosenFirstTurningPlayer?.Invoke(_netActivePlayer.Value);
+      _onChosenFirstTurningPlayer?.Invoke(newValue);
 
     private void OnCountChanged(int previous, int playersCount)
     {

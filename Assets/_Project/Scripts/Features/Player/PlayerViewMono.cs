@@ -31,8 +31,6 @@ namespace _Project.Scripts.Features.Player
       if (!Physics.Raycast(ray, out RaycastHit hit)) 
         return;
       
-      Debug.Log(hit.transform.gameObject.name);
-      
       var cell = hit.transform.gameObject.GetComponent<SymbolCell>();
 
       if (cell.GetSymbol != SymbolSign.None)

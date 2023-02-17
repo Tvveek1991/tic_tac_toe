@@ -12,6 +12,7 @@ using _Project.Scripts.Services.Localization.Logic;
 using _Project.Scripts.Services.Localization.Mono;
 using _Project.Scripts.Services.Network;
 using Unity.Netcode;
+using UnityEngine;
 
 namespace _Project.Scripts.Features.GameScreen
 {
