@@ -64,7 +64,7 @@ namespace _Project.Scripts.Features.Player
     {
       _netSymbolSign.OnValueChanged += OnValueChanged;
 
-      name = IsOwner ? "Player_" + OwnerClientId : "Second Player";
+      name = IsOwner ? "Owner_" + OwnerClientId : "Second Player";
       Debug.Log(name + " " + OwnerClientId);
 
       if (IsOwner)
@@ -74,7 +74,7 @@ namespace _Project.Scripts.Features.Player
     [ServerRpc(RequireOwnership = false)]
     public void SetPlayerTurnServerRpc(bool isPlayerTurn)
     {
-      Debug.Log(name + " " + OwnerClientId + " Is " + isPlayerTurn);
+      Debug.Log(name + " Is " + isPlayerTurn);
       _netIsPlayerTurn.Value = isPlayerTurn;
     }
 
