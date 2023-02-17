@@ -1,3 +1,4 @@
+using System.Collections;
 using _Project.Scripts.Features.GameScreen;
 using _Project.Scripts.Services._Interfaces;
 using UnityEngine;
@@ -19,15 +20,15 @@ namespace _Project.Scripts.Services.Network.Mono
         DontDestroyOnLoad(gameObject);
       }
       else
-      {
         Destroy(gameObject);
-      }
     }
     
     public void Construct(IGameFactory gameFactory, IGameMetaProvider gameMetaProvider)
     {
       _gameFactory = gameFactory;
       _gameMetaProvider = gameMetaProvider;
+      
+      StartCoroutine(GetExternalIP());
     }
 
     public IGameFactory GetGameFactory() =>
@@ -35,5 +36,21 @@ namespace _Project.Scripts.Services.Network.Mono
     
     public IGameMetaProvider GetGameMetaProvider() =>
       _gameMetaProvider;
+
+
+    private IEnumerator GetExternalIP()
+    {
+      string url = "https://api.ipify.org";
+      using var www = new WWW(url);
+      yield return www;
+      
+      if (!string.IsNullOrEmpty(www.error))
+        Debug.LogErrorFormat("Failed to get external IP: {0}", www.error);
+      else
+      {
+        string externalIP = www.text;
+        Debug.Log("External IP address: " + externalIP);
+      }
+    }
   }
 }

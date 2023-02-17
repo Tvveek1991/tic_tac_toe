@@ -1,8 +1,13 @@
+using System.Collections;
+using System.Net;
+using System.Net.Sockets;
 using _Project.Scripts.Core_Logic.Common;
 using _Project.Scripts.Features.GameScreen;
 using _Project.Scripts.Services._Interfaces;
 using _Project.Scripts.Services.Network.Mono;
 using Unity.Netcode;
+using Unity.Netcode.Transports.UTP;
+using UnityEngine;
 
 namespace _Project.Scripts.Services.Network
 {
@@ -15,8 +20,13 @@ namespace _Project.Scripts.Services.Network
 
     public Network(IAssetProvider assetProvider) : base(assetProvider) { }
 
-    public void LaunchService() =>
+    public void LaunchService()
+    {
       SpawnNetworkManager();
+
+      Debug.Log("My Local IP: " + GetLocalIPAddress());
+      // NetworkManager.GetComponent<UnityTransport>().ConnectionData.Address = GetLocalIPAddress();
+    }
 
     public void ConnectClient(bool isHost)
     {
@@ -39,5 +49,16 @@ namespace _Project.Scripts.Services.Network
 
     private void SpawnNetworkManager() =>
       NetworkManager = Create<NetworkManager>(NetworkManagerPath);
+
+    private string GetLocalIPAddress()
+    {
+      var host = Dns.GetHostEntry(Dns.GetHostName());
+      foreach (var ip in host.AddressList)
+      {
+        if (ip.AddressFamily == AddressFamily.InterNetwork)
+          return ip.ToString();
+      }
+      return null;
+    }
   }
 }
