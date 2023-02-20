@@ -11,6 +11,7 @@ using _Project.Scripts.Services.GameMetaProvider;
 using _Project.Scripts.Services.Localization.Logic;
 using _Project.Scripts.Services.Localization.Mono;
 using _Project.Scripts.Services.Network;
+using TMPro;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -95,7 +96,10 @@ namespace _Project.Scripts.Features.GameScreen
     [ServerRpc]
     private void ConnectClientObjectServerRpc()
     {
+      _gameViewMono.SetLocalIpAddress(_network.GetLocalIPAddress());
+      
       // Debug.Log("Start Spawn Player");
+      
       _onCreateNonConnectionPlayer?.Invoke();
       _spawnPool.Add(_gameMetaProvider.GetPlayerViewMono());
     }
@@ -110,7 +114,7 @@ namespace _Project.Scripts.Features.GameScreen
         // Debug.Log("SpawnedPlayer + " + i);
       }
     }
-    
+
     [ServerRpc(RequireOwnership = false)]
     private void RefreshAfterChangeTurnServerRpc(int activePlayer)
     {

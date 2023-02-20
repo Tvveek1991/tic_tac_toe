@@ -28,7 +28,7 @@ namespace _Project.Scripts.Services.Network.Mono
       _gameFactory = gameFactory;
       _gameMetaProvider = gameMetaProvider;
       
-      StartCoroutine(GetExternalIP());
+      // StartCoroutine(GetExternalIP());
     }
 
     public IGameFactory GetGameFactory() =>
@@ -36,8 +36,7 @@ namespace _Project.Scripts.Services.Network.Mono
     
     public IGameMetaProvider GetGameMetaProvider() =>
       _gameMetaProvider;
-
-
+    
     private IEnumerator GetExternalIP()
     {
       string url = "https://api.ipify.org";

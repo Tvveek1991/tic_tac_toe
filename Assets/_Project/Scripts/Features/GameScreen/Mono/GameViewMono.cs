@@ -15,10 +15,13 @@ namespace _Project.Scripts.Features.GameScreen.Mono
     [SerializeField] private CanvasGroup loadScreen;
     [SerializeField] private TextMeshProUGUI loadProgress;
 
-    [Header("Player UI")] [SerializeField] private CanvasGroup turnCanvasGroup;
+    [SerializeField] private TextMeshProUGUI myLocalIp;
+    
+    [Header("Player UI")] 
+    [SerializeField] private CanvasGroup turnCanvasGroup;
     [SerializeField] private TextMeshProUGUI turnText;
     [SerializeField] private Image symbolImage;
-
+    
     private readonly NetworkVariable<int> _netPlayersCount = new NetworkVariable<int>();
     private readonly NetworkVariable<int> _netActivePlayer = new NetworkVariable<int>();
 
@@ -27,8 +30,6 @@ namespace _Project.Scripts.Features.GameScreen.Mono
     private Action _onConnectedPlayersToNetwork;
 
     public Button BackButton => backButton;
-    public CanvasGroup LoadScreen => loadScreen;
-    public TextMeshProUGUI LoadProgress => loadProgress;
     public TextMeshProUGUI TurnText => turnText;
     public Image SymbolImage => symbolImage;
 
@@ -52,6 +53,9 @@ namespace _Project.Scripts.Features.GameScreen.Mono
       _netActivePlayer.OnValueChanged -= OnActivePlayerChanged;
     }
 
+    public void SetLocalIpAddress(string getLocalIPAddress) => 
+      myLocalIp.text = getLocalIPAddress;
+
     [ServerRpc(RequireOwnership = false)]
     public void ChangeTurningPlayerServerRpc() => 
       _netActivePlayer.Value = (_netActivePlayer.Value + 1) % NetworkManager.ConnectedClients.Count;
@@ -61,7 +65,7 @@ namespace _Project.Scripts.Features.GameScreen.Mono
 
     private void OnCountChanged(int previous, int playersCount)
     {
-      LoadProgress.text = playersCount + "/2 Players";
+      loadProgress.text = playersCount + "/2 Players";
 
       if (IsHost)
         _onClientConnect?.Invoke();
@@ -77,7 +81,7 @@ namespace _Project.Scripts.Features.GameScreen.Mono
 
       _onChosenFirstTurningPlayer?.Invoke(_netActivePlayer.Value);
       
-      LoadScreen.DOFade(0, .5f);
+      loadScreen.DOFade(0, .5f);
     }
 
     [ServerRpc(RequireOwnership = false)]

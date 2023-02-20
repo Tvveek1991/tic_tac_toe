@@ -7,9 +7,12 @@ using _Project.Scripts.Services._Interfaces;
 using _Project.Scripts.Services.Audio;
 using _Project.Scripts.Services.Localization.Logic;
 using _Project.Scripts.Services.Money.Mono;
+using _Project.Scripts.Services.Network;
 using AppacheAds.Scripts.Interfaces;
 using AppacheAnalytics.Scripts.Interfaces;
 using AppacheRemote.Scripts.Interfaces;
+using Unity.Netcode;
+using Unity.Netcode.Transports.UTP;
 using UnityEngine;
 
 namespace _Project.Scripts.Features.HomeScreen
@@ -20,6 +23,7 @@ namespace _Project.Scripts.Features.HomeScreen
     private readonly IUiFactory _uiFactory;
 
     private readonly IRemote _remote;
+    private readonly INetwork _network;
     private readonly IAnalytics _analytics;
     private readonly IAdsService _adsService;
     private readonly ILocaleSystem _localeSystem;
@@ -32,11 +36,14 @@ namespace _Project.Scripts.Features.HomeScreen
 
     private MoneyCounter MoneyCounter { get; set; }
 
+    [SerializeField] private string _ipAddress;
+    
     public HomeLogic(IGameStateMachine gameStateMachine, IAssetProvider assetProvider, ICurrentScreen currentScreen,
-      IGameSaveSystem gameSaveSystem, IAdsService adsService, IAnalytics analytics,
-      ILocaleSystem localeSystem, IAudioService audioService, IRemote remote, IMoneyService moneyService)
+      IGameSaveSystem gameSaveSystem, IAdsService adsService, IAnalytics analytics, ILocaleSystem localeSystem, IAudioService audioService, 
+      IRemote remote, IMoneyService moneyService, INetwork network)
     {
       _remote = remote;
+      _network = network;
       _analytics = analytics;
       _adsService = adsService;
       _localeSystem = localeSystem;
@@ -70,6 +77,16 @@ namespace _Project.Scripts.Features.HomeScreen
       
       MoneyCounter = _uiFactory.SpawnMoneyCounter();
       MoneyCounter.Construct(_moneyService);
+
+      SetAddress("0.0.0.0");
+    }
+
+    public void CloseHomeView()
+    {
+      Object.Destroy(MoneyCounter.gameObject);
+
+      _homeFactory.ClearHomeView();
+      _uiFactory.ClearSettingsWindow();
     }
 
     private void CreateSounds(HomeView homeView)
@@ -91,14 +108,6 @@ namespace _Project.Scripts.Features.HomeScreen
       _uiFactory.NoInternetWindow.Construct(_localeSystem, _audioService, () => { _uiFactory.ClearNoInternetWindow(); });*/
     }
 
-    public void CloseHomeView()
-    {
-      Object.Destroy(MoneyCounter.gameObject);
-      
-      _homeFactory.ClearHomeView();
-      _uiFactory.ClearSettingsWindow();
-    }
-
     private void ToShop()
     {
       // _gameStateMachine.Enter<LoadShopState>();
@@ -109,7 +118,11 @@ namespace _Project.Scripts.Features.HomeScreen
 
     private void ToGame(bool isHost)
     {
+      if (!isHost) 
+        SetAddress(_homeFactory.HomeView.IpInputField.text);
+
       _gameStateMachine.Enter<LoadGameState, bool>(isHost);
+
       /*_adsService.CurrentInterstitial.ShowInterstitial(ScreenNames.Game,
         _gameStateMachine.Enter<LoadGameState>,
         _gameStateMachine.Enter<LoadGameState>);*/
@@ -137,6 +150,12 @@ namespace _Project.Scripts.Features.HomeScreen
     {
       _analytics.Send("btn_setting");
       _uiFactory.SettingsWindow.OpenWindow();
+    }
+
+    private void SetAddress(string newIpAddress)
+    {
+      _ipAddress = newIpAddress;
+      _network.GetUnityTransport().ConnectionData.Address = _ipAddress;
     }
   }
 }

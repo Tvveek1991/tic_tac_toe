@@ -4,6 +4,7 @@ using System.Linq;
 using _Project.Scripts.Animation;
 using _Project.Scripts.Services.Localization.Logic;
 using _Project.Scripts.Services.Localization.Mono;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -18,7 +19,9 @@ namespace _Project.Scripts.Features.HomeScreen.Mono
     public Button NoAdsButton;
     public Button IapShopButton;
     public Button SettingsButton;
-
+    
+    public TMP_InputField IpInputField;
+    
     public void Construct(ILocaleSystem localeSystem, Action openSettingsWindow, Action toShop, Action<bool> toGame, Action toGameMode,
       Action toIapShop, Action toNoAds)
     {

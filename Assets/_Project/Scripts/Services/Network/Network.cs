@@ -25,7 +25,6 @@ namespace _Project.Scripts.Services.Network
       SpawnNetworkManager();
 
       Debug.Log("My Local IP: " + GetLocalIPAddress());
-      // NetworkManager.GetComponent<UnityTransport>().ConnectionData.Address = GetLocalIPAddress();
     }
 
     public void ConnectClient(bool isHost)
@@ -47,18 +46,21 @@ namespace _Project.Scripts.Services.Network
       clientDataTransmitter.Construct(gameFactory, gameMetaProvider);
     }
 
-    private void SpawnNetworkManager() =>
-      NetworkManager = Create<NetworkManager>(NetworkManagerPath);
+    public UnityTransport GetUnityTransport() => 
+      NetworkManager.GetComponent<UnityTransport>();
 
-    private string GetLocalIPAddress()
+    public string GetLocalIPAddress()
     {
-      var host = Dns.GetHostEntry(Dns.GetHostName());
-      foreach (var ip in host.AddressList)
+      IPHostEntry host = Dns.GetHostEntry(Dns.GetHostName());
+      foreach (IPAddress ip in host.AddressList)
       {
         if (ip.AddressFamily == AddressFamily.InterNetwork)
           return ip.ToString();
       }
       return null;
     }
+
+    private void SpawnNetworkManager() =>
+      NetworkManager = Create<NetworkManager>(NetworkManagerPath);
   }
 }

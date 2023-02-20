@@ -1,6 +1,7 @@
 using System;
 using _Project.Scripts.Features.GameScreen.Serialize;
 using _Project.Scripts.Services._Interfaces;
+using TMPro;
 
 namespace _Project.Scripts.Features.GameScreen
 {
