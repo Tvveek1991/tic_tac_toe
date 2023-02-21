@@ -1,4 +1,4 @@
-namespace _Project.Scripts.Features.GameScreen.Serialize
+namespace _Project.Scripts.Features.GameScreen.Serialized
 {
   public enum SymbolSign
   {

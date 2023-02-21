@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using _Project.Scripts.Features.Field.Mono;
-using _Project.Scripts.Features.GameScreen.Serialize;
+using _Project.Scripts.Features.GameScreen.Serialized;
 using _Project.Scripts.Services._Interfaces;
 using _Project.Scripts.Services.GameMetaProvider;
 using UnityEngine;

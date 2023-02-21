@@ -1,5 +1,5 @@
 using System;
-using _Project.Scripts.Features.GameScreen.Serialize;
+using _Project.Scripts.Features.GameScreen.Serialized;
 using Unity.Netcode;
 using UnityEngine;
 

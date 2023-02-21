@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using _Project.Scripts.Features.Data;
-using _Project.Scripts.Features.GameScreen.Serialize;
+using _Project.Scripts.Features.GameScreen.Serialized;
 using _Project.Scripts.Features.Player;
 using _Project.Scripts.Services._Interfaces;
 using UnityEngine;
