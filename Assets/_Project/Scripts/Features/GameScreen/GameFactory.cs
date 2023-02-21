@@ -1,6 +1,6 @@
 using _Project.Scripts.Core_Logic.Common;
-using _Project.Scripts.Features.Games.Classic;
-using _Project.Scripts.Features.Games.Classic.Mono;
+using _Project.Scripts.Features.Field;
+using _Project.Scripts.Features.Field.Mono;
 using _Project.Scripts.Features.GameScreen.Mono;
 using _Project.Scripts.Features.Player;
 using _Project.Scripts.Services._Interfaces;
@@ -16,12 +16,12 @@ namespace _Project.Scripts.Features.GameScreen
     
     private const string PlayerPath = "Features/Player/Player";
     private const string GameViewPath = "Features/GameScreen/Game Window";
-    private const string ClassicFieldPath = "Features/GameScreen/Fields/Classic Field";
+    private const string GameFieldPath = "Features/GameScreen/Fields/Game Field";
     
     private GameViewMono GameViewMono { get; set; }
     private GameField GameField { get; set; }
     
-    public IClassicFieldLogic BaseFieldLogic { get; private set; }
+    public IGameFieldLogic GameFieldLogic { get; private set; }
     public IGameViewLogic GameViewLogic { get; private set; }
 
     private readonly INetwork _network;
@@ -46,8 +46,8 @@ namespace _Project.Scripts.Features.GameScreen
     
     public void CreateField()
     {
-      GameField = Create<GameField>(ClassicFieldPath);
-      BaseFieldLogic = new ClassicFieldLogic(GameField, _audioService, _gameMetaProvider);
+      GameField = Create<GameField>(GameFieldPath);
+      GameFieldLogic = new GameFieldLogic(GameField, _audioService, _gameMetaProvider);
     }
     
     public void SpawnPlayerObject()

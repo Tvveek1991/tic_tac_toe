@@ -1,4 +1,4 @@
-using _Project.Scripts.Features.Games.Classic;
+using _Project.Scripts.Features.Field;
 using _Project.Scripts.Features.Player;
 
 namespace _Project.Scripts.Features.GameScreen
@@ -9,7 +9,7 @@ namespace _Project.Scripts.Features.GameScreen
     void CreateField();
     void SpawnPlayerObject();
     void ClearScreen();
-    IClassicFieldLogic BaseFieldLogic { get; }
+    IGameFieldLogic GameFieldLogic { get; }
     IGameViewLogic GameViewLogic { get; }
   }
 }

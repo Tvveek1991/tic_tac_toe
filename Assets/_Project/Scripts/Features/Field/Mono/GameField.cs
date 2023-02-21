@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace _Project.Scripts.Features.Games.Classic.Mono
+namespace _Project.Scripts.Features.Field.Mono
 {
   public class GameField : MonoBehaviour
   {

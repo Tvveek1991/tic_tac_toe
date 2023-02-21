@@ -1,13 +1,13 @@
 using System.Collections.Generic;
-using _Project.Scripts.Features.Games.Classic.Mono;
+using _Project.Scripts.Features.Field.Mono;
 using _Project.Scripts.Features.GameScreen.Serialize;
 using _Project.Scripts.Services._Interfaces;
 using _Project.Scripts.Services.GameMetaProvider;
 using UnityEngine;
 
-namespace _Project.Scripts.Features.Games.Classic
+namespace _Project.Scripts.Features.Field
 {
-  public class ClassicFieldLogic : BaseFieldLogic, IClassicFieldLogic
+  public class GameFieldLogic : IGameFieldLogic
   {
     private const int ToWin = 3;
     private const int FieldSizeX = 3;
@@ -15,11 +15,20 @@ namespace _Project.Scripts.Features.Games.Classic
 
     private readonly SymbolCell[,] _cells = new SymbolCell[FieldSizeY, FieldSizeX];
     private readonly Dictionary<SymbolSign, PlayerData> _playerData;
-
+    
     private SymbolSign _playerSymbol;
 
-    public ClassicFieldLogic(GameField gameField, IAudioService audioService, IGameMetaProvider gameMetaProvider) : base(gameField, audioService, gameMetaProvider)
+    private readonly GameField _gameField;
+
+    private readonly IAudioService _audioService;
+    private readonly IGameMetaProvider _gameMetaProvider;
+
+    public GameFieldLogic(GameField gameField, IAudioService audioService, IGameMetaProvider gameMetaProvider)
     {
+      _gameField = gameField;
+      _audioService = audioService;
+      _gameMetaProvider = gameMetaProvider;
+      
       _playerData = gameMetaProvider.GetPlayerData();
       CreateCellsField();
     }
@@ -29,7 +38,7 @@ namespace _Project.Scripts.Features.Games.Classic
       for (var y = 0; y < FieldSizeY; ++y)
       for (var x = 0; x < FieldSizeX; ++x)
       {
-        _cells[y, x] = GameField.GetPlayablePoint[y * FieldSizeY + x];
+        _cells[y, x] = _gameField.GetPlayablePoint[y * FieldSizeY + x];
         int x1 = x;
         int y1 = y;
         _cells[y, x].Construct(

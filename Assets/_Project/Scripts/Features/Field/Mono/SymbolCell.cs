@@ -1,9 +1,9 @@
 using System;
-using UnityEngine;
 using _Project.Scripts.Features.GameScreen.Serialize;
 using Unity.Netcode;
+using UnityEngine;
 
-namespace _Project.Scripts.Features.Games
+namespace _Project.Scripts.Features.Field.Mono
 {
   public class SymbolCell : NetworkBehaviour
   {
