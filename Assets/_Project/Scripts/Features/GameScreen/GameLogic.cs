@@ -48,14 +48,13 @@ namespace _Project.Scripts.Features.GameScreen
 
     public void Enter(bool isHost)
     {
-      _network.CreateClientDataTransmitter(_gameFactory, _gameMetaProvider);
-
       _gameFactory.CreateField();
 
       _gameFactory.CreateScreen();
       _gameFactory.GameViewLogic.Construct(_audioService, OnClickBack, OnCreateNonConnectionPlayer);
       _gameFactory.GameViewLogic.OpenWindow();
 
+      _network.CreateClientDataTransmitter(_gameFactory, _gameMetaProvider);
       ConnectClient(isHost);
     }
 
