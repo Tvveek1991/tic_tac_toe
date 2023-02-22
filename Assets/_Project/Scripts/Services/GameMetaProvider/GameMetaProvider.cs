@@ -16,12 +16,15 @@ namespace _Project.Scripts.Services.GameMetaProvider
 
     private const string CustomCrossDataPath = "Data/Symbols/X";
     private const string CustomZeroDataPath = "Data/Symbols/O";
-    
+
     private PlayerViewMono PlayerViewMono { get; set; }
-    
+
     private List<SymbolData> SymbolDataX { get; set; }
     private List<SymbolData> SymbolDataO { get; set; }
 
+    private GameMode _gameMode;
+    private EnemyType _enemyType;
+    private ConnectionMode _connectionMode;
     private Dictionary<SymbolSign, PlayerData> _playerData;
 
     public GameMetaProvider(IAssetProvider assetProvider, IGameSaveSystem gameSaveSystem)
@@ -32,14 +35,32 @@ namespace _Project.Scripts.Services.GameMetaProvider
       PreloadData();
     }
 
-    public void SetPlayerViewMono(PlayerViewMono playerViewMono) => 
+    public Dictionary<SymbolSign, PlayerData> GetPlayerData() =>
+      _playerData;
+
+    public void SetPlayerViewMono(PlayerViewMono playerViewMono) =>
       PlayerViewMono = playerViewMono;
 
     public PlayerViewMono GetPlayerViewMono() =>
       PlayerViewMono;
 
-    public Dictionary<SymbolSign, PlayerData> GetPlayerData() =>
-      _playerData;
+    public void SetGameMode(GameMode gameMode) =>
+      _gameMode = gameMode;
+
+    public GameMode GetGameMode() =>
+      _gameMode;
+
+    public void SetEnemyType(EnemyType enemyType) =>
+      _enemyType = enemyType;
+
+    public EnemyType GetEnemyType() =>
+      _enemyType;
+
+    public void SetConnectionMode(ConnectionMode connectionMode) =>
+      _connectionMode = connectionMode;
+
+    public ConnectionMode GetConnectionMode() =>
+      _connectionMode;
 
     private void PreloadData()
     {

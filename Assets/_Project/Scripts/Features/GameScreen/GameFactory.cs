@@ -1,7 +1,10 @@
+using System;
+using System.Collections.Generic;
 using _Project.Scripts.Core_Logic.Common;
 using _Project.Scripts.Features.Field;
 using _Project.Scripts.Features.Field.Mono;
 using _Project.Scripts.Features.GameScreen.Mono;
+using _Project.Scripts.Features.GameScreen.Serialized;
 using _Project.Scripts.Features.Player;
 using _Project.Scripts.Services._Interfaces;
 using _Project.Scripts.Services.Localization.Logic;
@@ -24,24 +27,35 @@ namespace _Project.Scripts.Features.GameScreen
     public IGameFieldLogic GameFieldLogic { get; private set; }
     public IGameViewLogic GameViewLogic { get; private set; }
 
-    private readonly INetwork _network;
-    private readonly ILocaleSystem _localeSystem;
     private readonly IAudioService _audioService;
     private readonly IGameMetaProvider _gameMetaProvider;
+    
+    private readonly Dictionary<ConnectionMode, Action> _dictionary;
+    
+    
+    
+    // private delegate void ConnectHandler(string guid, uint cost, Action onSpend, Action<UnlockType> onFail); example delegate
 
     public GameFactory(IAssetProvider assetProvider, ILocaleSystem localeSystem, IAudioService audioService, INetwork network,
       IGameMetaProvider gameMetaProvider) : base(assetProvider)
     {
-      _network = network;
-      _localeSystem = localeSystem;
       _audioService = audioService;
       _gameMetaProvider = gameMetaProvider;
+      
+      _dictionary = new Dictionary<ConnectionMode, Action>
+      {
+        {ConnectionMode.Single, () => GameViewLogic = new SingleGameViewLogic(GameViewMono, localeSystem, network, _gameMetaProvider, _audioService)},
+        {ConnectionMode.Network, () => GameViewLogic = new MultiplayerGameViewLogic(GameViewMono, localeSystem, network, _gameMetaProvider, _audioService)},
+      };
+
     }
     
     public void CreateScreen()
     {
       GameViewMono = Create<GameViewMono>(GameViewPath, GameObject.Find(CanvasPath).transform);
-      GameViewLogic = new GameViewLogic(GameViewMono, _localeSystem, _network, _gameMetaProvider);
+      
+      _gameMetaProvider.SetConnectionMode(ConnectionMode.Network);
+      _dictionary[_gameMetaProvider.GetConnectionMode()].Invoke();
     }
     
     public void CreateField()

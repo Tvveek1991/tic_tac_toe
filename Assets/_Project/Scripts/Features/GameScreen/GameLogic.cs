@@ -51,7 +51,7 @@ namespace _Project.Scripts.Features.GameScreen
       _gameFactory.CreateField();
 
       _gameFactory.CreateScreen();
-      _gameFactory.GameViewLogic.Construct(_audioService, OnClickBack, OnCreateNonConnectionPlayer);
+      _gameFactory.GameViewLogic.Construct(OnClickBack, OnCreateNonConnectionPlayer);
       _gameFactory.GameViewLogic.OpenWindow();
 
       _network.CreateClientDataTransmitter(_gameFactory, _gameMetaProvider);
