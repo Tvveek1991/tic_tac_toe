@@ -2062,7 +2062,7 @@ GameObject:
   - component: {fileID: 9153181191751817471}
   - component: {fileID: 3907066047421397000}
   m_Layer: 0
-  m_Name: Classic Field
+  m_Name: Game Field
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
