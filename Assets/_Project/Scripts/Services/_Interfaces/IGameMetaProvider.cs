@@ -14,10 +14,10 @@ namespace _Project.Scripts.Services._Interfaces
     void SetEnemyType(EnemyType enemyType);
     EnemyType GetEnemyType();
     
+    void SetGame(Game game);
+    Game GetGame();
+    
     void SetGameMode(GameMode gameMode);
     GameMode GetGameMode();
-    
-    void SetConnectionMode(ConnectionMode connectionMode);
-    ConnectionMode GetConnectionMode();
   }
 }

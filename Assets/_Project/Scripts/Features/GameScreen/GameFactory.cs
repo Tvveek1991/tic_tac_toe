@@ -30,7 +30,7 @@ namespace _Project.Scripts.Features.GameScreen
     private readonly IAudioService _audioService;
     private readonly IGameMetaProvider _gameMetaProvider;
     
-    private readonly Dictionary<ConnectionMode, Action> _dictionary;
+    private readonly Dictionary<GameMode, Action> _dictionary;
     
     
     
@@ -42,10 +42,10 @@ namespace _Project.Scripts.Features.GameScreen
       _audioService = audioService;
       _gameMetaProvider = gameMetaProvider;
       
-      _dictionary = new Dictionary<ConnectionMode, Action>
+      _dictionary = new Dictionary<GameMode, Action>
       {
-        {ConnectionMode.Single, () => GameViewLogic = new SingleGameViewLogic(GameViewMono, localeSystem, network, _gameMetaProvider, _audioService)},
-        {ConnectionMode.Network, () => GameViewLogic = new MultiplayerGameViewLogic(GameViewMono, localeSystem, network, _gameMetaProvider, _audioService)},
+        {GameMode.Single, () => GameViewLogic = new SingleGameViewLogic(GameViewMono, localeSystem, network, _gameMetaProvider, _audioService)},
+        {GameMode.Multiplayer, () => GameViewLogic = new MultiplayerGameViewLogic(GameViewMono, localeSystem, network, _gameMetaProvider, _audioService)},
       };
 
     }
@@ -54,8 +54,8 @@ namespace _Project.Scripts.Features.GameScreen
     {
       GameViewMono = Create<GameViewMono>(GameViewPath, GameObject.Find(CanvasPath).transform);
       
-      _gameMetaProvider.SetConnectionMode(ConnectionMode.Network);
-      _dictionary[_gameMetaProvider.GetConnectionMode()].Invoke();
+      _gameMetaProvider.SetGameMode(GameMode.Multiplayer);
+      _dictionary[_gameMetaProvider.GetGameMode()].Invoke();
     }
     
     public void CreateField()

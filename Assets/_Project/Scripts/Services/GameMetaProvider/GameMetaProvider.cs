@@ -22,9 +22,6 @@ namespace _Project.Scripts.Services.GameMetaProvider
     private List<SymbolData> SymbolDataX { get; set; }
     private List<SymbolData> SymbolDataO { get; set; }
 
-    private GameMode _gameMode;
-    private EnemyType _enemyType;
-    private ConnectionMode _connectionMode;
     private Dictionary<SymbolSign, PlayerData> _playerData;
 
     public GameMetaProvider(IAssetProvider assetProvider, IGameSaveSystem gameSaveSystem)
@@ -44,23 +41,32 @@ namespace _Project.Scripts.Services.GameMetaProvider
     public PlayerViewMono GetPlayerViewMono() =>
       PlayerViewMono;
 
-    public void SetGameMode(GameMode gameMode) =>
-      _gameMode = gameMode;
+    public void SetGame(Game game)
+    {
+      _gameSaveSystem.Get().Game = game;
+      _gameSaveSystem.Save();
+    }
 
-    public GameMode GetGameMode() =>
-      _gameMode;
+    public Game GetGame() =>
+      _gameSaveSystem.Get().Game;
 
-    public void SetEnemyType(EnemyType enemyType) =>
-      _enemyType = enemyType;
+    public void SetEnemyType(EnemyType enemyType)
+    {
+      _gameSaveSystem.Get().Enemy = enemyType;
+      _gameSaveSystem.Save();
+    }
 
     public EnemyType GetEnemyType() =>
-      _enemyType;
+      _gameSaveSystem.Get().Enemy;
 
-    public void SetConnectionMode(ConnectionMode connectionMode) =>
-      _connectionMode = connectionMode;
+    public void SetGameMode(GameMode gameMode)
+    {
+      _gameSaveSystem.Get().Mode = gameMode;
+      _gameSaveSystem.Save();
+    }
 
-    public ConnectionMode GetConnectionMode() =>
-      _connectionMode;
+    public GameMode GetGameMode() =>
+      _gameSaveSystem.Get().Mode;
 
     private void PreloadData()
     {

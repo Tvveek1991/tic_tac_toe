@@ -1,8 +1,8 @@
 namespace _Project.Scripts.Features.GameScreen.Serialized
 {
-  public enum ConnectionMode
+  public enum Game
   {
-    Single,
-    Network
+    Classic,
+    Buhurt
   }
 }

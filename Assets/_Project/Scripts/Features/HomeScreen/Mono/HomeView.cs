@@ -20,6 +20,13 @@ namespace _Project.Scripts.Features.HomeScreen.Mono
     public Button IapShopButton;
     public Button SettingsButton;
     
+    public Button GameTypeButton;
+    public Button GameModeButton;
+    public Button EnemyTypeButton;
+    public Transform SwitcherGameType;
+    public Transform SwitcherGameMode;
+    public Transform SwitcherEnemyType;
+    
     public TMP_InputField IpInputField;
     
     public void Construct(ILocaleSystem localeSystem, Action openSettingsWindow, Action toShop, Action<bool> toGame, Action toGameMode,

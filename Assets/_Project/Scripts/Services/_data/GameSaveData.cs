@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using _Project.Scripts.Features.GameScreen.Serialized;
 
 namespace _Project.Scripts.Services._data
 {
@@ -19,5 +20,9 @@ namespace _Project.Scripts.Services._data
     
     public string ChosenColorX;
     public string ChosenColorO;
+    
+    public Game Game = Game.Classic;
+    public GameMode Mode = GameMode.Single;
+    public EnemyType Enemy = EnemyType.OneDevice;
   }
 }
