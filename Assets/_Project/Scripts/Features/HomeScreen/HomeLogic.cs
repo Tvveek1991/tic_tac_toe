@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using _Project.Scripts.Core_Logic.Screens;
 using _Project.Scripts.Core_Logic.StatesMachine.Interfaces;
 using _Project.Scripts.Core_Logic.StatesMachine.States;
@@ -13,15 +12,12 @@ using _Project.Scripts.Services.Network;
 using AppacheAds.Scripts.Interfaces;
 using AppacheAnalytics.Scripts.Interfaces;
 using AppacheRemote.Scripts.Interfaces;
-using DG.Tweening;
 using UnityEngine;
 
 namespace _Project.Scripts.Features.HomeScreen
 {
   public class HomeLogic
   {
-    private const float SwitcherTime = .25f;
-    
     private readonly IHomeFactory _homeFactory;
     private readonly IUiFactory _uiFactory;
 
@@ -40,7 +36,7 @@ namespace _Project.Scripts.Features.HomeScreen
 
     private MoneyCounter MoneyCounter { get; set; }
 
-    [SerializeField] private string _ipAddress;
+    private string _ipAddress;
     
     public HomeLogic(IGameStateMachine gameStateMachine, IAssetProvider assetProvider, ICurrentScreen currentScreen,
       IGameSaveSystem gameSaveSystem, IAdsService adsService, IAnalytics analytics, ILocaleSystem localeSystem, IAudioService audioService, 
@@ -59,25 +55,17 @@ namespace _Project.Scripts.Features.HomeScreen
       _gameMetaProvider = gameMetaProvider;
       _gameStateMachine = gameStateMachine;
 
-      _homeFactory = new HomeFactory(assetProvider);
+      _homeFactory = new HomeFactory(assetProvider, localeSystem, audioService, gameMetaProvider);
       _uiFactory = new UiFactory(assetProvider);
     }
     
     public void CreateHomeView()
     {
-      
       _currentScreen.SetCurrentScreen(ScreenNames.Home);
 
       _homeFactory.CreateHomeView();
-      _homeFactory.HomeView.Construct(_localeSystem, OpenSettingsWindow, ToShop, ToGame, ToGameMode, ToIapShop, ToNoAds);
-      CreateSounds(_homeFactory.HomeView);
-      _homeFactory.HomeView.GameTypeButton.onClick.AddListener(() => SwitchGame(_gameMetaProvider.GetGame() != Game.Classic));
-      _homeFactory.HomeView.GameModeButton.onClick.AddListener(() => SwitchMode(_gameMetaProvider.GetGameMode() != GameMode.Single));
-      _homeFactory.HomeView.EnemyTypeButton.onClick.AddListener(() => SwitchEnemy(GetNextEnemy()));
-      SwitchGame(_gameMetaProvider.GetGame() == Game.Classic);
-      SwitchMode(_gameMetaProvider.GetGameMode() == GameMode.Single);
-      SwitchEnemy(_gameMetaProvider.GetEnemyType());
-      
+      _homeFactory.HomeViewLogic.Construct(OpenSettingsWindow, ToShop, ToGame, ToGameMode, ToNoAds);
+
       IPrivacyPolicyFactory privacyPolicyFactory = new PrivacyPolicyFactory(_assetProvider);
 
       _uiFactory.SpawnSettingsWindow();
@@ -92,25 +80,12 @@ namespace _Project.Scripts.Features.HomeScreen
       SetAddress("0.0.0.0");
     }
 
-    private EnemyType GetNextEnemy() =>
-      _gameMetaProvider.GetEnemyType() < EnemyType.LocalPlayer ? _gameMetaProvider.GetEnemyType() + 1 : EnemyType.OneDevice;
-
     public void CloseHomeView()
     {
       Object.Destroy(MoneyCounter.gameObject);
 
       _homeFactory.ClearHomeView();
       _uiFactory.ClearSettingsWindow();
-    }
-
-    private void CreateSounds(HomeView homeView)
-    {
-      new ButtonSound(_audioService, homeView.ShopButton.gameObject, AudioId.SoundButton);
-      new ButtonSound(_audioService, homeView.NoAdsButton.gameObject, AudioId.SoundButton);
-      new ButtonSound(_audioService, homeView.IapShopButton.gameObject, AudioId.SoundButton);
-      new ButtonSound(_audioService, homeView.SettingsButton.gameObject, AudioId.SoundButton);
-      new ButtonSound(_audioService, homeView.ModeButton.gameObject, AudioId.SoundButton);
-      new ButtonSound(_audioService, homeView.CreateButton.gameObject, AudioId.SoundButton);
     }
 
     private void CheckNetwork()
@@ -133,7 +108,7 @@ namespace _Project.Scripts.Features.HomeScreen
     private void ToGame(bool isHost)
     {
       if (!isHost) 
-        SetAddress(_homeFactory.HomeView.IpInputField.text);
+        SetAddress(_homeFactory.HomeViewLogic.GetInputIp());
 
       _gameStateMachine.Enter<LoadGameState, bool>(isHost);
 
@@ -148,11 +123,6 @@ namespace _Project.Scripts.Features.HomeScreen
       /*_adsService.CurrentInterstitial.ShowInterstitial(ScreenNames.Mode,
         _gameStateMachine.Enter<LoadModeState>,
         _gameStateMachine.Enter<LoadModeState>);*/
-    }
-
-    private void ToIapShop()
-    {
-      Debug.Log("Open iap shop");
     }
 
     private void ToNoAds()
@@ -171,48 +141,5 @@ namespace _Project.Scripts.Features.HomeScreen
       _ipAddress = newIpAddress;
       _network.GetUnityTransport().ConnectionData.Address = _ipAddress;
     }
-    
-    private void SwitchGame(bool isClassic)
-    {
-      // IconMusic.sprite = mute ? _musicOff : _musicOn;
-      _homeFactory.HomeView.SwitcherGameType.DOLocalMove(isClassic ? Vector3.left * 50 : Vector3.right * 50, SwitcherTime);
-      // var music = SwitcherMusic.parent.GetComponent<Image>();
-      // music.sprite = mute ? Inactive : Active;
-      // music.color = mute ? InactiveColor : Color.white;
-      _gameMetaProvider.SetGame(isClassic ? Game.Classic : Game.Buhurt);
-      Debug.Log("On game change " + _gameMetaProvider.GetGame());
-    }
-    private void SwitchMode(bool isSingle)
-    {
-      // IconMusic.sprite = mute ? _musicOff : _musicOn;
-      _homeFactory.HomeView.SwitcherGameMode.DOLocalMove(isSingle ? Vector3.left * 50 : Vector3.right * 50, SwitcherTime);
-      // var music = SwitcherMusic.parent.GetComponent<Image>();
-      // music.sprite = mute ? Inactive : Active;
-      // music.color = mute ? InactiveColor : Color.white;
-      _gameMetaProvider.SetGameMode(isSingle ? GameMode.Single : GameMode.Multiplayer);
-      Debug.Log("On mode change " + _gameMetaProvider.GetGameMode());
-    }
-    private void SwitchEnemy(EnemyType type)
-    {
-      switch (type)
-      {
-        case EnemyType.OneDevice:
-          _homeFactory.HomeView.SwitcherEnemyType.DOLocalMove(new Vector3(-50, 25, 0), SwitcherTime);
-          break;
-        case EnemyType.Bot:
-          _homeFactory.HomeView.SwitcherEnemyType.DOLocalMove(new Vector3(50, 25, 0), SwitcherTime);
-          break;
-        case EnemyType.LocalPlayer:
-          _homeFactory.HomeView.SwitcherEnemyType.DOLocalMove(new Vector3(0, -25, 0), SwitcherTime);
-          break;
-      }
-      _gameMetaProvider.SetEnemyType(type);
-      Debug.Log("On enemy change " + type);
-      // IconMusic.sprite = mute ? _musicOff : _musicOn;
-      // var music = SwitcherMusic.parent.GetComponent<Image>();
-      // music.sprite = mute ? Inactive : Active;
-      // music.color = mute ? InactiveColor : Color.white;
-    }
-    
   }
 }

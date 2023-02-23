@@ -32,8 +32,6 @@ namespace _Project.Scripts.Features.GameScreen
     
     private readonly Dictionary<GameMode, Action> _dictionary;
     
-    
-    
     // private delegate void ConnectHandler(string guid, uint cost, Action onSpend, Action<UnlockType> onFail); example delegate
 
     public GameFactory(IAssetProvider assetProvider, ILocaleSystem localeSystem, IAudioService audioService, INetwork network,

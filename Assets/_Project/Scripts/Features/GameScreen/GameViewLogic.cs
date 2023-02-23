@@ -30,9 +30,10 @@ namespace _Project.Scripts.Features.GameScreen
     protected GameViewLogic(GameViewMono gameViewMono, ILocaleSystem localeSystem, INetwork network, IGameMetaProvider gameMetaProvider, IAudioService audioService)
     {
       Network = network;
-      _localeSystem = localeSystem;
       GameViewMono = gameViewMono;
       GameMetaProvider = gameMetaProvider;
+      
+      _localeSystem = localeSystem;
       _audioService = audioService;
     }
 
