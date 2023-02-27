@@ -17,7 +17,7 @@ namespace _Project.Scripts.Services.GameMetaProvider
     private const string CustomCrossDataPath = "Data/Symbols/X";
     private const string CustomZeroDataPath = "Data/Symbols/O";
 
-    private PlayerViewMono PlayerViewMono { get; set; }
+    private BasePlayerViewMono BasePlayerViewMono { get; set; }
 
     private List<SymbolData> SymbolDataX { get; set; }
     private List<SymbolData> SymbolDataO { get; set; }
@@ -35,11 +35,11 @@ namespace _Project.Scripts.Services.GameMetaProvider
     public Dictionary<SymbolSign, PlayerData> GetPlayerData() =>
       _playerData;
 
-    public void SetPlayerViewMono(PlayerViewMono playerViewMono) =>
-      PlayerViewMono = playerViewMono;
+    public void SetPlayerViewMono(BasePlayerViewMono basePlayerViewMono) =>
+      BasePlayerViewMono = basePlayerViewMono;
 
-    public PlayerViewMono GetPlayerViewMono() =>
-      PlayerViewMono;
+    public BasePlayerViewMono GetPlayerViewMono() =>
+      BasePlayerViewMono;
 
     public void SetGame(Game game)
     {

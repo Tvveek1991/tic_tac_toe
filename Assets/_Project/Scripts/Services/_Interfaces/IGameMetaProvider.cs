@@ -7,8 +7,8 @@ namespace _Project.Scripts.Services._Interfaces
 {
   public interface IGameMetaProvider
   {
-    PlayerViewMono GetPlayerViewMono();
-    void SetPlayerViewMono(PlayerViewMono playerViewMono);
+    BasePlayerViewMono GetPlayerViewMono();
+    void SetPlayerViewMono(BasePlayerViewMono basePlayerViewMono);
     Dictionary<SymbolSign, PlayerData> GetPlayerData();
     
     void SetEnemyType(EnemyType enemyType);

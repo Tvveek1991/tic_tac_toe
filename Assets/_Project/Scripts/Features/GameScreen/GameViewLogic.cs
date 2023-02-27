@@ -18,7 +18,7 @@ namespace _Project.Scripts.Features.GameScreen
 
     private Dictionary<SymbolSign, PlayerData> _playerData;
     
-    protected readonly List<PlayerViewMono> SpawnPool = new List<PlayerViewMono>();
+    protected readonly List<BasePlayerViewMono> SpawnPool = new List<BasePlayerViewMono>();
     
     protected readonly GameViewMono GameViewMono;
     
