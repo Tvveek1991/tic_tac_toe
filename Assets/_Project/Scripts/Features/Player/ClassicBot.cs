@@ -1,4 +1,5 @@
 using System;
+using UnityEngine;
 
 namespace _Project.Scripts.Features.Player
 {
@@ -10,7 +11,7 @@ namespace _Project.Scripts.Features.Player
 
     public void BotTurn(Action onEndTurn)
     {
-      
+      Debug.Log("Bot turned");
     }
   }
 }

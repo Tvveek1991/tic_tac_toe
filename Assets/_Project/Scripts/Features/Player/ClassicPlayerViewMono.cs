@@ -8,7 +8,7 @@ namespace _Project.Scripts.Features.Player
   {
     private void OnMouseDown()
     {
-      if (!IsOwner || !NetIsPlayerTurn.Value)
+      if ((!IsOwner && GameMetaProvider.GetGameMode() != GameMode.Single) || !NetIsPlayerTurn.Value)
         return;
 
       Ray ray = Camera.ScreenPointToRay(Application.isEditor ? Input.mousePosition : (Vector3) Input.touches[0].position);
@@ -21,8 +21,10 @@ namespace _Project.Scripts.Features.Player
       if (cell.GetSymbol != SymbolSign.None)
         return;
 
+      Debug.Log("IN");
       cell.SetSymbolServerRpc(NetSymbolSign.Value);
-      GameFactory.GameViewLogic.ChangeTurningPlayerServerRpc();
+      Debug.Log("OUT");
+      GameFactory.GameViewLogic.ChangeTurningPlayer(GetSymbol());
     }
   }
 }

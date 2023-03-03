@@ -8,6 +8,6 @@ namespace _Project.Scripts.Features.GameScreen
     void Construct(Action onClickBack, Action onCreateNonConnectionPlayer = null);
     void OpenWindow();
     void SetPlayerUi(SymbolSign symbol);
-    void ChangeTurningPlayerServerRpc(SymbolSign activeSign = SymbolSign.None);
+    void ChangeTurningPlayer(SymbolSign activeSign = SymbolSign.None);
   }
 }

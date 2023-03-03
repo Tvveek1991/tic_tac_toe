@@ -44,7 +44,7 @@ namespace _Project.Scripts.Features.GameScreen.Mono
       loadScreen.DOFade(0, .5f);
     }
     
-    #region Network
+    #region Multiplayer
 
     public override void OnNetworkSpawn()
     {

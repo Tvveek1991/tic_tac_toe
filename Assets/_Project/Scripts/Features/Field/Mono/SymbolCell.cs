@@ -31,7 +31,7 @@ namespace _Project.Scripts.Features.Field.Mono
     public override void OnDestroy() => 
       _netSymbol.OnValueChanged -= OnValueChanged;
 
-    [ServerRpc(RequireOwnership = false)] //Because owner of object is Host we need stand RequireOwnership at this attribute
+    [ServerRpc(RequireOwnership = false)]
     public void SetSymbolServerRpc(SymbolSign symbol) =>
       _netSymbol.Value = symbol;
 

@@ -29,8 +29,7 @@ namespace _Project.Scripts.Features.GameScreen
       GameViewMono.Construct(ConnectClientObjectServerRpc, ConnectPlayersToNetworkServerRpc, RefreshAfterChangeTurnServerRpc);
     }
 
-    [ServerRpc(RequireOwnership = false)]
-    public override void ChangeTurningPlayerServerRpc(SymbolSign activeSign) =>
+    public override void ChangeTurningPlayer(SymbolSign activeSign) =>
       GameViewMono.ChangeTurningPlayerServerRpc();
 
     [ServerRpc]

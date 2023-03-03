@@ -49,6 +49,14 @@ namespace _Project.Scripts.Features.GameScreen
     public void OpenWindow() =>
       AppearAnimation();
 
+    public void SetPlayerUi(SymbolSign symbol)
+    {
+      GameViewMono.SymbolImage.sprite = _playerData[symbol].SymbolData.Icon;
+      GameViewMono.SymbolImage.color = _playerData[symbol].Color;
+    }
+
+    public virtual void ChangeTurningPlayer(SymbolSign activeSign) { }
+
     private void AppearAnimation()
     {
       GameViewMono.gameObject.SetActive(true);
@@ -68,18 +76,10 @@ namespace _Project.Scripts.Features.GameScreen
     {
       new ButtonAnimation(GameViewMono.BackButton.transform);
     }
-
+    
     private void AppendClickSound(IAudioService audioService)
     {
       // GameViewMono.BackButton.onClick.AddListener((() => audioService.Play(AudioId.SoundButton)));
     }
-
-    public void SetPlayerUi(SymbolSign symbol)
-    {
-      GameViewMono.SymbolImage.sprite = _playerData[symbol].SymbolData.Icon;
-      GameViewMono.SymbolImage.color = _playerData[symbol].Color;
-    }
-
-    public virtual void ChangeTurningPlayerServerRpc(SymbolSign activeSign) { }
   }
 }

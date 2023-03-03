@@ -33,7 +33,7 @@ namespace _Project.Scripts.Features.GameScreen
       RefreshAfterChangeTurn(SymbolSign.X);
     }
 
-    public override void ChangeTurningPlayerServerRpc(SymbolSign activeSign)
+    public override void ChangeTurningPlayer(SymbolSign activeSign)
     {
       SymbolSign nextSign = activeSign == SymbolSign.X ? SymbolSign.O : SymbolSign.X;
       RefreshAfterChangeTurn(nextSign);
@@ -50,7 +50,7 @@ namespace _Project.Scripts.Features.GameScreen
     private void RefreshAfterChangeTurn(SymbolSign nextSign)
     {
       SetPlayerUi(nextSign);
-      GameMetaProvider.GetPlayerViewMono().SetPlayerTurnServerRpc(nextSign == SymbolSign.X);
+      GameMetaProvider.GetPlayerViewMono().SetPlayerTurn(nextSign == SymbolSign.X);
       GameViewMono.TurnText.text = nextSign == SymbolSign.X ? "Player X" : "Player O";
     }
   }

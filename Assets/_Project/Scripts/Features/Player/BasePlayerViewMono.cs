@@ -35,6 +35,32 @@ namespace _Project.Scripts.Features.Player
       GameMetaProvider.SetPlayerViewMono(this);
     }
 
+    public void CreateSymbolSign(int index)
+    {
+      Index = index;
+      
+      if(GameMetaProvider.GetGameMode() == GameMode.Single)
+        SetSymbolSign(GetSymbol());
+      else
+        SetSymbolSignServerRpc(GetSymbol());
+    }
+
+    public void SetPlayerTurn(bool isPlayerTurn)
+    {
+      Debug.Log(NetIsPlayerTurn.Value);
+      Debug.Log(name + " Is " + isPlayerTurn);
+      NetIsPlayerTurn.Value = isPlayerTurn;
+      Debug.Log(NetIsPlayerTurn.Value);
+    }
+
+    protected SymbolSign GetSymbol() =>
+      (SymbolSign) (Index + 1);
+
+    private void SetSymbolSign(SymbolSign symbol) =>
+      NetSymbolSign.Value = symbol;
+
+    #region Multiplayer
+
     public override void OnNetworkSpawn()
     {
       NetSymbolSign.OnValueChanged += OnValueChanged;
@@ -43,23 +69,21 @@ namespace _Project.Scripts.Features.Player
       Debug.Log(name + " " + OwnerClientId);
 
       if (!IsOwner) return;
-      
+
       Construct(ClientDataTransmitter.Instance.GetGameFactory(), ClientDataTransmitter.Instance.GetGameMetaProvider());
       CreateSymbolSign((int) OwnerClientId);
     }
-
-    public void CreateSymbolSign(int index)
-    {
-      Index = index;
-      SetSymbolSignServerRpc(GetSymbol());
-    }
-
+    
     [ServerRpc(RequireOwnership = false)]
     public void SetPlayerTurnServerRpc(bool isPlayerTurn)
     {
       Debug.Log(name + " Is " + isPlayerTurn);
       NetIsPlayerTurn.Value = isPlayerTurn;
     }
+
+    [ServerRpc]
+    private void SetSymbolSignServerRpc(SymbolSign symbol) =>
+      NetSymbolSign.Value = symbol;
 
     private void OnValueChanged(SymbolSign previous, SymbolSign next)
     {
@@ -69,11 +93,6 @@ namespace _Project.Scripts.Features.Player
       GameFactory.GameViewLogic.SetPlayerUi(next);
     }
 
-    [ServerRpc]
-    private void SetSymbolSignServerRpc(SymbolSign symbol) =>
-      NetSymbolSign.Value = symbol;
-
-    private SymbolSign GetSymbol() =>
-      (SymbolSign) (Index + 1);
+    #endregion
   }
 }
