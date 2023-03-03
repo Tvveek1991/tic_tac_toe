@@ -21,9 +21,11 @@ namespace _Project.Scripts.Features.Player
       if (cell.GetSymbol != SymbolSign.None)
         return;
 
-      Debug.Log("IN");
-      cell.SetSymbolServerRpc(NetSymbolSign.Value);
-      Debug.Log("OUT");
+      if (GameMetaProvider.GetGameMode() == GameMode.Single)
+        cell.SetSymbol(NetSymbolSign.Value);
+      else
+        cell.SetSymbolServerRpc(NetSymbolSign.Value);
+      
       GameFactory.GameViewLogic.ChangeTurningPlayer(GetSymbol());
     }
   }

@@ -47,10 +47,8 @@ namespace _Project.Scripts.Features.Player
 
     public void SetPlayerTurn(bool isPlayerTurn)
     {
-      Debug.Log(NetIsPlayerTurn.Value);
       Debug.Log(name + " Is " + isPlayerTurn);
       NetIsPlayerTurn.Value = isPlayerTurn;
-      Debug.Log(NetIsPlayerTurn.Value);
     }
 
     protected SymbolSign GetSymbol() =>

@@ -16,7 +16,7 @@ namespace _Project.Scripts.Features.Field.Mono
 
     public MeshFilter MeshFilter => _meshFilter;
     public MeshRenderer MeshRenderer => _meshRenderer;
-    
+
     public void Construct(Action<SymbolSign> onClickCell)
     {
       _onClickCell = onClickCell;
@@ -25,20 +25,30 @@ namespace _Project.Scripts.Features.Field.Mono
       _meshRenderer = GetComponentsInChildren<MeshRenderer>()[1];
     }
 
-    public override void OnNetworkSpawn() => 
+    public SymbolSign GetSymbol =>
+      _netSymbol.Value;
+
+    public void SetSymbol(SymbolSign symbol)
+    {
+      _netSymbol.Value = symbol;
+      _onClickCell.Invoke(symbol);
+    }
+
+    #region Multiplayer
+
+    public override void OnNetworkSpawn() =>
       _netSymbol.OnValueChanged += OnValueChanged;
 
-    public override void OnDestroy() => 
+    public override void OnDestroy() =>
       _netSymbol.OnValueChanged -= OnValueChanged;
 
     [ServerRpc(RequireOwnership = false)]
     public void SetSymbolServerRpc(SymbolSign symbol) =>
       _netSymbol.Value = symbol;
 
-    public SymbolSign GetSymbol =>
-      _netSymbol.Value;
-    
     private void OnValueChanged(SymbolSign previous, SymbolSign next) =>
       _onClickCell.Invoke(next);
+
+    #endregion
   }
 }
