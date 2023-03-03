@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: -7193614603490057663}
   - component: {fileID: 6872603730753753063}
   - component: {fileID: 7889169139132359661}
-  - component: {fileID: 2321894948616585598}
+  - component: {fileID: 8338787138340907335}
   m_Layer: 0
   m_Name: Classic Player
   m_TagString: MainCamera
@@ -133,7 +133,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 6, y: 10}
   m_EdgeRadius: 0
---- !u!114 &2321894948616585598
+--- !u!114 &8338787138340907335
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -142,6 +142,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 5373767681313460904}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 26f11c99d32e1974b962885ea4f0dc94, type: 3}
+  m_Script: {fileID: 11500000, guid: e97536c58ded07f499d8949a17b8aca3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

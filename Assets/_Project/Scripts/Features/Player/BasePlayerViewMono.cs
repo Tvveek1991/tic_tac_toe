@@ -13,7 +13,7 @@ namespace _Project.Scripts.Features.Player
     protected readonly NetworkVariable<SymbolSign> NetSymbolSign = new NetworkVariable<SymbolSign>();
 
     protected int Index;
-    
+
     protected Camera Camera;
     protected BoxCollider2D BoxCollider;
 
@@ -23,19 +23,16 @@ namespace _Project.Scripts.Features.Player
     public override void OnDestroy() =>
       NetSymbolSign.OnValueChanged -= OnValueChanged;
 
-    private void Construct(IGameFactory gameFactory, IGameMetaProvider gameMetaProvider)
+    public void Construct(IGameFactory gameFactory, IGameMetaProvider gameMetaProvider)
     {
       Camera = Camera.main;
       BoxCollider = GetComponent<BoxCollider2D>();
       BoxCollider.enabled = true;
-      
+
       GameFactory = gameFactory;
       GameMetaProvider = gameMetaProvider;
 
       GameMetaProvider.SetPlayerViewMono(this);
-
-      Index = (int) OwnerClientId;
-      CommitNetworkColorServerRpc(GetSymbol());
     }
 
     public override void OnNetworkSpawn()
@@ -45,8 +42,16 @@ namespace _Project.Scripts.Features.Player
       name = IsOwner ? "Owner_" + OwnerClientId : "Second Player";
       Debug.Log(name + " " + OwnerClientId);
 
-      if (IsOwner)
-        Construct(ClientDataTransmitter.Instance.GetGameFactory(), ClientDataTransmitter.Instance.GetGameMetaProvider());
+      if (!IsOwner) return;
+      
+      Construct(ClientDataTransmitter.Instance.GetGameFactory(), ClientDataTransmitter.Instance.GetGameMetaProvider());
+      CreateSymbolSign((int) OwnerClientId);
+    }
+
+    public void CreateSymbolSign(int index)
+    {
+      Index = index;
+      SetSymbolSignServerRpc(GetSymbol());
     }
 
     [ServerRpc(RequireOwnership = false)]
@@ -60,12 +65,12 @@ namespace _Project.Scripts.Features.Player
     {
       if (!IsOwner)
         return;
-      
+
       GameFactory.GameViewLogic.SetPlayerUi(next);
     }
 
     [ServerRpc]
-    private void CommitNetworkColorServerRpc(SymbolSign symbol) =>
+    private void SetSymbolSignServerRpc(SymbolSign symbol) =>
       NetSymbolSign.Value = symbol;
 
     private SymbolSign GetSymbol() =>

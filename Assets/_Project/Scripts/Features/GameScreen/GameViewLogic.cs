@@ -3,11 +3,9 @@ using System.Collections.Generic;
 using _Project.Scripts.Animation;
 using _Project.Scripts.Features.GameScreen.Mono;
 using _Project.Scripts.Features.GameScreen.Serialized;
-using _Project.Scripts.Features.Player;
 using _Project.Scripts.Services._Interfaces;
 using _Project.Scripts.Services.GameMetaProvider;
 using _Project.Scripts.Services.Localization.Logic;
-using _Project.Scripts.Services.Network;
 
 namespace _Project.Scripts.Features.GameScreen
 {
@@ -15,21 +13,18 @@ namespace _Project.Scripts.Features.GameScreen
   {
     private readonly ILocaleSystem _localeSystem;
     private readonly IAudioService _audioService;
+    
 
     private Dictionary<SymbolSign, PlayerData> _playerData;
     
-    protected readonly List<BasePlayerViewMono> SpawnPool = new List<BasePlayerViewMono>();
-    
     protected readonly GameViewMono GameViewMono;
     
-    protected readonly INetwork Network;
     protected readonly IGameMetaProvider GameMetaProvider;
     
     protected Action OnCreateNonConnectionPlayer;
 
-    protected GameViewLogic(GameViewMono gameViewMono, ILocaleSystem localeSystem, INetwork network, IGameMetaProvider gameMetaProvider, IAudioService audioService)
+    protected GameViewLogic(GameViewMono gameViewMono, ILocaleSystem localeSystem, IGameMetaProvider gameMetaProvider, IAudioService audioService)
     {
-      Network = network;
       GameViewMono = gameViewMono;
       GameMetaProvider = gameMetaProvider;
       
@@ -85,6 +80,6 @@ namespace _Project.Scripts.Features.GameScreen
       GameViewMono.SymbolImage.color = _playerData[symbol].Color;
     }
 
-    public virtual void ChangeTurningPlayerServerRpc() { }
+    public virtual void ChangeTurningPlayerServerRpc(SymbolSign activeSign) { }
   }
 }

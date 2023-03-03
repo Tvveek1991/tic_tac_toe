@@ -1,5 +1,6 @@
 using _Project.Scripts.Core_Logic.StatesMachine.Interfaces;
 using _Project.Scripts.Core_Logic.StatesMachine.States;
+using _Project.Scripts.Features.GameScreen.Serialized;
 using _Project.Scripts.Services._Interfaces;
 using _Project.Scripts.Services.Localization.Logic;
 using _Project.Scripts.Services.Network;
@@ -48,13 +49,17 @@ namespace _Project.Scripts.Features.GameScreen
 
     public void Enter(bool isHost)
     {
+      _network.CreateClientDataTransmitter(_gameFactory, _gameMetaProvider);
+      
       _gameFactory.CreateField();
 
       _gameFactory.CreateScreen();
       _gameFactory.GameViewLogic.Construct(OnClickBack, OnCreateNonConnectionPlayer);
       _gameFactory.GameViewLogic.OpenWindow();
 
-      _network.CreateClientDataTransmitter(_gameFactory, _gameMetaProvider);
+      if(_gameMetaProvider.GetGameMode() == GameMode.Single)
+        return;
+      
       ConnectClient(isHost);
     }
 

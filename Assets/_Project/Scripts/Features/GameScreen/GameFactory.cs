@@ -9,7 +9,6 @@ using _Project.Scripts.Features.Player;
 using _Project.Scripts.Services._Interfaces;
 using _Project.Scripts.Services.Localization.Logic;
 using _Project.Scripts.Services.Network;
-using Unity.Netcode;
 using UnityEngine;
 
 namespace _Project.Scripts.Features.GameScreen
@@ -20,6 +19,7 @@ namespace _Project.Scripts.Features.GameScreen
 
     private const string ClassicPlayerPath = "Features/Player/Classic Player";
     private const string BuhurtPlayerPath = "Features/Player/Buhurt Player";
+    
     private const string GameViewPath = "Features/GameScreen/Game Window";
     private const string GameFieldPath = "Features/GameScreen/Fields/Game Field";
 
@@ -44,7 +44,7 @@ namespace _Project.Scripts.Features.GameScreen
 
       _dictionaryGameMode = new Dictionary<GameMode, Action>
       {
-        {GameMode.Single, () => GameViewLogic = new SingleGameViewLogic(GameViewMono, localeSystem, network, _gameMetaProvider, _audioService)},
+        {GameMode.Single, () => GameViewLogic = new SingleGameViewLogic(GameViewMono, this, localeSystem, _gameMetaProvider, _audioService)},
         {GameMode.Multiplayer, () => GameViewLogic = new MultiplayerGameViewLogic(GameViewMono, localeSystem, network, _gameMetaProvider, _audioService)},
       };
     }
@@ -52,8 +52,6 @@ namespace _Project.Scripts.Features.GameScreen
     public void CreateScreen()
     {
       GameViewMono = Create<GameViewMono>(GameViewPath, GameObject.Find(CanvasPath).transform);
-
-      _gameMetaProvider.SetGameMode(GameMode.Multiplayer);
       _dictionaryGameMode[_gameMetaProvider.GetGameMode()].Invoke();
     }
 
