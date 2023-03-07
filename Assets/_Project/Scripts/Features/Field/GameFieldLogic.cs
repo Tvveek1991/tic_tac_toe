@@ -33,6 +33,9 @@ namespace _Project.Scripts.Features.Field
       CreateCellsField();
     }
 
+    public SymbolCell[,] GetField() => 
+      _cells;
+
     private void CreateCellsField()
     {
       for (var y = 0; y < FieldSizeY; ++y)
@@ -90,7 +93,7 @@ namespace _Project.Scripts.Features.Field
 
       for (var i = 0; i < len; i++)
       {
-        if (_cells[y + i * vy, x + i * vx].GetSymbol != sign)
+        if (_cells[y + i * vy, x + i * vx].GetSymbol() != sign)
           return false;
       }
 

@@ -18,7 +18,7 @@ namespace _Project.Scripts.Features.Player
 
       var cell = hit.transform.gameObject.GetComponent<SymbolCell>();
 
-      if (cell.GetSymbol != SymbolSign.None)
+      if (cell.GetSymbol() != SymbolSign.None)
         return;
 
       if (GameMetaProvider.GetGameMode() == GameMode.Single)

@@ -17,7 +17,7 @@ namespace _Project.Scripts.Features.GameScreen
       : base(gameViewMono, localeSystem, gameMetaProvider, audioService)
     {
       _gameFactory = gameFactory;
-      _classicBot = new ClassicBot();
+      _classicBot = new ClassicBot(_gameFactory);
     }
 
     public override void Construct(Action onBack, Action onCreateNonConnectionPlayer)

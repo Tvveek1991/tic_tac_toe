@@ -25,7 +25,7 @@ namespace _Project.Scripts.Features.Field.Mono
       _meshRenderer = GetComponentsInChildren<MeshRenderer>()[1];
     }
 
-    public SymbolSign GetSymbol =>
+    public SymbolSign GetSymbol() =>
       _netSymbol.Value;
 
     public void SetSymbol(SymbolSign symbol)
