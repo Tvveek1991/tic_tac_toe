@@ -101,40 +101,34 @@ namespace _Project.Scripts.Features.Player
             _bestScores.Add(i, Potential.Big);
         }
 
-        Debug.Log(_bestScores.Count);
         foreach (int[] item in _lines)
         {
           if ((newBoard[item[0]] != 1 && newBoard[item[1]] != 1 && newBoard[item[2]] != 1) && !_bestScores.ContainsKey(i))
             _bestScores.Add(i, Potential.Small);
         }
-
-        Debug.Log(_bestScores.Count);
       }
 
-      FindAllPotentialTurns(Potential.Lose);
-      Debug.Log("Lose potential found: " + _bestTurns.Count);
-      if (_bestTurns.Count > 0)
+      ;
+      if (FindAllPotentialTurns(Potential.Lose))
         return _bestTurns[Random.Range(0, _bestTurns.Count)];
 
       Debug.Log("No Lose");
 
-      FindAllPotentialTurns(Potential.Big);
-      Debug.Log("Big potential found: " + _bestTurns.Count);
-      if (_bestTurns.Count > 0)
+      if (FindAllPotentialTurns(Potential.Big))
         return _bestTurns[Random.Range(0, _bestTurns.Count)];
 
-      FindAllPotentialTurns(Potential.Small);
-      Debug.Log("Small potential found: " + _bestTurns.Count);
-      if (_bestTurns.Count > 0)
+      if (FindAllPotentialTurns(Potential.Small))
         return _bestTurns[Random.Range(0, _bestTurns.Count)];
 
       return -1;
     }
 
-    private void FindAllPotentialTurns(Potential potential)
+    private bool FindAllPotentialTurns(Potential potential)
     {
       _bestTurns = (from item in _bestScores where item.Value == potential select item.Key).ToList();
-      Debug.Log("Lose potential found: " + _bestTurns.Count);
+      Debug.Log(potential + " potential found: " + _bestTurns.Count);
+      
+      return _bestTurns.Count > 0;
     }
 
     private void CheckLose(int[] board)
