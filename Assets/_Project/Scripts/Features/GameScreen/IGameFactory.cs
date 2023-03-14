@@ -1,5 +1,4 @@
 using _Project.Scripts.Features.Field;
-using _Project.Scripts.Features.Player;
 
 namespace _Project.Scripts.Features.GameScreen
 {

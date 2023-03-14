@@ -51,11 +51,11 @@ namespace _Project.Scripts.Features.Player
       NetIsPlayerTurn.Value = isPlayerTurn;
     }
 
+    public void SetSymbolSign(SymbolSign symbol) =>
+      NetSymbolSign.Value = symbol;
+
     protected SymbolSign GetSymbol() =>
       (SymbolSign) (Index + 1);
-
-    private void SetSymbolSign(SymbolSign symbol) =>
-      NetSymbolSign.Value = symbol;
 
     #region Multiplayer
 
