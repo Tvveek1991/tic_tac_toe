@@ -55,8 +55,8 @@ namespace _Project.Scripts.Features.Field
 
     private void SetFieldCell(int x, int y)
     {
-      _cells[y, x].MeshFilter.mesh = _playerData[_playerSymbol].SymbolData.Mesh;
-      _cells[y, x].MeshRenderer.material = _playerData[_playerSymbol].SymbolData.Material;
+      _cells[y, x].MeshFilter.mesh = _playerData[_playerSymbol].SymbolData.MeshClassic;
+      _cells[y, x].MeshRenderer.material = _playerData[_playerSymbol].SymbolData.MaterialClassic;
       _cells[y, x].MeshRenderer.material.color = _playerData[_playerSymbol].Color;
       _cells[y, x].MeshRenderer.enabled = true;
 

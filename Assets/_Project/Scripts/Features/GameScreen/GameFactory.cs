@@ -63,7 +63,8 @@ namespace _Project.Scripts.Features.GameScreen
 
     public void SpawnPlayerObject()
     {
-      BasePlayerViewMono playerViewMono = (_gameMetaProvider.GetGame() == Game.Classic ? (BasePlayerViewMono) Create<ClassicPlayerViewMono>(ClassicPlayerPath) : Create<BuhurtPlayerViewMono>(BuhurtPlayerPath));
+      var playerViewMono = Create<BasePlayerViewMono>(_gameMetaProvider.GetGame() == Game.Classic ? ClassicPlayerPath : BuhurtPlayerPath);
+      
       _gameMetaProvider.SetPlayerViewMono(playerViewMono);
     }
 

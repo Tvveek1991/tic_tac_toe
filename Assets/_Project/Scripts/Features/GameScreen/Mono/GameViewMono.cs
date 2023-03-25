@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using _Project.Scripts.Features.Player.BuhurtModules;
 using DG.Tweening;
 using TMPro;
 using Unity.Netcode;
@@ -21,6 +23,9 @@ namespace _Project.Scripts.Features.GameScreen.Mono
     [SerializeField] private TextMeshProUGUI turnText;
     [SerializeField] private Image symbolImage;
 
+    [Header("Buhurt UI")] [SerializeField] private CanvasGroup playerFiguresCanvasGroup;
+    [SerializeField] private List<PlayerFigure> playerFigures;
+
     private readonly NetworkVariable<int> _netPlayersCount = new NetworkVariable<int>();
     private readonly NetworkVariable<int> _netActivePlayer = new NetworkVariable<int>();
 
@@ -39,11 +44,14 @@ namespace _Project.Scripts.Features.GameScreen.Mono
       _onConnectedPlayersToNetwork = onConnectedPlayersToNetwork;
     }
 
-    public void HideLoadScreen()
-    {
+    public void HideLoadScreen() => 
       loadScreen.DOFade(0, .5f);
+
+    public void ShowBuhurtPart()
+    {
+      playerFiguresCanvasGroup.DOFade(1f, .5f);
     }
-    
+
     #region Multiplayer
 
     public override void OnNetworkSpawn()

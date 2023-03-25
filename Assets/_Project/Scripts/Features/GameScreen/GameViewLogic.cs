@@ -44,6 +44,11 @@ namespace _Project.Scripts.Features.GameScreen
       GameViewMono.BackButton.onClick.AddListener(() => onBack?.Invoke());
 
       AppendButtonsAnimation();
+      
+      if(GameMetaProvider.GetGame() != Game.Buhurt)
+        return;
+      
+      GameViewMono.ShowBuhurtPart();
     }
 
     public void OpenWindow() =>
@@ -53,6 +58,11 @@ namespace _Project.Scripts.Features.GameScreen
     {
       GameViewMono.SymbolImage.sprite = _playerData[symbol].SymbolData.Icon;
       GameViewMono.SymbolImage.color = _playerData[symbol].Color;
+      
+      if(GameMetaProvider.GetGame() != Game.Buhurt)
+        return;
+      
+      GameViewMono.ShowBuhurtPart();
     }
 
     public virtual void ChangeTurningPlayer(SymbolSign activeSign) { }
