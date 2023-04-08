@@ -13,7 +13,7 @@ namespace _Project.Scripts.Features.Player
       
       Ray ray = Camera.ScreenPointToRay(Application.isEditor ? Input.mousePosition : (Vector3) Input.touches[0].position);
 
-      if (!Physics.Raycast(ray, out RaycastHit hit))
+      if (!Physics.Raycast(ray, out RaycastHit hit) || GameFactory.GameViewLogic.DragDrop?.CurrentActiveDragPart == null)
         return;
 
       var cell = hit.transform.gameObject.GetComponent<SymbolCell>();

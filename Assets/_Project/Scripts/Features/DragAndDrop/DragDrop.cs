@@ -12,12 +12,12 @@ namespace _Project.Scripts.Features.DragAndDrop
 
     private Camera _camera;
 
-    private DragablePart CurrentActiveDragPart { get; set; }
-
     private Vector3 _smoothDampVelocity;
     private Coroutine _follow;
-    
+
     private bool _isInDrag;
+    
+    public DragablePart CurrentActiveDragPart { get; private set; }
 
     private Vector3 PartPosition
     {
@@ -97,7 +97,6 @@ namespace _Project.Scripts.Features.DragAndDrop
         }
 
         PartPosition = Vector3.SmoothDamp(PartPosition, targetPoint, ref _smoothDampVelocity, SmoothTime);
-        Debug.Log(PartPosition);
           
         yield return waitForEndOfFrame;
 

@@ -37,8 +37,6 @@ namespace _Project.Scripts.Features.GameScreen.Mono
     private Action<int> _onChosenFirstTurningPlayer;
     private Action _onClientConnect;
     private Action _onConnectedPlayersToNetwork;
-    
-    private IDragDrop _dragDrop;
 
     public Button BackButton => backButton;
     public TextMeshProUGUI TurnText => turnText;
@@ -56,12 +54,6 @@ namespace _Project.Scripts.Features.GameScreen.Mono
 
     public List<PlayerFigure> GetFigures() =>
       playerFigures;
-
-    public void CreateDragDrop() =>
-      _dragDrop = gameObject.AddComponent<DragDrop>();
-
-    public IDragDrop GetDragDrop() =>
-      _dragDrop;
 
     public void ShowBuhurtPart(PlayerData playerData)
     {

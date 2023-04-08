@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using _Project.Scripts.Animation;
+using _Project.Scripts.Features.DragAndDrop;
+using _Project.Scripts.Features.DragAndDrop.Interface;
 using _Project.Scripts.Features.GameScreen.Mono;
 using _Project.Scripts.Features.GameScreen.Serialized;
 using _Project.Scripts.Services._Interfaces;
@@ -14,14 +16,15 @@ namespace _Project.Scripts.Features.GameScreen
     private readonly ILocaleSystem _localeSystem;
     private readonly IAudioService _audioService;
     
-
     private Dictionary<SymbolSign, PlayerData> _playerData;
-    
+
     protected readonly GameViewMono GameViewMono;
-    
+
     protected readonly IGameMetaProvider GameMetaProvider;
-    
+
     protected Action OnCreateNonConnectionPlayer;
+    
+    public IDragDrop DragDrop { get; private set; }
 
     protected GameViewLogic(GameViewMono gameViewMono, ILocaleSystem localeSystem, IGameMetaProvider gameMetaProvider, IAudioService audioService)
     {
@@ -48,7 +51,7 @@ namespace _Project.Scripts.Features.GameScreen
       if(GameMetaProvider.GetGame() != Game.Buhurt)
         return;
       
-      ConstructBuhurt();
+      CreateDragDrop();
     }
 
     public void OpenWindow() =>
@@ -67,11 +70,10 @@ namespace _Project.Scripts.Features.GameScreen
 
     public virtual void ChangeTurningPlayer(SymbolSign activeSign) { }
 
-
-    private void ConstructBuhurt()
+    private void CreateDragDrop()
     {
-      GameViewMono.CreateDragDrop();
-      GameViewMono.GetFigures().ForEach(item => item.Construct(GameViewMono.GetDragDrop()));
+      DragDrop = GameViewMono.gameObject.AddComponent<DragDrop>();
+      GameViewMono.GetFigures().ForEach(item => item.Construct(DragDrop));
     }
 
     private void AppearAnimation()
