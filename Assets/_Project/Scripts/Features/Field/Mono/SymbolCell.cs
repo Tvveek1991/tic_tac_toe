@@ -9,8 +9,8 @@ namespace _Project.Scripts.Features.Field.Mono
   {
     private readonly NetworkVariable<SymbolSign> _netSymbol = new NetworkVariable<SymbolSign>();
 
-    [SerializeField] private MeshFilter _meshFilter;
-    [SerializeField] private MeshRenderer _meshRenderer;
+    private MeshFilter _meshFilter;
+    private MeshRenderer _meshRenderer;
 
     private Action<SymbolSign> _onClickCell;
 

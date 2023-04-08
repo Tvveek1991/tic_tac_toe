@@ -48,7 +48,7 @@ namespace _Project.Scripts.Features.GameScreen
       if(GameMetaProvider.GetGame() != Game.Buhurt)
         return;
       
-      GameViewMono.ShowBuhurtPart();
+      ConstructBuhurt();
     }
 
     public void OpenWindow() =>
@@ -62,10 +62,17 @@ namespace _Project.Scripts.Features.GameScreen
       if(GameMetaProvider.GetGame() != Game.Buhurt)
         return;
       
-      GameViewMono.ShowBuhurtPart();
+      GameViewMono.ShowBuhurtPart(_playerData[symbol]);
     }
 
     public virtual void ChangeTurningPlayer(SymbolSign activeSign) { }
+
+
+    private void ConstructBuhurt()
+    {
+      GameViewMono.CreateDragDrop();
+      GameViewMono.GetFigures().ForEach(item => item.Construct(GameViewMono.GetDragDrop()));
+    }
 
     private void AppearAnimation()
     {

@@ -17,5 +17,7 @@ namespace _Project.Scripts.Features.Data
     public Mesh MeshClassic => _meshClassic;
     public Material MaterialClassic => _materialClassic;
     public Sprite Icon => _icon;
+    public List<Mesh> MeshBuhurt => _meshBuhurt;
+    public List<Material> MaterialBuhurt => _materialBuhurt;
   }
 }

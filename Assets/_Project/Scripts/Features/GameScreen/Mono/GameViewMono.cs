@@ -1,6 +1,9 @@
 using System;
 using System.Collections.Generic;
+using _Project.Scripts.Features.DragAndDrop;
+using _Project.Scripts.Features.DragAndDrop.Interface;
 using _Project.Scripts.Features.Player.BuhurtModules;
+using _Project.Scripts.Services.GameMetaProvider;
 using DG.Tweening;
 using TMPro;
 using Unity.Netcode;
@@ -19,11 +22,13 @@ namespace _Project.Scripts.Features.GameScreen.Mono
 
     [SerializeField] private TextMeshProUGUI myLocalIp;
 
-    [Header("Player UI")] [SerializeField] private CanvasGroup turnCanvasGroup;
+    [Header("Player UI")] 
+    [SerializeField] private CanvasGroup turnCanvasGroup;
     [SerializeField] private TextMeshProUGUI turnText;
     [SerializeField] private Image symbolImage;
 
-    [Header("Buhurt UI")] [SerializeField] private CanvasGroup playerFiguresCanvasGroup;
+    [Header("Buhurt UI")] 
+    [SerializeField] private CanvasGroup playerFiguresCanvasGroup;
     [SerializeField] private List<PlayerFigure> playerFigures;
 
     private readonly NetworkVariable<int> _netPlayersCount = new NetworkVariable<int>();
@@ -32,6 +37,8 @@ namespace _Project.Scripts.Features.GameScreen.Mono
     private Action<int> _onChosenFirstTurningPlayer;
     private Action _onClientConnect;
     private Action _onConnectedPlayersToNetwork;
+    
+    private IDragDrop _dragDrop;
 
     public Button BackButton => backButton;
     public TextMeshProUGUI TurnText => turnText;
@@ -44,12 +51,24 @@ namespace _Project.Scripts.Features.GameScreen.Mono
       _onConnectedPlayersToNetwork = onConnectedPlayersToNetwork;
     }
 
-    public void HideLoadScreen() => 
-      loadScreen.DOFade(0, .5f);
+    public void HideLoadScreen() =>
+      loadScreen.DOFade(0, .5f).OnComplete(() => loadScreen.blocksRaycasts = false);
 
-    public void ShowBuhurtPart()
+    public List<PlayerFigure> GetFigures() =>
+      playerFigures;
+
+    public void CreateDragDrop() =>
+      _dragDrop = gameObject.AddComponent<DragDrop>();
+
+    public IDragDrop GetDragDrop() =>
+      _dragDrop;
+
+    public void ShowBuhurtPart(PlayerData playerData)
     {
+      playerFigures.ForEach(item => item.LoadFigure(playerData));
+
       playerFiguresCanvasGroup.DOFade(1f, .5f);
+      playerFiguresCanvasGroup.blocksRaycasts = true;
     }
 
     #region Multiplayer

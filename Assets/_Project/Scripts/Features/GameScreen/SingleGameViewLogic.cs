@@ -26,7 +26,7 @@ namespace _Project.Scripts.Features.GameScreen
       
       OnCreateNonConnectionPlayer?.Invoke();
       
-      GameMetaProvider.GetPlayerViewMono().Construct(_gameFactory, GameMetaProvider);
+      GameMetaProvider.GetPlayerViewMono().Construct(_gameFactory, GameMetaProvider); 
       GameMetaProvider.GetPlayerViewMono().CreateSymbolSign(0);
       
       GameViewMono.HideLoadScreen();

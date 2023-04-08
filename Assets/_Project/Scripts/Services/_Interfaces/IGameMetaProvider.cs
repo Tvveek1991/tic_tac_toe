@@ -10,6 +10,7 @@ namespace _Project.Scripts.Services._Interfaces
     BasePlayerViewMono GetPlayerViewMono();
     void SetPlayerViewMono(BasePlayerViewMono basePlayerViewMono);
     Dictionary<SymbolSign, PlayerData> GetPlayerData();
+    void Clear();
     
     void SetEnemyType(EnemyType enemyType);
     EnemyType GetEnemyType();

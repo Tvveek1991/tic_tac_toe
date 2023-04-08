@@ -63,8 +63,11 @@ namespace _Project.Scripts.Features.GameScreen
       ConnectClient(isHost);
     }
 
-    public void Exit() =>
+    public void Exit()
+    {
       _gameFactory.ClearScreen();
+      _gameMetaProvider.Clear();
+    }
 
     private void OnClickBack()
     {

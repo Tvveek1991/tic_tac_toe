@@ -6,6 +6,7 @@ using _Project.Scripts.Features.GameScreen.Serialized;
 using _Project.Scripts.Features.Player;
 using _Project.Scripts.Services._Interfaces;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace _Project.Scripts.Services.GameMetaProvider
 {
@@ -68,6 +69,12 @@ namespace _Project.Scripts.Services.GameMetaProvider
     public GameMode GetGameMode() =>
       _gameSaveSystem.Get().Mode;
 
+    public void Clear()
+    {
+      if(BasePlayerViewMono)
+        Object.Destroy(BasePlayerViewMono.gameObject);
+    }
+    
     private void PreloadData()
     {
       SymbolDataX = Load<SymbolData>(CustomCrossDataPath);

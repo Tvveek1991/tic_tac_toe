@@ -474,8 +474,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Size: 1
-  _mesh: {fileID: 0}
-  _meshRenderer: {fileID: 0}
 --- !u!222 &8782283132426413959
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -602,8 +600,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Size: 4
-  _mesh: {fileID: 0}
-  _meshRenderer: {fileID: 0}
 --- !u!222 &5600666731542464324
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -694,8 +690,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Size: 2
-  _mesh: {fileID: 0}
-  _meshRenderer: {fileID: 0}
 --- !u!222 &3010639169482369215
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -863,8 +857,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Size: 0
-  _mesh: {fileID: 2937261709328705084}
-  _meshRenderer: {fileID: 73609945830192430}
 --- !u!222 &5882434562218499355
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1583,8 +1575,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Size: 3
-  _mesh: {fileID: 0}
-  _meshRenderer: {fileID: 0}
 --- !u!222 &4557237066097378303
 CanvasRenderer:
   m_ObjectHideFlags: 0

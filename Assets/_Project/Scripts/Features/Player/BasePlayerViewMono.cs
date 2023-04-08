@@ -23,7 +23,7 @@ namespace _Project.Scripts.Features.Player
     public override void OnDestroy() =>
       NetSymbolSign.OnValueChanged -= OnValueChanged;
 
-    public void Construct(IGameFactory gameFactory, IGameMetaProvider gameMetaProvider)
+    public void Construct(IGameFactory gameFactory, IGameMetaProvider gameMetaProvider) 
     {
       Camera = Camera.main;
       BoxCollider = GetComponent<BoxCollider2D>();
@@ -51,7 +51,7 @@ namespace _Project.Scripts.Features.Player
       NetIsPlayerTurn.Value = isPlayerTurn;
     }
 
-    public void SetSymbolSign(SymbolSign symbol) =>
+    private void SetSymbolSign(SymbolSign symbol) =>
       NetSymbolSign.Value = symbol;
 
     protected SymbolSign GetSymbol() =>
