@@ -22,7 +22,7 @@ namespace _Project.Scripts.Features.Player
         return;
 
       if (GameMetaProvider.GetGameMode() == GameMode.Single)
-        cell.SetSymbol(NetSymbolSign.Value);
+        cell.SetSymbol(NetSymbolSign.Value, null);
       else
         cell.SetSymbolServerRpc(NetSymbolSign.Value);
       

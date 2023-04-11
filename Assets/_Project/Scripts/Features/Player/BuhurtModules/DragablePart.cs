@@ -1,7 +1,9 @@
 using System;
+using _Project.Scripts.Features.Data;
 using _Project.Scripts.Features.DragAndDrop.Interface;
 using _Project.Scripts.Features.DragAndDrop.Serialized;
 using _Project.Scripts.Features.GameScreen.Serialized;
+using Unity.Netcode;
 using UnityEngine;
 
 namespace _Project.Scripts.Features.Player.BuhurtModules
@@ -13,29 +15,25 @@ namespace _Project.Scripts.Features.Player.BuhurtModules
 
     private IDragDrop _dragDrop;
 
+    private DragableData _dragableData;
+    
+    /*
     private SymbolSize _size;
-
     private MeshFilter _mesh;
-    private MeshRenderer _meshRenderer;
+    private MeshRenderer _meshRenderer;*/
 
     private Action _onPin;
     private Action _onReturn;
+
     private Action _onStartDrag;
 
+    public Transform PinPoint;
+    
     public bool IsPinned { get; private set; }
 
-    public Transform PinPoint;
-
-    public void Construct(Mesh mesh, Material material, SymbolSize size, Action onStartDrag, Action onPin, Action onReturn)
+    public void Construct(Action onStartDrag, Action onPin, Action onReturn)
     {
-      _mesh = GetComponentInChildren<MeshFilter>();
-      _meshRenderer = GetComponentInChildren<MeshRenderer>();
-      
       _originalPlaceData = GetPlaceData();
-      
-      _size = size;
-      _mesh.mesh = mesh;
-      _meshRenderer.material = material;
 
       _onPin = onPin;
       _onReturn = onReturn;
@@ -46,8 +44,8 @@ namespace _Project.Scripts.Features.Player.BuhurtModules
     {
       _onStartDrag?.Invoke();
       _baseParent = transform.parent;
-      transform.SetParent(_mesh.transform.parent);
-      SetPlaceData(_mesh.transform.GetPlaceData());
+      transform.SetParent(transform.parent);
+      SetPlaceData(transform.GetPlaceData());
     }
 
     public void ReturnToBaseState()
@@ -59,15 +57,19 @@ namespace _Project.Scripts.Features.Player.BuhurtModules
       _onReturn?.Invoke();
     }
 
+    public void SetDragableData(DragableData dragableData) =>
+      _dragableData = dragableData;
+
+    public DragableData GetDragableData() =>
+      _dragableData;
+
     public void PinPart()
     {
       PinToPlace();
     }
 
-    public bool CanPin()
-    {
-      return false;
-    }
+    public bool CanPin(SymbolSize symbolSize, SymbolSign netSymbolSign) => 
+      symbolSize < _dragableData.GetSize() && netSymbolSign != _dragableData.GetSymbol();
 
     private void SetPlaceData(PlaceData placeData) =>
       transform.SetPlaceData(placeData);
@@ -105,7 +107,7 @@ namespace _Project.Scripts.Features.Player.BuhurtModules
     {
       Debug.Log("UP DRAGABLE PART");
       _onReturn?.Invoke();
-      Destroy(gameObject);
+      // Destroy(gameObject);
     }
   }
 }

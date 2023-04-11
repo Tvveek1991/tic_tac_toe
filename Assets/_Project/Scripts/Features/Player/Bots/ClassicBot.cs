@@ -8,7 +8,7 @@ using _Project.Scripts.Features.GameScreen.Serialized;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-namespace _Project.Scripts.Features.Player
+namespace _Project.Scripts.Features.Player.Bots
 {
   public class ClassicBot
   {
@@ -49,7 +49,7 @@ namespace _Project.Scripts.Features.Player
         int bestMove = GetBestMove(board);
 
         if (bestMove >= 0)
-          symbolCells[bestMove].SetSymbol(SymbolSign.O);
+          symbolCells[bestMove].SetSymbol(SymbolSign.O, null);
         else
           Debug.Log("GameIsOver as no winner");
       };
@@ -85,11 +85,11 @@ namespace _Project.Scripts.Features.Player
         if (_lines.Any(item => newBoard[item[0]] == -1 && newBoard[item[1]] == -1 && newBoard[item[2]] == -1))
         {
           _bestScores.Add(i, Potential.Winner);
-          Debug.Log("Win turn_" + i);
+          // Debug.Log("Win turn_" + i);
           return i;
         }
 
-        Debug.Log("No Win_" + i);
+        // Debug.Log("No Win_" + i);
 
         CheckLose(board);
 
@@ -112,7 +112,7 @@ namespace _Project.Scripts.Features.Player
       if (FindAllPotentialTurns(Potential.Lose))
         return _bestTurns[Random.Range(0, _bestTurns.Count)];
 
-      Debug.Log("No Lose");
+      // Debug.Log("No Lose");
 
       if (FindAllPotentialTurns(Potential.Big))
         return _bestTurns[Random.Range(0, _bestTurns.Count)];
@@ -126,7 +126,7 @@ namespace _Project.Scripts.Features.Player
     private bool FindAllPotentialTurns(Potential potential)
     {
       _bestTurns = (from item in _bestScores where item.Value == potential select item.Key).ToList();
-      Debug.Log(potential + " potential found: " + _bestTurns.Count);
+      // Debug.Log(potential + " potential found: " + _bestTurns.Count);
       
       return _bestTurns.Count > 0;
     }
@@ -148,7 +148,7 @@ namespace _Project.Scripts.Features.Player
         else
           _bestScores[i] = Potential.Lose;
         
-        Debug.Log("Lose turn_" + i);
+        // Debug.Log("Lose turn_" + i);
       }
     }
 

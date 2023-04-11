@@ -96,6 +96,7 @@ namespace _Project.Scripts.Services.GameMetaProvider
         {
           SymbolSign.X, new PlayerData()
           {
+            Sign = SymbolSign.X,
             Color = Color.red,
             SymbolData = SymbolDataX.FirstOrDefault(item => item.Id == _gameSaveSystem.Get().ChosenModelX)
           }
@@ -103,6 +104,7 @@ namespace _Project.Scripts.Services.GameMetaProvider
         {
           SymbolSign.O, new PlayerData()
           {
+            Sign = SymbolSign.O,
             Color = Color.blue,
             SymbolData = SymbolDataO.FirstOrDefault(item => item.Id == _gameSaveSystem.Get().ChosenModelO)
           }
@@ -117,6 +119,7 @@ namespace _Project.Scripts.Services.GameMetaProvider
   [Serializable]
   public class PlayerData
   {
+    public SymbolSign Sign;
     public Color Color;
     public SymbolData SymbolData;
   }

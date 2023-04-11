@@ -100,11 +100,11 @@ namespace _Project.Scripts.Features.DragAndDrop
           
         yield return waitForEndOfFrame;
 
-        if (!CurrentActiveDragPart.CanPin() || CurrentActiveDragPart.IsPinned)
+        /*if (!CurrentActiveDragPart.CanPin() || CurrentActiveDragPart.IsPinned)
           continue;
 
         CurrentActiveDragPart.PinPart();
-        ResetAfterRelease();
+        ResetAfterRelease();*/
       }
     }
 

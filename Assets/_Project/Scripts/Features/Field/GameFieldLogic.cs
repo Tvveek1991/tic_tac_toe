@@ -1,6 +1,8 @@
 using System.Collections.Generic;
+using _Project.Scripts.Features.Data;
 using _Project.Scripts.Features.Field.Mono;
 using _Project.Scripts.Features.GameScreen.Serialized;
+using _Project.Scripts.Features.Player.BuhurtModules;
 using _Project.Scripts.Services._Interfaces;
 using _Project.Scripts.Services.GameMetaProvider;
 using UnityEngine;
@@ -45,18 +47,18 @@ namespace _Project.Scripts.Features.Field
         int x1 = x;
         int y1 = y;
         _cells[y, x].Construct(
-          delegate(SymbolSign symbol)
+          delegate(SymbolSign symbol, DragableData dragableData)
           {
             _playerSymbol = symbol;
-            SetFieldCell(x1, y1);
+            SetFieldCell(x1, y1, dragableData);
           });
       }
     }
 
-    private void SetFieldCell(int x, int y)
+    private void SetFieldCell(int x, int y, DragableData dragableData)
     {
-      _cells[y, x].MeshFilter.mesh = _playerData[_playerSymbol].SymbolData.MeshClassic;
-      _cells[y, x].MeshRenderer.material = _playerData[_playerSymbol].SymbolData.MaterialClassic;
+      _cells[y, x].MeshFilter.mesh = dragableData == null ? _playerData[_playerSymbol].SymbolData.MeshClassic : dragableData.GetMesh();
+      _cells[y, x].MeshRenderer.material = dragableData == null ? _playerData[_playerSymbol].SymbolData.MaterialClassic : dragableData.GetMaterial();
       _cells[y, x].MeshRenderer.material.color = _playerData[_playerSymbol].Color;
       _cells[y, x].MeshRenderer.enabled = true;
 

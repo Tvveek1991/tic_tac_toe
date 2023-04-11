@@ -1,5 +1,3 @@
-using UnityEngine;
-
 namespace _Project.Scripts.Features.GameScreen.Serialized
 {
   public enum SymbolSize
@@ -8,6 +6,7 @@ namespace _Project.Scripts.Features.GameScreen.Serialized
     Small,
     Medium,
     Big,
-    Large
+    Large,
+    Default = -1
   }
 }

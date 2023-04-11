@@ -1,3 +1,4 @@
+using _Project.Scripts.Features.Data;
 using _Project.Scripts.Features.DragAndDrop;
 using _Project.Scripts.Features.DragAndDrop.Interface;
 using _Project.Scripts.Features.GameScreen.Serialized;
@@ -18,6 +19,7 @@ namespace _Project.Scripts.Features.Player.BuhurtModules
     private MeshFilter _mesh;
     private MeshRenderer _meshRenderer;
 
+    private DragableData _dragableData;
     private DragablePart _dragablePart;
 
     private IDragDrop _dragDrop;
@@ -37,17 +39,17 @@ namespace _Project.Scripts.Features.Player.BuhurtModules
       _mesh.mesh = playerData.SymbolData.MeshBuhurt[(int)Size];
       _meshRenderer.material = playerData.SymbolData.MaterialBuhurt[(int)Size];
       _meshRenderer.material.SetColor(_color, playerData.Color);
+
+      _dragablePart.SetDragableData(new DragableData(playerData.Sign, Size, _mesh.mesh, _meshRenderer.material));
     }
 
-    public void OnPointerDown(PointerEventData eventData)
-    {
+    public void OnPointerDown(PointerEventData eventData) =>
       _dragDrop.BindPartToCursor(_dragablePart);
-    }
-    
+
     private DragablePart CreateDragableFromGameIconPrefab()
     {
       var dragablePart = _mesh.gameObject.AddComponent<DragablePart>();
-      dragablePart.Construct(_mesh.mesh, _meshRenderer.material, Size, OnStartDrag, OnPin, OnReturn);
+      dragablePart.Construct(OnStartDrag, OnPin, OnReturn);
       
       return dragablePart;
     }
