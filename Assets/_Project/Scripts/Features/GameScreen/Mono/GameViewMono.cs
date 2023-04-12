@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
-using _Project.Scripts.Features.DragAndDrop;
-using _Project.Scripts.Features.DragAndDrop.Interface;
+using _Project.Scripts.Features.GameScreen.Serialized;
 using _Project.Scripts.Features.Player.BuhurtModules;
 using _Project.Scripts.Services.GameMetaProvider;
 using DG.Tweening;
@@ -23,7 +22,6 @@ namespace _Project.Scripts.Features.GameScreen.Mono
     [SerializeField] private TextMeshProUGUI myLocalIp;
 
     [Header("Player UI")] 
-    [SerializeField] private CanvasGroup turnCanvasGroup;
     [SerializeField] private TextMeshProUGUI turnText;
     [SerializeField] private Image symbolImage;
 
@@ -55,9 +53,9 @@ namespace _Project.Scripts.Features.GameScreen.Mono
     public List<PlayerFigure> GetFigures() =>
       playerFigures;
 
-    public void ShowBuhurtPart(PlayerData playerData)
+    public void ShowBuhurtPart(PlayerData playerData, SymbolSize[] symbolSizes)
     {
-      playerFigures.ForEach(item => item.LoadFigure(playerData));
+      playerFigures.ForEach(item => item.LoadFigure(playerData, symbolSizes));
 
       playerFiguresCanvasGroup.DOFade(1f, .5f);
       playerFiguresCanvasGroup.blocksRaycasts = true;

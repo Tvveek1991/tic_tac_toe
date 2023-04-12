@@ -13,13 +13,14 @@ namespace _Project.Scripts.Features.Player.BuhurtModules
     
     public SymbolSize Size;
     
-    private bool _isActive;
+    private bool _isMoved;
     
     private MeshFilter _mesh;
     private MeshRenderer _meshRenderer;
 
     private DragableData _dragableData;
     private DragablePart _dragablePart;
+    private PlayerData _playerData;
 
     private IDragDrop _dragDrop;
 
@@ -33,17 +34,28 @@ namespace _Project.Scripts.Features.Player.BuhurtModules
       _dragablePart = CreateDragableFromGameIconPrefab();
     }
 
-    public void LoadFigure(PlayerData playerData)
+    public void LoadFigure(PlayerData playerData, SymbolSize[] symbolSizes)
     {
+      if (symbolSizes[(int) Size] == SymbolSize.Default) 
+        _isMoved = true;
+      
+      _meshRenderer.enabled = !_isMoved;
+      
+      _playerData = playerData;
+
       _mesh.mesh = playerData.SymbolData.MeshBuhurt[(int)Size];
       _meshRenderer.material = playerData.SymbolData.MaterialBuhurt[(int)Size];
       _meshRenderer.material.SetColor(_color, playerData.Color);
-
-      _dragablePart.SetDragableData(new DragableData(playerData.Sign, Size, _mesh.mesh, _meshRenderer.material));
     }
 
-    public void OnPointerDown(PointerEventData eventData) =>
+    public void OnPointerDown(PointerEventData eventData)
+    {
+      if(_isMoved)
+        return;
+      
+      _dragablePart.SetDragableData(new DragableData(_playerData.Sign, Size, _mesh.mesh, _meshRenderer.material));
       _dragDrop.BindPartToCursor(_dragablePart);
+    }
 
     private DragablePart CreateDragableFromGameIconPrefab()
     {

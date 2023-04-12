@@ -51,10 +51,8 @@ namespace _Project.Scripts.Features.Player.BuhurtModules
     public DragableData GetDragableData() =>
       _dragableData;
 
-    public void PinPart()
-    {
+    public void PinPart() => 
       _onPin?.Invoke();
-    }
 
     public bool CanPin(SymbolSize symbolSize, SymbolSign netSymbolSign) => 
       symbolSize < _dragableData.GetSize() && netSymbolSign != _dragableData.GetSymbol();

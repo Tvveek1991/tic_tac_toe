@@ -37,6 +37,7 @@ namespace _Project.Scripts.Features.Player
         cell.SetSymbolServerRpc(NetSymbolSign.Value);
 
       _dragablePart.PinPart();
+      GameFactory.GameViewLogic.SetFigureState(GetSymbol(), _dragablePart.GetDragableData().GetSize());
       GameFactory.GameViewLogic.ChangeTurningPlayer(GetSymbol());
     }
   }

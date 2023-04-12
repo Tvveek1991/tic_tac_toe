@@ -1,7 +1,6 @@
 using System;
 using _Project.Scripts.Features.GameScreen.Mono;
 using _Project.Scripts.Features.GameScreen.Serialized;
-using _Project.Scripts.Features.Player;
 using _Project.Scripts.Features.Player.Bots;
 using _Project.Scripts.Services._Interfaces;
 using _Project.Scripts.Services.Localization.Logic;

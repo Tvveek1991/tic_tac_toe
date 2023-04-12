@@ -95,7 +95,6 @@ namespace _Project.Scripts.Features.DragAndDrop
 
     private void ResetAfterRelease()
     {
-      Debug.Log("Release");
       _isInDrag = false;
       CurrentActiveDragPart = null;
     }
