@@ -10,11 +10,11 @@ namespace _Project.Scripts.Features.Player.BuhurtModules
   public class PlayerFigure : MonoBehaviour, IPointerDownHandler
   {
     private readonly int _color = Shader.PropertyToID("_Color");
-    
+
     public SymbolSize Size;
-    
+
     private bool _isMoved;
-    
+
     private MeshFilter _mesh;
     private MeshRenderer _meshRenderer;
 
@@ -30,29 +30,28 @@ namespace _Project.Scripts.Features.Player.BuhurtModules
       _meshRenderer = GetComponentInChildren<MeshRenderer>();
 
       _dragDrop = dragDrop;
-      
+
       _dragablePart = CreateDragableFromGameIconPrefab();
     }
 
     public void LoadFigure(PlayerData playerData, SymbolSize[] symbolSizes)
     {
-      if (symbolSizes[(int) Size] == SymbolSize.Default) 
-        _isMoved = true;
-      
+      _isMoved = (symbolSizes[(int) Size] == SymbolSize.Default);
+
       _meshRenderer.enabled = !_isMoved;
-      
+
       _playerData = playerData;
 
-      _mesh.mesh = playerData.SymbolData.MeshBuhurt[(int)Size];
-      _meshRenderer.material = playerData.SymbolData.MaterialBuhurt[(int)Size];
+      _mesh.mesh = playerData.SymbolData.MeshBuhurt[(int) Size];
+      _meshRenderer.material = playerData.SymbolData.MaterialBuhurt[(int) Size];
       _meshRenderer.material.SetColor(_color, playerData.Color);
     }
 
     public void OnPointerDown(PointerEventData eventData)
     {
-      if(_isMoved)
+      if (_isMoved)
         return;
-      
+
       _dragablePart.SetDragableData(new DragableData(_playerData.Sign, Size, _mesh.mesh, _meshRenderer.material));
       _dragDrop.BindPartToCursor(_dragablePart);
     }
@@ -61,19 +60,18 @@ namespace _Project.Scripts.Features.Player.BuhurtModules
     {
       var dragablePart = _mesh.gameObject.AddComponent<DragablePart>();
       dragablePart.Construct(OnStartDrag, OnPin, OnReturn);
-      
+
       return dragablePart;
     }
 
     private void OnStartDrag()
     {
     }
-    
+
     private void OnPin()
     {
-      
     }
-    
+
     private void OnReturn()
     {
     }
