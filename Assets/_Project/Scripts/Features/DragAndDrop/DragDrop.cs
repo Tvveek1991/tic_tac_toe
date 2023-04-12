@@ -16,7 +16,7 @@ namespace _Project.Scripts.Features.DragAndDrop
     private Coroutine _follow;
 
     private bool _isInDrag;
-    
+
     public DragablePart CurrentActiveDragPart { get; private set; }
 
     private Vector3 PartPosition
@@ -24,17 +24,9 @@ namespace _Project.Scripts.Features.DragAndDrop
       set
       {
         value.z = 0;
-        if (CurrentActiveDragPart.PinPoint == null)
-          CurrentActiveDragPart.transform.position = value;
-        else
-        {
-          Vector3 delta = CurrentActiveDragPart.transform.position - CurrentActiveDragPart.PinPoint.position;
-          CurrentActiveDragPart.transform.position = value + delta; 
-        }
+        CurrentActiveDragPart.transform.position = value;
       }
-      get => CurrentActiveDragPart.PinPoint == null ?
-        CurrentActiveDragPart.transform.position :
-        CurrentActiveDragPart.PinPoint.position;
+      get => CurrentActiveDragPart.transform.position;
     }
 
     private void Start() =>
@@ -51,7 +43,7 @@ namespace _Project.Scripts.Features.DragAndDrop
       dragablePart.ToGameWorld();
 
       CurrentActiveDragPart = dragablePart;
-      
+
       _isInDrag = true;
       _follow = StartCoroutine(FollowCursor());
     }
@@ -67,23 +59,20 @@ namespace _Project.Scripts.Features.DragAndDrop
       if (CurrentActiveDragPart == null)
         return;
 
-      if (CurrentActiveDragPart.IsPinned) 
-        return;
-      
       CurrentActiveDragPart.ReturnToBaseState();
       ResetAfterRelease();
     }
 
     private IEnumerator FollowCursor()
-    {        
+    {
       var waitForEndOfFrame = new WaitForEndOfFrame();
-      
+
       Vector3 targetPoint = Input.mousePosition;
       targetPoint = _camera.ScreenPointToRay(targetPoint).origin;
-      targetPoint += _camera.transform.forward * DragCameraOffset;      
-      
+      targetPoint += _camera.transform.forward * DragCameraOffset;
+
       PartPosition = targetPoint;
-        
+
       while (_isInDrag)
       {
         targetPoint = Input.mousePosition;
@@ -97,19 +86,16 @@ namespace _Project.Scripts.Features.DragAndDrop
         }
 
         PartPosition = Vector3.SmoothDamp(PartPosition, targetPoint, ref _smoothDampVelocity, SmoothTime);
-          
+
         yield return waitForEndOfFrame;
-
-        /*if (!CurrentActiveDragPart.CanPin() || CurrentActiveDragPart.IsPinned)
-          continue;
-
-        CurrentActiveDragPart.PinPart();
-        ResetAfterRelease();*/
       }
+
+      ResetAfterRelease();
     }
 
     private void ResetAfterRelease()
     {
+      Debug.Log("Release");
       _isInDrag = false;
       CurrentActiveDragPart = null;
     }

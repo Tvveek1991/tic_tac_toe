@@ -26,11 +26,17 @@ namespace _Project.Scripts.Features.Player
       if (!_dragablePart.CanPin(cell.GetSize(), cell.GetSymbol()))
         return;
 
+      MakeMove(cell);
+    }
+
+    private void MakeMove(SymbolCell cell)
+    {
       if (GameMetaProvider.GetGameMode() == GameMode.Single)
         cell.SetSymbol(NetSymbolSign.Value, _dragablePart.GetDragableData());
       else
         cell.SetSymbolServerRpc(NetSymbolSign.Value);
 
+      _dragablePart.PinPart();
       GameFactory.GameViewLogic.ChangeTurningPlayer(GetSymbol());
     }
   }

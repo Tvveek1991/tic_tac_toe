@@ -3,7 +3,6 @@ using _Project.Scripts.Features.Data;
 using _Project.Scripts.Features.DragAndDrop.Interface;
 using _Project.Scripts.Features.DragAndDrop.Serialized;
 using _Project.Scripts.Features.GameScreen.Serialized;
-using Unity.Netcode;
 using UnityEngine;
 
 namespace _Project.Scripts.Features.Player.BuhurtModules
@@ -16,20 +15,11 @@ namespace _Project.Scripts.Features.Player.BuhurtModules
     private IDragDrop _dragDrop;
 
     private DragableData _dragableData;
-    
-    /*
-    private SymbolSize _size;
-    private MeshFilter _mesh;
-    private MeshRenderer _meshRenderer;*/
 
     private Action _onPin;
     private Action _onReturn;
 
     private Action _onStartDrag;
-
-    public Transform PinPoint;
-    
-    public bool IsPinned { get; private set; }
 
     public void Construct(Action onStartDrag, Action onPin, Action onReturn)
     {
@@ -50,10 +40,8 @@ namespace _Project.Scripts.Features.Player.BuhurtModules
 
     public void ReturnToBaseState()
     {
-      IsPinned = false;
       transform.SetParent(_baseParent);
       SetPlaceData(_originalPlaceData);
-
       _onReturn?.Invoke();
     }
 
@@ -65,7 +53,7 @@ namespace _Project.Scripts.Features.Player.BuhurtModules
 
     public void PinPart()
     {
-      PinToPlace();
+      _onPin?.Invoke();
     }
 
     public bool CanPin(SymbolSize symbolSize, SymbolSign netSymbolSign) => 
@@ -80,34 +68,6 @@ namespace _Project.Scripts.Features.Player.BuhurtModules
       _originalPlaceData = partTransform.GetPlaceData();
 
       return _originalPlaceData;
-    }
-
-    private void PinToPlace()
-    {
-      IsPinned = true;
-      OnEndPin(false);
-    }
-
-    private void OnEndPin(bool shouldExecuteCallback = true)
-    {
-      /*var renderer = GetComponentInChildren<Renderer>(true);
-      GamePart.GetComponent<PartMaterial>().SetMaterial(renderer.sharedMaterial);
-      GamePart.IsPinned = true;
-
-      OnOffStateAnimation offStateAnimation = new OnOffStateAnimation(UIPart.transform);
-      offStateAnimation.Disable(() => UIPart.gameObject.SetActive(false));
-
-      if (shouldExecuteCallback)
-        OnPin?.Invoke(GamePart);*/
-
-      Destroy(gameObject);
-    }
-
-    private void OnMouseUp()
-    {
-      Debug.Log("UP DRAGABLE PART");
-      _onReturn?.Invoke();
-      // Destroy(gameObject);
     }
   }
 }
