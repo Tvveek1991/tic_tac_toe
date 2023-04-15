@@ -1,14 +1,17 @@
 using System.Collections.Generic;
 using System.Linq;
 using _Project.Scripts.Features.GameScreen;
+using _Project.Scripts.Features.GameScreen.Serialized;
 using UnityEngine;
 
 namespace _Project.Scripts.Features.Player.Bots
 {
   public class BuhurtBot : Bot
   {
+    private SymbolSize[] _figures = {SymbolSize.Tiny, SymbolSize.Small, SymbolSize.Medium, SymbolSize.Big, SymbolSize.Large};
+
     public BuhurtBot(IGameFactory gameFactory) : base(gameFactory) { }
-    
+
     protected override int GetBestMove(int[] board)
     {
       BestScores = new Dictionary<int, Potential>();
@@ -22,7 +25,10 @@ namespace _Project.Scripts.Features.Player.Bots
 
         if (Lines.Any(item => newBoard[item[0]] == -1 && newBoard[item[1]] == -1 && newBoard[item[2]] == -1))
         {
-          BestScores.Add(i, Potential.Winner);
+          if (!BestScores.ContainsKey(i))
+            BestScores.Add(i, Potential.Winner);
+          else
+            BestScores[i] = Potential.Winner;
           // Debug.Log("Win turn_" + i);
           return i;
         }
@@ -45,8 +51,7 @@ namespace _Project.Scripts.Features.Player.Bots
             BestScores.Add(i, Potential.Small);
         }
       }
-
-      ;
+      
       if (FindAllPotentialTurns(Potential.Lose))
         return BestTurns[Random.Range(0, BestTurns.Count)];
 
