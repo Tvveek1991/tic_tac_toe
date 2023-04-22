@@ -1,15 +1,17 @@
 using System.Collections.Generic;
 using System.Linq;
+using _Project.Scripts.Features.Field.Mono;
 using _Project.Scripts.Features.GameScreen;
+using _Project.Scripts.Services._Interfaces;
 using UnityEngine;
 
 namespace _Project.Scripts.Features.Player.Bots
 {
   public class ClassicBot : Bot
   {
-    public ClassicBot(IGameFactory gameFactory) : base(gameFactory) { }
+    public ClassicBot(IGameFactory gameFactory, IGameMetaProvider gameMetaProvider) : base(gameFactory, gameMetaProvider) { }
 
-    protected override int GetBestMove(int[] board)
+    protected override int GetBestMove(int[] board, SymbolCell[] symbolCells)
     {
       BestScores = new Dictionary<int, Potential>();
 

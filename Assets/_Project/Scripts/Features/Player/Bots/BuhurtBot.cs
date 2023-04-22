@@ -1,77 +1,111 @@
 using System.Collections.Generic;
 using System.Linq;
+using _Project.Scripts.Features.Field.Mono;
 using _Project.Scripts.Features.GameScreen;
 using _Project.Scripts.Features.GameScreen.Serialized;
+using _Project.Scripts.Services._Interfaces;
 using UnityEngine;
 
 namespace _Project.Scripts.Features.Player.Bots
 {
   public class BuhurtBot : Bot
   {
-    private SymbolSize[] _figures = {SymbolSize.Tiny, SymbolSize.Small, SymbolSize.Medium, SymbolSize.Big, SymbolSize.Large};
+    private Dictionary<SymbolSize, Dictionary<int, Potential>> _sizeChecking;
+    private readonly SymbolSize[] _figures = {SymbolSize.Tiny, SymbolSize.Small, SymbolSize.Medium, SymbolSize.Big, SymbolSize.Large};
 
-    public BuhurtBot(IGameFactory gameFactory) : base(gameFactory) { }
-
-    protected override int GetBestMove(int[] board)
+    public BuhurtBot(IGameFactory gameFactory, IGameMetaProvider gameMetaProvider) : base(gameFactory, gameMetaProvider)
     {
-      BestScores = new Dictionary<int, Potential>();
+    }
 
-      for (var i = 0; i < 9; i++)
+    protected override int GetBestMove(int[] board, SymbolCell[] symbolCells)
+    {
+      _sizeChecking = new Dictionary<SymbolSize, Dictionary<int, Potential>>();
+      for (var size = 0; size < 5; size++)
       {
-        if (board[i] != 0) continue;
-
-        var newBoard = (int[]) board.Clone();
-        newBoard[i] = -1;
-
-        if (Lines.Any(item => newBoard[item[0]] == -1 && newBoard[item[1]] == -1 && newBoard[item[2]] == -1))
+        BestScores = new Dictionary<int, Potential>();
+        Debug.Log(_figures[size] + " is check " + size);
+        for (var i = 0; i < 9; i++)
         {
-          if (!BestScores.ContainsKey(i))
-            BestScores.Add(i, Potential.Winner);
-          else
-            BestScores[i] = Potential.Winner;
-          // Debug.Log("Win turn_" + i);
-          return i;
+          if (board[i] == -1 || symbolCells[i].GetSize() >= _figures[size] || _figures[size] == SymbolSize.Default)
+          {
+            continue;
+          }
+
+          var newBoard = (int[]) board.Clone();
+          newBoard[i] = -1;
+
+          if (Lines.Any(item => newBoard[item[0]] == -1 && newBoard[item[1]] == -1 && newBoard[item[2]] == -1))
+          {
+            if (!BestScores.ContainsKey(i))
+              BestScores.Add(i, Potential.Winner);
+            else
+              BestScores[i] = Potential.Winner;
+            Debug.Log("Win turn_" + i);
+            return i;
+          }
+
+          // Debug.Log("No Win_" + i);
+
+          CheckLose(board);
+
+          foreach (int[] item in Lines)
+          {
+            if ((newBoard[item[0]] == -1 && newBoard[item[1]] == -1 && newBoard[item[2]] != 1
+                 || newBoard[item[0]] != 1 && newBoard[item[1]] == -1 && newBoard[item[2]] == -1
+                 || newBoard[item[0]] == -1 && newBoard[item[1]] != 1 && newBoard[item[2]] == -1) && !BestScores.ContainsKey(i))
+              BestScores.Add(i, Potential.Big);
+          }
+
+          foreach (int[] item in Lines)
+          {
+            if ((newBoard[item[0]] != 1 && newBoard[item[1]] != 1 && newBoard[item[2]] != 1) && !BestScores.ContainsKey(i))
+              BestScores.Add(i, Potential.Small);
+          }
         }
 
-        // Debug.Log("No Win_" + i);
-
-        CheckLose(board);
-
-        foreach (int[] item in Lines)
-        {
-          if ((newBoard[item[0]] == -1 && newBoard[item[1]] == -1 && newBoard[item[2]] != 1
-               || newBoard[item[0]] != 1 && newBoard[item[1]] == -1 && newBoard[item[2]] == -1
-               || newBoard[item[0]] == -1 && newBoard[item[1]] != 1 && newBoard[item[2]] == -1) && !BestScores.ContainsKey(i))
-            BestScores.Add(i, Potential.Big);
-        }
-
-        foreach (int[] item in Lines)
-        {
-          if ((newBoard[item[0]] != 1 && newBoard[item[1]] != 1 && newBoard[item[2]] != 1) && !BestScores.ContainsKey(i))
-            BestScores.Add(i, Potential.Small);
-        }
+        _sizeChecking.Add((SymbolSize) size, BestScores);
       }
-      
+
       if (FindAllPotentialTurns(Potential.Lose))
-        return BestTurns[Random.Range(0, BestTurns.Count)];
+        return ChooseSizeTurn();
 
       // Debug.Log("No Lose");
 
       if (FindAllPotentialTurns(Potential.Big))
-        return BestTurns[Random.Range(0, BestTurns.Count)];
+        return ChooseSizeTurn();
 
       if (FindAllPotentialTurns(Potential.Small))
-        return BestTurns[Random.Range(0, BestTurns.Count)];
+        return ChooseSizeTurn();
 
       return -1;
     }
 
     private bool FindAllPotentialTurns(Potential potential)
     {
-      BestTurns = (from item in BestScores where item.Value == potential select item.Key).ToList();
-      // Debug.Log(potential + " potential found: " + _bestTurns.Count);
+      var collectBestTurns = new List<int>();
+
+      foreach (KeyValuePair<SymbolSize, Dictionary<int, Potential>> t in _sizeChecking) 
+        collectBestTurns.AddRange(from item in t.Value where item.Value == potential select item.Key);
+
+      BestTurns = collectBestTurns;
+      // Debug.Log(potential + " potential found: " + BestTurns.Count);
 
       return BestTurns.Count > 0;
+    }
+
+    private int ChooseSizeTurn()
+    {
+      int rnd = BestTurns[Random.Range(0, BestTurns.Count)];
+      
+      var sizeTurn = new List<SymbolSize>();
+      foreach (KeyValuePair<SymbolSize, Dictionary<int, Potential>> t in _sizeChecking)
+      {
+        if(t.Value.ContainsKey(rnd) && t.Key != SymbolSize.Default)
+          sizeTurn.Add(t.Key);
+      }
+      
+      _figures[(int)sizeTurn[Random.Range(0, sizeTurn.Count)]] = SymbolSize.Default;
+      return rnd;
     }
 
     private void CheckLose(int[] board)

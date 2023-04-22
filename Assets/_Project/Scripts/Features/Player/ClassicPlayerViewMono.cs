@@ -1,3 +1,4 @@
+using _Project.Scripts.Features.Data;
 using _Project.Scripts.Features.Field.Mono;
 using _Project.Scripts.Features.GameScreen.Serialized;
 using UnityEngine;
@@ -22,7 +23,8 @@ namespace _Project.Scripts.Features.Player
         return;
 
       if (GameMetaProvider.GetGameMode() == GameMode.Single)
-        cell.SetSymbol(NetSymbolSign.Value, null);
+        cell.SetSymbol(new DragableData(NetSymbolSign.Value, SymbolSize.Default, 
+          GameMetaProvider.GetPlayerData()[NetSymbolSign.Value].SymbolData.MeshClassic, GameMetaProvider.GetPlayerData()[NetSymbolSign.Value].SymbolData.MaterialClassic));
       else
         cell.SetSymbolServerRpc(NetSymbolSign.Value);
       

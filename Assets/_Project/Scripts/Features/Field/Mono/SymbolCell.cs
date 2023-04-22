@@ -14,12 +14,12 @@ namespace _Project.Scripts.Features.Field.Mono
     private MeshFilter _meshFilter;
     private MeshRenderer _meshRenderer;
 
-    private Action<SymbolSign, DragableData> _onClickCell;
+    private Action<DragableData> _onClickCell;
 
     public MeshFilter MeshFilter => _meshFilter;
     public MeshRenderer MeshRenderer => _meshRenderer;
 
-    public void Construct(Action<SymbolSign, DragableData> onClickCell)
+    public void Construct(Action<DragableData> onClickCell)
     {
       _onClickCell = onClickCell;
 
@@ -33,11 +33,11 @@ namespace _Project.Scripts.Features.Field.Mono
     public SymbolSize GetSize() =>
       _netSize.Value;
 
-    public void SetSymbol(SymbolSign symbol, DragableData dragableData)
+    public void SetSymbol(DragableData dragableData)
     {
-      _netSymbol.Value = symbol;
-      _netSize.Value = dragableData?.GetSize() ?? _netSize.Value;
-      _onClickCell.Invoke(symbol, dragableData);
+      _netSymbol.Value = dragableData.GetSymbol();
+      _netSize.Value = dragableData.GetSize();
+      _onClickCell.Invoke(dragableData);
     }
 
     #region Multiplayer
@@ -64,7 +64,7 @@ namespace _Project.Scripts.Features.Field.Mono
       _netSize.Value = size;
 
     private void OnValueSymbolChanged(SymbolSign previous, SymbolSign next) =>
-      _onClickCell.Invoke(next, null);
+      _onClickCell.Invoke(null);
 
     private void OnValueSizeChanged(SymbolSize previous, SymbolSize next) =>
       Debug.Log("Size is changes");

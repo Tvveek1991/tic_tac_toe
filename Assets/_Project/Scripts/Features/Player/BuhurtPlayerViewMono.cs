@@ -32,7 +32,7 @@ namespace _Project.Scripts.Features.Player
     private void MakeMove(SymbolCell cell)
     {
       if (GameMetaProvider.GetGameMode() == GameMode.Single)
-        cell.SetSymbol(NetSymbolSign.Value, _dragablePart.GetDragableData());
+        cell.SetSymbol(_dragablePart.GetDragableData());
       else
         cell.SetSymbolServerRpc(NetSymbolSign.Value);
 
