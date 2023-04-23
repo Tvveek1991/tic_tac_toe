@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using _Project.Scripts.Features.Data;
 using _Project.Scripts.Features.Field.Mono;
@@ -18,6 +19,8 @@ namespace _Project.Scripts.Features.Player.Bots
     protected List<int> BestTurns;
     protected Dictionary<int, Potential> BestScores;
 
+    protected DragableData DragableData;
+
     protected readonly List<int[]> Lines = new List<int[]>
     {
       new[] {0, 1, 2}, new[] {3, 4, 5}, new[] {6, 7, 8}, // horizontals
@@ -25,13 +28,21 @@ namespace _Project.Scripts.Features.Player.Bots
       new[] {0, 4, 8}, new[] {2, 4, 6} // diagonals
     };
 
+    protected readonly int[][] _bigPotentialCase =
+    {
+      new[] {-1, -1, 1},
+      new[] {1, -1, -1},
+      new[] {-1, 1, -1}
+    };
+
+    protected readonly IGameMetaProvider GameMetaProvider;
+    
     private readonly IGameFactory _gameFactory;
-    private readonly IGameMetaProvider _gameMetaProvider;
 
     protected Bot(IGameFactory gameFactory, IGameMetaProvider gameMetaProvider)
     {
       _gameFactory = gameFactory;
-      _gameMetaProvider = gameMetaProvider;
+      GameMetaProvider = gameMetaProvider;
     }
 
     public void BotTurn(Action onEndTurn)
@@ -51,8 +62,7 @@ namespace _Project.Scripts.Features.Player.Bots
         int bestMove = GetBestMove(board, symbolCells);
 
         if (bestMove >= 0)
-          symbolCells[bestMove].SetSymbol(new DragableData(SymbolSign.O, SymbolSize.Default,
-            _gameMetaProvider.GetPlayerData()[SymbolSign.O].SymbolData.MeshClassic, _gameMetaProvider.GetPlayerData()[SymbolSign.O].SymbolData.MaterialClassic));
+          symbolCells[bestMove].SetSymbol(DragableData);
         else
           Debug.Log("GameIsOver as no winner");
       };
@@ -64,6 +74,12 @@ namespace _Project.Scripts.Features.Player.Bots
     {
       Debug.Log("Wrong Class");
       return -1;
+    }
+    
+    protected bool CheckBigPotential(int[] board, int[] line)
+    {
+      int[] check = {board[line[0]], board[line[1]], board[line[2]]};
+      return _bigPotentialCase.Any(item => item == check);
     }
 
     private async void Wait(Action onEndTurn)

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using _Project.Scripts.Features.Data;
 using _Project.Scripts.Features.Field.Mono;
 using _Project.Scripts.Features.GameScreen;
 using _Project.Scripts.Features.GameScreen.Serialized;
@@ -23,13 +24,11 @@ namespace _Project.Scripts.Features.Player.Bots
       for (var size = 0; size < 5; size++)
       {
         BestScores = new Dictionary<int, Potential>();
-        Debug.Log(_figures[size] + " is check " + size);
+        
         for (var i = 0; i < 9; i++)
         {
           if (board[i] == -1 || symbolCells[i].GetSize() >= _figures[size] || _figures[size] == SymbolSize.Default)
-          {
             continue;
-          }
 
           var newBoard = (int[]) board.Clone();
           newBoard[i] = -1;
@@ -50,15 +49,14 @@ namespace _Project.Scripts.Features.Player.Bots
 
           foreach (int[] item in Lines)
           {
-            if ((newBoard[item[0]] == -1 && newBoard[item[1]] == -1 && newBoard[item[2]] != 1
-                 || newBoard[item[0]] != 1 && newBoard[item[1]] == -1 && newBoard[item[2]] == -1
-                 || newBoard[item[0]] == -1 && newBoard[item[1]] != 1 && newBoard[item[2]] == -1) && !BestScores.ContainsKey(i))
+            if (CheckBigPotential(newBoard, item) && !BestScores.ContainsKey(i))
               BestScores.Add(i, Potential.Big);
           }
 
           foreach (int[] item in Lines)
           {
-            if ((newBoard[item[0]] != 1 && newBoard[item[1]] != 1 && newBoard[item[2]] != 1) && !BestScores.ContainsKey(i))
+            // if ((newBoard[item[0]] != 1 && newBoard[item[1]] != 1 && newBoard[item[2]] != 1) && !BestScores.ContainsKey(i))
+            if (new[] {newBoard[item[0]], newBoard[item[1]], newBoard[item[2]]}.All(x => x != 1) && !BestScores.ContainsKey(i))
               BestScores.Add(i, Potential.Small);
           }
         }
@@ -84,11 +82,11 @@ namespace _Project.Scripts.Features.Player.Bots
     {
       var collectBestTurns = new List<int>();
 
-      foreach (KeyValuePair<SymbolSize, Dictionary<int, Potential>> t in _sizeChecking) 
+      foreach (KeyValuePair<SymbolSize, Dictionary<int, Potential>> t in _sizeChecking)
         collectBestTurns.AddRange(from item in t.Value where item.Value == potential select item.Key);
 
       BestTurns = collectBestTurns;
-      // Debug.Log(potential + " potential found: " + BestTurns.Count);
+      Debug.Log(potential + " potential found: " + BestTurns.Count);
 
       return BestTurns.Count > 0;
     }
@@ -96,15 +94,21 @@ namespace _Project.Scripts.Features.Player.Bots
     private int ChooseSizeTurn()
     {
       int rnd = BestTurns[Random.Range(0, BestTurns.Count)];
-      
+
       var sizeTurn = new List<SymbolSize>();
       foreach (KeyValuePair<SymbolSize, Dictionary<int, Potential>> t in _sizeChecking)
       {
-        if(t.Value.ContainsKey(rnd) && t.Key != SymbolSize.Default)
+        if (t.Value.ContainsKey(rnd) && t.Key != SymbolSize.Default)
           sizeTurn.Add(t.Key);
       }
-      
-      _figures[(int)sizeTurn[Random.Range(0, sizeTurn.Count)]] = SymbolSize.Default;
+
+      SymbolSize size = sizeTurn[Random.Range(0, sizeTurn.Count)];
+
+      DragableData = new DragableData(SymbolSign.O, size,
+        GameMetaProvider.GetPlayerData()[SymbolSign.O].SymbolData.MeshBuhurt[(int) size], GameMetaProvider.GetPlayerData()[SymbolSign.O].SymbolData.MaterialBuhurt[(int) size]);
+
+      _figures[(int) size] = SymbolSize.Default;
+
       return rnd;
     }
 

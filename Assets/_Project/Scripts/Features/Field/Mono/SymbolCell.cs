@@ -64,7 +64,7 @@ namespace _Project.Scripts.Features.Field.Mono
       _netSize.Value = size;
 
     private void OnValueSymbolChanged(SymbolSign previous, SymbolSign next) =>
-      _onClickCell.Invoke(null);
+      _onClickCell.Invoke(new DragableData(next, SymbolSize.Default, null, null));
 
     private void OnValueSizeChanged(SymbolSize previous, SymbolSize next) =>
       Debug.Log("Size is changes");
