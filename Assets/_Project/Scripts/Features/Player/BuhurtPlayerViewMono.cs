@@ -34,7 +34,10 @@ namespace _Project.Scripts.Features.Player
       if (GameMetaProvider.GetGameMode() == GameMode.Single)
         cell.SetSymbol(_dragablePart.GetDragableData());
       else
-        cell.SetSymbolServerRpc(NetSymbolSign.Value);
+      {
+        cell.SetSizeServerRpc(_dragablePart.GetDragableData().GetSize());
+        cell.SetSymbolServerRpc(_dragablePart.GetDragableData().GetSymbol());
+      }
 
       _dragablePart.PinPart();
       GameFactory.GameViewLogic.SetFigureState(GetSymbol(), _dragablePart.GetDragableData().GetSize());

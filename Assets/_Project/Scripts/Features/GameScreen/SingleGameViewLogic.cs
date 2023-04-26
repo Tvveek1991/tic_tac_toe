@@ -4,7 +4,6 @@ using _Project.Scripts.Features.GameScreen.Serialized;
 using _Project.Scripts.Features.Player.Bots;
 using _Project.Scripts.Services._Interfaces;
 using _Project.Scripts.Services.Localization.Logic;
-using UnityEngine;
 
 namespace _Project.Scripts.Features.GameScreen
 {

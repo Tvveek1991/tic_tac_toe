@@ -71,10 +71,10 @@ namespace _Project.Scripts.Services.GameMetaProvider
 
     public void Clear()
     {
-      if(BasePlayerViewMono)
+      if (BasePlayerViewMono)
         Object.Destroy(BasePlayerViewMono.gameObject);
     }
-    
+
     private void PreloadData()
     {
       SymbolDataX = Load<SymbolData>(CustomCrossDataPath);
@@ -111,6 +111,16 @@ namespace _Project.Scripts.Services.GameMetaProvider
         }
       };
     }
+
+    public Mesh GetMesh(DragableData dragableData) =>
+      GetGame() == Game.Classic
+        ? GetPlayerData()[dragableData.GetSymbol()].SymbolData.MeshClassic
+        : GetPlayerData()[dragableData.GetSymbol()].SymbolData.MeshBuhurt[(int) dragableData.GetSize()];
+
+    public Material GetMaterial(DragableData dragableData) =>
+      GetGame() == Game.Classic
+        ? GetPlayerData()[dragableData.GetSymbol()].SymbolData.MaterialClassic
+        : GetPlayerData()[dragableData.GetSymbol()].SymbolData.MaterialBuhurt[(int) dragableData.GetSize()];
 
     private List<SymbolData> Load<T>(string path) =>
       _assetProvider.GetAllResources<SymbolData>(path).ToList();

@@ -7,8 +7,12 @@ namespace _Project.Scripts.Features.Player
 {
   public class ClassicPlayerViewMono : BasePlayerViewMono
   {
+    private DragableData _dragableData;
+
     private void OnMouseDown()
     {
+      _dragableData = new DragableData(NetSymbolSign.Value, SymbolSize.Default);
+
       if ((!IsOwner && GameMetaProvider.GetGameMode() != GameMode.Single) || !NetIsPlayerTurn.Value)
         return;
 
@@ -23,11 +27,10 @@ namespace _Project.Scripts.Features.Player
         return;
 
       if (GameMetaProvider.GetGameMode() == GameMode.Single)
-        cell.SetSymbol(new DragableData(NetSymbolSign.Value, SymbolSize.Default, 
-          GameMetaProvider.GetPlayerData()[NetSymbolSign.Value].SymbolData.MeshClassic, GameMetaProvider.GetPlayerData()[NetSymbolSign.Value].SymbolData.MaterialClassic));
+        cell.SetSymbol(_dragableData);
       else
-        cell.SetSymbolServerRpc(NetSymbolSign.Value);
-      
+        cell.SetSymbolServerRpc(_dragableData.GetSymbol());
+
       GameFactory.GameViewLogic.ChangeTurningPlayer(GetSymbol());
     }
   }

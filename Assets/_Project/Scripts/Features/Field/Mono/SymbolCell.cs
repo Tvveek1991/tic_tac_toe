@@ -54,7 +54,6 @@ namespace _Project.Scripts.Features.Field.Mono
       _netSize.OnValueChanged -= OnValueSizeChanged;
     }
 
-
     [ServerRpc(RequireOwnership = false)]
     public void SetSymbolServerRpc(SymbolSign symbol) =>
       _netSymbol.Value = symbol;
@@ -64,7 +63,7 @@ namespace _Project.Scripts.Features.Field.Mono
       _netSize.Value = size;
 
     private void OnValueSymbolChanged(SymbolSign previous, SymbolSign next) =>
-      _onClickCell.Invoke(new DragableData(next, SymbolSize.Default, null, null));
+      _onClickCell.Invoke(new DragableData(next, _netSize.Value));
 
     private void OnValueSizeChanged(SymbolSize previous, SymbolSize next) =>
       Debug.Log("Size is changes");

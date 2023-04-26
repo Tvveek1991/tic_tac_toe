@@ -1,7 +1,9 @@
 using System.Collections.Generic;
+using _Project.Scripts.Features.Data;
 using _Project.Scripts.Features.GameScreen.Serialized;
 using _Project.Scripts.Features.Player;
 using _Project.Scripts.Services.GameMetaProvider;
+using UnityEngine;
 
 namespace _Project.Scripts.Services._Interfaces
 {
@@ -20,5 +22,8 @@ namespace _Project.Scripts.Services._Interfaces
     
     void SetGameMode(GameMode gameMode);
     GameMode GetGameMode();
+
+    Mesh GetMesh(DragableData dragableData);
+    Material GetMaterial(DragableData dragableData);
   }
 }

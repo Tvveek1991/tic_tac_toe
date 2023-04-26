@@ -104,8 +104,7 @@ namespace _Project.Scripts.Features.Player.Bots
 
       SymbolSize size = sizeTurn[Random.Range(0, sizeTurn.Count)];
 
-      DragableData = new DragableData(SymbolSign.O, size,
-        GameMetaProvider.GetPlayerData()[SymbolSign.O].SymbolData.MeshBuhurt[(int) size], GameMetaProvider.GetPlayerData()[SymbolSign.O].SymbolData.MaterialBuhurt[(int) size]);
+      DragableData = new DragableData(SymbolSign.O, size);
 
       _figures[(int) size] = SymbolSize.Default;
 

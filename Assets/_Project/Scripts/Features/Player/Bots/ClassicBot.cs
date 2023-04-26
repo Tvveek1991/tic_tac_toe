@@ -11,11 +11,8 @@ namespace _Project.Scripts.Features.Player.Bots
 {
   public class ClassicBot : Bot
   {
-    public ClassicBot(IGameFactory gameFactory, IGameMetaProvider gameMetaProvider) : base(gameFactory, gameMetaProvider)
-    {
-      DragableData = new DragableData(SymbolSign.O, SymbolSize.Default,
-        gameMetaProvider.GetPlayerData()[SymbolSign.O].SymbolData.MeshClassic, gameMetaProvider.GetPlayerData()[SymbolSign.O].SymbolData.MaterialClassic);
-    }
+    public ClassicBot(IGameFactory gameFactory, IGameMetaProvider gameMetaProvider) : base(gameFactory, gameMetaProvider) => 
+      DragableData = new DragableData(SymbolSign.O, SymbolSize.Default);
 
     protected override int GetBestMove(int[] board, SymbolCell[] symbolCells)
     {

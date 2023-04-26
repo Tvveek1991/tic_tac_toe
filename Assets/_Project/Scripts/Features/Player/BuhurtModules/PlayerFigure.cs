@@ -52,7 +52,7 @@ namespace _Project.Scripts.Features.Player.BuhurtModules
       if (_isMoved)
         return;
 
-      _dragablePart.SetDragableData(new DragableData(_playerData.Sign, Size, _mesh.mesh, _meshRenderer.material));
+      _dragablePart.SetDragableData(new DragableData(_playerData.Sign, Size));
       _dragDrop.BindPartToCursor(_dragablePart);
     }
 
