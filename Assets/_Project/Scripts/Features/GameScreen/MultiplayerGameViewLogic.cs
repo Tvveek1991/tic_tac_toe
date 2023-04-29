@@ -7,6 +7,7 @@ using _Project.Scripts.Services._Interfaces;
 using _Project.Scripts.Services.Localization.Logic;
 using _Project.Scripts.Services.Network;
 using Unity.Netcode;
+using UnityEngine;
 
 namespace _Project.Scripts.Features.GameScreen
 {
@@ -57,7 +58,10 @@ namespace _Project.Scripts.Features.GameScreen
     [ServerRpc(RequireOwnership = false)]
     private void RefreshAfterChangeTurnServerRpc(int activePlayer)
     {
+      Debug.Log("activePlayer is " + activePlayer);
+      Debug.Log( GameMetaProvider.GetPlayerViewMono() == null);
       GameMetaProvider.GetPlayerViewMono().SetPlayerTurnServerRpc(GameMetaProvider.GetPlayerViewMono().OwnerClientId == (ulong) activePlayer);
+      Debug.Log("activePlayer is " + activePlayer);
       GameViewMono.TurnText.text = GameMetaProvider.GetPlayerViewMono().OwnerClientId == (ulong) activePlayer ? "Your turn" : "Enemy turn";
     }
   }
