@@ -36,11 +36,8 @@ namespace _Project.Scripts.Services.GameMetaProvider
     public Dictionary<SymbolSign, PlayerData> GetPlayerData() =>
       _playerData;
 
-    public void SetPlayerViewMono(BasePlayerViewMono basePlayerViewMono)
-    {
-      Debug.Log("Player Set");
+    public void SetPlayerViewMono(BasePlayerViewMono basePlayerViewMono) => 
       BasePlayerViewMono = basePlayerViewMono;
-    }
 
     public BasePlayerViewMono GetPlayerViewMono() =>
       BasePlayerViewMono;
