@@ -87,7 +87,7 @@ namespace _Project.Scripts.Features.GameScreen.Mono
     [ServerRpc]
     private void SetFirstTurningPlayerServerRpc()
     {
-      _netActivePlayer.Value = 1;//Random.Range(0, NetworkManager.ConnectedClients.Count);
+      _netActivePlayer.Value = Random.Range(0, NetworkManager.ConnectedClients.Count);
       Debug.Log("First Player is " + _netActivePlayer.Value);
     }
 
