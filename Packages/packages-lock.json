@@ -1,17 +1,17 @@
 {
   "dependencies": {
     "com.appache.ads": {
-      "version": "1.0.8",
+      "version": "1.1.2",
       "depth": 0,
       "source": "registry",
       "dependencies": {
-        "com.appache.analytics": "0.3.7",
-        "com.appache.remote": "0.1.0"
+        "com.appache.analytics": "0.3.8",
+        "com.appache.remote": "0.1.1"
       },
       "url": "http://137.184.90.91:4873"
     },
     "com.appache.analytics": {
-      "version": "0.3.7",
+      "version": "0.3.8",
       "depth": 1,
       "source": "registry",
       "dependencies": {
@@ -20,8 +20,8 @@
       "url": "http://137.184.90.91:4873"
     },
     "com.appache.remote": {
-      "version": "0.1.0",
-      "depth": 0,
+      "version": "0.1.1",
+      "depth": 1,
       "source": "registry",
       "dependencies": {
         "com.google.firebase.remote-config": "9.4.0"
