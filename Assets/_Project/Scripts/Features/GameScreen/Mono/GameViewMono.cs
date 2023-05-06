@@ -30,7 +30,7 @@ namespace _Project.Scripts.Features.GameScreen.Mono
     [SerializeField] private List<PlayerFigure> playerFigures;
 
     private readonly NetworkVariable<int> _netPlayersCount = new NetworkVariable<int>();
-    private readonly NetworkVariable<int> _netActivePlayer = new NetworkVariable<int>();
+    private readonly NetworkVariable<int> _netActivePlayer = new NetworkVariable<int>(-1);
 
     private Action<int> _onChosenFirstTurningPlayer;
     private Action _onClientConnect;
@@ -53,12 +53,13 @@ namespace _Project.Scripts.Features.GameScreen.Mono
     public List<PlayerFigure> GetFigures() =>
       playerFigures;
 
-    public void ShowBuhurtPart(PlayerData playerData, SymbolSize[] symbolSizes)
-    {
+    public void LoadBuhurtPart(PlayerData playerData, SymbolSize[] symbolSizes) => 
       playerFigures.ForEach(item => item.LoadFigure(playerData, symbolSizes));
 
-      playerFiguresCanvasGroup.DOFade(1f, .5f);
-      playerFiguresCanvasGroup.blocksRaycasts = true;
+    public void SetVisibleBuhurtPart(bool isOn)
+    {
+      playerFiguresCanvasGroup.DOFade(isOn ? 1f : 0f, .5f);
+      playerFiguresCanvasGroup.blocksRaycasts = isOn;
     }
 
     #region Multiplayer
@@ -86,7 +87,7 @@ namespace _Project.Scripts.Features.GameScreen.Mono
     [ServerRpc]
     private void SetFirstTurningPlayerServerRpc()
     {
-      _netActivePlayer.Value = Random.Range(0, NetworkManager.ConnectedClients.Count);
+      _netActivePlayer.Value = 1;//Random.Range(0, NetworkManager.ConnectedClients.Count);
       Debug.Log("First Player is " + _netActivePlayer.Value);
     }
 
@@ -108,8 +109,6 @@ namespace _Project.Scripts.Features.GameScreen.Mono
         _onConnectedPlayersToNetwork?.Invoke();
         SetFirstTurningPlayerServerRpc();
       }
-
-      _onChosenFirstTurningPlayer?.Invoke(_netActivePlayer.Value);
 
       HideLoadScreen();
     }

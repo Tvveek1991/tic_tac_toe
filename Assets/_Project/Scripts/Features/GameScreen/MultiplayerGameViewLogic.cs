@@ -59,6 +59,13 @@ namespace _Project.Scripts.Features.GameScreen
     {
       GameMetaProvider.GetPlayerViewMono().SetPlayerTurnServerRpc(GameMetaProvider.GetPlayerViewMono().OwnerClientId == (ulong) activePlayer);
       GameViewMono.TurnText.text = GameMetaProvider.GetPlayerViewMono().OwnerClientId == (ulong) activePlayer ? "Your turn" : "Enemy turn";
+
+      if (GameMetaProvider.GetGame() != Game.Buhurt) 
+        return;
+      
+      SymbolSign symbol = (SymbolSign) activePlayer + 1;
+      GameViewMono.LoadBuhurtPart(_playerData[symbol], _figuresState[symbol]);
+      GameViewMono.SetVisibleBuhurtPart(GameMetaProvider.GetPlayerViewMono().OwnerClientId == (uint)activePlayer);
     }
   }
 }

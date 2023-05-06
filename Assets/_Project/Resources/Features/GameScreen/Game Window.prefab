@@ -1878,7 +1878,6 @@ MonoBehaviour:
   loadScreen: {fileID: 6320083171083987804}
   loadProgress: {fileID: 2398095912273619991}
   myLocalIp: {fileID: 3088048967102255670}
-  turnCanvasGroup: {fileID: 7751486397206329163}
   turnText: {fileID: 4757908049684434160}
   symbolImage: {fileID: 208056216432729259}
   playerFiguresCanvasGroup: {fileID: 9151313220969157159}
@@ -2354,7 +2353,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Empty
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}

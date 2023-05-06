@@ -16,7 +16,7 @@ namespace _Project.Scripts.Features.GameScreen
     private readonly ILocaleSystem _localeSystem;
     private readonly IAudioService _audioService;
 
-    private Dictionary<SymbolSign, PlayerData> _playerData;
+    protected Dictionary<SymbolSign, PlayerData> _playerData;
 
     protected readonly GameViewMono GameViewMono;
 
@@ -24,7 +24,7 @@ namespace _Project.Scripts.Features.GameScreen
 
     protected Action OnCreateNonConnectionPlayer;
 
-    private Dictionary<SymbolSign, SymbolSize[]> _figuresState;
+    protected readonly Dictionary<SymbolSign, SymbolSize[]> _figuresState;
 
     public IDragDrop DragDrop { get; private set; }
 
@@ -65,19 +65,14 @@ namespace _Project.Scripts.Features.GameScreen
     public void OpenWindow() =>
       AppearAnimation();
 
-    public void SetPlayerUi(SymbolSign symbol)
+    public virtual void SetPlayerUi(SymbolSign symbol)
     {
       GameViewMono.SymbolImage.sprite = _playerData[symbol].SymbolData.Icon;
       GameViewMono.SymbolImage.color = _playerData[symbol].Color;
-
-      if (GameMetaProvider.GetGame() != Game.Buhurt)
-        return;
-
-      GameViewMono.ShowBuhurtPart(_playerData[symbol], _figuresState[symbol]);
     }
 
     public void SetFigureState(SymbolSign symbol, SymbolSize size) => 
-      _figuresState[symbol][(int)size] = SymbolSize.Default;
+      _figuresState[symbol][(int) size] = SymbolSize.Default;
 
     public virtual void ChangeTurningPlayer(SymbolSign activeSign) { }
 

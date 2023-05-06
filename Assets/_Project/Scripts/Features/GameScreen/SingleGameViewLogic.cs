@@ -44,6 +44,17 @@ namespace _Project.Scripts.Features.GameScreen
         GameMetaProvider.GetPlayerViewMono().CreateSymbolSign((int) nextSign - 1);
     }
 
+    public override void SetPlayerUi(SymbolSign symbol)
+    {
+      base.SetPlayerUi(symbol);
+
+      if (GameMetaProvider.GetGame() != Game.Buhurt)
+        return;
+
+      GameViewMono.LoadBuhurtPart(_playerData[symbol], _figuresState[symbol]);
+      GameViewMono.SetVisibleBuhurtPart(true);
+    }
+
     private void RefreshAfterChangeTurn(SymbolSign nextSign)
     {
       SetPlayerUi(nextSign);
