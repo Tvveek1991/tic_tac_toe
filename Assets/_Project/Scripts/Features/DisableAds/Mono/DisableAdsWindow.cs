@@ -1,0 +1,22 @@
+using TMPro;
+using UnityEngine;
+using UnityEngine.UI;
+
+namespace _Project.Scripts.Features.DisableAds.Mono
+{
+  public class DisableAdsWindow : MonoBehaviour
+  {
+    public Button ShowBtn;
+    public Button CloseBtn;
+    public Button ContinueBtn;
+    public Button PurchaseBtn;
+
+    public Text PurchasePrice;
+    
+    public Text AdsWatchedProgress;
+    public Text[] DisableAdsTimers;
+
+    public GameObject InfoPanelBefore, InfoPanelAfter;
+    public GameObject AdsOfferEnabled, AdsOfferDisabled;
+  }
+}

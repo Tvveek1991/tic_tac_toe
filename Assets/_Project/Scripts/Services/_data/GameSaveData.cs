@@ -9,6 +9,11 @@ namespace _Project.Scripts.Services._data
 
     public bool IsPolicyAccepted;
 
+    public bool IsDisableAdsActive;
+    public int DisableAdsProgress;
+
+    public bool DisableAdsIsPurchased;
+    
     public bool IsMusicDisabled;
     public bool IsSoundDisabled;
     public bool IsVibrationDisabled;
@@ -17,10 +22,11 @@ namespace _Project.Scripts.Services._data
 
     public string ChosenModelX;
     public string ChosenModelO;
-    
+
     public string ChosenColorX;
     public string ChosenColorO;
-    
+
+
     public Game Game = Game.Classic;
     public GameMode Mode = GameMode.Single;
     public EnemyType Enemy = EnemyType.OneDevice;

@@ -2,6 +2,8 @@ using _Project.Scripts.Services._Interfaces;
 using _Project.Scripts.Services.AssetProvider;
 using _Project.Scripts.Services.Audio;
 using _Project.Scripts.Services.GameMetaProvider;
+using _Project.Scripts.Services.InApps.Scripts;
+using _Project.Scripts.Services.InApps.Scripts.Main;
 using _Project.Scripts.Services.InputResolver;
 using _Project.Scripts.Services.Localization.Logic;
 using _Project.Scripts.Services.Money;
@@ -28,6 +30,7 @@ namespace _Project.Scripts.Core_Logic.Zenject
       BindSingleService<IGameSaveSystem, GameSaveSystem>();
       BindSingleService<ITimerController, TimerController>();
       BindSingleService<IInputResolver, InputResolver>();
+      BindSingleService<IInAppService, InAppService>();
       BindSingleService<INetwork, Network>();
     }
 

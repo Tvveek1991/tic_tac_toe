@@ -20,6 +20,7 @@ namespace _Project.Scripts.Core_Logic.StatesMachine.States
     private readonly ILocaleSystem _localeSystem;
     private readonly IAudioService _audioService;
     private readonly IMoneyService _moneyService;
+    private readonly IInAppService _inAppService;
     private readonly ICurrentScreen _currentScreen;
     private readonly IAssetProvider _assetProvider;
     private readonly IGameSaveSystem _gameSaveSystem;
@@ -31,13 +32,14 @@ namespace _Project.Scripts.Core_Logic.StatesMachine.States
 
     public LoadHomeState(IAssetProvider assetProvider, ICurrentScreen currentScreen, IGameSaveSystem gameSaveSystem, IAdsService adsService,
       IAnalytics analytics, ILocaleSystem localeSystem, IAudioService audioService, IRemote remote, IMoneyService moneyService, INetwork network,
-      IGameMetaProvider gameMetaProvider)
+      IGameMetaProvider gameMetaProvider, IInAppService inAppService)
     {
       _remote = remote;
       _network = network;
       _analytics = analytics;
       _adsService = adsService;
       _localeSystem = localeSystem;
+      _inAppService = inAppService;
       _audioService = audioService;
       _moneyService = moneyService;
       _assetProvider = assetProvider;
@@ -52,7 +54,7 @@ namespace _Project.Scripts.Core_Logic.StatesMachine.States
     public void Enter()
     {
       _homeLogic = new HomeLogic(_gameStateMachine, _assetProvider, _currentScreen, _gameSaveSystem, _adsService,
-        _analytics, _localeSystem, _audioService, _remote, _moneyService, _network, _gameMetaProvider);
+        _analytics, _localeSystem, _audioService, _remote, _moneyService, _network, _gameMetaProvider, _inAppService);
       _homeLogic.CreateHomeView();
     }
 

@@ -1,6 +1,7 @@
 using _Project.Scripts.Core_Logic.Screens;
 using _Project.Scripts.Core_Logic.StatesMachine.Interfaces;
 using _Project.Scripts.Core_Logic.StatesMachine.States;
+using _Project.Scripts.Features.DisableAds;
 using _Project.Scripts.Features.GameScreen.Serialized;
 using _Project.Scripts.Features.HomeScreen.Mono;
 using _Project.Scripts.Features.Policy;
@@ -28,6 +29,7 @@ namespace _Project.Scripts.Features.HomeScreen
     private readonly ILocaleSystem _localeSystem;
     private readonly IAudioService _audioService;
     private readonly IMoneyService _moneyService;
+    private readonly IInAppService _inAppService;
     private readonly IAssetProvider _assetProvider;
     private readonly ICurrentScreen _currentScreen;
     private readonly IGameSaveSystem _gameSaveSystem;
@@ -40,7 +42,7 @@ namespace _Project.Scripts.Features.HomeScreen
     
     public HomeLogic(IGameStateMachine gameStateMachine, IAssetProvider assetProvider, ICurrentScreen currentScreen,
       IGameSaveSystem gameSaveSystem, IAdsService adsService, IAnalytics analytics, ILocaleSystem localeSystem, IAudioService audioService, 
-      IRemote remote, IMoneyService moneyService, INetwork network, IGameMetaProvider gameMetaProvider)
+      IRemote remote, IMoneyService moneyService, INetwork network, IGameMetaProvider gameMetaProvider, IInAppService inAppService)
     {
       _remote = remote;
       _network = network;
@@ -49,6 +51,7 @@ namespace _Project.Scripts.Features.HomeScreen
       _localeSystem = localeSystem;
       _audioService = audioService;
       _moneyService = moneyService;
+      _inAppService = inAppService;
       _assetProvider = assetProvider;
       _currentScreen = currentScreen;
       _gameSaveSystem = gameSaveSystem;
@@ -78,6 +81,10 @@ namespace _Project.Scripts.Features.HomeScreen
       MoneyCounter.Construct(_moneyService);
 
       SetAddress("0.0.0.0");
+
+      var disableAdsFactory = new DisableAdsLogic(_assetProvider, _gameSaveSystem, _analytics, _adsService, _localeSystem, _inAppService, _audioService, delegate { Debug.Log("OnDisable"); },
+        delegate { Debug.Log("OnSwitchDisableAds"); }, () => Debug.Log("OnClose"));
+      disableAdsFactory.Open();
     }
 
     public void CloseHomeView()

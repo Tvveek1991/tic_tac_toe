@@ -422,9 +422,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1472427348}
   - component: {fileID: 1472427347}
-  - component: {fileID: 1472427346}
-  - component: {fileID: 1472427350}
-  - component: {fileID: 1472427349}
   m_Layer: 0
   m_Name: Services Registration
   m_TagString: Untagged
@@ -432,18 +429,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1472427346
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1472427345}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6e53550f77453f2408e69b231137f883, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1472427347
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -458,9 +443,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _scriptableObjectInstallers: []
   _monoInstallers:
-  - {fileID: 1472427346}
-  - {fileID: 1472427350}
-  - {fileID: 1472427349}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   _installerPrefabs: []
   _autoRun: 1
   OnPreInstall:
@@ -490,32 +475,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1472427349
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1472427345}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: be25d460262a4445a5685974fabe144d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1472427350
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1472427345}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 502a7321709047458b779babea77d968, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1530509246
 GameObject:
   m_ObjectHideFlags: 0
@@ -686,5 +647,5 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
