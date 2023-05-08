@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using _Project.Scripts.Features.Data;
 using _Project.Scripts.Features.Field.Mono;
 using _Project.Scripts.Features.GameScreen.Serialized;
@@ -59,8 +60,8 @@ namespace _Project.Scripts.Features.Field
             _playerSymbol = dragableData.GetSymbol();
             SetFieldCell(x1, y1, dragableData);
             
-            if(CheckWin(_playerSymbol))
-              _onWin?.Invoke(_playerSymbol);
+            if(CheckWin(_playerSymbol) || CheckDraw())
+              _onWin?.Invoke(CheckWin(_playerSymbol) ? _playerSymbol : SymbolSign.None);
           });
       }
     }
@@ -94,6 +95,9 @@ namespace _Project.Scripts.Features.Field
 
       return false;
     }
+
+    private bool CheckDraw() => 
+      _gameField.GetPlayablePoint.All(t => t.GetSymbol() != SymbolSign.None);
 
     private bool CheckLine(int x, int y, int vx, int vy, int len, SymbolSign sign)
     {

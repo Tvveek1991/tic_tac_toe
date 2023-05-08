@@ -79,13 +79,13 @@ namespace _Project.Scripts.Features.Player.Bots
             break;
           else
           {
-            bestMove = BestScores.FirstOrDefault(item => item.Value == BestScores[Random.Range(0, BestTurns.Count)]).Key;
+            GetRandomTurn(out bestMove);
             return true;
           }
 
         case BotDifficult.Easy:
         {
-          bestMove = BestScores.FirstOrDefault(item => item.Value == BestScores[Random.Range(0, BestTurns.Count)]).Key;
+          GetRandomTurn(out bestMove);
           return true;
         }
 
@@ -95,6 +95,12 @@ namespace _Project.Scripts.Features.Player.Bots
 
       bestMove = 0;
       return false;
+    }
+
+    private void GetRandomTurn(out int bestMove)
+    {
+      List<int> list = (from item in BestScores select item.Key).ToList();
+      bestMove = list[Random.Range(0, list.Count)];
     }
 
     private bool FindAllPotentialTurns(Potential potential)

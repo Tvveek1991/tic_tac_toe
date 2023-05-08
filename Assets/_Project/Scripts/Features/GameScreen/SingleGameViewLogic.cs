@@ -18,7 +18,7 @@ namespace _Project.Scripts.Features.GameScreen
       : base(gameViewMono, localeSystem, gameMetaProvider, audioService, inputResolver)
     {
       _gameFactory = gameFactory;
-      _bot = GameMetaProvider.GetGame() == Game.Classic ? (Bot) new ClassicBot(_gameFactory, gameMetaProvider) : new BuhurtBot(gameFactory, gameMetaProvider);
+      _bot = GameMetaProvider.GetGame() == Game.Classic ? (Bot) new ClassicBot(_gameFactory) : new BuhurtBot(gameFactory);
     }
 
     public override void Construct(Action onBack, Action onCreateNonConnectionPlayer)
