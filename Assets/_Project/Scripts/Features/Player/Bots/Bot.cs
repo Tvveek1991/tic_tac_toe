@@ -8,6 +8,7 @@ using _Project.Scripts.Features.GameScreen;
 using _Project.Scripts.Features.GameScreen.Serialized;
 using _Project.Scripts.Services._Interfaces;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace _Project.Scripts.Features.Player.Bots
 {
@@ -19,6 +20,8 @@ namespace _Project.Scripts.Features.Player.Bots
     protected List<int> BestTurns;
     protected Dictionary<int, Potential> BestScores;
 
+    protected readonly BotDifficult Difficult;
+    
     protected DragableData DragableData;
 
     protected readonly List<int[]> Lines = new List<int[]>
@@ -28,21 +31,21 @@ namespace _Project.Scripts.Features.Player.Bots
       new[] {0, 4, 8}, new[] {2, 4, 6} // diagonals
     };
 
-    protected readonly int[][] _bigPotentialCase =
+    private readonly int[][] _bigPotentialCase =
     {
       new[] {-1, -1, 1},
       new[] {1, -1, -1},
       new[] {-1, 1, -1}
     };
 
-    protected readonly IGameMetaProvider GameMetaProvider;
-    
     private readonly IGameFactory _gameFactory;
 
-    protected Bot(IGameFactory gameFactory, IGameMetaProvider gameMetaProvider)
+
+    protected Bot(IGameFactory gameFactory)
     {
       _gameFactory = gameFactory;
-      GameMetaProvider = gameMetaProvider;
+      
+      Difficult = (BotDifficult)Random.Range(0, 3);
     }
 
     public void BotTurn(Action onEndTurn)
@@ -102,6 +105,13 @@ namespace _Project.Scripts.Features.Player.Bots
       Big,
       Lose,
       Winner,
+    }
+
+    protected enum BotDifficult
+    {
+      Easy,
+      Medium,
+      Hard
     }
   }
 }

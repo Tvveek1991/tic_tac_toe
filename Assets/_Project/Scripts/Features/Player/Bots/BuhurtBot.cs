@@ -14,9 +14,7 @@ namespace _Project.Scripts.Features.Player.Bots
     private Dictionary<SymbolSize, Dictionary<int, Potential>> _sizeChecking;
     private readonly SymbolSize[] _figures = {SymbolSize.Tiny, SymbolSize.Small, SymbolSize.Medium, SymbolSize.Big, SymbolSize.Large};
 
-    public BuhurtBot(IGameFactory gameFactory, IGameMetaProvider gameMetaProvider) : base(gameFactory, gameMetaProvider)
-    {
-    }
+    public BuhurtBot(IGameFactory gameFactory) : base(gameFactory) { }
 
     protected override int GetBestMove(int[] board, SymbolCell[] symbolCells)
     {
@@ -55,7 +53,6 @@ namespace _Project.Scripts.Features.Player.Bots
 
           foreach (int[] item in Lines)
           {
-            // if ((newBoard[item[0]] != 1 && newBoard[item[1]] != 1 && newBoard[item[2]] != 1) && !BestScores.ContainsKey(i))
             if (new[] {newBoard[item[0]], newBoard[item[1]], newBoard[item[2]]}.All(x => x != 1) && !BestScores.ContainsKey(i))
               BestScores.Add(i, Potential.Small);
           }
