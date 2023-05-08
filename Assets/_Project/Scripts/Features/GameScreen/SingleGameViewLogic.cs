@@ -13,8 +13,9 @@ namespace _Project.Scripts.Features.GameScreen
 
     private readonly IGameFactory _gameFactory;
 
-    public SingleGameViewLogic(GameViewMono gameViewMono, IGameFactory gameFactory, ILocaleSystem localeSystem, IGameMetaProvider gameMetaProvider, IAudioService audioService)
-      : base(gameViewMono, localeSystem, gameMetaProvider, audioService)
+    public SingleGameViewLogic(GameViewMono gameViewMono, IGameFactory gameFactory, ILocaleSystem localeSystem, IGameMetaProvider gameMetaProvider,
+      IAudioService audioService, IInputResolver inputResolver)
+      : base(gameViewMono, localeSystem, gameMetaProvider, audioService, inputResolver)
     {
       _gameFactory = gameFactory;
       _bot = GameMetaProvider.GetGame() == Game.Classic ? (Bot) new ClassicBot(_gameFactory, gameMetaProvider) : new BuhurtBot(gameFactory, gameMetaProvider);
@@ -26,7 +27,7 @@ namespace _Project.Scripts.Features.GameScreen
 
       OnCreateNonConnectionPlayer?.Invoke();
 
-      GameMetaProvider.GetPlayerViewMono().Construct(_gameFactory, GameMetaProvider);
+      GameMetaProvider.GetPlayerViewMono().Construct(_gameFactory, GameMetaProvider, InputResolver);
       GameMetaProvider.GetPlayerViewMono().CreateSymbolSign(0);
 
       GameViewMono.HideLoadScreen();
@@ -37,6 +38,9 @@ namespace _Project.Scripts.Features.GameScreen
     {
       SymbolSign nextSign = activeSign == SymbolSign.X ? SymbolSign.O : SymbolSign.X;
       RefreshAfterChangeTurn(nextSign);
+      
+      if(InputResolver.IsLocked)
+        return;
 
       if (GameMetaProvider.GetEnemyType() == EnemyType.Bot)
         BotTurn(activeSign);
@@ -51,7 +55,7 @@ namespace _Project.Scripts.Features.GameScreen
       if (GameMetaProvider.GetGame() != Game.Buhurt)
         return;
 
-      GameViewMono.LoadBuhurtPart(_playerData[symbol], _figuresState[symbol]);
+      GameViewMono.LoadBuhurtPart(PlayerData[symbol], FiguresState[symbol]);
       GameViewMono.SetVisibleBuhurtPart(true);
     }
 

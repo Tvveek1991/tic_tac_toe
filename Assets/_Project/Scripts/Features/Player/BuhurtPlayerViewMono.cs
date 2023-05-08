@@ -11,6 +11,9 @@ namespace _Project.Scripts.Features.Player
     
     private void OnMouseUp()
     {
+      if(InputResolver.IsLocked)
+        return;
+      
       if ((!IsOwner && GameMetaProvider.GetGameMode() != GameMode.Single) || !NetIsPlayerTurn.Value)
         return;
 

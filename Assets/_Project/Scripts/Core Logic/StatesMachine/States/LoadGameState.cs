@@ -20,6 +20,7 @@ namespace _Project.Scripts.Core_Logic.StatesMachine.States
     private readonly ILocaleSystem _localeSystem;
     private readonly IAudioService _audioService;
     private readonly IMoneyService _moneyService;
+    private readonly IInputResolver _inputResolver;
     private readonly ICurrentScreen _currentScreen;
     private readonly IAssetProvider _assetProvider;
     private readonly IGameSaveSystem _gameSaveSystem;
@@ -31,7 +32,7 @@ namespace _Project.Scripts.Core_Logic.StatesMachine.States
 
     public LoadGameState(IAssetProvider assetProvider, ICurrentScreen currentScreen, IGameSaveSystem gameSaveSystem,
       IAdsService adsService, IAnalytics analytics, ILocaleSystem localeSystem, IAudioService audioService, IRemote remote,
-      IMoneyService moneyService, INetwork network, IGameMetaProvider gameMetaProvider)
+      IMoneyService moneyService, INetwork network, IGameMetaProvider gameMetaProvider, IInputResolver inputResolver)
     {
       _remote = remote;
       _network = network;
@@ -40,6 +41,7 @@ namespace _Project.Scripts.Core_Logic.StatesMachine.States
       _localeSystem = localeSystem;
       _audioService = audioService;
       _moneyService = moneyService;
+      _inputResolver = inputResolver;
       _assetProvider = assetProvider;
       _currentScreen = currentScreen;
       _gameSaveSystem = gameSaveSystem;
@@ -52,7 +54,7 @@ namespace _Project.Scripts.Core_Logic.StatesMachine.States
     public void Enter(bool isHost)
     {
       _gameLogic = new GameLogic(_gameStateMachine, _assetProvider, _currentScreen, _gameSaveSystem, _adsService,
-        _analytics, _localeSystem, _audioService, _remote, _network, _gameMetaProvider);
+        _analytics, _localeSystem, _audioService, _remote, _network, _gameMetaProvider, _inputResolver);
       _gameLogic.Enter(isHost);
     }
 

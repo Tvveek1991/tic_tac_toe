@@ -38,12 +38,12 @@ namespace _Project.Scripts.Services.Network
         NetworkManager.StartClient();
     }
 
-    public void CreateClientDataTransmitter(IGameFactory gameFactory, IGameMetaProvider gameMetaProvider)
+    public void CreateClientDataTransmitter(IGameFactory gameFactory, IGameMetaProvider gameMetaProvider, IInputResolver inputResolver)
     {
       if (ClientDataTransmitter.Instance != null) return;
       
       var clientDataTransmitter = Create<ClientDataTransmitter>(ClientDataTransmitterPath);
-      clientDataTransmitter.Construct(gameFactory, gameMetaProvider);
+      clientDataTransmitter.Construct(gameFactory, gameMetaProvider, inputResolver);
     }
 
     public UnityTransport GetUnityTransport() => 

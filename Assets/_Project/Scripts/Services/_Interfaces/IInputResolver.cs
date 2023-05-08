@@ -1,6 +1,6 @@
 ﻿using _Project.Scripts.Service_Base;
 
-namespace _Project.Scripts.Services.InputResolver
+namespace _Project.Scripts.Services._Interfaces
 {
   public interface IInputResolver : IService
   {

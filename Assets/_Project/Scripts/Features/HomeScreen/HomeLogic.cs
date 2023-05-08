@@ -2,8 +2,6 @@ using _Project.Scripts.Core_Logic.Screens;
 using _Project.Scripts.Core_Logic.StatesMachine.Interfaces;
 using _Project.Scripts.Core_Logic.StatesMachine.States;
 using _Project.Scripts.Features.DisableAds;
-using _Project.Scripts.Features.GameScreen.Serialized;
-using _Project.Scripts.Features.HomeScreen.Mono;
 using _Project.Scripts.Features.Policy;
 using _Project.Scripts.Services._Interfaces;
 using _Project.Scripts.Services.Audio;
@@ -36,6 +34,7 @@ namespace _Project.Scripts.Features.HomeScreen
     private readonly IGameMetaProvider _gameMetaProvider;
     private readonly IGameStateMachine _gameStateMachine;
 
+    private DisableAdsLogic _disableAdsLogic;
     private MoneyCounter MoneyCounter { get; set; }
 
     private string _ipAddress;
@@ -82,14 +81,16 @@ namespace _Project.Scripts.Features.HomeScreen
 
       SetAddress("0.0.0.0");
 
-      var disableAdsFactory = new DisableAdsLogic(_assetProvider, _gameSaveSystem, _analytics, _adsService, _localeSystem, _inAppService, _audioService, delegate { Debug.Log("OnDisable"); },
+      _disableAdsLogic = new DisableAdsLogic(_assetProvider, _gameSaveSystem, _analytics, _adsService, _localeSystem, _inAppService, _audioService, delegate { Debug.Log("OnDisable"); },
         delegate { Debug.Log("OnSwitchDisableAds"); }, () => Debug.Log("OnClose"));
-      disableAdsFactory.Open();
+      _disableAdsLogic.Open();
     }
 
     public void CloseHomeView()
     {
       Object.Destroy(MoneyCounter.gameObject);
+      
+      _disableAdsLogic.Cleanup();
 
       _homeFactory.ClearHomeView();
       _uiFactory.ClearSettingsWindow();

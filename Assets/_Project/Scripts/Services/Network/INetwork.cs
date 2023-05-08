@@ -10,7 +10,7 @@ namespace _Project.Scripts.Services.Network
     NetworkManager NetworkManager { get; }
     void ConnectClient(bool isHost);
     void LaunchService();
-    void CreateClientDataTransmitter(IGameFactory metaProvider, IGameMetaProvider gameMetaProvider);
+    void CreateClientDataTransmitter(IGameFactory metaProvider, IGameMetaProvider gameMetaProvider, IInputResolver inputResolver);
     string GetLocalIPAddress();
     UnityTransport GetUnityTransport();
   }

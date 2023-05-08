@@ -16,27 +16,29 @@ namespace _Project.Scripts.Features.GameScreen
     private readonly ILocaleSystem _localeSystem;
     private readonly IAudioService _audioService;
 
-    protected Dictionary<SymbolSign, PlayerData> _playerData;
+    protected Dictionary<SymbolSign, PlayerData> PlayerData;
 
     protected readonly GameViewMono GameViewMono;
 
+    protected readonly IInputResolver InputResolver;
     protected readonly IGameMetaProvider GameMetaProvider;
 
     protected Action OnCreateNonConnectionPlayer;
 
-    protected readonly Dictionary<SymbolSign, SymbolSize[]> _figuresState;
+    protected readonly Dictionary<SymbolSign, SymbolSize[]> FiguresState;
 
     public IDragDrop DragDrop { get; private set; }
 
-    protected GameViewLogic(GameViewMono gameViewMono, ILocaleSystem localeSystem, IGameMetaProvider gameMetaProvider, IAudioService audioService)
+    protected GameViewLogic(GameViewMono gameViewMono, ILocaleSystem localeSystem, IGameMetaProvider gameMetaProvider, IAudioService audioService, IInputResolver inputResolver)
     {
       GameViewMono = gameViewMono;
+      InputResolver = inputResolver;
       GameMetaProvider = gameMetaProvider;
 
       _localeSystem = localeSystem;
       _audioService = audioService;
-      
-      _figuresState = new Dictionary<SymbolSign, SymbolSize[]>
+
+      FiguresState = new Dictionary<SymbolSign, SymbolSize[]>
       {
         {SymbolSign.X, new[] {SymbolSize.Tiny, SymbolSize.Small, SymbolSize.Medium, SymbolSize.Big, SymbolSize.Large}},
         {SymbolSign.O, new[] {SymbolSize.Tiny, SymbolSize.Small, SymbolSize.Medium, SymbolSize.Big, SymbolSize.Large}}
@@ -46,7 +48,7 @@ namespace _Project.Scripts.Features.GameScreen
     public virtual void Construct(Action onBack, Action onCreateNonConnectionPlayer)
     {
       OnCreateNonConnectionPlayer = onCreateNonConnectionPlayer;
-      _playerData = GameMetaProvider.GetPlayerData();
+      PlayerData = GameMetaProvider.GetPlayerData();
 
       Localize(_localeSystem);
       GameViewMono.gameObject.SetActive(false);
@@ -67,12 +69,12 @@ namespace _Project.Scripts.Features.GameScreen
 
     public virtual void SetPlayerUi(SymbolSign symbol)
     {
-      GameViewMono.SymbolImage.sprite = _playerData[symbol].SymbolData.Icon;
-      GameViewMono.SymbolImage.color = _playerData[symbol].Color;
+      GameViewMono.SymbolImage.sprite = PlayerData[symbol].SymbolData.Icon;
+      GameViewMono.SymbolImage.color = PlayerData[symbol].Color;
     }
 
     public void SetFigureState(SymbolSign symbol, SymbolSize size) => 
-      _figuresState[symbol][(int) size] = SymbolSize.Default;
+      FiguresState[symbol][(int) size] = SymbolSize.Default;
 
     public virtual void ChangeTurningPlayer(SymbolSign activeSign) { }
 

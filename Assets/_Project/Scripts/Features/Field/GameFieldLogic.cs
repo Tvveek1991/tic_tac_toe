@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using _Project.Scripts.Features.Data;
 using _Project.Scripts.Features.Field.Mono;
@@ -24,6 +25,8 @@ namespace _Project.Scripts.Features.Field
     private readonly IAudioService _audioService;
     private readonly IGameMetaProvider _gameMetaProvider;
 
+    private Action<SymbolSign> _onWin;
+
     public GameFieldLogic(GameField gameField, IAudioService audioService, IGameMetaProvider gameMetaProvider)
     {
       _gameField = gameField;
@@ -32,6 +35,11 @@ namespace _Project.Scripts.Features.Field
 
       _playerData = gameMetaProvider.GetPlayerData();
       CreateCellsField();
+    }
+
+    public void Construct(Action<SymbolSign> onWin)
+    {
+      _onWin = onWin;
     }
 
     public SymbolCell[,] GetField() =>
@@ -50,14 +58,17 @@ namespace _Project.Scripts.Features.Field
           {
             _playerSymbol = dragableData.GetSymbol();
             SetFieldCell(x1, y1, dragableData);
+            
+            if(CheckWin(_playerSymbol))
+              _onWin?.Invoke(_playerSymbol);
           });
       }
     }
 
     private void SetFieldCell(int x, int y, DragableData dragableData)
     {
-      _cells[y, x].MeshFilter.mesh = _gameMetaProvider.GetMesh(dragableData); // dragableData.GetMesh();
-      _cells[y, x].MeshRenderer.material = _gameMetaProvider.GetMaterial(dragableData); //dragableData.GetMaterial();
+      _cells[y, x].MeshFilter.mesh = _gameMetaProvider.GetMesh(dragableData);
+      _cells[y, x].MeshRenderer.material = _gameMetaProvider.GetMaterial(dragableData);
       _cells[y, x].MeshRenderer.material.color = _playerData[_playerSymbol].Color;
       _cells[y, x].MeshRenderer.enabled = true;
 

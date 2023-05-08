@@ -19,18 +19,20 @@ namespace _Project.Scripts.Features.Player
     protected BoxCollider2D BoxCollider;
 
     protected IGameFactory GameFactory;
+    protected IInputResolver InputResolver;
     protected IGameMetaProvider GameMetaProvider;
 
     public override void OnDestroy() =>
       NetSymbolSign.OnValueChanged -= OnValueChanged;
 
-    public void Construct(IGameFactory gameFactory, IGameMetaProvider gameMetaProvider) 
+    public void Construct(IGameFactory gameFactory, IGameMetaProvider gameMetaProvider, IInputResolver inputResolver) 
     {
       Camera = Camera.main;
       BoxCollider = GetComponent<BoxCollider2D>();
       BoxCollider.enabled = true;
 
       GameFactory = gameFactory;
+      InputResolver = inputResolver;
       GameMetaProvider = gameMetaProvider;
 
       GameMetaProvider.SetPlayerViewMono(this);
@@ -69,7 +71,7 @@ namespace _Project.Scripts.Features.Player
 
       if (!IsOwner) return;
 
-      Construct(ClientDataTransmitter.Instance.GetGameFactory(), ClientDataTransmitter.Instance.GetGameMetaProvider());
+      Construct(ClientDataTransmitter.Instance.GetGameFactory(), ClientDataTransmitter.Instance.GetGameMetaProvider(), ClientDataTransmitter.Instance.GetInputResolver());
       CreateSymbolSign((int) OwnerClientId);
     }
     

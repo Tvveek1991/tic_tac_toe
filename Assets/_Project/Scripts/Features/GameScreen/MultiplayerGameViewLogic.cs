@@ -16,8 +16,9 @@ namespace _Project.Scripts.Features.GameScreen
     
     private readonly INetwork _network;
     
-    public MultiplayerGameViewLogic(GameViewMono gameViewMono, ILocaleSystem localeSystem, INetwork network, IGameMetaProvider gameMetaProvider, IAudioService audioService)
-      : base(gameViewMono, localeSystem, gameMetaProvider, audioService)
+    public MultiplayerGameViewLogic(GameViewMono gameViewMono, ILocaleSystem localeSystem, INetwork network, IGameMetaProvider gameMetaProvider,
+      IAudioService audioService, IInputResolver inputResolver)
+      : base(gameViewMono, localeSystem, gameMetaProvider, audioService, inputResolver)
     {
       _network = network;
     }
@@ -64,7 +65,7 @@ namespace _Project.Scripts.Features.GameScreen
         return;
       
       SymbolSign symbol = (SymbolSign) activePlayer + 1;
-      GameViewMono.LoadBuhurtPart(_playerData[symbol], _figuresState[symbol]);
+      GameViewMono.LoadBuhurtPart(PlayerData[symbol], FiguresState[symbol]);
       GameViewMono.SetVisibleBuhurtPart(GameMetaProvider.GetPlayerViewMono().OwnerClientId == (uint)activePlayer);
     }
   }

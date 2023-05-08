@@ -11,6 +11,9 @@ namespace _Project.Scripts.Features.Player
 
     private void OnMouseDown()
     {
+      if(InputResolver.IsLocked)
+        return;
+      
       _dragableData = new DragableData(NetSymbolSign.Value, SymbolSize.Default);
 
       if ((!IsOwner && GameMetaProvider.GetGameMode() != GameMode.Single) || !NetIsPlayerTurn.Value)

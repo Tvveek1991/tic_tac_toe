@@ -7,6 +7,7 @@ using _Project.Scripts.Services.Network;
 using AppacheAds.Scripts.Interfaces;
 using AppacheAnalytics.Scripts.Interfaces;
 using AppacheRemote.Scripts.Interfaces;
+using UnityEngine;
 
 namespace _Project.Scripts.Features.GameScreen
 {
@@ -21,6 +22,7 @@ namespace _Project.Scripts.Features.GameScreen
     private readonly IAdsService _adsService;
     private readonly ILocaleSystem _localeSystem;
     private readonly IAudioService _audioService;
+    private readonly IInputResolver _inputResolver;
     private readonly ICurrentScreen _currentScreen;
     private readonly IGameSaveSystem _gameSaveSystem;
     private readonly IGameMetaProvider _gameMetaProvider;
@@ -29,7 +31,7 @@ namespace _Project.Scripts.Features.GameScreen
 
     public GameLogic(IGameStateMachine gameStateMachine, IAssetProvider assetProvider, ICurrentScreen currentScreen,
       IGameSaveSystem gameSaveSystem, IAdsService adsService, IAnalytics analytics, ILocaleSystem localeSystem,
-      IAudioService audioService, IRemote remote, INetwork network, IGameMetaProvider gameMetaProvider)
+      IAudioService audioService, IRemote remote, INetwork network, IGameMetaProvider gameMetaProvider, IInputResolver inputResolver)
     {
       _remote = remote;
       _network = network;
@@ -37,6 +39,7 @@ namespace _Project.Scripts.Features.GameScreen
       _adsService = adsService;
       _localeSystem = localeSystem;
       _audioService = audioService;
+      _inputResolver = inputResolver;
       _currentScreen = currentScreen;
       _assetProvider = assetProvider;
       _gameSaveSystem = gameSaveSystem;
@@ -44,16 +47,21 @@ namespace _Project.Scripts.Features.GameScreen
       _gameStateMachine = gameStateMachine;
 
       _uiFactory = new UiFactory(assetProvider);
-      _gameFactory = new GameFactory(assetProvider, localeSystem, audioService, network, gameMetaProvider);
+      _gameFactory = new GameFactory(assetProvider, localeSystem, audioService, network, gameMetaProvider, inputResolver);
     }
 
     public void Enter(bool isHost)
     {
-      _network.CreateClientDataTransmitter(_gameFactory, _gameMetaProvider);
+      _inputResolver.Enable();
+      
+      _network.CreateClientDataTransmitter(_gameFactory, _gameMetaProvider, _inputResolver);
       
       _gameFactory.CreateField();
-
       _gameFactory.CreateScreen();
+      _gameFactory.CreateEndGame();
+
+      _gameFactory.EndGameLogic.Construct(OnClickBack, OnClickPlayAgain);
+      _gameFactory.GameFieldLogic.Construct(OnWin);
       _gameFactory.GameViewLogic.Construct(OnClickBack, OnCreateNonConnectionPlayer);
       _gameFactory.GameViewLogic.OpenWindow();
 
@@ -76,11 +84,21 @@ namespace _Project.Scripts.Features.GameScreen
         _gameStateMachine.Enter<LoadHomeState>,
         _gameStateMachine.Enter<LoadHomeState>);*/
     }
+    
+    private void OnClickPlayAgain() => 
+      _gameStateMachine.Enter<LoadGameState, bool>(false);
 
     private void ConnectClient(bool isHost) =>
       _network.ConnectClient(isHost);
 
     private void OnCreateNonConnectionPlayer() =>
       _gameFactory.SpawnPlayerObject();
+
+    private void OnWin(SymbolSign symbol)
+    {
+      _inputResolver.Disable();
+      _gameFactory.EndGameLogic.Show();
+      Debug.Log("Win is " + symbol);
+    }
   }
 }

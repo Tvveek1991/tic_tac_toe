@@ -2,7 +2,6 @@ using _Project.Scripts.Services._Interfaces;
 using _Project.Scripts.Services.AssetProvider;
 using _Project.Scripts.Services.Audio;
 using _Project.Scripts.Services.GameMetaProvider;
-using _Project.Scripts.Services.InApps.Scripts;
 using _Project.Scripts.Services.InApps.Scripts.Main;
 using _Project.Scripts.Services.InputResolver;
 using _Project.Scripts.Services.Localization.Logic;
