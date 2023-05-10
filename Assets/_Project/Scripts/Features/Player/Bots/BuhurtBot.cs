@@ -74,7 +74,7 @@ namespace _Project.Scripts.Features.Player.Bots
 
       return -1;
     }
-
+    
     private bool FindAllPotentialTurns(Potential potential)
     {
       var collectBestTurns = new List<int>();

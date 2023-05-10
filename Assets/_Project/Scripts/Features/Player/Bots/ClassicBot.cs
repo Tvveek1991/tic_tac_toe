@@ -52,7 +52,6 @@ namespace _Project.Scripts.Features.Player.Bots
         }
       }
 
-      Debug.Log(Difficult);
       if (CheckDifficult(out int bestMove))
         return bestMove;
 
