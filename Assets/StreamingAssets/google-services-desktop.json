@@ -1,129 +1,46 @@
 {
   "project_info": {
-    "project_number": "151667681776",
-    "firebase_url": "https://adults-jokes-games.firebaseio.com",
-    "project_id": "adults-jokes-games",
-    "storage_bucket": "adults-jokes-games.appspot.com"
+    "project_number": "864141963747",
+    "project_id": "tic-tac-toe-blocks-81519183",
+    "storage_bucket": "tic-tac-toe-blocks-81519183.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:151667681776:android:f011e54849d73e4c",
+        "mobilesdk_app_id": "1:864141963747:android:acf2f8a1de2e6c1a20f0d6",
         "android_client_info": {
-          "package_name": "com.appocalypses.karaokevoicesimulator"
+          "package_name": "tictactoe.grid.battle"
         }
       },
       "oauth_client": [
         {
-          "client_id": "151667681776-bg2gh00bafi7kg9d8630eh1n2bhtqvt0.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyBjB20wJOUvuep37LF4-QU9TJpI6Xe4sMw"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "151667681776-bg2gh00bafi7kg9d8630eh1n2bhtqvt0.apps.googleusercontent.com",
-              "client_type": 3
-            },
-            {
-              "client_id": "151667681776-hditclm41fogdidf5oe2ag33tcp43bfh.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "dot.liner.polygon"
-              }
-            }
-          ]
-        }
-      },
-      "admob_app_id": "ca-app-pub-5310916942393178~2036981843"
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:151667681776:android:fe2c31770578201f",
-        "android_client_info": {
-          "package_name": "find.my.phone.by.clapping"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "151667681776-291kadc54ci4ju2j3q8iofgr4dl4bjhg.apps.googleusercontent.com",
+          "client_id": "864141963747-mghea51c61uvdmf6fb28uvhu3ugeo6d3.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "find.my.phone.by.clapping",
-            "certificate_hash": "9cba4263c5656fa493d9013c59a1635181b96061"
+            "package_name": "tictactoe.grid.battle",
+            "certificate_hash": "cebe13c41da99ea796945a71154f7c1da351c3b2"
           }
         },
         {
-          "client_id": "151667681776-bg2gh00bafi7kg9d8630eh1n2bhtqvt0.apps.googleusercontent.com",
+          "client_id": "864141963747-c01ttia66jcaqilum3g1ifbrm5g0j5q0.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBjB20wJOUvuep37LF4-QU9TJpI6Xe4sMw"
+          "current_key": "AIzaSyAqjO3HWPHZL-jhRameZYZb1odXHdkxdKo"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "151667681776-bg2gh00bafi7kg9d8630eh1n2bhtqvt0.apps.googleusercontent.com",
+              "client_id": "864141963747-c01ttia66jcaqilum3g1ifbrm5g0j5q0.apps.googleusercontent.com",
               "client_type": 3
-            },
-            {
-              "client_id": "151667681776-hditclm41fogdidf5oe2ag33tcp43bfh.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "dot.liner.polygon"
-              }
             }
           ]
         }
-      },
-      "admob_app_id": "ca-app-pub-5310916942393178~3876267429"
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:151667681776:android:1c20e406f94ebfe3",
-        "android_client_info": {
-          "package_name": "ru.appache.findphonebywhistle"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "151667681776-bg2gh00bafi7kg9d8630eh1n2bhtqvt0.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyBjB20wJOUvuep37LF4-QU9TJpI6Xe4sMw"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "151667681776-bg2gh00bafi7kg9d8630eh1n2bhtqvt0.apps.googleusercontent.com",
-              "client_type": 3
-            },
-            {
-              "client_id": "151667681776-hditclm41fogdidf5oe2ag33tcp43bfh.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "dot.liner.polygon"
-              }
-            }
-          ]
-        }
-      },
-      "admob_app_id": "ca-app-pub-5310916942393178~2544804265"
+      }
     }
   ],
   "configuration_version": "1"

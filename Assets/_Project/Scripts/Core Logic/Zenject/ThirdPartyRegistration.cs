@@ -13,7 +13,7 @@ namespace _Project.Scripts.Core_Logic.Zenject
     {
       Container.Bind<IAnalytics>().To<AppacheAnalytics.AnalyticsDummy>().AsSingle();
       Container.Bind<IRemote>().To<RemoteDummy>().AsSingle();
-      Container.Bind<IAdsService>().To<AdsDummy>().AsSingle();
+      Container.Bind<IAdsService>().To<AdsService>().AsSingle();
     }
   }
 }

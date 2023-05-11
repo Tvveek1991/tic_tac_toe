@@ -17,13 +17,13 @@ MonoBehaviour:
   - PlacementType: 0
     RemotePair:
     - BlockType: _bannerID
-      Identifier: ca-app-pub-3940256099942544/6300978111
+      Identifier: ca-app-pub-5342314475229554/8759688540
     - BlockType: _interstitialID
-      Identifier: ca-app-pub-3940256099942544/1033173712
+      Identifier: ca-app-pub-5342314475229554/2765125833
     - BlockType: _interstitialSplashID
-      Identifier: ca-app-pub-3940256099942544/1033173712
+      Identifier: ca-app-pub-5342314475229554/2765125833
     - BlockType: _videoID
-      Identifier: ca-app-pub-3940256099942544/5224354917
+      Identifier: ca-app-pub-5342314475229554/5509858618
   EnableLimitations: 1
   TimeLimit: 30
   ClicksLimit: 2

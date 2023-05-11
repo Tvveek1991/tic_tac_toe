@@ -32,15 +32,15 @@ namespace _Project.Scripts.Features.DisableAds
     private readonly IInAppService _inAppService;
     private readonly ILocaleSystem _localeSystem;
     private readonly IAudioService _audioService;
-    private IAssetProvider _assetProvider;
+    private readonly IAssetProvider _assetProvider;
 
     private readonly Action<bool> _onDisableAds;
 
-    private IDisableAdsViewLogic _disableAdsViewLogic;
+    private readonly IDisableAdsViewLogic _disableAdsViewLogic;
 
     private readonly ITimerController _timerController;
-    private Action<bool> _switchDisableAdsButton;
-    private Action _onClose;
+    private readonly Action<bool> _switchDisableAdsButton;
+    private readonly Action _onClose;
     
     private bool WasDisabled
     {

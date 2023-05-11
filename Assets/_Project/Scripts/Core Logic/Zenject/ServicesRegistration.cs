@@ -10,6 +10,7 @@ using _Project.Scripts.Services.Network;
 using _Project.Scripts.Services.SaveSystem;
 using _Project.Scripts.Services.Timer;
 using _Project.Scripts.Services.Timer.Interfaces;
+using AppacheAds.Scripts.Logger;
 using AppacheAnalytics.Scripts.Interfaces;
 using AppacheAnalytics.Scripts.Logic;
 using Zenject;
@@ -31,6 +32,7 @@ namespace _Project.Scripts.Core_Logic.Zenject
       BindSingleService<IInputResolver, InputResolver>();
       BindSingleService<IInAppService, InAppService>();
       BindSingleService<INetwork, Network>();
+      BindSingleService<IAdsLogger, AdsLogger>();
     }
 
     private void BindSingleService<T, T2>() where T2 : T => 
