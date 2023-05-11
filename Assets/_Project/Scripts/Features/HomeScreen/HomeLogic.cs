@@ -117,11 +117,9 @@ namespace _Project.Scripts.Features.HomeScreen
       if (!isHost) 
         SetAddress(_homeFactory.HomeViewLogic.GetInputIp());
 
-      _gameStateMachine.Enter<LoadGameState, bool>(isHost);
-
-      /*_adsService.CurrentInterstitial.ShowInterstitial(ScreenNames.Game,
-        _gameStateMachine.Enter<LoadGameState>,
-        _gameStateMachine.Enter<LoadGameState>);*/
+      _adsService.CurrentInterstitial.ShowInterstitial(ScreenNames.Game,
+        () => _gameStateMachine.Enter<LoadGameState, bool>(isHost),
+        () => _gameStateMachine.Enter<LoadGameState, bool>(isHost));
     }
 
     private void ToGameMode()
