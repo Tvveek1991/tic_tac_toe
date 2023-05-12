@@ -10,6 +10,7 @@ using _Project.Scripts.Services.Network;
 using _Project.Scripts.Services.SaveSystem;
 using _Project.Scripts.Services.Timer;
 using _Project.Scripts.Services.Timer.Interfaces;
+using _Project.Scripts.Services.Unlocker;
 using AppacheAds.Scripts.Logger;
 using AppacheAnalytics.Scripts.Interfaces;
 using AppacheAnalytics.Scripts.Logic;
@@ -33,6 +34,7 @@ namespace _Project.Scripts.Core_Logic.Zenject
       BindSingleService<IInAppService, InAppService>();
       BindSingleService<INetwork, Network>();
       BindSingleService<IAdsLogger, AdsLogger>();
+      BindSingleService<IUnlockService, UnlockService>();
     }
 
     private void BindSingleService<T, T2>() where T2 : T => 

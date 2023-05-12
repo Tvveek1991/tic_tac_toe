@@ -169,7 +169,7 @@ namespace _Project.Scripts.Features.DisableAds
 
     private void OnNotLoadedAds()
     {
-      var notLoadedViewLogic = new NotLoadedViewLogic(_assetProvider, _localeSystem);
+      var notLoadedViewLogic = new NotLoadedWindowLogic(_localeSystem, _assetProvider);
       notLoadedViewLogic.Open();
     }
 

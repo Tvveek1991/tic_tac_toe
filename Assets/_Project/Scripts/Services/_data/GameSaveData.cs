@@ -25,6 +25,9 @@ namespace _Project.Scripts.Services._data
 
     public string ChosenColorX;
     public string ChosenColorO;
+    
+    public List<string> ChosenUpgradeContent = new List<string>();
+    public List<string> UnlockedUpgradeContent = new List<string>();
 
 
     public Game Game = Game.Classic;

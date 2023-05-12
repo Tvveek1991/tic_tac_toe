@@ -19,7 +19,8 @@ namespace _Project.Scripts.Features.HomeScreen
     private readonly ILocaleSystem _localeSystem;
     private readonly IGameMetaProvider _gameMetaProvider;
     
-    public HomeFactory(IAssetProvider assetProvider, ILocaleSystem localeSystem, IAudioService audioService, IGameMetaProvider gameMetaProvider) : base(assetProvider)
+    public HomeFactory(IAssetProvider assetProvider, ILocaleSystem localeSystem, IAudioService audioService, IGameMetaProvider gameMetaProvider) 
+      : base(assetProvider)
     {
       _audioService = audioService;
       _localeSystem = localeSystem;

@@ -14,6 +14,7 @@ namespace _Project.Scripts.Core_Logic.Zenject
       Container.BindIFactory<LoadPolicyState>().ToSelf().AsSingle();
       Container.BindIFactory<LoadHomeState>().ToSelf().AsSingle();
       Container.BindIFactory<LoadGameState>().ToSelf().AsSingle();
+      Container.BindIFactory<LoadShopState>().ToSelf().AsSingle();
     }
   }
 }

@@ -1,0 +1,18 @@
+using System.Collections.Generic;
+using _Project.Scripts.Features.ShopScreen.Serialized;
+using UnityEngine;
+
+namespace _Project.Scripts.Features.Data
+{
+  [CreateAssetMenu(fileName = "Upgrade Item", menuName = "Data/Upgrade Data", order = 0)]
+  public class UpgradeData : BaseContentData
+  {
+    public ShopItemType ItemType => itemType;
+    public Sprite Icon => _icon;
+    public List<string> DisplayData => _metaForContentDisplay;
+
+    [SerializeField] private ShopItemType itemType;
+    [SerializeField] private Sprite _icon;
+    [SerializeField] private List<string> _metaForContentDisplay;
+  }
+}
