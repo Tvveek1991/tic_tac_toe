@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Music Upgrade Item 003
   m_EditorClassIdentifier: 
   Id: c72d0a59-3af6-4162-a6ba-a1c28c165e08
-  Name: 
-  Description: 
-  itemType: 0
+  Name: MusicItem.Name_3
+  Description: MusicItem.Desc_3
+  itemType: 2
   _icon: {fileID: 21300000, guid: 32e3b19ed0b43b74587cb975d9dfab7f, type: 3}

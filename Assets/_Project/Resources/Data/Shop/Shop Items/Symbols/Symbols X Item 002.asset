@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Symbols X Item 002
   m_EditorClassIdentifier: 
   Id: 4ec6d87e-2a4a-41a0-ad00-af34d758fcdd
-  Name: Symbol.X.Item.Name_2
-  Description: Symbol.X.Item.Desc_2
+  Name: SignXItem.Name_2
+  Description: SignXItem.Desc_2
   itemType: 0
   _icon: {fileID: 21300000, guid: ce42a76897a28634486fb5ba7f675067, type: 3}

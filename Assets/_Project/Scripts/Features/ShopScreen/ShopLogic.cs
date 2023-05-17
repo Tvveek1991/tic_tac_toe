@@ -25,7 +25,7 @@ namespace _Project.Scripts.Features.ShopScreen
   public class ShopLogic : IShopLogic
   {
     private const string ShopTypeDataPath = "Features/Data/ShopData/Shop Types/";
-    private const string GirlsDataPath = "Features/Data/GameGirlsData/Game Girls Data";
+    private const string ShopItemDataPath = "Features/Data/ShopData/Shop Items/";
 
     private readonly IUiFactory _uiFactory;
     private readonly IShopFactory _shopFactory;
@@ -43,11 +43,11 @@ namespace _Project.Scripts.Features.ShopScreen
 
     private ShopView _shopView;
 
-    private readonly Dictionary<ShopItemType, UpgradeData[]> _itemsDataMap = new Dictionary<ShopItemType, UpgradeData[]>();
+    private readonly Dictionary<ShopItemType, ShopItemData[]> _itemsDataMap = new Dictionary<ShopItemType, ShopItemData[]>();
     private readonly Dictionary<ShopItemType, ScrollViewItemsView> _shopItemsView = new Dictionary<ShopItemType, ScrollViewItemsView>();
     private readonly Dictionary<ShopItemType, ScrollViewItemButton[]> _shopItemButtons = new Dictionary<ShopItemType, ScrollViewItemButton[]>();
 
-    private readonly UpgradeData[] _upgradesData;
+    private readonly ShopItemData[] _shopItemData;
     private readonly ShopTypeData[] _shopTypesData;
 
 
@@ -72,7 +72,7 @@ namespace _Project.Scripts.Features.ShopScreen
       _uiFactory = new UiFactory(_assetProvider);
       _shopFactory = new ShopFactory(_assetProvider);
 
-      // var gameGirlsData = _assetProvider.GetResource<GameGirlsData>(GirlsDataPath);
+      _shopItemData = _assetProvider.GetAllResources<ShopItemData>(ShopItemDataPath);
       _shopTypesData = _assetProvider.GetAllResources<ShopTypeData>(ShopTypeDataPath);
 
       /*_upgradesData = gameGirlsData.GirlDatas
@@ -80,7 +80,7 @@ namespace _Project.Scripts.Features.ShopScreen
 
       foreach (ShopTypeData typeData in _shopTypesData)
       {
-        UpgradeData[] itemsData = _upgradesData?.Where(item => item.ItemType == typeData.Type).ToArray();
+        ShopItemData[] itemsData = _shopItemData?.Where(item => item.ItemType == typeData.Type).ToArray();
         _itemsDataMap.Add(typeData.Type, itemsData);
       }
 
@@ -166,7 +166,7 @@ namespace _Project.Scripts.Features.ShopScreen
       var shopItemButton = new List<ScrollViewItemButton>();
       for (var index = 0; index < _itemsDataMap[t.Type].Length; index++)
       {
-        UpgradeData item = _itemsDataMap[t.Type][index];
+        ShopItemData item = _itemsDataMap[t.Type][index];
         ScrollViewItemButton scrollViewItemButton = _shopFactory.CreateItemButton(_shopItemsView[t.Type].ContentParent);
 
         string level = item.Description.Equals("") ? String.Empty : " " + string.Format(_localeSystem.GetText("Level"), index + 1);
@@ -185,7 +185,7 @@ namespace _Project.Scripts.Features.ShopScreen
     private void OpenFree()
     {
       foreach (ShopTypeData t in _shopTypesData)
-      foreach (UpgradeData item in _itemsDataMap[t.Type])
+      foreach (ShopItemData item in _itemsDataMap[t.Type])
         if (!IsUnlocked(item.Id) && _unlockService.GetUnlockType(item.Id) == UnlockType.Empty)
         {
           OnClickItem(item, true);
@@ -195,7 +195,7 @@ namespace _Project.Scripts.Features.ShopScreen
         }
     }
 
-    private void OnClickItem(UpgradeData itemData, bool fromInit = false)
+    private void OnClickItem(ShopItemData itemData, bool fromInit = false)
     {
       if (IsUnlocked(itemData.Id))
         Choose(itemData, fromInit);
@@ -203,7 +203,7 @@ namespace _Project.Scripts.Features.ShopScreen
         TryUnlock(itemData, fromInit);
     }
 
-    private void Choose(UpgradeData itemData, bool fromInit = false)
+    private void Choose(ShopItemData itemData, bool fromInit = false)
     {
       if (!fromInit)
       {
@@ -249,7 +249,7 @@ namespace _Project.Scripts.Features.ShopScreen
         // _contentViewLogic.Display();
     }
 
-    private void TryUnlock(UpgradeData itemData, bool fromInit = false)
+    private void TryUnlock(ShopItemData itemData, bool fromInit = false)
     {
       _unlockService.Unlock(itemData.Id, () =>
       {
@@ -276,7 +276,7 @@ namespace _Project.Scripts.Features.ShopScreen
       }
     }
 
-    private void SendOpenEvent(UpgradeData itemData)
+    private void SendOpenEvent(ShopItemData itemData)
     {
       if (_unlockService.GetUnlockType(itemData.Id) == UnlockType.Empty)
         return;
@@ -324,7 +324,7 @@ namespace _Project.Scripts.Features.ShopScreen
 
     private void RefreshProgressBar()
     {
-      List<UpgradeData> upgradeDatas = _upgradesData.ToList().FindAll(item => _unlockService.GetUnlockType(item.Id) == UnlockType.Money);
+      List<ShopItemData> upgradeDatas = _shopItemData.ToList().FindAll(item => _unlockService.GetUnlockType(item.Id) == UnlockType.Money);
       int boughtForMoney = upgradeDatas.Count(item => _gameSaveSystem.Get().UnlockedUpgradeContent.Contains(item.Id));
       _shopView.AddProgress(boughtForMoney, upgradeDatas.Count);
     }
@@ -341,7 +341,7 @@ namespace _Project.Scripts.Features.ShopScreen
       new ButtonSound(_audioService, shopView.BackButton.gameObject, AudioId.SoundButton);
     }
 
-    private ScrollViewItemButton GetItemButton(UpgradeData itemData) =>
+    private ScrollViewItemButton GetItemButton(ShopItemData itemData) =>
       _shopItemButtons[itemData.ItemType].FirstOrDefault(item => item.GetId() == itemData.Id);
 
     private IEnumerable<ScrollViewItemButton> GetAllItemButtons() =>

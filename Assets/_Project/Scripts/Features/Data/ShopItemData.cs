@@ -5,7 +5,7 @@ using UnityEngine;
 namespace _Project.Scripts.Features.Data
 {
   [CreateAssetMenu(fileName = "Upgrade Item", menuName = "Data/Upgrade Data", order = 0)]
-  public class UpgradeData : BaseContentData
+  public class ShopItemData : BaseContentData
   {
     public ShopItemType ItemType => itemType;
     public Sprite Icon => _icon;
