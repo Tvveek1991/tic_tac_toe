@@ -9,10 +9,8 @@ namespace _Project.Scripts.Features.Data
   {
     public ShopItemType ItemType => itemType;
     public Sprite Icon => _icon;
-    public List<string> DisplayData => _metaForContentDisplay;
 
     [SerializeField] private ShopItemType itemType;
     [SerializeField] private Sprite _icon;
-    [SerializeField] private List<string> _metaForContentDisplay;
   }
 }

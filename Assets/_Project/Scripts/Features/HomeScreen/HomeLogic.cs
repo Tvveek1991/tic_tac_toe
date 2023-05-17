@@ -92,7 +92,7 @@ namespace _Project.Scripts.Features.HomeScreen
     {
       Object.Destroy(MoneyCounter.gameObject);
       
-      _skins.ClearShopView();
+      // _skins.ClearShopView();
       _disableAdsLogic.Cleanup();
 
       _homeFactory.ClearHomeView();

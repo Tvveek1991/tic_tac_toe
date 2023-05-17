@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d5b5ec39ba2530e4e80867090a5250c9, type: 3}
-  m_Name: Symbol Data 001
+  m_Name: Symbol O Data 001
   m_EditorClassIdentifier: 
-  Id: 1bfca245-b2d8-4eaa-ba91-f965270e784b
+  Id: 5de557f0-58c9-4f63-951c-121e9a47d0fa
   Name: ClassicO
   Description: 
   _meshClassic: {fileID: 6539068158514867886, guid: 2ca4a7031f88f6540a3f666ed45ee635, type: 3}

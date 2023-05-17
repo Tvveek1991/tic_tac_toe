@@ -34,6 +34,7 @@ namespace _Project.Scripts.Features.ShopScreen
     private readonly IAdsService _adsService;
     private readonly ILocaleSystem _localeSystem;
     private readonly IAudioService _audioService;
+    private readonly IAssetProvider _assetProvider;
     private readonly ICurrentScreen _currentScreen;
     private readonly IUnlockService _unlockService;
     private readonly IGameSaveSystem _gameSaveSystem;
@@ -49,9 +50,6 @@ namespace _Project.Scripts.Features.ShopScreen
     private readonly UpgradeData[] _upgradesData;
     private readonly ShopTypeData[] _shopTypesData;
 
-    private readonly ContentViewLogic _contentViewLogic;
-
-    private readonly IAssetProvider _assetProvider;
 
     private Dictionary<ShopItemType, ScrollViewSectionButton> _sectionButtons;
 
@@ -85,9 +83,6 @@ namespace _Project.Scripts.Features.ShopScreen
         UpgradeData[] itemsData = _upgradesData?.Where(item => item.ItemType == typeData.Type).ToArray();
         _itemsDataMap.Add(typeData.Type, itemsData);
       }
-
-      _contentViewLogic = new ContentViewLogic();
-      _contentViewLogic.Construct(_gameSaveSystem, _assetProvider);
 
       _currentScreen.SetCurrentScreen(ScreenNames.Shop);
     }
@@ -135,8 +130,8 @@ namespace _Project.Scripts.Features.ShopScreen
         CreateItems(t);
       }
 
-      OpenShop(ShopItemType.Look);
-      _shopView.GetSectionButton(ShopItemType.Look).Button.onClick.Invoke();
+      OpenShop(ShopItemType.Symbols);
+      _shopView.GetSectionButton(ShopItemType.Symbols).Button.onClick.Invoke();
 
       OpenFree();
     }
@@ -250,8 +245,8 @@ namespace _Project.Scripts.Features.ShopScreen
         else
           _contentViewLogic.Display();*/
       }
-      else
-        _contentViewLogic.Display();
+      // else
+        // _contentViewLogic.Display();
     }
 
     private void TryUnlock(UpgradeData itemData, bool fromInit = false)

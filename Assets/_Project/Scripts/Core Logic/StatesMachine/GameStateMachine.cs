@@ -19,14 +19,16 @@ namespace _Project.Scripts.Core_Logic.StatesMachine
       IFactory<LoadGameServicesState> loadGameServicesStateFactory,
       IFactory<LoadPolicyState> loadPolicyStateFactory,
       IFactory<LoadHomeState> loadHomeStateFactory,
-      IFactory<LoadGameState> loadGameStateFactory)
+      IFactory<LoadGameState> loadGameStateFactory,
+      IFactory<LoadShopState> loadShopStateFactory)
     {
       _states = new Dictionary<Type, IExitableState>
       {
         [typeof(LoadGameServicesState)] = loadGameServicesStateFactory.Create(),
         [typeof(LoadPolicyState)] = loadPolicyStateFactory.Create(),
         [typeof(LoadHomeState)] = loadHomeStateFactory.Create(),
-        [typeof(LoadGameState)] = loadGameStateFactory.Create()
+        [typeof(LoadGameState)] = loadGameStateFactory.Create(),
+        [typeof(LoadShopState)] = loadGameStateFactory.Create()
       };
 
       SetupStateMachineStates();
