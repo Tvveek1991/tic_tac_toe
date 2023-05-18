@@ -28,7 +28,7 @@ namespace _Project.Scripts.Core_Logic.StatesMachine
         [typeof(LoadPolicyState)] = loadPolicyStateFactory.Create(),
         [typeof(LoadHomeState)] = loadHomeStateFactory.Create(),
         [typeof(LoadGameState)] = loadGameStateFactory.Create(),
-        [typeof(LoadShopState)] = loadGameStateFactory.Create()
+        [typeof(LoadShopState)] = loadShopStateFactory.Create()
       };
 
       SetupStateMachineStates();

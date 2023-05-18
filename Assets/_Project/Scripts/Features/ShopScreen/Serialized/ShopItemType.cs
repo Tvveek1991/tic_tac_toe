@@ -2,7 +2,8 @@ namespace _Project.Scripts.Features.ShopScreen.Serialized
 {
   public enum ShopItemType
   {
-    Symbols,
+    SymbolX,
+    SymbolO,
     Field,
     Music
   }

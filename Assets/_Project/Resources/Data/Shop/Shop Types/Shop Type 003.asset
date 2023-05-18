@@ -15,4 +15,4 @@ MonoBehaviour:
   Icon_on: {fileID: 21300000, guid: 94cfc21c469ff3e458c48464fc4353e6, type: 3}
   Icon_off: {fileID: 21300000, guid: d1436fd197e59bb49b44d019bfcfd85c, type: 3}
   _type: 2
-  _nameKey: ShopName.Music
+  _nameKey: ShopName.Field

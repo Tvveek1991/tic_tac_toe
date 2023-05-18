@@ -12,7 +12,7 @@ namespace _Project.Scripts.Services.Unlocker
 {
   public class UnlockService : IUnlockService
   {
-    private const string UnlocksDataPath = "Features/Data/UnlocksData/Data Unlock Base";
+    private const string UnlocksDataPath = "Data/Unlocked/Data Unlock Base";
 
     private readonly IAdsService _adsService;
     private readonly IRemote _remote;
@@ -43,7 +43,7 @@ namespace _Project.Scripts.Services.Unlocker
         {
           {UnlockType.Money, SpendMoney},
           {UnlockType.Advertising, SpendMoney}, // !!!
-          {UnlockType.Empty, OpenFree},
+          {UnlockType.Free, OpenFree},
           {UnlockType.IAP, OpenIAP},
         };
       }
@@ -53,7 +53,7 @@ namespace _Project.Scripts.Services.Unlocker
         {
           {UnlockType.Money, SpendMoney},
           {UnlockType.Advertising, ShowReward},
-          {UnlockType.Empty, OpenFree},
+          {UnlockType.Free, OpenFree},
           {UnlockType.IAP, OpenIAP},
         };
       }
@@ -75,7 +75,7 @@ namespace _Project.Scripts.Services.Unlocker
     public UnlockType GetUnlockType(string guid)
     {
       UnlockData unlocking = _dataUnlockBase.GetUnlockData(guid);
-      return unlocking != null ? unlocking.Type : UnlockType.Empty;
+      return unlocking != null ? unlocking.Type : UnlockType.Free;
     }
 
     public uint GetCost(string guid) =>

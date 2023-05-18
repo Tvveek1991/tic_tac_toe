@@ -18,14 +18,15 @@ using _Project.Scripts.Services.Unlocker;
 using AppacheAds.Scripts.Interfaces;
 using AppacheAnalytics.Scripts.Interfaces;
 using Sirenix.Utilities;
+using UnityEngine;
 using Object = UnityEngine.Object;
 
 namespace _Project.Scripts.Features.ShopScreen
 {
   public class ShopLogic : IShopLogic
   {
-    private const string ShopTypeDataPath = "Features/Data/ShopData/Shop Types/";
-    private const string ShopItemDataPath = "Features/Data/ShopData/Shop Items/";
+    private const string ShopTypeDataPath = "Data/Shop/Shop Types/";
+    private const string ShopItemDataPath = "Data/Shop/Shop Items/";
 
     private readonly IUiFactory _uiFactory;
     private readonly IShopFactory _shopFactory;
@@ -74,7 +75,7 @@ namespace _Project.Scripts.Features.ShopScreen
 
       _shopItemData = _assetProvider.GetAllResources<ShopItemData>(ShopItemDataPath);
       _shopTypesData = _assetProvider.GetAllResources<ShopTypeData>(ShopTypeDataPath);
-
+      
       /*_upgradesData = gameGirlsData.GirlDatas
         .FirstOrDefault(item => item.Id == _gameMetaProvider.CurrentGirl)?.UpgradeDatas;*/
 
@@ -90,7 +91,6 @@ namespace _Project.Scripts.Features.ShopScreen
     public void CreateShopView(Action onCloseOverride = null)
     {
       _shopView = _shopFactory.CreateShopView();
-
       _shopView.Construct(onCloseOverride ?? CloseShop);
 
       CreateShopContent();
@@ -130,8 +130,8 @@ namespace _Project.Scripts.Features.ShopScreen
         CreateItems(t);
       }
 
-      OpenShop(ShopItemType.Symbols);
-      _shopView.GetSectionButton(ShopItemType.Symbols).Button.onClick.Invoke();
+      OpenShop(ShopItemType.SymbolX);
+      _shopView.GetSectionButton(ShopItemType.SymbolX).Button.onClick.Invoke();
 
       OpenFree();
     }
@@ -169,7 +169,7 @@ namespace _Project.Scripts.Features.ShopScreen
         ShopItemData item = _itemsDataMap[t.Type][index];
         ScrollViewItemButton scrollViewItemButton = _shopFactory.CreateItemButton(_shopItemsView[t.Type].ContentParent);
 
-        string level = item.Description.Equals("") ? String.Empty : " " + string.Format(_localeSystem.GetText("Level"), index + 1);
+        string level = item.Description.Equals("") ? String.Empty : " " /*+ string.Format(_localeSystem.GetText("Level"), index + 1)*/;
         string description = _localeSystem.GetText(item.Name) + level;
 
         scrollViewItemButton.Construct(_localeSystem, _unlockService,
@@ -186,7 +186,7 @@ namespace _Project.Scripts.Features.ShopScreen
     {
       foreach (ShopTypeData t in _shopTypesData)
       foreach (ShopItemData item in _itemsDataMap[t.Type])
-        if (!IsUnlocked(item.Id) && _unlockService.GetUnlockType(item.Id) == UnlockType.Empty)
+        if (!IsUnlocked(item.Id) && _unlockService.GetUnlockType(item.Id) == UnlockType.Free)
         {
           OnClickItem(item, true);
           
@@ -278,7 +278,7 @@ namespace _Project.Scripts.Features.ShopScreen
 
     private void SendOpenEvent(ShopItemData itemData)
     {
-      if (_unlockService.GetUnlockType(itemData.Id) == UnlockType.Empty)
+      if (_unlockService.GetUnlockType(itemData.Id) == UnlockType.Free)
         return;
 
       _analytics.Send("ev_main_open", new Dictionary<string, object>
@@ -336,10 +336,8 @@ namespace _Project.Scripts.Features.ShopScreen
         _gameStateMachine.Enter<LoadHomeState>);
     }
 
-    private void CreateSounds(ShopView shopView)
-    {
+    private void CreateSounds(ShopView shopView) => 
       new ButtonSound(_audioService, shopView.BackButton.gameObject, AudioId.SoundButton);
-    }
 
     private ScrollViewItemButton GetItemButton(ShopItemData itemData) =>
       _shopItemButtons[itemData.ItemType].FirstOrDefault(item => item.GetId() == itemData.Id);

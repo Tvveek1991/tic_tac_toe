@@ -4,7 +4,7 @@ namespace _Project.Scripts.Services.Unlocker
   {
     Money,
     Advertising,
-    Empty,
+    Free,
     Progress,
     IAP
   }

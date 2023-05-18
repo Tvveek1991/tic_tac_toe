@@ -15,5 +15,5 @@ MonoBehaviour:
   Id: 4f8b2991-63b6-4daa-9827-37ec4e13f475
   Name: MusicItem.Name_2
   Description: MusicItem.Desc_2
-  itemType: 2
+  itemType: 3
   _icon: {fileID: 21300000, guid: 32e3b19ed0b43b74587cb975d9dfab7f, type: 3}

@@ -15,5 +15,5 @@ MonoBehaviour:
   Id: 10d4c127-7380-4098-871b-8b51153f8322
   Name: FieldItem.Name_3
   Description: FieldItem.Desc_3
-  itemType: 1
+  itemType: 2
   _icon: {fileID: 21300000, guid: ea3a51adc7ff645478d805a0219b88d0, type: 3}

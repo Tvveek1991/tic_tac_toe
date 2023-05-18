@@ -112,7 +112,7 @@ namespace _Project.Scripts.Features.ScrollView
           Buy.IAPGarland.SetActive(true);
         }
 
-        if (_type == UnlockType.Empty)
+        if (_type == UnlockType.Free)
           return;
 
         switch (_type)
