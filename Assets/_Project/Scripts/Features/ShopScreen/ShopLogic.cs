@@ -44,15 +44,15 @@ namespace _Project.Scripts.Features.ShopScreen
 
     private ShopView _shopView;
 
-    private readonly Dictionary<ShopItemType, ShopItemData[]> _itemsDataMap = new Dictionary<ShopItemType, ShopItemData[]>();
-    private readonly Dictionary<ShopItemType, ScrollViewItemsView> _shopItemsView = new Dictionary<ShopItemType, ScrollViewItemsView>();
-    private readonly Dictionary<ShopItemType, ScrollViewItemButton[]> _shopItemButtons = new Dictionary<ShopItemType, ScrollViewItemButton[]>();
+    private readonly Dictionary<ItemType, ShopItemData[]> _itemsDataMap = new Dictionary<ItemType, ShopItemData[]>();
+    private readonly Dictionary<ItemType, ScrollViewItemsView> _shopItemsView = new Dictionary<ItemType, ScrollViewItemsView>();
+    private readonly Dictionary<ItemType, ScrollViewItemButton[]> _shopItemButtons = new Dictionary<ItemType, ScrollViewItemButton[]>();
 
     private readonly ShopItemData[] _shopItemData;
     private readonly ShopTypeData[] _shopTypesData;
 
 
-    private Dictionary<ShopItemType, ScrollViewSectionButton> _sectionButtons;
+    private Dictionary<ItemType, ScrollViewSectionButton> _sectionButtons;
 
     public ShopLogic(IGameStateMachine gameStateMachine, IAssetProvider assetProvider, ICurrentScreen currentScreen,
       IGameSaveSystem gameSaveSystem, IAdsService adsService, IAnalytics analytics, ILocaleSystem localeSystem,
@@ -111,9 +111,9 @@ namespace _Project.Scripts.Features.ShopScreen
       Object.Destroy(_shopView.gameObject);
     }
 
-    private void OpenShop(ShopItemType type)
+    private void OpenShop(ItemType type)
     {
-      foreach (KeyValuePair<ShopItemType, ScrollViewItemsView> item in GetDeactivatedItemsViews(type))
+      foreach (KeyValuePair<ItemType, ScrollViewItemsView> item in GetDeactivatedItemsViews(type))
         item.Value.Deactivate();
 
       _shopItemsView[type].Activate();
@@ -121,7 +121,7 @@ namespace _Project.Scripts.Features.ShopScreen
 
     private void CreateShopContent()
     {
-      _sectionButtons = new Dictionary<ShopItemType, ScrollViewSectionButton>();
+      _sectionButtons = new Dictionary<ItemType, ScrollViewSectionButton>();
 
       foreach (ShopTypeData t in _shopTypesData)
       {
@@ -130,8 +130,8 @@ namespace _Project.Scripts.Features.ShopScreen
         CreateItems(t);
       }
 
-      OpenShop(ShopItemType.SymbolX);
-      _shopView.GetSectionButton(ShopItemType.SymbolX).Button.onClick.Invoke();
+      OpenShop(ItemType.SymbolX);
+      _shopView.GetSectionButton(ItemType.SymbolX).Button.onClick.Invoke();
 
       OpenFree();
     }
@@ -149,7 +149,7 @@ namespace _Project.Scripts.Features.ShopScreen
       _sectionButtons.Add(t.Type, shopButton);
     }
 
-    private void SelectSectionButtons(ShopItemType type) =>
+    private void SelectSectionButtons(ItemType type) =>
       _sectionButtons[type].Select(true);
 
     private void UnselectSectionButtons() =>
@@ -220,13 +220,13 @@ namespace _Project.Scripts.Features.ShopScreen
         {
           item.Activate();
           if (!IsChosen(item.GetId()))
-            _gameSaveSystem.Get().ChosenUpgradeContent.Add(itemData.Id);
+            _gameSaveSystem.Get().ChosenShopContent.Add(itemData.Id);
         }
         else
         {
           item.Deactivate();
           if (IsChosen(item.GetId()))
-            _gameSaveSystem.Get().ChosenUpgradeContent.Remove(item.GetId());
+            _gameSaveSystem.Get().ChosenShopContent.Remove(item.GetId());
         }
 
         if(fromInit == false)
@@ -271,7 +271,7 @@ namespace _Project.Scripts.Features.ShopScreen
 
       void Unlock()
       {
-        _gameSaveSystem.Get().UnlockedUpgradeContent.Add(itemData.Id);
+        _gameSaveSystem.Get().UnlockedShopContent.Add(itemData.Id);
         _gameSaveSystem.Save();
       }
     }
@@ -310,7 +310,7 @@ namespace _Project.Scripts.Features.ShopScreen
 
     private void AccessForUnlock()
     {
-      foreach (KeyValuePair<ShopItemType, ScrollViewItemButton[]> pair in _shopItemButtons)
+      foreach (KeyValuePair<ItemType, ScrollViewItemButton[]> pair in _shopItemButtons)
       {
         var index = 0;
 
@@ -325,7 +325,7 @@ namespace _Project.Scripts.Features.ShopScreen
     private void RefreshProgressBar()
     {
       List<ShopItemData> upgradeDatas = _shopItemData.ToList().FindAll(item => _unlockService.GetUnlockType(item.Id) == UnlockType.Money);
-      int boughtForMoney = upgradeDatas.Count(item => _gameSaveSystem.Get().UnlockedUpgradeContent.Contains(item.Id));
+      int boughtForMoney = upgradeDatas.Count(item => _gameSaveSystem.Get().UnlockedShopContent.Contains(item.Id));
       _shopView.AddProgress(boughtForMoney, upgradeDatas.Count);
     }
 
@@ -345,13 +345,13 @@ namespace _Project.Scripts.Features.ShopScreen
     private IEnumerable<ScrollViewItemButton> GetAllItemButtons() =>
       _shopItemButtons.SelectMany(item => item.Value);
 
-    private IEnumerable<KeyValuePair<ShopItemType, ScrollViewItemsView>> GetDeactivatedItemsViews(ShopItemType type) =>
+    private IEnumerable<KeyValuePair<ItemType, ScrollViewItemsView>> GetDeactivatedItemsViews(ItemType type) =>
       _shopItemsView.Where(item => item.Key != type);
 
     private bool IsUnlocked(string itemId) =>
-      _gameSaveSystem.Get().UnlockedUpgradeContent.Contains(itemId);
+      _gameSaveSystem.Get().UnlockedShopContent.Contains(itemId);
 
     private bool IsChosen(string itemId) =>
-      _gameSaveSystem.Get().ChosenUpgradeContent.Contains(itemId);
+      _gameSaveSystem.Get().ChosenShopContent.Contains(itemId);
   }
 }

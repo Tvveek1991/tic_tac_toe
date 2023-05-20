@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using _Project.Scripts.Features.ShopScreen.Serialized;
 using UnityEngine;
 
 namespace _Project.Scripts.Features.Data
@@ -13,7 +14,10 @@ namespace _Project.Scripts.Features.Data
     [SerializeField] private List<Material> _materialBuhurt;
     
     [SerializeField] private Sprite _icon;
+    
+    [SerializeField] private ItemType _itemType;
 
+    public ItemType ItemType => _itemType;
     public Mesh MeshClassic => _meshClassic;
     public Material MaterialClassic => _materialClassic;
     public Sprite Icon => _icon;

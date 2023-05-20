@@ -19,15 +19,9 @@ namespace _Project.Scripts.Services._data
     public bool IsVibrationDisabled;
 
     public uint MoneyCount = 100;
-
-    public string ChosenModelX;
-    public string ChosenModelO;
-
-    public string ChosenColorX;
-    public string ChosenColorO;
     
-    public List<string> ChosenUpgradeContent = new List<string>();
-    public List<string> UnlockedUpgradeContent = new List<string>();
+    public List<string> ChosenShopContent = new ();
+    public List<string> UnlockedShopContent = new ();
 
 
     public Game Game = Game.Classic;

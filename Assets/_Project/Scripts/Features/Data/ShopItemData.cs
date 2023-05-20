@@ -7,10 +7,10 @@ namespace _Project.Scripts.Features.Data
   [CreateAssetMenu(fileName = "Upgrade Item", menuName = "Data/Upgrade Data", order = 0)]
   public class ShopItemData : BaseContentData
   {
-    public ShopItemType ItemType => itemType;
+    public ItemType ItemType => itemType;
     public Sprite Icon => _icon;
 
-    [SerializeField] private ShopItemType itemType;
+    [SerializeField] private ItemType itemType;
     [SerializeField] private Sprite _icon;
   }
 }

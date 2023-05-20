@@ -15,7 +15,7 @@ namespace _Project.Scripts.Features.ShopScreen.Mono
     [Serializable]
     public class SectionButton
     {
-      public ShopItemType Type;
+      public ItemType Type;
       public ScrollViewSectionButton Button;
     }
 
@@ -65,7 +65,7 @@ namespace _Project.Scripts.Features.ShopScreen.Mono
     private void CreateAnimation() => 
       new ButtonAnimation(BackButton.transform);
 
-    public ScrollViewSectionButton GetSectionButton(ShopItemType type) =>
+    public ScrollViewSectionButton GetSectionButton(ItemType type) =>
       SectionButtons.FirstOrDefault(x => x.Type == type)?.Button;
 
     private void Show()
