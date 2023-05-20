@@ -5,7 +5,7 @@ using UnityEngine;
 namespace _Project.Scripts.Features.Data
 {
   [CreateAssetMenu(fileName = "Symbol Data", menuName = "Data/Playable/Symbol Data", order = 0)]
-  public class SymbolData : BaseContentData
+  public class SymbolData : GameCustomData
   {
     [SerializeField] private Mesh _meshClassic;
     [SerializeField] private Material _materialClassic;
@@ -15,9 +15,6 @@ namespace _Project.Scripts.Features.Data
     
     [SerializeField] private Sprite _icon;
     
-    [SerializeField] private ItemType _itemType;
-
-    public ItemType ItemType => _itemType;
     public Mesh MeshClassic => _meshClassic;
     public Material MaterialClassic => _materialClassic;
     public Sprite Icon => _icon;

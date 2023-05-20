@@ -15,13 +15,13 @@ namespace _Project.Scripts.Services.GameMetaProvider
 {
   public class GameMetaProvider : IGameMetaProvider
   {
-    private const string SymbolsDataPath = "Data/Game/Symbols";
-    
+    private const string GameDataPath = "Data/Game";
+
     private readonly IAssetProvider _assetProvider;
     private readonly IUnlockService _unlockService;
     private readonly IGameSaveSystem _gameSaveSystem;
 
-    private readonly BaseContentData[] _itemsData;
+    private readonly GameCustomData[] _gameCustomsData;
 
     private BasePlayerViewMono BasePlayerViewMono { get; set; }
 
@@ -34,7 +34,7 @@ namespace _Project.Scripts.Services.GameMetaProvider
       _unlockService = unlockService;
       _gameSaveSystem = gameSaveSystem;
 
-      _itemsData = Load<BaseContentData>(SymbolsDataPath);
+      _gameCustomsData = Load<GameCustomData>(GameDataPath);
 
       if (_gameSaveSystem.Get().IsFirstSession)
         OpenFree();
@@ -47,7 +47,7 @@ namespace _Project.Scripts.Services.GameMetaProvider
 
     public void SetPlayerViewMono(BasePlayerViewMono basePlayerViewMono) =>
       BasePlayerViewMono = basePlayerViewMono;
-    
+
     public BasePlayerViewMono GetPlayerViewMono() =>
       BasePlayerViewMono;
 
@@ -103,7 +103,7 @@ namespace _Project.Scripts.Services.GameMetaProvider
           {
             Sign = SymbolSign.X,
             Color = Color.red,
-            SymbolData = GetSymbolData<SymbolData>(ItemType.SymbolX)
+            SymbolData = GetCustomData<SymbolData>(ItemType.SymbolX)
           }
         },
         {
@@ -111,50 +111,26 @@ namespace _Project.Scripts.Services.GameMetaProvider
           {
             Sign = SymbolSign.O,
             Color = Color.blue,
-            SymbolData = GetSymbolData<SymbolData>(ItemType.SymbolO)
+            SymbolData = GetCustomData<SymbolData>(ItemType.SymbolO)
           }
         }
       };
     }
 
+
     private void OpenFree()
     {
-      foreach (BaseContentData symbolData in _itemsData)
+      foreach (BaseContentData gameCustomData in _gameCustomsData)
       {
-        if (IsUnlocked(symbolData.Id) || _unlockService.GetUnlockType(symbolData.Id) != UnlockType.Free)
+        if (IsUnlocked(gameCustomData.Id) || _unlockService.GetUnlockType(gameCustomData.Id) != UnlockType.Free)
           continue;
 
-        _gameSaveSystem.Get().UnlockedShopContent.Add(symbolData.Id);
-        _gameSaveSystem.Get().ChosenShopContent.Add(symbolData.Id);
+        _gameSaveSystem.Get().UnlockedShopContent.Add(gameCustomData.Id);
+        _gameSaveSystem.Get().ChosenShopContent.Add(gameCustomData.Id);
       }
 
       _gameSaveSystem.Get().IsFirstSession = false;
       _gameSaveSystem.Save();
-    }
-
-    private T[] GetAllTypeData<T>(BaseContentData[] baseContentsData) where T : BaseContentData
-    {
-      var filteredData = new List<T>();
-
-      foreach (BaseContentData data in baseContentsData)
-        if (data is T symbolData)
-          filteredData.Add(symbolData);
-
-      return filteredData.ToArray();
-    }
-    
-    private SymbolData GetSymbolData<T>(ItemType symbolSign)
-    {
-      foreach (SymbolData symbolData in GetAllTypeData<SymbolData>(_itemsData))
-      {
-        if (!_gameSaveSystem.Get().ChosenShopContent.Contains(symbolData.Id) || symbolData.ItemType != symbolSign)
-          continue;
-        
-        return symbolData;
-      }
-
-      Debug.LogException(new Exception("Didn't find any chosen symbolData with sign " + symbolSign));
-      return null;
     }
 
     private bool IsUnlocked(string itemId) =>
@@ -162,6 +138,31 @@ namespace _Project.Scripts.Services.GameMetaProvider
 
     private T[] Load<T>(string path) where T : BaseContentData =>
       _assetProvider.GetAllResources<T>(path);
+
+    private T GetCustomData<T>(ItemType itemType) where T : GameCustomData
+    {
+      foreach (T data in GetAllDataType<T>(_gameCustomsData))
+      {
+        if (!_gameSaveSystem.Get().ChosenShopContent.Contains(data.Id) || data.ItemType != itemType)
+          continue;
+
+        return data;
+      }
+
+      Debug.LogException(new Exception("Didn't find any chosen data with type " + itemType));
+      return null;
+    }
+
+    private T[] GetAllDataType<T>(GameCustomData[] gameCustomData) where T : GameCustomData
+    {
+      var filteredData = new List<T>();
+
+      foreach (BaseContentData data in gameCustomData)
+        if (data is T symbolData)
+          filteredData.Add(symbolData);
+
+      return filteredData.ToArray();
+    }
   }
 
   [Serializable]

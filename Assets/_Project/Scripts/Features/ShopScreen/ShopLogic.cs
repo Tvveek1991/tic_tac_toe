@@ -44,9 +44,9 @@ namespace _Project.Scripts.Features.ShopScreen
 
     private ShopView _shopView;
 
-    private readonly Dictionary<ItemType, ShopItemData[]> _itemsDataMap = new Dictionary<ItemType, ShopItemData[]>();
-    private readonly Dictionary<ItemType, ScrollViewItemsView> _shopItemsView = new Dictionary<ItemType, ScrollViewItemsView>();
-    private readonly Dictionary<ItemType, ScrollViewItemButton[]> _shopItemButtons = new Dictionary<ItemType, ScrollViewItemButton[]>();
+    private readonly Dictionary<ItemType, ShopItemData[]> _itemsDataMap = new();
+    private readonly Dictionary<ItemType, ScrollViewItemsView> _shopItemsView = new();
+    private readonly Dictionary<ItemType, ScrollViewItemButton[]> _shopItemButtons = new();
 
     private readonly ShopItemData[] _shopItemData;
     private readonly ShopTypeData[] _shopTypesData;
