@@ -8,6 +8,7 @@ using _Project.Scripts.Features.GameScreen.Serialized;
 using _Project.Scripts.Services._Interfaces;
 using _Project.Scripts.Services.GameMetaProvider;
 using _Project.Scripts.Services.Localization.Logic;
+using UnityEngine;
 
 namespace _Project.Scripts.Features.GameScreen
 {
@@ -70,7 +71,7 @@ namespace _Project.Scripts.Features.GameScreen
     public virtual void SetPlayerUi(SymbolSign symbol)
     {
       GameViewMono.SymbolImage.sprite = PlayerData[symbol].SymbolData.Icon;
-      GameViewMono.SymbolImage.color = PlayerData[symbol].Color;
+      GameViewMono.SymbolImage.color = symbol == SymbolSign.X ? Color.blue : Color.red;// PlayerData[symbol].Color;
     }
 
     public void SetFigureState(SymbolSign symbol, SymbolSize size) => 

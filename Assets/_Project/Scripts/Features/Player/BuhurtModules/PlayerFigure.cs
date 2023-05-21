@@ -44,7 +44,7 @@ namespace _Project.Scripts.Features.Player.BuhurtModules
 
       _mesh.mesh = playerData.SymbolData.MeshBuhurt[(int) Size];
       _meshRenderer.material = playerData.SymbolData.MaterialBuhurt[(int) Size];
-      _meshRenderer.material.SetColor(_color, playerData.Color);
+      // _meshRenderer.material.SetColor(_color, playerData.Color);
     }
 
     public void OnPointerDown(PointerEventData eventData)

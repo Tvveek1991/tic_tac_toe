@@ -70,7 +70,7 @@ namespace _Project.Scripts.Features.Field
     {
       _cells[y, x].MeshFilter.mesh = _gameMetaProvider.GetMesh(dragableData);
       _cells[y, x].MeshRenderer.material = _gameMetaProvider.GetMaterial(dragableData);
-      _cells[y, x].MeshRenderer.material.color = _playerData[_playerSymbol].Color;
+      // _cells[y, x].MeshRenderer.material.color = _playerData[_playerSymbol].Color;
       _cells[y, x].MeshRenderer.enabled = true;
 
       Debug.Log("Win is " + CheckWin(_playerSymbol) + (CheckWin(_playerSymbol) ? " Is" + _playerSymbol : ""));
