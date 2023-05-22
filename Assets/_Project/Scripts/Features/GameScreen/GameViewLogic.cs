@@ -6,7 +6,6 @@ using _Project.Scripts.Features.DragAndDrop.Interface;
 using _Project.Scripts.Features.GameScreen.Mono;
 using _Project.Scripts.Features.GameScreen.Serialized;
 using _Project.Scripts.Services._Interfaces;
-using _Project.Scripts.Services.GameMetaProvider;
 using _Project.Scripts.Services.Localization.Logic;
 using UnityEngine;
 
@@ -17,8 +16,6 @@ namespace _Project.Scripts.Features.GameScreen
     private readonly ILocaleSystem _localeSystem;
     private readonly IAudioService _audioService;
 
-    protected Dictionary<SymbolSign, PlayerData> PlayerData;
-
     protected readonly GameViewMono GameViewMono;
 
     protected readonly IInputResolver InputResolver;
@@ -26,7 +23,7 @@ namespace _Project.Scripts.Features.GameScreen
 
     protected Action OnCreateNonConnectionPlayer;
 
-    protected readonly Dictionary<SymbolSign, SymbolSize[]> FiguresState;
+    private readonly Dictionary<SymbolSign, SymbolSize[]> _figuresState;
 
     public IDragDrop DragDrop { get; private set; }
 
@@ -39,7 +36,7 @@ namespace _Project.Scripts.Features.GameScreen
       _localeSystem = localeSystem;
       _audioService = audioService;
 
-      FiguresState = new Dictionary<SymbolSign, SymbolSize[]>
+      _figuresState = new Dictionary<SymbolSign, SymbolSize[]>
       {
         {SymbolSign.X, new[] {SymbolSize.Tiny, SymbolSize.Small, SymbolSize.Medium, SymbolSize.Big, SymbolSize.Large}},
         {SymbolSign.O, new[] {SymbolSize.Tiny, SymbolSize.Small, SymbolSize.Medium, SymbolSize.Big, SymbolSize.Large}}
@@ -49,7 +46,6 @@ namespace _Project.Scripts.Features.GameScreen
     public virtual void Construct(Action onBack, Action onCreateNonConnectionPlayer)
     {
       OnCreateNonConnectionPlayer = onCreateNonConnectionPlayer;
-      PlayerData = GameMetaProvider.GetPlayerData();
 
       Localize(_localeSystem);
       GameViewMono.gameObject.SetActive(false);
@@ -70,14 +66,21 @@ namespace _Project.Scripts.Features.GameScreen
 
     public virtual void SetPlayerUi(SymbolSign symbol)
     {
-      GameViewMono.SymbolImage.sprite = PlayerData[symbol].SymbolData.Icon;
-      GameViewMono.SymbolImage.color = symbol == SymbolSign.X ? Color.blue : Color.red;// PlayerData[symbol].Color;
+      GameViewMono.SymbolImage.sprite = GameMetaProvider.GetIcon(symbol);
+      GameViewMono.SymbolImage.color = symbol == SymbolSign.X ? Color.blue : Color.red;
     }
 
-    public void SetFigureState(SymbolSign symbol, SymbolSize size) => 
-      FiguresState[symbol][(int) size] = SymbolSize.Default;
+    public void SetFigureState(SymbolSign symbol, SymbolSize size) =>
+      _figuresState[symbol][(int) size] = SymbolSize.Default;
 
     public virtual void ChangeTurningPlayer(SymbolSign activeSign) { }
+
+    protected void LoadBuhurtPart(SymbolSign symbol)
+    {
+      for (var i = 0; i < _figuresState[symbol].Length; i++)
+        GameViewMono.GetFigures()[i].LoadFigure(symbol, _figuresState[symbol][i] == SymbolSize.Default,
+          GameMetaProvider.GetMesh(symbol, (SymbolSize)i), GameMetaProvider.GetMaterial(symbol, (SymbolSize)i));
+    }
 
     private void CreateDragDrop()
     {

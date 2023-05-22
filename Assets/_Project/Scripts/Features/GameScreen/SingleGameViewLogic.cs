@@ -1,9 +1,11 @@
 using System;
+using _Project.Scripts.Features.Data;
 using _Project.Scripts.Features.GameScreen.Mono;
 using _Project.Scripts.Features.GameScreen.Serialized;
 using _Project.Scripts.Features.Player.Bots;
 using _Project.Scripts.Services._Interfaces;
 using _Project.Scripts.Services.Localization.Logic;
+using UnityEngine;
 
 namespace _Project.Scripts.Features.GameScreen
 {
@@ -38,8 +40,8 @@ namespace _Project.Scripts.Features.GameScreen
     {
       SymbolSign nextSign = activeSign == SymbolSign.X ? SymbolSign.O : SymbolSign.X;
       RefreshAfterChangeTurn(nextSign);
-      
-      if(InputResolver.IsLocked)
+
+      if (InputResolver.IsLocked)
         return;
 
       if (GameMetaProvider.GetEnemyType() == EnemyType.Bot)
@@ -55,7 +57,7 @@ namespace _Project.Scripts.Features.GameScreen
       if (GameMetaProvider.GetGame() != Game.Buhurt)
         return;
 
-      GameViewMono.LoadBuhurtPart(PlayerData[symbol], FiguresState[symbol]);
+      LoadBuhurtPart(symbol);
       GameViewMono.SetVisibleBuhurtPart(true);
     }
 

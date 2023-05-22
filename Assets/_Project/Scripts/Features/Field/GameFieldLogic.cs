@@ -17,7 +17,6 @@ namespace _Project.Scripts.Features.Field
     private const int FieldSizeY = 3;
 
     private readonly SymbolCell[,] _cells = new SymbolCell[FieldSizeY, FieldSizeX];
-    private readonly Dictionary<SymbolSign, PlayerData> _playerData;
 
     private SymbolSign _playerSymbol;
 
@@ -34,7 +33,6 @@ namespace _Project.Scripts.Features.Field
       _audioService = audioService;
       _gameMetaProvider = gameMetaProvider;
 
-      _playerData = gameMetaProvider.GetPlayerData();
       CreateCellsField();
     }
 
@@ -68,8 +66,8 @@ namespace _Project.Scripts.Features.Field
 
     private void SetFieldCell(int x, int y, DragableData dragableData)
     {
-      _cells[y, x].MeshFilter.mesh = _gameMetaProvider.GetMesh(dragableData);
-      _cells[y, x].MeshRenderer.material = _gameMetaProvider.GetMaterial(dragableData);
+      _cells[y, x].MeshFilter.mesh = _gameMetaProvider.GetMesh(dragableData.GetSymbol(), dragableData.GetSize());
+      _cells[y, x].MeshRenderer.material = _gameMetaProvider.GetMaterial(dragableData.GetSymbol(), dragableData.GetSize());
       // _cells[y, x].MeshRenderer.material.color = _playerData[_playerSymbol].Color;
       _cells[y, x].MeshRenderer.enabled = true;
 

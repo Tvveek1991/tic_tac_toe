@@ -26,6 +26,12 @@ namespace _Project.Scripts.Core_Logic.Common
       return obj;
     }
 
+    protected T Find<T>(string path) where T : Object
+    {
+      var prefab = _assetProvider.GetResource<T>(path);
+      return prefab;
+    }
+
     protected void Clear(GameObject obj)
     {
       if (obj != null)

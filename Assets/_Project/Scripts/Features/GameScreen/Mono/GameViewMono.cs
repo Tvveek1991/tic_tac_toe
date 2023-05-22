@@ -1,8 +1,6 @@
 using System;
 using System.Collections.Generic;
-using _Project.Scripts.Features.GameScreen.Serialized;
 using _Project.Scripts.Features.Player.BuhurtModules;
-using _Project.Scripts.Services.GameMetaProvider;
 using DG.Tweening;
 using TMPro;
 using Unity.Netcode;
@@ -29,8 +27,8 @@ namespace _Project.Scripts.Features.GameScreen.Mono
     [SerializeField] private CanvasGroup playerFiguresCanvasGroup;
     [SerializeField] private List<PlayerFigure> playerFigures;
 
-    private readonly NetworkVariable<int> _netPlayersCount = new NetworkVariable<int>();
-    private readonly NetworkVariable<int> _netActivePlayer = new NetworkVariable<int>(-1);
+    private readonly NetworkVariable<int> _netPlayersCount = new();
+    private readonly NetworkVariable<int> _netActivePlayer = new(-1);
 
     private Action<int> _onChosenFirstTurningPlayer;
     private Action _onClientConnect;
@@ -52,9 +50,6 @@ namespace _Project.Scripts.Features.GameScreen.Mono
 
     public List<PlayerFigure> GetFigures() =>
       playerFigures;
-
-    public void LoadBuhurtPart(PlayerData playerData, SymbolSize[] symbolSizes) => 
-      playerFigures.ForEach(item => item.LoadFigure(playerData, symbolSizes));
 
     public void SetVisibleBuhurtPart(bool isOn)
     {

@@ -19,7 +19,7 @@ namespace _Project.Scripts.Features.Player
       if ((!IsOwner && GameMetaProvider.GetGameMode() != GameMode.Single) || !NetIsPlayerTurn.Value)
         return;
 
-      Ray ray = Camera.ScreenPointToRay(Application.isEditor ? Input.mousePosition : (Vector3) Input.touches[0].position);
+      Ray ray = Camera.ScreenPointToRay(Application.isEditor ? Input.mousePosition : Input.touches[0].position);
 
       if (!Physics.Raycast(ray, out RaycastHit hit))
         return;

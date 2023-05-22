@@ -10,8 +10,8 @@ namespace _Project.Scripts.Features.Player
 {
   public class BasePlayerViewMono : NetworkBehaviour
   {
-    protected readonly NetworkVariable<bool> NetIsPlayerTurn = new NetworkVariable<bool>();
-    protected readonly NetworkVariable<SymbolSign> NetSymbolSign = new NetworkVariable<SymbolSign>();
+    protected readonly NetworkVariable<bool> NetIsPlayerTurn = new();
+    protected readonly NetworkVariable<SymbolSign> NetSymbolSign = new();
 
     protected int Index;
 

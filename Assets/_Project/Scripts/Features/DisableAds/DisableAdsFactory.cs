@@ -13,7 +13,6 @@ namespace _Project.Scripts.Features.DisableAds
 
     private const string BaseCanvas = "Canvas";
 
-    private readonly IAssetProvider _assetProvider;
     private readonly ILocaleSystem _localeSystem;
     private readonly IAudioService _audioService;
     
@@ -22,7 +21,6 @@ namespace _Project.Scripts.Features.DisableAds
 
     public DisableAdsFactory(IAssetProvider assetProvider, ILocaleSystem localeSystem, IAudioService audioService) : base(assetProvider)
     {
-      _assetProvider = assetProvider;
       _localeSystem = localeSystem;
       _audioService = audioService;
     }
@@ -31,7 +29,7 @@ namespace _Project.Scripts.Features.DisableAds
     {
       Transform parent = GameObject.Find(BaseCanvas).transform;
 
-      DisableAdsWindow windowPrefab = _assetProvider.GetResource<DisableAdsWindow>(DisableAdsPath);
+      var windowPrefab = Create<DisableAdsWindow>(DisableAdsPath);
       
       _disableAdsWindow = Object.Instantiate(windowPrefab, parent);
       _disableAdsWindow.gameObject.SetActive(false);

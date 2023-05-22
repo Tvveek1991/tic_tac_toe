@@ -4,7 +4,6 @@ using System.Linq;
 using _Project.Scripts.Features.Data;
 using _Project.Scripts.Features.GameScreen.Serialized;
 using _Project.Scripts.Features.Player;
-using _Project.Scripts.Features.ShopScreen.Data;
 using _Project.Scripts.Features.ShopScreen.Serialized;
 using _Project.Scripts.Services._Interfaces;
 using _Project.Scripts.Services.Unlocker;
@@ -25,8 +24,11 @@ namespace _Project.Scripts.Services.GameMetaProvider
 
     private BasePlayerViewMono BasePlayerViewMono { get; set; }
 
-
-    private Dictionary<SymbolSign, PlayerData> _playerData;
+    private readonly Dictionary<SymbolSign, ItemType> _itemTypesTransfer = new ()
+    {
+      {SymbolSign.X, ItemType.SymbolX},
+      {SymbolSign.O, ItemType.SymbolO}
+    };
 
     public GameMetaProvider(IAssetProvider assetProvider, IGameSaveSystem gameSaveSystem, IUnlockService unlockService)
     {
@@ -38,12 +40,7 @@ namespace _Project.Scripts.Services.GameMetaProvider
 
       if (_gameSaveSystem.Get().IsFirstSession)
         OpenFree();
-
-      CreatePlayerData();
     }
-
-    public Dictionary<SymbolSign, PlayerData> GetPlayerData() =>
-      _playerData;
 
     public void SetPlayerViewMono(BasePlayerViewMono basePlayerViewMono) =>
       BasePlayerViewMono = basePlayerViewMono;
@@ -78,15 +75,27 @@ namespace _Project.Scripts.Services.GameMetaProvider
     public GameMode GetGameMode() =>
       _gameSaveSystem.Get().Mode;
 
-    public Mesh GetMesh(DragableData dragableData) =>
-      GetGame() == Game.Classic
-        ? GetPlayerData()[dragableData.GetSymbol()].SymbolData.MeshClassic
-        : GetPlayerData()[dragableData.GetSymbol()].SymbolData.MeshBuhurt[(int) dragableData.GetSize()];
+    public Sprite GetIcon(SymbolSign sign)
+    {
+      ItemType itemType = _itemTypesTransfer[sign];
+      return GetCustomData<SymbolData>(itemType).Icon;
+    }
+    
+    public Mesh GetMesh(SymbolSign symbolSign, SymbolSize symbolSize)
+    {
+      ItemType itemType = _itemTypesTransfer[symbolSign];
+      return GetGame() == Game.Classic
+        ? GetCustomData<SymbolData>(itemType).MeshClassic
+        : GetCustomData<SymbolData>(itemType).MeshBuhurt[(int) symbolSize];
+    }
 
-    public Material GetMaterial(DragableData dragableData) =>
-      GetGame() == Game.Classic
-        ? GetPlayerData()[dragableData.GetSymbol()].SymbolData.MaterialClassic
-        : GetPlayerData()[dragableData.GetSymbol()].SymbolData.MaterialBuhurt[(int) dragableData.GetSize()];
+    public Material GetMaterial(SymbolSign symbolSign, SymbolSize symbolSize)
+    {
+      ItemType itemType = _itemTypesTransfer[symbolSign];
+      return GetGame() == Game.Classic
+        ? GetCustomData<SymbolData>(itemType).MaterialClassic
+        : GetCustomData<SymbolData>(itemType).MaterialBuhurt[(int) symbolSize];
+    }
 
     public void Clear()
     {
@@ -94,33 +103,9 @@ namespace _Project.Scripts.Services.GameMetaProvider
         Object.Destroy(BasePlayerViewMono.gameObject);
     }
 
-    private void CreatePlayerData()
-    {
-      _playerData = new Dictionary<SymbolSign, PlayerData>
-      {
-        {
-          SymbolSign.X, new PlayerData()
-          {
-            Sign = SymbolSign.X,
-            Color = Color.red,
-            SymbolData = GetCustomData<SymbolData>(ItemType.SymbolX)
-          }
-        },
-        {
-          SymbolSign.O, new PlayerData()
-          {
-            Sign = SymbolSign.O,
-            Color = Color.blue,
-            SymbolData = GetCustomData<SymbolData>(ItemType.SymbolO)
-          }
-        }
-      };
-    }
-
-
     private void OpenFree()
     {
-      foreach (BaseContentData gameCustomData in _gameCustomsData)
+      foreach (GameCustomData gameCustomData in _gameCustomsData)
       {
         if (IsUnlocked(gameCustomData.Id) || _unlockService.GetUnlockType(gameCustomData.Id) != UnlockType.Free)
           continue;
@@ -157,19 +142,11 @@ namespace _Project.Scripts.Services.GameMetaProvider
     {
       var filteredData = new List<T>();
 
-      foreach (BaseContentData data in gameCustomData)
+      foreach (GameCustomData data in gameCustomData)
         if (data is T symbolData)
           filteredData.Add(symbolData);
 
       return filteredData.ToArray();
     }
-  }
-
-  [Serializable]
-  public class PlayerData
-  {
-    public SymbolSign Sign;
-    public Color Color;
-    public SymbolData SymbolData;
   }
 }

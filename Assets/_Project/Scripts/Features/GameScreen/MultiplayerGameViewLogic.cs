@@ -7,15 +7,16 @@ using _Project.Scripts.Services._Interfaces;
 using _Project.Scripts.Services.Localization.Logic;
 using _Project.Scripts.Services.Network;
 using Unity.Netcode;
+using UnityEngine;
 
 namespace _Project.Scripts.Features.GameScreen
 {
   public class MultiplayerGameViewLogic : GameViewLogic
   {
-    private readonly List<BasePlayerViewMono> _spawnPool = new List<BasePlayerViewMono>();
-    
+    private readonly List<BasePlayerViewMono> _spawnPool = new();
+
     private readonly INetwork _network;
-    
+
     public MultiplayerGameViewLogic(GameViewMono gameViewMono, ILocaleSystem localeSystem, INetwork network, IGameMetaProvider gameMetaProvider,
       IAudioService audioService, IInputResolver inputResolver)
       : base(gameViewMono, localeSystem, gameMetaProvider, audioService, inputResolver)
@@ -38,7 +39,7 @@ namespace _Project.Scripts.Features.GameScreen
     {
       GameViewMono.SetLocalIpAddress(_network.GetLocalIPAddress());
 
-      // Debug.Log("Start Spawn Player");
+      Debug.Log("Start Spawn Player");
 
       OnCreateNonConnectionPlayer?.Invoke();
       _spawnPool.Add(GameMetaProvider.GetPlayerViewMono());
@@ -61,12 +62,12 @@ namespace _Project.Scripts.Features.GameScreen
       GameMetaProvider.GetPlayerViewMono().SetPlayerTurnServerRpc(GameMetaProvider.GetPlayerViewMono().OwnerClientId == (ulong) activePlayer);
       GameViewMono.TurnText.text = GameMetaProvider.GetPlayerViewMono().OwnerClientId == (ulong) activePlayer ? "Your turn" : "Enemy turn";
 
-      if (GameMetaProvider.GetGame() != Game.Buhurt) 
+      if (GameMetaProvider.GetGame() != Game.Buhurt)
         return;
-      
+
       SymbolSign symbol = (SymbolSign) activePlayer + 1;
-      GameViewMono.LoadBuhurtPart(PlayerData[symbol], FiguresState[symbol]);
-      GameViewMono.SetVisibleBuhurtPart(GameMetaProvider.GetPlayerViewMono().OwnerClientId == (uint)activePlayer);
+      LoadBuhurtPart(symbol);
+      GameViewMono.SetVisibleBuhurtPart(GameMetaProvider.GetPlayerViewMono().OwnerClientId == (uint) activePlayer);
     }
   }
 }

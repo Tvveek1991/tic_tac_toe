@@ -5,6 +5,7 @@ using _Project.Scripts.Core_Logic.Common;
 using _Project.Scripts.Features.GameScreen;
 using _Project.Scripts.Services._Interfaces;
 using _Project.Scripts.Services.Network.Mono;
+using Sirenix.Utilities;
 using Unity.Netcode;
 using Unity.Netcode.Transports.UTP;
 using UnityEngine;
@@ -15,6 +16,7 @@ namespace _Project.Scripts.Services.Network
   {
     private const string ClientDataTransmitterPath = "Features/Network/Client Data Transmitter";
     private const string NetworkManagerPath = "Features/Network/Network Manager";
+    private const string NetworkPrefabsPath = "Network/NetworkPrefabs";
 
     public NetworkManager NetworkManager { get; private set; }
 
@@ -25,6 +27,9 @@ namespace _Project.Scripts.Services.Network
       SpawnNetworkManager();
 
       Debug.Log("My Local IP: " + GetLocalIPAddress());
+      
+      var prefabsList = Find<NetworkPrefabsList>(NetworkPrefabsPath);
+      prefabsList.PrefabList.ForEach(item => NetworkManager.AddNetworkPrefab(item.Prefab));
     }
 
     public void ConnectClient(bool isHost)

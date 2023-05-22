@@ -46,6 +46,7 @@ namespace _Project.Scripts.Features.Player.Bots
       _gameFactory = gameFactory;
       
       Difficult = (BotDifficult)Random.Range(0, 3);
+      Debug.Log("Bot difficult is " + Difficult);
     }
 
     public void BotTurn(Action onEndTurn)

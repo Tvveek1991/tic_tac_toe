@@ -42,7 +42,7 @@ namespace _Project.Scripts.Services.Network.Mono
     public IInputResolver GetInputResolver() =>
       _inputResolver;
 
-    private IEnumerator GetExternalIP()
+    /*private IEnumerator GetExternalIP()
     {
       string url = "https://api.ipify.org";
       using var www = new WWW(url);
@@ -55,6 +55,6 @@ namespace _Project.Scripts.Services.Network.Mono
         string externalIP = www.text;
         Debug.Log("External IP address: " + externalIP);
       }
-    }
+    }*/
   }
 }

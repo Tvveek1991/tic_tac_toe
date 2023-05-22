@@ -1,3 +1,4 @@
+using System;
 using _Project.Scripts.Features.Data;
 using _Project.Scripts.Features.DragAndDrop.Interface;
 using _Project.Scripts.Features.GameScreen.Serialized;
@@ -9,8 +10,7 @@ namespace _Project.Scripts.Features.Player.BuhurtModules
 {
   public class PlayerFigure : MonoBehaviour, IPointerDownHandler
   {
-    private readonly int _color = Shader.PropertyToID("_Color");
-
+    public SymbolSign Sign;
     public SymbolSize Size;
 
     private bool _isMoved;
@@ -20,7 +20,6 @@ namespace _Project.Scripts.Features.Player.BuhurtModules
 
     private DragableData _dragableData;
     private DragablePart _dragablePart;
-    private PlayerData _playerData;
 
     private IDragDrop _dragDrop;
 
@@ -34,17 +33,18 @@ namespace _Project.Scripts.Features.Player.BuhurtModules
       _dragablePart = CreateDragableFromGameIconPrefab();
     }
 
-    public void LoadFigure(PlayerData playerData, SymbolSize[] symbolSizes)
+    public void LoadFigure(SymbolSign symbolSign, bool isMoved, Mesh mesh = null, Material material = null)
     {
-      _isMoved = (symbolSizes[(int) Size] == SymbolSize.Default);
-
+      Sign = symbolSign;
+      
+      _isMoved = isMoved;
       _meshRenderer.enabled = !_isMoved;
+      
+      if(_isMoved)
+        return;
 
-      _playerData = playerData;
-
-      _mesh.mesh = playerData.SymbolData.MeshBuhurt[(int) Size];
-      _meshRenderer.material = playerData.SymbolData.MaterialBuhurt[(int) Size];
-      // _meshRenderer.material.SetColor(_color, playerData.Color);
+      _mesh.mesh = mesh;
+      _meshRenderer.material = material;
     }
 
     public void OnPointerDown(PointerEventData eventData)
@@ -52,7 +52,7 @@ namespace _Project.Scripts.Features.Player.BuhurtModules
       if (_isMoved)
         return;
 
-      _dragablePart.SetDragableData(new DragableData(_playerData.Sign, Size));
+      _dragablePart.SetDragableData(new DragableData(Sign, Size));
       _dragDrop.BindPartToCursor(_dragablePart);
     }
 
