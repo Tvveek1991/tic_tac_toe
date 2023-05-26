@@ -116,7 +116,7 @@ namespace _Project.Scripts.Services.GameMetaProvider
     public void SetOpponentSkinIndex(int skinIndex)
     {
       // _opponentSkinIndex = skinIndex;
-      Debug.Log(skinIndex);
+      // Debug.Log(skinIndex);
     }
     
     public void SetOpponentData(SymbolSign symbolSign)
@@ -175,20 +175,6 @@ namespace _Project.Scripts.Services.GameMetaProvider
           filteredData.Add(symbolData);
 
       return filteredData.ToArray();
-    }
-
-    private T GetNetworkOpponentData<T>(ItemType itemType) where T : GameCustomData
-    {
-      List<T> list = GetAllDataType<T>(_gameCustomsData).Where(item => item.ItemType == itemType).ToList();
-      /*foreach (T data in list.Where(data => list.IndexOf(data) == _opponentSkinIndex))
-      {
-        // Debug.Log(_opponentSkinIndex);
-        // Debug.Log(data.Name);
-        return data;
-      }*/
-
-      Debug.LogException(new Exception("Didn't find any chosen data with type " + itemType));
-      return null;
     }
   }
 }

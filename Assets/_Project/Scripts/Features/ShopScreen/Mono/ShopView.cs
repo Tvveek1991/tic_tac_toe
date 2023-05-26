@@ -75,7 +75,7 @@ namespace _Project.Scripts.Features.ShopScreen.Mono
       TopPanel.DOFade(1, AnimDuration);
 
       MainPanel.interactable = false;
-      RectTransform mainRect = MainPanel.GetComponent<RectTransform>();
+      var mainRect = MainPanel.GetComponent<RectTransform>();
       mainRect.anchoredPosition = _windowDefaultPos - Vector3.up * WindowAnimStepY;
       mainRect.DOAnchorPos(_windowDefaultPos, AnimDuration)
         .OnComplete(delegate
@@ -95,13 +95,12 @@ namespace _Project.Scripts.Features.ShopScreen.Mono
       RectTransform mainRect = MainPanel.GetComponent<RectTransform>();
       mainRect.anchoredPosition = _windowDefaultPos;   
       
-      _onClickBack?.Invoke();
-
       mainRect.DOAnchorPos(_windowDefaultPos - Vector3.up * WindowAnimStepY, AnimDuration)
         .OnComplete(delegate
         {
           TopPanel.interactable = true;
           MainPanel.interactable = true;
+          _onClickBack?.Invoke();
         });
     }
   }

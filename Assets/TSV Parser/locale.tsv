@@ -8,7 +8,7 @@ Policy.Decline	Отказаться	Decline
 Settings	Настройки	Settings
 Music	Музыка	Music
 Sounds	Звук	Sound
-NoConnection	Нет интернета	No Internet
+AdNotLoaded	Реклама не загружена	Unable to load an ad
 NoConnection.Reconnect	Идёт переподключение...	Reconnecting...
 NoConnection.Description	Отсутствует интернет-соединение, подключиться заново?	There's no connection to the internet, connect again?
 Connect	Подключиться	Connect
@@ -38,19 +38,21 @@ Rate.Description	Тебе понравилось в нашем приложен�
 Rate.Rate	Оценить	Rate
 Rate.Thanks	Большое спасибо за оценку!	Thank you so much for rating!
 Rate.Welcome	Пожалуйста	You're welcome
-ShopName.Figures_X	ShopName.Figures_X	ShopName.Figures_X
-ShopName.Figures_O	ShopName.Figures_O	ShopName.Figures_O
-ShopName.Field	ShopName.Field	ShopName.Field
-ShopName.Music	ShopName.Music	ShopName.Music
-SignXItem.Name_1	SignXItem.Name_2	SignXItem.Name_3
-SignXItem.Name_2	SignXItem.Name_3	SignXItem.Name_4
-SignXItem.Name_3	SignXItem.Name_4	SignXItem.Name_5
-SignOItem.Name_1	SignOItem.Name_2	SignOItem.Name_3
-SignOItem.Name_2	SignOItem.Name_3	SignOItem.Name_4
-SignOItem.Name_3	SignOItem.Name_4	SignOItem.Name_5
-FieldItem.Name_1	FieldItem.Name_2	FieldItem.Name_3
-FieldItem.Name_2	FieldItem.Name_3	FieldItem.Name_4
-FieldItem.Name_3	FieldItem.Name_4	FieldItem.Name_5
-MusicItem.Name_1	MusicItem.Name_2	MusicItem.Name_3
-MusicItem.Name_2	MusicItem.Name_3	MusicItem.Name_4
-MusicItem.Name_3	MusicItem.Name_4	MusicItem.Name_5
+ShopName.Figures_X	Figures_X	Figures_X
+ShopName.Figures_O	Figures_O	Figures_O
+ShopName.Field	Field	Field
+ShopName.Music	Music	Music
+SignXItem.Name_1	SignXItem._2	SignXItem._3
+SignXItem.Name_2	SignXItem._3	SignXItem._4
+SignXItem.Name_3	SignXItem._4	SignXItem._5
+SignOItem.Name_1	SignOItem._2	SignOItem._3
+SignOItem.Name_2	SignOItem._3	SignOItem._4
+SignOItem.Name_3	SignOItem._4	SignOItem._5
+FieldItem.Name_1	FieldItem._2	FieldItem._3
+FieldItem.Name_2	FieldItem._3	FieldItem._4
+FieldItem.Name_3	FieldItem._4	FieldItem._5
+MusicItem.Name_1	MusicItem._2	MusicItem._3
+MusicItem.Name_2	MusicItem._3	MusicItem._4
+MusicItem.Name_3	MusicItem._4	MusicItem._5
+Mode.Classic	Классика	Classic
+Mode.Buhurt	5на5	5*5

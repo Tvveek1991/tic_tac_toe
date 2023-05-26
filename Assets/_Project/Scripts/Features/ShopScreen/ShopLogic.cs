@@ -75,9 +75,6 @@ namespace _Project.Scripts.Features.ShopScreen
 
       _shopItemData = _assetProvider.GetAllResources<ShopItemData>(ShopItemDataPath);
       _shopTypesData = _assetProvider.GetAllResources<ShopTypeData>(ShopTypeDataPath);
-      
-      /*_upgradesData = gameGirlsData.GirlDatas
-        .FirstOrDefault(item => item.Id == _gameMetaProvider.CurrentGirl)?.UpgradeDatas;*/
 
       foreach (ShopTypeData typeData in _shopTypesData)
       {
@@ -169,7 +166,7 @@ namespace _Project.Scripts.Features.ShopScreen
         ShopItemData item = _itemsDataMap[t.Type][index];
         ScrollViewItemButton scrollViewItemButton = _shopFactory.CreateItemButton(_shopItemsView[t.Type].ContentParent);
 
-        string level = item.Description.Equals("") ? String.Empty : " " /*+ string.Format(_localeSystem.GetText("Level"), index + 1)*/;
+        string level = item.Description.Equals("") ? string.Empty : "112 " /*+ string.Format(_localeSystem.GetText("Level"), index + 1)*/;
         string description = _localeSystem.GetText(item.Name) + level;
 
         scrollViewItemButton.Construct(_localeSystem, _unlockService,
@@ -187,12 +184,7 @@ namespace _Project.Scripts.Features.ShopScreen
       foreach (ShopTypeData t in _shopTypesData)
       foreach (ShopItemData item in _itemsDataMap[t.Type])
         if (!IsUnlocked(item.Id) && _unlockService.GetUnlockType(item.Id) == UnlockType.Free)
-        {
           OnClickItem(item, true);
-          
-          /*_gameSaveSystem.Get().UpgradeContentChosenMoreThenOnce.Add(item.Id);
-          _gameSaveSystem.Save();*/
-        }
     }
 
     private void OnClickItem(ShopItemData itemData, bool fromInit = false)
@@ -235,8 +227,6 @@ namespace _Project.Scripts.Features.ShopScreen
 
       if (fromInit == false)
       {
-        
-        
         /*if (itemData.ItemType == ShopItemType.Look && !_gameSaveSystem.Get().UpgradeContentChosenMoreThenOnce.Contains(itemData.Id))
         {
           _gameSaveSystem.Get().UpgradeContentChosenMoreThenOnce.Add(itemData.Id);
@@ -262,12 +252,7 @@ namespace _Project.Scripts.Features.ShopScreen
         
         SendOpenEvent(itemData);
         
-      }, type =>
-        {
-          /*if (type == UnlockType.Money)
-            _moneyCounterLogic.ShowAddMoneyIfNotEnough();*/
-        }
-      );
+      });
 
       void Unlock()
       {
@@ -313,7 +298,6 @@ namespace _Project.Scripts.Features.ShopScreen
       foreach (KeyValuePair<ItemType, ScrollViewItemButton[]> pair in _shopItemButtons)
       {
         var index = 0;
-
         List<ScrollViewItemButton> scrollViewItemButtons = pair.Value.ToList().FindAll(item => _unlockService.GetUnlockType(item.GetId()) == UnlockType.Money);
 
         foreach (ScrollViewItemButton itemButton in scrollViewItemButtons

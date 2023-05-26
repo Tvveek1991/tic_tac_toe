@@ -13,7 +13,7 @@ namespace _Project.Scripts.Features.DisableAds
 {
   public class DisableAdsViewLogic : IDisableAdsViewLogic
   {
-    private const string ShowAdsTextKey = "Watch";
+    private const string ShowAdsTextKey = "DisableAds.Show";
 
     private readonly DisableAdsWindow _disableAdsWindow;
 
