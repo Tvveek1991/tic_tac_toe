@@ -23,7 +23,7 @@ namespace _Project.Scripts.Services.Unlocker
     private readonly DataUnlockBase _dataUnlockBase;
     private readonly Dictionary<UnlockType, UnlockHandler> _dictionary;
 
-    private uint CostMultiplier => (uint)(_remote.ShouldEnableFeatureTest() ? 30 : 1);
+    private uint CostMultiplier => 1;
 
     private delegate void UnlockHandler(string guid, uint cost, Action onSpend, Action<UnlockType> onFail);
 
@@ -37,26 +37,13 @@ namespace _Project.Scripts.Services.Unlocker
 
       _dataUnlockBase = assetProvider.GetResource<DataUnlockBase>(UnlocksDataPath);
 
-      if (remote.ShouldEnableFeatureTest())
+      _dictionary = new Dictionary<UnlockType, UnlockHandler>
       {
-        _dictionary = new Dictionary<UnlockType, UnlockHandler>
-        {
-          {UnlockType.Money, SpendMoney},
-          {UnlockType.Advertising, SpendMoney}, // !!!
-          {UnlockType.Free, OpenFree},
-          {UnlockType.IAP, OpenIAP},
-        };
-      }
-      else
-      {
-        _dictionary = new Dictionary<UnlockType, UnlockHandler>
-        {
-          {UnlockType.Money, SpendMoney},
-          {UnlockType.Advertising, ShowReward},
-          {UnlockType.Free, OpenFree},
-          {UnlockType.IAP, OpenIAP},
-        };
-      }
+        {UnlockType.Money, SpendMoney},
+        {UnlockType.Advertising, ShowReward},
+        {UnlockType.Free, OpenFree},
+        {UnlockType.IAP, OpenIAP},
+      };
     }
 
     public void Unlock(string guid, Action onSpend, Action<UnlockType> onFail = null)

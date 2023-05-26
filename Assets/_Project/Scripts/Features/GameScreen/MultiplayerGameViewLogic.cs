@@ -7,7 +7,6 @@ using _Project.Scripts.Services._Interfaces;
 using _Project.Scripts.Services.Localization.Logic;
 using _Project.Scripts.Services.Network;
 using Unity.Netcode;
-using UnityEngine;
 
 namespace _Project.Scripts.Features.GameScreen
 {
@@ -28,7 +27,7 @@ namespace _Project.Scripts.Features.GameScreen
     {
       base.Construct(onBack, onCreateNonConnectionPlayer);
 
-      GameViewMono.Construct(ConnectClientObjectServerRpc, ConnectPlayersToNetworkServerRpc, RefreshAfterChangeTurnServerRpc);
+      GameViewMono.Construct(ConnectClientObjectServerRpc, ConnectPlayersToNetworkServerRpc, RefreshAfterChangeTurnServerRpc, SetSkinsArrayServerRpc);
     }
 
     public override void ChangeTurningPlayer(SymbolSign activeSign) =>
@@ -39,8 +38,6 @@ namespace _Project.Scripts.Features.GameScreen
     {
       GameViewMono.SetLocalIpAddress(_network.GetLocalIPAddress());
 
-      Debug.Log("Start Spawn Player");
-
       OnCreateNonConnectionPlayer?.Invoke();
       _spawnPool.Add(GameMetaProvider.GetPlayerViewMono());
     }
@@ -49,16 +46,23 @@ namespace _Project.Scripts.Features.GameScreen
     private void ConnectPlayersToNetworkServerRpc()
     {
       // Debug.Log("Client Count: " + _network.NetworkManager.ConnectedClients.Count);
-      for (var i = 0; i < _network.NetworkManager.ConnectedClients.Count; i++)
-      {
+      for (var i = 0; i < _network.NetworkManager.ConnectedClients.Count; i++) 
         _spawnPool[i].NetworkObject.SpawnAsPlayerObject((uint) i, true);
-        // Debug.Log("SpawnedPlayer + " + i);
-      }
+      // Debug.Log("SpawnedPlayer + " + i);
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    private void SetSkinsArrayServerRpc()
+    {
+      SymbolSign symbol = (SymbolSign) GameMetaProvider.GetPlayerViewMono().OwnerClientId + 1;
+      GameViewMono.SetSkinIndexServerRpc((int)symbol - 1, GameMetaProvider.GetSkinIndex(symbol));
     }
 
     [ServerRpc(RequireOwnership = false)]
     private void RefreshAfterChangeTurnServerRpc(int activePlayer)
     {
+      GameMetaProvider.SetOpponentSkinIndex(GameViewMono.GetSkinIndex(GameMetaProvider.GetPlayerViewMono().OwnerClientId == 0 ? 1 : 0));
+      
       GameMetaProvider.GetPlayerViewMono().SetPlayerTurnServerRpc(GameMetaProvider.GetPlayerViewMono().OwnerClientId == (ulong) activePlayer);
       GameViewMono.TurnText.text = GameMetaProvider.GetPlayerViewMono().OwnerClientId == (ulong) activePlayer ? "Your turn" : "Enemy turn";
 

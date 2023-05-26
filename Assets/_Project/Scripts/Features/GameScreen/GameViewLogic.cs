@@ -61,6 +61,9 @@ namespace _Project.Scripts.Features.GameScreen
       CreateDragDrop();
     }
 
+    public GameViewMono GetGameViewMono() =>
+      GameViewMono;
+
     public void OpenWindow() =>
       AppearAnimation();
 

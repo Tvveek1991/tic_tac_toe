@@ -1,11 +1,9 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using _Project.Scripts.Features.Data;
 using _Project.Scripts.Features.Field.Mono;
 using _Project.Scripts.Features.GameScreen.Serialized;
 using _Project.Scripts.Services._Interfaces;
-using _Project.Scripts.Services.GameMetaProvider;
 using UnityEngine;
 
 namespace _Project.Scripts.Features.Field
@@ -68,7 +66,6 @@ namespace _Project.Scripts.Features.Field
     {
       _cells[y, x].MeshFilter.mesh = _gameMetaProvider.GetMesh(dragableData.GetSymbol(), dragableData.GetSize());
       _cells[y, x].MeshRenderer.material = _gameMetaProvider.GetMaterial(dragableData.GetSymbol(), dragableData.GetSize());
-      // _cells[y, x].MeshRenderer.material.color = _playerData[_playerSymbol].Color;
       _cells[y, x].MeshRenderer.enabled = true;
 
       Debug.Log("Win is " + CheckWin(_playerSymbol) + (CheckWin(_playerSymbol) ? " Is" + _playerSymbol : ""));

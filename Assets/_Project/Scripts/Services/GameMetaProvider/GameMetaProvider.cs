@@ -22,8 +22,9 @@ namespace _Project.Scripts.Services.GameMetaProvider
 
     private readonly GameCustomData[] _gameCustomsData;
 
+    private int _opponentSkinIndex;
     private BasePlayerViewMono BasePlayerViewMono { get; set; }
-
+    
     private readonly Dictionary<SymbolSign, ItemType> _itemTypesTransfer = new ()
     {
       {SymbolSign.X, ItemType.SymbolX},
@@ -83,18 +84,32 @@ namespace _Project.Scripts.Services.GameMetaProvider
     
     public Mesh GetMesh(SymbolSign symbolSign, SymbolSize symbolSize)
     {
-      ItemType itemType = _itemTypesTransfer[symbolSign];
+      SymbolData symbolData = GetSymbolData(symbolSign);
       return GetGame() == Game.Classic
-        ? GetCustomData<SymbolData>(itemType).MeshClassic
-        : GetCustomData<SymbolData>(itemType).MeshBuhurt[(int) symbolSize];
+        ? symbolData.MeshClassic
+        : symbolData.MeshBuhurt[(int) symbolSize];
     }
 
     public Material GetMaterial(SymbolSign symbolSign, SymbolSize symbolSize)
     {
-      ItemType itemType = _itemTypesTransfer[symbolSign];
+      SymbolData symbolData = GetSymbolData(symbolSign);
       return GetGame() == Game.Classic
-        ? GetCustomData<SymbolData>(itemType).MaterialClassic
-        : GetCustomData<SymbolData>(itemType).MaterialBuhurt[(int) symbolSize];
+        ? symbolData.MaterialClassic
+        : symbolData.MaterialBuhurt[(int) symbolSize];
+    }
+
+    public int GetSkinIndex(SymbolSign symbol)
+    {
+      List<SymbolData> list = GetAllDataType<SymbolData>(_gameCustomsData).Where(item => item.ItemType == _itemTypesTransfer[symbol]).ToList();
+      SymbolData data = list.FirstOrDefault(item => _gameSaveSystem.Get().ChosenShopContent.Contains(item.Id));
+      
+      return list.IndexOf(data);
+    }
+
+    public void SetOpponentSkinIndex(int skinIndex)
+    {
+      _opponentSkinIndex = skinIndex;
+      Debug.Log(skinIndex);
     }
 
     public void Clear()
@@ -102,6 +117,11 @@ namespace _Project.Scripts.Services.GameMetaProvider
       if (BasePlayerViewMono)
         Object.Destroy(BasePlayerViewMono.gameObject);
     }
+
+    private SymbolData GetSymbolData(SymbolSign symbolSign) =>
+      BasePlayerViewMono.GetPlayerTurn() 
+        ? GetCustomData<SymbolData>(_itemTypesTransfer[symbolSign]) 
+        : GetCustomOpponentData<SymbolData>(_itemTypesTransfer[symbolSign]);
 
     private void OpenFree()
     {
@@ -131,6 +151,7 @@ namespace _Project.Scripts.Services.GameMetaProvider
         if (!_gameSaveSystem.Get().ChosenShopContent.Contains(data.Id) || data.ItemType != itemType)
           continue;
 
+        Debug.Log(data.Name);
         return data;
       }
 
@@ -147,6 +168,21 @@ namespace _Project.Scripts.Services.GameMetaProvider
           filteredData.Add(symbolData);
 
       return filteredData.ToArray();
+    }
+
+    private T GetCustomOpponentData<T>(ItemType itemType) where T : GameCustomData
+    {
+      List<T> list = GetAllDataType<T>(_gameCustomsData).Where(item => item.ItemType == itemType).ToList();
+      
+      foreach (T data in list.Where(data => list.IndexOf(data) == _opponentSkinIndex))
+      {
+        // Debug.Log(_opponentSkinIndex);
+        // Debug.Log(data.Name);
+        return data;
+      }
+
+      Debug.LogException(new Exception("Didn't find any chosen data with type " + itemType));
+      return null;
     }
   }
 }

@@ -22,5 +22,8 @@ namespace _Project.Scripts.Services._Interfaces
     Mesh GetMesh(SymbolSign symbolSign, SymbolSize symbolSize);
     Material GetMaterial(SymbolSign symbolSign, SymbolSize symbolSize);
     Sprite GetIcon(SymbolSign symbol);
+
+    int GetSkinIndex(SymbolSign symbol);
+    void SetOpponentSkinIndex(int skinIndex);
   }
 }

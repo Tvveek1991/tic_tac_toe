@@ -27,19 +27,24 @@ namespace _Project.Scripts.Features.GameScreen.Mono
     [SerializeField] private CanvasGroup playerFiguresCanvasGroup;
     [SerializeField] private List<PlayerFigure> playerFigures;
 
+    [SerializeField] private NetworkVariable<int>[] _netPlayerSkin = new NetworkVariable<int>[2];
+    
     private readonly NetworkVariable<int> _netPlayersCount = new();
     private readonly NetworkVariable<int> _netActivePlayer = new(-1);
+    
 
     private Action<int> _onChosenFirstTurningPlayer;
     private Action _onClientConnect;
     private Action _onConnectedPlayersToNetwork;
+    private Action _setSkinsArray;
 
     public Button BackButton => backButton;
     public TextMeshProUGUI TurnText => turnText;
     public Image SymbolImage => symbolImage;
 
-    public void Construct(Action onClientConnect, Action onConnectedPlayersToNetwork, Action<int> refreshAfterChangeTurn)
+    public void Construct(Action onClientConnect, Action onConnectedPlayersToNetwork, Action<int> refreshAfterChangeTurn, Action setSkinsArray)
     {
+      _setSkinsArray = setSkinsArray;
       _onClientConnect = onClientConnect;
       _onChosenFirstTurningPlayer = refreshAfterChangeTurn;
       _onConnectedPlayersToNetwork = onConnectedPlayersToNetwork;
@@ -72,12 +77,23 @@ namespace _Project.Scripts.Features.GameScreen.Mono
       _netActivePlayer.OnValueChanged -= OnActivePlayerChanged;
     }
 
+    public void SetLocalIpAddress(string getLocalIPAddress) =>
+      myLocalIp.text = getLocalIPAddress;
+
+    public int GetSkinIndex(int clientId) => 
+      _netPlayerSkin[clientId].Value;
+
+    [ServerRpc(RequireOwnership = false)]
+    public void SetSkinIndexServerRpc(int clientId, int index)
+    {
+      Debug.Log(clientId);
+      Debug.Log(index);
+      _netPlayerSkin[clientId].Value = index;
+    }
+
     [ServerRpc(RequireOwnership = false)]
     public void ChangeTurningPlayerServerRpc() =>
       _netActivePlayer.Value = (_netActivePlayer.Value + 1) % NetworkManager.ConnectedClients.Count;
-
-    public void SetLocalIpAddress(string getLocalIPAddress) =>
-      myLocalIp.text = getLocalIPAddress;
 
     [ServerRpc]
     private void SetFirstTurningPlayerServerRpc()
@@ -105,6 +121,7 @@ namespace _Project.Scripts.Features.GameScreen.Mono
         SetFirstTurningPlayerServerRpc();
       }
 
+      _setSkinsArray?.Invoke();
       HideLoadScreen();
     }
 
