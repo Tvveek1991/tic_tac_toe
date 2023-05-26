@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33413e89ec6919f448ee94780b7ff44e, type: 3}
   m_Name: Locale Fetcher
   m_EditorClassIdentifier: 
-  tableId: 1euA8gOmQAhhhr-vq-qAYdG5oLXBOK7DrHf7iny-hnDM
+  tableId: 1gUnVmEAyn4o7E9JheE8N2hQTvEnoxgZz4f7SJeWIK0o
   listName: Main
   outputDirectory: {fileID: 102900000, guid: 19a90cc5700d9894b8a55c90b36c139f, type: 3}

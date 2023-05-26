@@ -49,7 +49,7 @@ namespace _Project.Scripts.Features.Player
 
     public void SetPlayerTurn(bool isPlayerTurn)
     {
-      Debug.Log(name + " Is " + isPlayerTurn);
+      // Debug.Log(name + " Is " + isPlayerTurn);
       NetIsPlayerTurn.Value = isPlayerTurn;
     }
 

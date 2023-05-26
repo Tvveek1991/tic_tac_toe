@@ -1,0 +1,56 @@
+Ключ	ru	en
+Policy.PrivacyPolicy	Политика конфиденциальности	Privacy Policy
+Policy.Decription	Для использования приложения необходимо принять условия политики конфиденциальности	To use the application, you must accept the terms of the privacy policy
+Policy.Terms	Ознакомиться с условиями	View terms
+Policy.Accept	Принять	Accept
+Policy.Personalized	Персонализированная реклама	Personalized ads
+Policy.Decline	Отказаться	Decline
+Settings	Настройки	Settings
+Music	Музыка	Music
+Sounds	Звук	Sound
+NoConnection	Нет интернета	No Internet
+NoConnection.Reconnect	Идёт переподключение...	Reconnecting...
+NoConnection.Description	Отсутствует интернет-соединение, подключиться заново?	There's no connection to the internet, connect again?
+Connect	Подключиться	Connect
+Next	Далее	Next
+Back	Назад	Back
+DisableAds.Description1	Наши программисты хотят кушать, поэтому в приложении есть реклама.	Our developers want to eat, so there is ads in the application.
+DisableAds.Description2	Посмотри всего два коротких ролика, чтобы убрать всю невознаграждаемую рекламу на 24 часа	Watch just two short videos to remove all non-rewarded ads for 24 hours
+DisableAds.ContinueWithAds	Продолжить с рекламой	Continue with ads
+DisableAds.Show	Смотреть	Watch
+DisableAds.Thanks	Благодаря тебе проект станет лучше!	Thanks to you, the project will become better!
+DisableAds.Description3	Больше никакой внезапной рекламы!	No more unexpected ads!
+DisableAds.Continue	Продолжить	Continue
+DisableAds.24hour	24 часа	24 hours
+DisableAds.Info1	Отключить рекламу	Disable ads
+DisableAds.Info2	Реклама отключена	Ads disabled
+Customization.Apply	Применить	Apply
+Send	Отправить	Send
+Interview.Thanks	Спасибо за твой отзыв	Thanks for your feedback
+IAP.Shop	Магазин	Shop
+IAP.Title	Получи премиум-версию	Get a premium-version
+IAP.Description	Всего за {0} ты получаешь:	For just {0} you'll get:
+IAP.NoAds	Полное отсутствие рекламы в приложении	Complete lack of ads in the app
+IAP.OurThanks	Нашу благодарность за помощь проекту	Our gratitude for your help to the project
+IAP.Buy	Купить	Buy
+IAP.Continue	Продолжить бесплатно	Continue for free
+Rate.Description	Тебе понравилось в нашем приложении?	Did you like our app?
+Rate.Rate	Оценить	Rate
+Rate.Thanks	Большое спасибо за оценку!	Thank you so much for rating!
+Rate.Welcome	Пожалуйста	You're welcome
+ShopName.Figures_X	ShopName.Figures_X	ShopName.Figures_X
+ShopName.Figures_O	ShopName.Figures_O	ShopName.Figures_O
+ShopName.Field	ShopName.Field	ShopName.Field
+ShopName.Music	ShopName.Music	ShopName.Music
+SignXItem.Name_1	SignXItem.Name_2	SignXItem.Name_3
+SignXItem.Name_2	SignXItem.Name_3	SignXItem.Name_4
+SignXItem.Name_3	SignXItem.Name_4	SignXItem.Name_5
+SignOItem.Name_1	SignOItem.Name_2	SignOItem.Name_3
+SignOItem.Name_2	SignOItem.Name_3	SignOItem.Name_4
+SignOItem.Name_3	SignOItem.Name_4	SignOItem.Name_5
+FieldItem.Name_1	FieldItem.Name_2	FieldItem.Name_3
+FieldItem.Name_2	FieldItem.Name_3	FieldItem.Name_4
+FieldItem.Name_3	FieldItem.Name_4	FieldItem.Name_5
+MusicItem.Name_1	MusicItem.Name_2	MusicItem.Name_3
+MusicItem.Name_2	MusicItem.Name_3	MusicItem.Name_4
+MusicItem.Name_3	MusicItem.Name_4	MusicItem.Name_5

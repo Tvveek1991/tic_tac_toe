@@ -68,7 +68,7 @@ namespace _Project.Scripts.Features.Field
       _cells[y, x].MeshRenderer.material = _gameMetaProvider.GetMaterial(dragableData.GetSymbol(), dragableData.GetSize());
       _cells[y, x].MeshRenderer.enabled = true;
 
-      Debug.Log("Win is " + CheckWin(_playerSymbol) + (CheckWin(_playerSymbol) ? " Is" + _playerSymbol : ""));
+      // Debug.Log("Win is " + CheckWin(_playerSymbol) + (CheckWin(_playerSymbol) ? " Is" + _playerSymbol : ""));
     }
 
     private bool CheckWin(SymbolSign symbol)
