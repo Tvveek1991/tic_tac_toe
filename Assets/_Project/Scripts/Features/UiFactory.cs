@@ -10,7 +10,7 @@ namespace _Project.Scripts.Features
     private const string MoneyCounterPath = "Features/Other/MoneyCounter";
     private const string SettingsPath = "Features/Windows/SettingsWindow";
     private const string LoadWindowPath = "Features/Windows/LoadWindow";
-    private const string NoInternetWindowPath = "Features/Windows/NoInternet";
+    private const string NoInternetWindowPath = "Features/Other/Not Loaded Window";
 
     private const string BaseCanvas = "Canvas";
 
@@ -18,7 +18,7 @@ namespace _Project.Scripts.Features
 
     // public LoadWindow Loading { get; private set; }
     public Settings.Settings SettingsWindow { get; private set;}
-    // public NoInternet NoInternetWindow { get; private set;}
+    public NotLoaded.NotLoadedWindow NoInternetWindow { get; private set;}
 
     public UiFactory(IAssetProvider assetProvider)
     {
@@ -55,10 +55,10 @@ namespace _Project.Scripts.Features
 
     public void SpawnNoInternetConnection()
     {
-      /*Transform parent = GameObject.Find(BaseCanvas).transform;
+      Transform parent = GameObject.Find(BaseCanvas).transform;
 
-      var window = _assetProvider.GetResource<NoInternet>(NoInternetWindowPath);
-      NoInternetWindow = Object.Instantiate(window, parent);*/
+      var window = _assetProvider.GetResource<NotLoaded.NotLoadedWindow>(NoInternetWindowPath);
+      NoInternetWindow = Object.Instantiate(window, parent);
     }
 
     public void ClearLoadWindow()

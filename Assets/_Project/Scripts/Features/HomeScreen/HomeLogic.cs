@@ -102,8 +102,8 @@ namespace _Project.Scripts.Features.HomeScreen
       if (Application.internetReachability != NetworkReachability.NotReachable) 
         return;
 
-      /*_uiFactory.SpawnNoInternetConnection();
-      _uiFactory.NoInternetWindow.Construct(_localeSystem, _audioService, () => { _uiFactory.ClearNoInternetWindow(); });*/
+      _uiFactory.SpawnNoInternetConnection();
+      _uiFactory.NoInternetWindow.Construct(_localeSystem, () => { _uiFactory.ClearNoInternetWindow(); });
     }
 
     private void ToShop() =>

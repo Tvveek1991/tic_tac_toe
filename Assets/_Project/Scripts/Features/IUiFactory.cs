@@ -6,7 +6,7 @@ namespace _Project.Scripts.Features
   {
     // LoadWindow Loading { get; }
     Settings.Settings SettingsWindow { get; }
-    // NoInternet NoInternetWindow { get; }
+    NotLoaded.NotLoadedWindow NoInternetWindow { get; }
     // LoadWindow CreateLoadWindow();
 
     MoneyCounter SpawnMoneyCounter();

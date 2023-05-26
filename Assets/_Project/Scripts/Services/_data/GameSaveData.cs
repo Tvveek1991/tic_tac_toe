@@ -9,6 +9,7 @@ namespace _Project.Scripts.Services._data
 
     public bool IsPolicyAccepted;
 
+    public bool IsDisableAdsFirstTime = true;
     public bool IsDisableAdsActive;
     public int DisableAdsProgress;
 

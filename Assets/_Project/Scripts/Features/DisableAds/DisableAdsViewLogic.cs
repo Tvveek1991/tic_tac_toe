@@ -39,7 +39,7 @@ namespace _Project.Scripts.Features.DisableAds
       _disableAdsWindow.ContinueBtn.onClick.AddListener(delegate { onContinue?.Invoke(); });
       _disableAdsWindow.PurchaseBtn.onClick.AddListener(delegate { onPurchase?.Invoke(); });
 
-      _disableAdsWindow.PurchasePrice.text = string.Format(_localeSystem.GetText("Buy"), price);
+      _disableAdsWindow.PurchasePrice.text = string.Format(_localeSystem.GetText("IAP.Buy"), price);
 
       Localize(_localeSystem);
 
