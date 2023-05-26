@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using _Project.Scripts.Core_Logic.Screens;
 using _Project.Scripts.Core_Logic.StatesMachine.Interfaces;
 using _Project.Scripts.Core_Logic.StatesMachine.States;
 using _Project.Scripts.Features.Splashscreen;
@@ -7,9 +8,7 @@ using _Project.Scripts.Services._Interfaces;
 using _Project.Scripts.Services.Network;
 using AppacheAds.Scripts.Interfaces;
 using AppacheAnalytics.Scripts.Interfaces;
-using AppacheAnalytics.Scripts.Logic;
 using AppacheRemote.Scripts.Interfaces;
-using FlurrySDK;
 using UnityEngine;
 using Zenject;
 
@@ -40,6 +39,7 @@ namespace _Project.Scripts.Core_Logic
       IAdsService adsService,
       IAnalytics analytics,
       INetwork network,
+      ICurrentScreen screenManager,
       IGameStateMachine gameStateMachine)
     {
       _adsService = adsService;
@@ -48,6 +48,10 @@ namespace _Project.Scripts.Core_Logic
       _network = network;
       _analytics = analytics;
       _gameStateMachine = gameStateMachine;
+      
+      _screenManager = screenManager;
+      _screenManager.SetCurrentScreen(ScreenNames.Splash);
+
     }
 
     private void LaunchWithSplash(Action initializeGame)
@@ -55,41 +59,40 @@ namespace _Project.Scripts.Core_Logic
       _splashLogic = new SplashLogic(_assetProvider);
       _splashLogic.Launch(initializeGame);
 
-      _remote.OnFetch += InitializeServices;
+      InitializeRemote();
+    }
+
+    private void InitializeRemote()
+    {
+      _remote.OnFetch += InitializeAnalytics;
       _remote.Initialize();
-    }
-
-    private void InitializeServices()
-    {
-      PrewarmServices();
-
-      //ToDo: Засетить в аналитику Splash экран
-
-      InitializeAnalytics();
-      InitializeCrashlytics();
-      InitializeAds();
-      InitializeNetwork();
-    }
-
-    private void PrewarmServices()
-    {
-      _screenManager = new ScreenManager();
-    }
-
-    private void InitializeAds()
-    {
-      _adsService.Initialize(_remote.GetPlacementType(), () => { _splashLogic.Complete(); });
     }
 
     private void InitializeAnalytics()
     {
+      _analytics.OnInitialize += InitializeAds;
       _analytics.Initialize();
-      _analytics.OnInitialize += InitializeAnalyticsRemoteEvents;
     }
 
-    private void InitializeAnalyticsRemoteEvents()
+    private void InitializeAds()
     {
-      Flurry.UserProperties.Add("AB_remote_config", _remote.GetPlacementType().ToString());
+      SendRemoteEvents();
+      
+      _adsService.Initialize(_remote.GetPlacementType(), () =>
+      {
+#if !WITHOUT_BANNER
+        _adsService.Banner.OnBannerLoad += () => { _adsService.Banner.HideBanner(); };
+        _adsService.Banner.HideBanner();
+#endif
+        _splashLogic.Complete();
+      });
+      
+      InitializeNetwork();
+    }
+
+    private void SendRemoteEvents()
+    {
+      // Flurry.UserProperties.Add("AB_remote_config", _remote.GetPlacementType().ToString());
 
       _analytics.Send("AB_remote_config", new Dictionary<string, object>()
       {
@@ -100,20 +103,6 @@ namespace _Project.Scripts.Core_Logic
         _analytics.Send($"v{Application.version.Replace(".", "_")}", true);
     }
 
-    private void InitializeCrashlytics()
-    {
-      Firebase.FirebaseApp.CheckAndFixDependenciesAsync().ContinueWith(task =>
-      {
-        var dependencyStatus = task.Result;
-        if (dependencyStatus == Firebase.DependencyStatus.Available)
-        {
-          Firebase.FirebaseApp app = Firebase.FirebaseApp.DefaultInstance;
-        }
-        else
-          Debug.LogError($"Could not resolve all Firebase dependencies: {dependencyStatus}");
-      });
-    }
-    
     private void InitializeNetwork() => 
       _network.LaunchService();
 

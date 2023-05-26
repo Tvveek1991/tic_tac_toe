@@ -22,6 +22,7 @@ namespace _Project.Scripts.Core_Logic.Zenject
   {
     public override void InstallBindings()
     {
+      BindSingleService<ISessionManager, SessionManager>();
       BindSingleService<IAssetProvider, AssetProvider>();
       BindSingleService<IGameMetaProvider, GameMetaProvider>();
       BindSingleService<IMoneyService, MoneyService>();

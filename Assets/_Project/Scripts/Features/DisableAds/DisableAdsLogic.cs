@@ -127,7 +127,7 @@ namespace _Project.Scripts.Features.DisableAds
       _analytics.Send("ad_offer_show");
       _disableAdsViewLogic.OpenWindow();
       
-      _adsService.Banner.HideBanner();
+      _adsService.Banner?.HideBanner();
     }
 
     private void Close()
@@ -135,7 +135,7 @@ namespace _Project.Scripts.Features.DisableAds
       Debug.Log("Test " + _disableAdsViewLogic);
       _disableAdsViewLogic.CloseWindow();
       
-      _adsService.Banner.ShowBanner();
+      _adsService.Banner?.ShowBanner();
     }
 
     private void SetDisableAdsProgress() =>

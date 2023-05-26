@@ -68,7 +68,7 @@ namespace _Project.Scripts.Features.GameScreen
     public void CreateEndGame()
     {
       EndGameWindow = Create<EndGameMono>(EndGameScreenPath, GameObject.Find(CanvasPath).transform);
-      EndGameLogic = new EndGameLogic(EndGameWindow, _audioService, _gameMetaProvider);
+      EndGameLogic = new EndGameLogic(EndGameWindow, _audioService);
     }
 
     public void SpawnPlayerObject()

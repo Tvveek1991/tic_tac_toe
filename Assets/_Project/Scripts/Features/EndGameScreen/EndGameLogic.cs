@@ -11,12 +11,10 @@ namespace _Project.Scripts.Features.EndGameScreen
     private readonly IAudioService _audioService;
     private readonly IGameMetaProvider _gameMetaProvider;
 
-    public EndGameLogic(EndGameMono endGameWindow, IAudioService audioService, IGameMetaProvider gameMetaProvider)
+    public EndGameLogic(EndGameMono endGameWindow, IAudioService audioService)
     {
       _endGameWindow = endGameWindow;
-      
       _audioService = audioService;
-      gameMetaProvider = gameMetaProvider;
     }
 
     public void Construct(Action onClickHome, Action onClickPlayAgain)
