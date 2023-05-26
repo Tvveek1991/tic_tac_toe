@@ -7,7 +7,6 @@ namespace _Project.Scripts.Features.HomeScreen.Mono
   public class HomeViewMono : MonoBehaviour
   {
     public Button ShopButton;
-    public Button ModeButton;
     public Button CreateButton;
     public Button ConnectButton;
     public Button NoAdsButton;

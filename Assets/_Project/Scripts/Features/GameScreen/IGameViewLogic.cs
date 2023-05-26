@@ -13,6 +13,5 @@ namespace _Project.Scripts.Features.GameScreen
     void SetPlayerUi(SymbolSign symbol);
     void ChangeTurningPlayer(SymbolSign activeSign = SymbolSign.None);
     void SetFigureState(SymbolSign symbol, SymbolSize size);
-    GameViewMono GetGameViewMono();
   }
 }

@@ -9,6 +9,7 @@ using _Project.Scripts.Services._Interfaces;
 using _Project.Scripts.Services.Unlocker;
 using UnityEngine;
 using Object = UnityEngine.Object;
+using Random = UnityEngine.Random;
 
 namespace _Project.Scripts.Services.GameMetaProvider
 {
@@ -22,10 +23,10 @@ namespace _Project.Scripts.Services.GameMetaProvider
 
     private readonly GameCustomData[] _gameCustomsData;
 
-    private int _opponentSkinIndex;
+    private SymbolData _opponentData;
     private BasePlayerViewMono BasePlayerViewMono { get; set; }
-    
-    private readonly Dictionary<SymbolSign, ItemType> _itemTypesTransfer = new ()
+
+    private readonly Dictionary<SymbolSign, ItemType> _itemTypesTransfer = new()
     {
       {SymbolSign.X, ItemType.SymbolX},
       {SymbolSign.O, ItemType.SymbolO}
@@ -81,7 +82,7 @@ namespace _Project.Scripts.Services.GameMetaProvider
       ItemType itemType = _itemTypesTransfer[sign];
       return GetCustomData<SymbolData>(itemType).Icon;
     }
-    
+
     public Mesh GetMesh(SymbolSign symbolSign, SymbolSize symbolSize)
     {
       SymbolData symbolData = GetSymbolData(symbolSign);
@@ -102,14 +103,8 @@ namespace _Project.Scripts.Services.GameMetaProvider
     {
       List<SymbolData> list = GetAllDataType<SymbolData>(_gameCustomsData).Where(item => item.ItemType == _itemTypesTransfer[symbol]).ToList();
       SymbolData data = list.FirstOrDefault(item => _gameSaveSystem.Get().ChosenShopContent.Contains(item.Id));
-      
-      return list.IndexOf(data);
-    }
 
-    public void SetOpponentSkinIndex(int skinIndex)
-    {
-      _opponentSkinIndex = skinIndex;
-      Debug.Log(skinIndex);
+      return list.IndexOf(data);
     }
 
     public void Clear()
@@ -118,10 +113,23 @@ namespace _Project.Scripts.Services.GameMetaProvider
         Object.Destroy(BasePlayerViewMono.gameObject);
     }
 
+    public void SetOpponentSkinIndex(int skinIndex)
+    {
+      // _opponentSkinIndex = skinIndex;
+      Debug.Log(skinIndex);
+    }
+    
+    public void SetOpponentData(SymbolSign symbolSign)
+    {
+      List<SymbolData> list = GetAllDataType<SymbolData>(_gameCustomsData).Where(item => item.ItemType == _itemTypesTransfer[symbolSign]).ToList();
+      _opponentData = list[Random.Range(0, list.Count)];
+      Debug.Log(list.IndexOf(_opponentData));
+    }
+
     private SymbolData GetSymbolData(SymbolSign symbolSign) =>
-      BasePlayerViewMono.GetPlayerTurn() 
-        ? GetCustomData<SymbolData>(_itemTypesTransfer[symbolSign]) 
-        : GetCustomOpponentData<SymbolData>(_itemTypesTransfer[symbolSign]);
+      !BasePlayerViewMono.GetPlayerTurn() && GetEnemyType() == EnemyType.Bot
+        ? _opponentData
+        : GetCustomData<SymbolData>(_itemTypesTransfer[symbolSign]);
 
     private void OpenFree()
     {
@@ -150,8 +158,7 @@ namespace _Project.Scripts.Services.GameMetaProvider
       {
         if (!_gameSaveSystem.Get().ChosenShopContent.Contains(data.Id) || data.ItemType != itemType)
           continue;
-
-        Debug.Log(data.Name);
+        // Debug.Log(data.Name);
         return data;
       }
 
@@ -170,16 +177,15 @@ namespace _Project.Scripts.Services.GameMetaProvider
       return filteredData.ToArray();
     }
 
-    private T GetCustomOpponentData<T>(ItemType itemType) where T : GameCustomData
+    private T GetNetworkOpponentData<T>(ItemType itemType) where T : GameCustomData
     {
       List<T> list = GetAllDataType<T>(_gameCustomsData).Where(item => item.ItemType == itemType).ToList();
-      
-      foreach (T data in list.Where(data => list.IndexOf(data) == _opponentSkinIndex))
+      /*foreach (T data in list.Where(data => list.IndexOf(data) == _opponentSkinIndex))
       {
         // Debug.Log(_opponentSkinIndex);
         // Debug.Log(data.Name);
         return data;
-      }
+      }*/
 
       Debug.LogException(new Exception("Didn't find any chosen data with type " + itemType));
       return null;

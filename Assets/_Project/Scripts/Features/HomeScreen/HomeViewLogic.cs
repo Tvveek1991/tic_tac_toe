@@ -30,21 +30,20 @@ namespace _Project.Scripts.Features.HomeScreen
       _gameMetaProvider = gameMetaProvider;
     }
 
-    public void Construct(Action openSettingsWindow, Action toShop, Action<bool> toGame, Action toGameMode, Action toNoAds)
+    public void Construct(Action openSettingsWindow, Action toShop, Action<bool> toGame, Action toNoAds)
     {
       _homeViewMono.ShopButton.onClick.AddListener(toShop.Invoke);
       _homeViewMono.NoAdsButton.onClick.AddListener(toNoAds.Invoke);
       _homeViewMono.CreateButton.onClick.AddListener(() => toGame.Invoke(true));
       _homeViewMono.ConnectButton.onClick.AddListener(() => toGame.Invoke(false));
-      _homeViewMono.ModeButton.onClick.AddListener(toGameMode.Invoke);
       _homeViewMono.SettingsButton.onClick.AddListener(openSettingsWindow.Invoke);
 
       _homeViewMono.GameTypeButton.onClick.AddListener(() => SwitchGame(_gameMetaProvider.GetGame() != Game.Classic));
       _homeViewMono.GameModeButton.onClick.AddListener(() => SwitchMode(_gameMetaProvider.GetGameMode() != GameMode.Single));
-      _homeViewMono.EnemyTypeButton.onClick.AddListener(() => SwitchEnemy(GetNextEnemy()));
+      _homeViewMono.EnemyTypeButton.onClick.AddListener(() => SwitchEnemy(_gameMetaProvider.GetEnemyType() != EnemyType.OneDevice/*GetNextEnemy()*/));
       SwitchGame(_gameMetaProvider.GetGame() == Game.Classic);
       SwitchMode(_gameMetaProvider.GetGameMode() == GameMode.Single);
-      SwitchEnemy(_gameMetaProvider.GetEnemyType());
+      SwitchEnemy(_gameMetaProvider.GetEnemyType() == EnemyType.OneDevice/*_gameMetaProvider.GetEnemyType()*/);
 
       CreateAnimations();
       CreateSounds();
@@ -67,7 +66,6 @@ namespace _Project.Scripts.Features.HomeScreen
       new ButtonAnimation(_homeViewMono.ShopButton.transform);
       new ButtonAnimation(_homeViewMono.CreateButton.transform);
       new ButtonAnimation(_homeViewMono.ConnectButton.transform);
-      new ButtonAnimation(_homeViewMono.ModeButton.transform);
       new ButtonAnimation(_homeViewMono.SettingsButton.transform);
       new ButtonAnimation(_homeViewMono.NoAdsButton.transform);
     }
@@ -77,7 +75,6 @@ namespace _Project.Scripts.Features.HomeScreen
       new ButtonSound(_audioService, _homeViewMono.ShopButton.gameObject, AudioId.SoundButton);
       new ButtonSound(_audioService, _homeViewMono.NoAdsButton.gameObject, AudioId.SoundButton);
       new ButtonSound(_audioService, _homeViewMono.SettingsButton.gameObject, AudioId.SoundButton);
-      new ButtonSound(_audioService, _homeViewMono.ModeButton.gameObject, AudioId.SoundButton);
       new ButtonSound(_audioService, _homeViewMono.CreateButton.gameObject, AudioId.SoundButton);
     }
 
@@ -103,9 +100,10 @@ namespace _Project.Scripts.Features.HomeScreen
       Debug.Log("On mode change " + _gameMetaProvider.GetGameMode());
     }
 
-    private void SwitchEnemy(EnemyType type)
+    private void SwitchEnemy(bool isOneDevice/*EnemyType type*/)
     {
-      switch (type)
+      _homeViewMono.SwitcherEnemyType.DOLocalMove(isOneDevice ? Vector3.left * 50 : Vector3.right * 50, SwitcherTime);
+      /*switch (type)
       {
         case EnemyType.OneDevice:
           _homeViewMono.SwitcherEnemyType.DOLocalMove(new Vector3(-50, 25, 0), SwitcherTime);
@@ -113,13 +111,13 @@ namespace _Project.Scripts.Features.HomeScreen
         case EnemyType.Bot:
           _homeViewMono.SwitcherEnemyType.DOLocalMove(new Vector3(50, 25, 0), SwitcherTime);
           break;
-        case EnemyType.LocalPlayer:
+        case EnemyType.Network:
           _homeViewMono.SwitcherEnemyType.DOLocalMove(new Vector3(0, -25, 0), SwitcherTime);
           break;
-      }
+      }*/
 
-      _gameMetaProvider.SetEnemyType(type);
-      Debug.Log("On enemy change " + type);
+      _gameMetaProvider.SetEnemyType(isOneDevice ? EnemyType.OneDevice : EnemyType.Bot);
+      Debug.Log("On enemy change " + _gameMetaProvider.GetEnemyType());
       // IconMusic.sprite = mute ? _musicOff : _musicOn;
       // var music = SwitcherMusic.parent.GetComponent<Image>();
       // music.sprite = mute ? Inactive : Active;
@@ -127,7 +125,7 @@ namespace _Project.Scripts.Features.HomeScreen
     }
 
     private EnemyType GetNextEnemy() =>
-      _gameMetaProvider.GetEnemyType() < EnemyType.LocalPlayer ? _gameMetaProvider.GetEnemyType() + 1 : EnemyType.OneDevice;
+      _gameMetaProvider.GetEnemyType() < EnemyType.Network ? _gameMetaProvider.GetEnemyType() + 1 : EnemyType.OneDevice;
     
     public string GetInputIp() =>
       _homeViewMono.IpInputField.text;

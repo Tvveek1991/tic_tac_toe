@@ -20,7 +20,8 @@ namespace _Project.Scripts.Features.GameScreen
       : base(gameViewMono, localeSystem, gameMetaProvider, audioService, inputResolver)
     {
       _gameFactory = gameFactory;
-      _bot = GameMetaProvider.GetGame() == Game.Classic ? (Bot) new ClassicBot(_gameFactory) : new BuhurtBot(gameFactory);
+      _bot = GameMetaProvider.GetGame() == Game.Classic ? new ClassicBot(_gameFactory) : new BuhurtBot(gameFactory);
+      GameMetaProvider.SetOpponentData(SymbolSign.O);
     }
 
     public override void Construct(Action onBack, Action onCreateNonConnectionPlayer)
@@ -56,15 +57,15 @@ namespace _Project.Scripts.Features.GameScreen
 
       if (GameMetaProvider.GetGame() != Game.Buhurt)
         return;
-
+      
       LoadBuhurtPart(symbol);
       GameViewMono.SetVisibleBuhurtPart(true);
     }
 
     private void RefreshAfterChangeTurn(SymbolSign nextSign)
     {
-      SetPlayerUi(nextSign);
       GameMetaProvider.GetPlayerViewMono().SetPlayerTurn(GameMetaProvider.GetEnemyType() == EnemyType.OneDevice || nextSign == SymbolSign.X);
+      SetPlayerUi(nextSign);
       GameViewMono.TurnText.text = nextSign == SymbolSign.X ? "Player X" : "Player O";
     }
 

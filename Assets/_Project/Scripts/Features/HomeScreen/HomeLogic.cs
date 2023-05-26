@@ -36,7 +36,6 @@ namespace _Project.Scripts.Features.HomeScreen
     private readonly IGameStateMachine _gameStateMachine;
 
     private DisableAdsLogic _disableAdsLogic;
-    private IShopLogic _skins;
     private MoneyCounter MoneyCounter { get; set; }
 
     private string _ipAddress;
@@ -69,7 +68,7 @@ namespace _Project.Scripts.Features.HomeScreen
       _currentScreen.SetCurrentScreen(ScreenNames.Home);
 
       _homeFactory.CreateHomeView();
-      _homeFactory.HomeViewLogic.Construct(OpenSettingsWindow, ToShop, ToGame, ToGameMode, ToNoAds);
+      _homeFactory.HomeViewLogic.Construct(OpenSettingsWindow, ToShop, ToGame, ToNoAds);
 
       IPrivacyPolicyFactory privacyPolicyFactory = new PrivacyPolicyFactory(_assetProvider);
 
@@ -92,7 +91,6 @@ namespace _Project.Scripts.Features.HomeScreen
     {
       Object.Destroy(MoneyCounter.gameObject);
       
-      // _skins.ClearShopView();
       _disableAdsLogic.Cleanup();
 
       _homeFactory.ClearHomeView();
@@ -120,14 +118,6 @@ namespace _Project.Scripts.Features.HomeScreen
       _adsService.CurrentInterstitial.ShowInterstitial(ScreenNames.Game,
         () => _gameStateMachine.Enter<LoadGameState, bool>(isHost),
         () => _gameStateMachine.Enter<LoadGameState, bool>(isHost));
-    }
-
-    private void ToGameMode()
-    {
-      // _gameStateMachine.Enter<LoadModeState>();
-      /*_adsService.CurrentInterstitial.ShowInterstitial(ScreenNames.Mode,
-        _gameStateMachine.Enter<LoadModeState>,
-        _gameStateMachine.Enter<LoadModeState>);*/
     }
 
     private void ToNoAds()

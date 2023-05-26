@@ -1,3 +1,4 @@
+using _Project.Scripts.Core_Logic.Screens;
 using _Project.Scripts.Core_Logic.StatesMachine.Interfaces;
 using _Project.Scripts.Core_Logic.StatesMachine.States;
 using _Project.Scripts.Features.GameScreen.Serialized;
@@ -79,10 +80,9 @@ namespace _Project.Scripts.Features.GameScreen
 
     private void OnClickBack()
     {
-      _gameStateMachine.Enter<LoadHomeState>();
-      /*_adsService.CurrentInterstitial.ShowInterstitial(ScreenNames.Home,
+      _adsService.CurrentInterstitial.ShowInterstitial(ScreenNames.Home,
         _gameStateMachine.Enter<LoadHomeState>,
-        _gameStateMachine.Enter<LoadHomeState>);*/
+        _gameStateMachine.Enter<LoadHomeState>);
     }
     
     private void OnClickPlayAgain() => 

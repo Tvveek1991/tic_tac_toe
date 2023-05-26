@@ -1,5 +1,6 @@
 using _Project.Scripts.Features.GameScreen.Serialized;
 using _Project.Scripts.Features.Player;
+using _Project.Scripts.Features.ShopScreen.Serialized;
 using UnityEngine;
 
 namespace _Project.Scripts.Services._Interfaces
@@ -25,5 +26,7 @@ namespace _Project.Scripts.Services._Interfaces
 
     int GetSkinIndex(SymbolSign symbol);
     void SetOpponentSkinIndex(int skinIndex);
+
+    void SetOpponentData(SymbolSign symbolSign);
   }
 }

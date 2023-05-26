@@ -44,7 +44,7 @@ namespace _Project.Scripts.Features.Player.Bots
     protected Bot(IGameFactory gameFactory)
     {
       _gameFactory = gameFactory;
-      
+
       Difficult = (BotDifficult)Random.Range(0, 3);
       Debug.Log("Bot difficult is " + Difficult);
     }
@@ -61,7 +61,7 @@ namespace _Project.Scripts.Features.Player.Bots
         board[3 * y + x] = GetNumbForEvaluate(_gameFactory.GameFieldLogic.GetField()[y, x].GetSymbol());
       }
 
-      onEndTurn += () =>
+      Wait(onEndTurn, () =>
       {
         int bestMove = GetBestMove(board, symbolCells);
 
@@ -69,9 +69,7 @@ namespace _Project.Scripts.Features.Player.Bots
           symbolCells[bestMove].SetSymbol(DragableData);
         else
           Debug.Log("GameIsOver as no winner");
-      };
-
-      Wait(onEndTurn);
+      });
     }
 
     protected virtual int GetBestMove(int[] board, SymbolCell[] symbolCells)
@@ -86,9 +84,10 @@ namespace _Project.Scripts.Features.Player.Bots
       return _bigPotentialCase.Any(item => item == check);
     }
 
-    private async void Wait(Action onEndTurn)
+    private async void Wait(Action onEndTurn, Action makeTurn)
     {
       await Task.Delay(TimeSpan.FromSeconds(1f));
+      makeTurn?.Invoke();
       onEndTurn?.Invoke();
     }
 

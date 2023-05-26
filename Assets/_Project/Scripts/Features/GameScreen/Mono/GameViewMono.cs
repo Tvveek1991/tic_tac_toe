@@ -84,12 +84,8 @@ namespace _Project.Scripts.Features.GameScreen.Mono
       _netPlayerSkin[clientId].Value;
 
     [ServerRpc(RequireOwnership = false)]
-    public void SetSkinIndexServerRpc(int clientId, int index)
-    {
-      Debug.Log(clientId);
-      Debug.Log(index);
+    public void SetSkinIndexServerRpc(int clientId, int index) => 
       _netPlayerSkin[clientId].Value = index;
-    }
 
     [ServerRpc(RequireOwnership = false)]
     public void ChangeTurningPlayerServerRpc() =>

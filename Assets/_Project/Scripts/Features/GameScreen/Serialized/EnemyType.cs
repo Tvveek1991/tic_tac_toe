@@ -4,6 +4,6 @@ namespace _Project.Scripts.Features.GameScreen.Serialized
   {
     OneDevice,
     Bot,
-    LocalPlayer
+    Network
   }
 }
