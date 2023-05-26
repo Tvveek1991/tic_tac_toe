@@ -15,7 +15,7 @@ namespace Localizator.Editor.Scripts
   public class TableFetcher : ScriptableObject
   {
     private const string ExePath = "Assets/Localizator/Editor/locale_parser/main.exe";
-    private const string CredentialsPath = "Assets/Localizator/Editor/locale_parser/tic-tac-toe-blocks-81519183-8ab2f6594032.json";
+    private const string CredentialsPath = "Assets/Localizator/Editor/credentials.json";
 
     [Tooltip("Id from Google Sheet url")]
     [SerializeField] private string tableId;
