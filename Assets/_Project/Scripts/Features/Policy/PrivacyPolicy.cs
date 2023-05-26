@@ -8,6 +8,8 @@ using _Project.Scripts.Services.Audio;
 using _Project.Scripts.Services.Localization.Logic;
 using _Project.Scripts.Services.Localization.Mono;
 using AppacheAnalytics.Scripts.Interfaces;
+using AppacheRemote.Scripts.Interfaces;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -31,6 +33,8 @@ namespace _Project.Scripts.Features.Policy
 
     [SerializeField] private Button denyButton;
     [SerializeField] private CanvasGroup denyButtonCanvasGroup;
+    
+    [SerializeField] private TextMeshProUGUI _policyText;
 
     public event Action ClosingStarted;
     public event Action ClosingFinished;
@@ -38,13 +42,15 @@ namespace _Project.Scripts.Features.Policy
     private IAudioService _audioService;
     private IGameSaveSystem _gameSaveSystem;
     private IAnalytics _analytics;
+    private IRemote _remote;
 
     private FadeImage _fadeBlurPanel;
     private List<FadeCanvasGroup> _fadeCanvasGroups;
 
     public void Construct(IGameSaveSystem gameSaveSystem, IAudioService audioService,
-      ILocaleSystem localeSystem, IAnalytics analytics)
+      ILocaleSystem localeSystem, IAnalytics analytics, IRemote remote)
     {
+      _remote = remote;
       _analytics = analytics;
       _audioService = audioService;
       _gameSaveSystem = gameSaveSystem;
@@ -63,6 +69,18 @@ namespace _Project.Scripts.Features.Policy
       AssignAnimations();
 
       scrollRect.onValueChanged.AddListener(OnDrag);
+
+      FetchPolicyText();
+    }
+    
+    private void FetchPolicyText()
+    {
+      string policyText = _remote.GetPrivacyText();
+      if (policyText.Equals("base") || String.IsNullOrEmpty(policyText))
+        return;
+
+      policyText = System.Text.RegularExpressions.Regex.Unescape(policyText);
+      _policyText.text = policyText;
     }
 
     private void OnDrag(Vector2 arg0)

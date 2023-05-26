@@ -100,7 +100,7 @@ namespace _Project.Scripts.Features.Settings
 
       _privacyPolicyFactory = privacyPolicyFactor;
       _privacyPolicy = _privacyPolicyFactory.SpawnPrivacyPolicy();
-      _privacyPolicy.Construct(_gameSaveSystem, _audioService, localeSystem, analytics);
+      _privacyPolicy.Construct(_gameSaveSystem, _audioService, localeSystem, analytics, _remote);
 
       Localize(localeSystem);
       LoadSprites();

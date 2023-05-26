@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Appache Remote Settings
   m_EditorClassIdentifier: 
   ProjectNameForVariable: Tic_Tac_Toe
-  PrivacyPolicyVariable: privacy_text
+  PrivacyPolicyVariable: privacy
   IsLoggerEnabled: 1

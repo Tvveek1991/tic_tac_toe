@@ -5,6 +5,7 @@ using _Project.Scripts.Features.Policy;
 using _Project.Scripts.Services._Interfaces;
 using _Project.Scripts.Services.Localization.Logic;
 using AppacheAnalytics.Scripts.Interfaces;
+using AppacheRemote.Scripts.Interfaces;
 using UnityEngine;
 
 namespace _Project.Scripts.Core_Logic.StatesMachine.States
@@ -19,6 +20,7 @@ namespace _Project.Scripts.Core_Logic.StatesMachine.States
     private readonly ILocaleSystem _localeSystem;
     private readonly ICurrentScreen _screenManager;
     private readonly IAnalytics _analytics;
+    private readonly IRemote _remote;
     
     private IPrivacyPolicyFactory _privacyPolicyFactory;
 
@@ -28,8 +30,10 @@ namespace _Project.Scripts.Core_Logic.StatesMachine.States
       IAudioService audioService,
       ILocaleSystem localeSystem,
       ICurrentScreen screenManager,
-      IAnalytics analytics)
+      IAnalytics analytics,
+      IRemote remote)
     {
+      _remote = remote;
       _analytics = analytics;
       _assetProvider = assetProvider;
       _gameSaveSystem = gameSaveSystem;
@@ -53,7 +57,7 @@ namespace _Project.Scripts.Core_Logic.StatesMachine.States
       if (!_gameSaveSystem.Get().IsPolicyAccepted)
       {
         var privacyPolicy = _privacyPolicyFactory.SpawnPrivacyPolicy();
-        privacyPolicy.Construct(_gameSaveSystem, _audioService, _localeSystem, _analytics);
+        privacyPolicy.Construct(_gameSaveSystem, _audioService, _localeSystem, _analytics, _remote);
         privacyPolicy.ClosingFinished += OnClosingFinished;
         privacyPolicy.OpenWindow();
 
