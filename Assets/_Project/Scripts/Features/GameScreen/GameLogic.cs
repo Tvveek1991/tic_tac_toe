@@ -97,9 +97,8 @@ namespace _Project.Scripts.Features.GameScreen
     private void OnWin(SymbolSign symbol)
     {
       _inputResolver.Disable();
-      _gameFactory.EndGameLogic.Show();
+      _gameFactory.EndGameLogic.Show(symbol);
       Debug.Log("Win is " + symbol);
-      Debug.Log("Player is " + _gameMetaProvider.GetPlayerViewMono());
     }
   }
 }

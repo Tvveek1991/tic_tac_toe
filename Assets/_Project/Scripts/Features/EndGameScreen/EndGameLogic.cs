@@ -1,6 +1,7 @@
 using System;
 using _Project.Scripts.Animation;
 using _Project.Scripts.Features.EndGameScreen.Mono;
+using _Project.Scripts.Features.GameScreen.Serialized;
 using _Project.Scripts.Services._Interfaces;
 using _Project.Scripts.Services.Audio.Enum;
 using _Project.Scripts.Services.Audio.Executor;
@@ -41,7 +42,10 @@ namespace _Project.Scripts.Features.EndGameScreen
       new ButtonAnimation(_endGameWindow.ButtonPlayAgain.transform);
     }
 
-    public void Show() => 
+    public void Show(SymbolSign symbolSign)
+    {
+      
       _endGameWindow.gameObject.SetActive(true);
+    }
   }
 }

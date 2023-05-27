@@ -1,6 +1,5 @@
 using System;
 using System.Linq;
-using _Project.Scripts.Animation;
 using _Project.Scripts.Features.ScrollView;
 using _Project.Scripts.Features.ShopScreen.Serialized;
 using DG.Tweening;

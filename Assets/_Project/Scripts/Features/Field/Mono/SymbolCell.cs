@@ -8,8 +8,8 @@ namespace _Project.Scripts.Features.Field.Mono
 {
   public class SymbolCell : NetworkBehaviour
   {
-    private readonly NetworkVariable<SymbolSign> _netSymbol = new NetworkVariable<SymbolSign>();
-    private readonly NetworkVariable<SymbolSize> _netSize = new NetworkVariable<SymbolSize>(SymbolSize.Default);
+    private readonly NetworkVariable<SymbolSign> _netSymbol = new();
+    private readonly NetworkVariable<SymbolSize> _netSize = new(SymbolSize.Default);
 
     private MeshFilter _meshFilter;
     private MeshRenderer _meshRenderer;

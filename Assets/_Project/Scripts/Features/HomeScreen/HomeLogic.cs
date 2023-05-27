@@ -1,6 +1,7 @@
 using _Project.Scripts.Core_Logic.Screens;
 using _Project.Scripts.Core_Logic.StatesMachine.Interfaces;
 using _Project.Scripts.Core_Logic.StatesMachine.States;
+using _Project.Scripts.Features.Data;
 using _Project.Scripts.Features.DisableAds;
 using _Project.Scripts.Features.Policy;
 using _Project.Scripts.Features.ShopScreen;
@@ -8,6 +9,7 @@ using _Project.Scripts.Services._Interfaces;
 using _Project.Scripts.Services.Localization.Logic;
 using _Project.Scripts.Services.Money.Mono;
 using _Project.Scripts.Services.Network;
+using _Project.Scripts.Services.Unlocker;
 using AppacheAds.Scripts.Interfaces;
 using AppacheAnalytics.Scripts.Interfaces;
 using AppacheRemote.Scripts.Interfaces;
@@ -17,6 +19,8 @@ namespace _Project.Scripts.Features.HomeScreen
 {
   public class HomeLogic
   {
+    private const string GameDataPath = "Data/Game";
+    
     private readonly IHomeFactory _homeFactory;
     private readonly IUiFactory _uiFactory;
 
@@ -35,6 +39,8 @@ namespace _Project.Scripts.Features.HomeScreen
     private readonly IGameMetaProvider _gameMetaProvider;
     private readonly IGameStateMachine _gameStateMachine;
 
+    private readonly GameCustomData[] _gameCustomsData;
+    
     private DisableAdsLogic _disableAdsLogic;
     private MoneyCounter MoneyCounter { get; set; }
 
@@ -61,11 +67,15 @@ namespace _Project.Scripts.Features.HomeScreen
 
       _homeFactory = new HomeFactory(assetProvider, localeSystem, audioService, gameMetaProvider);
       _uiFactory = new UiFactory(assetProvider);
+      
+      _gameCustomsData = assetProvider.GetAllResources<GameCustomData>(GameDataPath);
     }
     
     public void CreateHomeView()
     {
       _currentScreen.SetCurrentScreen(ScreenNames.Home);
+      
+      UnlockFree();
 
       _homeFactory.CreateHomeView();
       _homeFactory.HomeViewLogic.Construct(OpenSettingsWindow, ToShop, ToGame, ToNoAds);
@@ -137,5 +147,20 @@ namespace _Project.Scripts.Features.HomeScreen
       _ipAddress = newIpAddress;
       _network.GetUnityTransport().ConnectionData.Address = _ipAddress;
     }
+    
+    private void UnlockFree()
+    {
+      foreach (GameCustomData gameCustomData in _gameCustomsData)
+      {
+        if (IsUnlocked(gameCustomData.Id) || _unlockService.GetUnlockType(gameCustomData.Id) != UnlockType.Free) 
+          continue;
+        
+        _gameSaveSystem.Get().UnlockedShopContent.Add(gameCustomData.Id);
+        _gameSaveSystem.Get().ChosenShopContent.Add(gameCustomData.Id);
+      }
+    }
+    
+    private bool IsUnlocked(string itemId) =>
+      _gameSaveSystem.Get().UnlockedShopContent.Contains(itemId);
   }
 }

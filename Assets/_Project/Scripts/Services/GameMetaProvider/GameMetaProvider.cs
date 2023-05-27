@@ -6,6 +6,7 @@ using _Project.Scripts.Features.GameScreen.Serialized;
 using _Project.Scripts.Features.Player;
 using _Project.Scripts.Features.ShopScreen.Serialized;
 using _Project.Scripts.Services._Interfaces;
+using _Project.Scripts.Services.Audio.Enum;
 using _Project.Scripts.Services.Unlocker;
 using UnityEngine;
 using Object = UnityEngine.Object;
@@ -18,13 +19,9 @@ namespace _Project.Scripts.Services.GameMetaProvider
     private const string GameDataPath = "Data/Game";
 
     private readonly IAssetProvider _assetProvider;
-    private readonly IUnlockService _unlockService;
     private readonly IGameSaveSystem _gameSaveSystem;
 
     private readonly GameCustomData[] _gameCustomsData;
-
-    private SymbolData _opponentData;
-    private BasePlayerViewMono BasePlayerViewMono { get; set; }
 
     private readonly Dictionary<SymbolSign, ItemType> _itemTypesTransfer = new()
     {
@@ -32,16 +29,16 @@ namespace _Project.Scripts.Services.GameMetaProvider
       {SymbolSign.O, ItemType.SymbolO}
     };
 
-    public GameMetaProvider(IAssetProvider assetProvider, IGameSaveSystem gameSaveSystem, IUnlockService unlockService)
+    private SymbolData _botData;
+
+    private BasePlayerViewMono BasePlayerViewMono { get; set; }
+
+    public GameMetaProvider(IAssetProvider assetProvider, IGameSaveSystem gameSaveSystem)
     {
       _assetProvider = assetProvider;
-      _unlockService = unlockService;
       _gameSaveSystem = gameSaveSystem;
 
       _gameCustomsData = Load<GameCustomData>(GameDataPath);
-
-      if (_gameSaveSystem.Get().IsFirstSession)
-        OpenFree();
     }
 
     public void SetPlayerViewMono(BasePlayerViewMono basePlayerViewMono) =>
@@ -83,6 +80,13 @@ namespace _Project.Scripts.Services.GameMetaProvider
       return GetCustomData<SymbolData>(itemType).Icon;
     }
 
+    public AudioId GetMusic() =>
+      GetCustomData<MusicData>(ItemType.Music).ClipId;
+
+    public void GetMap()
+    {
+    }
+
     public Mesh GetMesh(SymbolSign symbolSign, SymbolSize symbolSize)
     {
       SymbolData symbolData = GetSymbolData(symbolSign);
@@ -113,41 +117,17 @@ namespace _Project.Scripts.Services.GameMetaProvider
         Object.Destroy(BasePlayerViewMono.gameObject);
     }
 
-    public void SetOpponentSkinIndex(int skinIndex)
-    {
-      // _opponentSkinIndex = skinIndex;
-      // Debug.Log(skinIndex);
-    }
-    
     public void SetOpponentData(SymbolSign symbolSign)
     {
       List<SymbolData> list = GetAllDataType<SymbolData>(_gameCustomsData).Where(item => item.ItemType == _itemTypesTransfer[symbolSign]).ToList();
-      _opponentData = list[Random.Range(0, list.Count)];
-      Debug.Log(list.IndexOf(_opponentData));
+      _botData = list[Random.Range(0, list.Count)];
+      // Debug.Log(list.IndexOf(_botData));
     }
 
     private SymbolData GetSymbolData(SymbolSign symbolSign) =>
       !BasePlayerViewMono.GetPlayerTurn() && GetEnemyType() == EnemyType.Bot
-        ? _opponentData
+        ? _botData
         : GetCustomData<SymbolData>(_itemTypesTransfer[symbolSign]);
-
-    private void OpenFree()
-    {
-      foreach (GameCustomData gameCustomData in _gameCustomsData)
-      {
-        if (IsUnlocked(gameCustomData.Id) || _unlockService.GetUnlockType(gameCustomData.Id) != UnlockType.Free)
-          continue;
-
-        _gameSaveSystem.Get().UnlockedShopContent.Add(gameCustomData.Id);
-        _gameSaveSystem.Get().ChosenShopContent.Add(gameCustomData.Id);
-      }
-
-      _gameSaveSystem.Get().IsFirstSession = false;
-      _gameSaveSystem.Save();
-    }
-
-    private bool IsUnlocked(string itemId) =>
-      _gameSaveSystem.Get().UnlockedShopContent.Contains(itemId);
 
     private T[] Load<T>(string path) where T : BaseContentData =>
       _assetProvider.GetAllResources<T>(path);

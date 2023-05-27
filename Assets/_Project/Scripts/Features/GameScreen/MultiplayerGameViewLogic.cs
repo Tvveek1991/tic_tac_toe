@@ -61,7 +61,7 @@ namespace _Project.Scripts.Features.GameScreen
     [ServerRpc(RequireOwnership = false)]
     private void RefreshAfterChangeTurnServerRpc(int activePlayer)
     {
-      GameMetaProvider.SetOpponentSkinIndex(GameViewMono.GetSkinIndex(GameMetaProvider.GetPlayerViewMono().OwnerClientId == 0 ? 1 : 0));
+      // GameMetaProvider.SetOpponentSkinIndex(GameViewMono.GetSkinIndex(GameMetaProvider.GetPlayerViewMono().OwnerClientId == 0 ? 1 : 0));
       
       GameMetaProvider.GetPlayerViewMono().SetPlayerTurnServerRpc(GameMetaProvider.GetPlayerViewMono().OwnerClientId == (ulong) activePlayer);
       GameViewMono.TurnText.text = GameMetaProvider.GetPlayerViewMono().OwnerClientId == (ulong) activePlayer ? "Your turn" : "Enemy turn";

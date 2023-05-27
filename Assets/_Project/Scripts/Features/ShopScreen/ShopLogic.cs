@@ -133,8 +133,6 @@ namespace _Project.Scripts.Features.ShopScreen
 
       OpenShop(ItemType.SymbolX);
       _shopView.GetSectionButton(ItemType.SymbolX).Button.onClick.Invoke();
-
-      OpenFree();
     }
 
     private void CreateSectionButton(ShopTypeData t)
@@ -181,14 +179,6 @@ namespace _Project.Scripts.Features.ShopScreen
       }
 
       _shopItemButtons.Add(t.Type, shopItemButton.ToArray());
-    }
-
-    private void OpenFree()
-    {
-      foreach (ShopTypeData t in _shopTypesData)
-      foreach (ShopItemData item in _itemsDataMap[t.Type])
-        if (!IsUnlocked(item.Id) && _unlockService.GetUnlockType(item.Id) == UnlockType.Free)
-          OnClickItem(item, true);
     }
 
     private void OnClickItem(ShopItemData itemData, bool fromInit = false)
