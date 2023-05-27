@@ -5,6 +5,7 @@ using _Project.Scripts.Features.ScrollView.Serialized;
 using _Project.Scripts.Services._Interfaces;
 using _Project.Scripts.Services.Audio;
 using _Project.Scripts.Services.Audio.Enum;
+using _Project.Scripts.Services.Audio.Executor;
 using _Project.Scripts.Services.Localization.Logic;
 using _Project.Scripts.Services.Localization.Mono;
 using _Project.Scripts.Services.Unlocker;
@@ -94,6 +95,7 @@ namespace _Project.Scripts.Features.ScrollView
       AnimateBlink();
 
       Localize(LocaleSystem);
+      new ButtonSound(audioService, Button.gameObject, AudioId.Click);
 
       void SetIcon()
       {
@@ -102,7 +104,6 @@ namespace _Project.Scripts.Features.ScrollView
         if (SetNativeSizeIcon)
           Icon.SetNativeSize();
       }
-
       void SetLock()
       {
         _type = unlockService.GetUnlockType(ScrollViewItemData.Id);

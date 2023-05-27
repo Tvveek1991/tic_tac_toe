@@ -46,9 +46,6 @@ namespace _Project.Scripts.Features.ShopScreen.Mono
       BackButton.onClick.AddListener(Hide);
 
       _windowDefaultPos = MainPanel.GetComponent<RectTransform>().anchoredPosition;
-
-      CreateAnimation();
-
       Show();
     }
 
@@ -62,8 +59,6 @@ namespace _Project.Scripts.Features.ShopScreen.Mono
     public void ClearPassiveProgress() =>
       ProgressInfo.DOFillAmount(0f, ClearDuration * ProgressInfo.fillAmount);
 
-    private void CreateAnimation() => 
-      new ButtonAnimation(BackButton.transform);
 
     public ScrollViewSectionButton GetSectionButton(ItemType type) =>
       SectionButtons.FirstOrDefault(x => x.Type == type)?.Button;
@@ -87,7 +82,9 @@ namespace _Project.Scripts.Features.ShopScreen.Mono
 
     private void Hide()
     {
-      TopPanel.interactable = false;
+      if (!MainPanel.interactable)
+        return;
+      
       TopPanel.alpha = 1;
       TopPanel.DOFade(0, AnimDuration);
 
@@ -98,7 +95,7 @@ namespace _Project.Scripts.Features.ShopScreen.Mono
       mainRect.DOAnchorPos(_windowDefaultPos - Vector3.up * WindowAnimStepY, AnimDuration)
         .OnComplete(delegate
         {
-          TopPanel.interactable = true;
+          // TopPanel.interactable = true;
           MainPanel.interactable = true;
           _onClickBack?.Invoke();
         });

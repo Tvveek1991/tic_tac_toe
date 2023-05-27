@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using _Project.Scripts.Animation;
 using _Project.Scripts.Core_Logic.Screens;
 using _Project.Scripts.Core_Logic.StatesMachine.Interfaces;
 using _Project.Scripts.Core_Logic.StatesMachine.States;
@@ -96,13 +97,14 @@ namespace _Project.Scripts.Features.ShopScreen
 
       CheckUnlocked();
 
-      CreateSounds(_shopView);
+      CreateSounds();
+      CreateAnimation();
     }
 
     public void ClearShopView()
-    {     
+    {
       _currentScreen.SetCurrentScreen(ScreenNames.Home);
- 
+
       _adsService.Banner.HideBanner();
 
       if (!_shopView) return;
@@ -138,7 +140,7 @@ namespace _Project.Scripts.Features.ShopScreen
     private void CreateSectionButton(ShopTypeData t)
     {
       ScrollViewSectionButton shopButton = _shopView.GetSectionButton(t.Type);
-      shopButton.Construct(_localeSystem, t.NameKey, delegate
+      shopButton.Construct(_audioService, _localeSystem, t.NameKey, delegate
       {
         UnselectSectionButtons();
         OpenShop(t.Type);
@@ -172,7 +174,7 @@ namespace _Project.Scripts.Features.ShopScreen
         string description = _localeSystem.GetText(item.Name) + level;
 
         scrollViewItemButton.Construct(_localeSystem, _unlockService,
-          new ScrollViewItemData() { Id = item.Id, NameKey = item.Name, DescriptionKey = item.Description, Icon = item.Icon },
+          new ScrollViewItemData() {Id = item.Id, NameKey = item.Name, DescriptionKey = item.Description, Icon = item.Icon},
           () => OnClickItem(item), _audioService, description);
 
         shopItemButton.Add(scrollViewItemButton);
@@ -203,8 +205,8 @@ namespace _Project.Scripts.Features.ShopScreen
       {
         _analytics.Send("ev_main_selected", new Dictionary<string, object>
         {
-          { "category_id", itemData.ItemType.ToString().ToLowerInvariant() },
-          { "object_id", itemData.Id }
+          {"category_id", itemData.ItemType.ToString().ToLowerInvariant()},
+          {"object_id", itemData.Id}
         });
       }
 
@@ -223,8 +225,8 @@ namespace _Project.Scripts.Features.ShopScreen
             _gameSaveSystem.Get().ChosenShopContent.Remove(item.GetId());
         }
 
-        if(fromInit == false)
-         _gameSaveSystem.Save();
+        if (fromInit == false)
+          _gameSaveSystem.Save();
       }
 
       if (fromInit == false)
@@ -238,7 +240,7 @@ namespace _Project.Scripts.Features.ShopScreen
           _contentViewLogic.Display();*/
       }
       // else
-        // _contentViewLogic.Display();
+      // _contentViewLogic.Display();
     }
 
     private void TryUnlock(ShopItemData itemData, bool fromInit = false)
@@ -251,9 +253,8 @@ namespace _Project.Scripts.Features.ShopScreen
 
         AccessForUnlock();
         RefreshProgressBar();
-        
+
         SendOpenEvent(itemData);
-        
       });
 
       void Unlock()
@@ -270,8 +271,8 @@ namespace _Project.Scripts.Features.ShopScreen
 
       _analytics.Send("ev_main_open", new Dictionary<string, object>
       {
-        { "category_id", itemData.ItemType.ToString().ToLowerInvariant() },
-        { "object_id", itemData.Id }
+        {"category_id", itemData.ItemType.ToString().ToLowerInvariant()},
+        {"object_id", itemData.Id}
       });
     }
 
@@ -322,8 +323,11 @@ namespace _Project.Scripts.Features.ShopScreen
         _gameStateMachine.Enter<LoadHomeState>);
     }
 
-    private void CreateSounds(ShopView shopView) => 
-      new ButtonSound(_audioService, shopView.BackButton.gameObject, AudioId.ClickBack);
+    private void CreateAnimation() =>
+      new ButtonAnimation(_shopView.BackButton.transform);
+
+    private void CreateSounds() =>
+      new ButtonSound(_audioService, _shopView.BackButton.gameObject, AudioId.ClickBack);
 
     private ScrollViewItemButton GetItemButton(ShopItemData itemData) =>
       _shopItemButtons[itemData.ItemType].FirstOrDefault(item => item.GetId() == itemData.Id);

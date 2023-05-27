@@ -1,4 +1,7 @@
 using System;
+using _Project.Scripts.Services._Interfaces;
+using _Project.Scripts.Services.Audio.Enum;
+using _Project.Scripts.Services.Audio.Executor;
 using _Project.Scripts.Services.Localization.Logic;
 using DG.Tweening;
 using TMPro;
@@ -21,7 +24,8 @@ namespace _Project.Scripts.Features.ScrollView
 
     private string _nameKey;
 
-    public void Construct(ILocaleSystem localeSystem, string nameKey, Action onClickOpenShop, Sprite iconOn = null, Sprite iconOff = null)
+    public void Construct(IAudioService audioService, ILocaleSystem localeSystem, string nameKey, Action onClickOpenShop,
+      Sprite iconOn = null, Sprite iconOff = null)
     {
       _nameKey = nameKey;
 
@@ -36,7 +40,10 @@ namespace _Project.Scripts.Features.ScrollView
         _iconOff = iconOff;
 
       SetLocale(localeSystem);
+      
       Button.onClick.AddListener(() => onClickOpenShop?.Invoke());
+
+      new ButtonSound(audioService, Button.gameObject, AudioId.Click);
     }
 
     public void SetPosition(Vector3 position) =>
