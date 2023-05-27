@@ -1,6 +1,9 @@
 using System;
+using _Project.Scripts.Animation;
 using _Project.Scripts.Features.EndGameScreen.Mono;
 using _Project.Scripts.Services._Interfaces;
+using _Project.Scripts.Services.Audio.Enum;
+using _Project.Scripts.Services.Audio.Executor;
 
 namespace _Project.Scripts.Features.EndGameScreen
 {
@@ -21,11 +24,24 @@ namespace _Project.Scripts.Features.EndGameScreen
     {
       _endGameWindow.ButtonHome.onClick.AddListener(() => onClickHome?.Invoke());
       _endGameWindow.ButtonPlayAgain.onClick.AddListener(() => onClickPlayAgain?.Invoke());
+
+      AddAnimations();
+      AddSounds();
     }
 
-    public void Show()
+    private void AddSounds()
     {
-      _endGameWindow.gameObject.SetActive(true);
+      new ButtonSound(_audioService, _endGameWindow.ButtonHome.gameObject, AudioId.ClickBack);
+      new ButtonSound(_audioService, _endGameWindow.ButtonPlayAgain.gameObject, AudioId.Click);
     }
+
+    private void AddAnimations()
+    {
+      new ButtonAnimation(_endGameWindow.ButtonHome.transform);
+      new ButtonAnimation(_endGameWindow.ButtonPlayAgain.transform);
+    }
+
+    public void Show() => 
+      _endGameWindow.gameObject.SetActive(true);
   }
 }

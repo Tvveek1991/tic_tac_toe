@@ -99,6 +99,7 @@ namespace _Project.Scripts.Features.GameScreen
       _inputResolver.Disable();
       _gameFactory.EndGameLogic.Show();
       Debug.Log("Win is " + symbol);
+      Debug.Log("Player is " + _gameMetaProvider.GetPlayerViewMono());
     }
   }
 }

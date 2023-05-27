@@ -76,7 +76,7 @@ namespace _Project.Scripts.Features.HomeScreen
       new ButtonSound(_audioService, _homeViewMono.ShopButton.gameObject, AudioId.Click);
       new ButtonSound(_audioService, _homeViewMono.NoAdsButton.gameObject, AudioId.Click);
       new ButtonSound(_audioService, _homeViewMono.SettingsButton.gameObject, AudioId.Click);
-      new ButtonSound(_audioService, _homeViewMono.CreateButton.gameObject, AudioId.Click);
+      new ButtonSound(_audioService, _homeViewMono.CreateButton.gameObject, AudioId.StartButton);
     }
 
     private void SwitchGame(bool isClassic)

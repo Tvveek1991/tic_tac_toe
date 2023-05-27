@@ -1,12 +1,15 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using _Project.Scripts.Animation;
 using _Project.Scripts.Features.DragAndDrop;
 using _Project.Scripts.Features.DragAndDrop.Interface;
 using _Project.Scripts.Features.GameScreen.Mono;
 using _Project.Scripts.Features.GameScreen.Serialized;
 using _Project.Scripts.Services._Interfaces;
+using _Project.Scripts.Services.Audio.Enum;
 using _Project.Scripts.Services.Localization.Logic;
+using _Project.Scripts.Services.Localization.Mono;
 using UnityEngine;
 
 namespace _Project.Scripts.Features.GameScreen
@@ -95,22 +98,18 @@ namespace _Project.Scripts.Features.GameScreen
 
     private void Localize(ILocaleSystem localeSystem)
     {
-      /*List<LocalizedMainText> localizedTexts = GameViewMono.GetComponentsInChildren<LocalizedMainText>(true).ToList();
+      List<LocalizedMainText> localizedTexts = GameViewMono.GetComponentsInChildren<LocalizedMainText>(true).ToList();
       localizedTexts.ForEach(item =>
       {
         item.Construct(localeSystem);
         item.Localize();
-      });*/
+      });
     }
 
-    private void AppendButtonsAnimation()
-    {
+    private void AppendButtonsAnimation() => 
       new ButtonAnimation(GameViewMono.BackButton.transform);
-    }
 
-    private void AppendClickSound(IAudioService audioService)
-    {
-      // GameViewMono.BackButton.onClick.AddListener((() => audioService.Play(AudioId.SoundButton)));
-    }
+    private void AppendClickSound(IAudioService audioService) => 
+      GameViewMono.BackButton.onClick.AddListener((() => audioService.Play(AudioId.ClickBack)));
   }
 }
