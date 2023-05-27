@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-namespace _Project.Scripts.Services.Audio
+namespace _Project.Scripts.Services.Audio.Executor
 {
     public class PointerClickTrigger : MonoBehaviour, IPointerClickHandler
     {

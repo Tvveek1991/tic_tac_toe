@@ -1,9 +1,10 @@
 ﻿using System.Linq;
 using _Project.Scripts.Services._Interfaces;
+using _Project.Scripts.Services.Audio.Enum;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-namespace _Project.Scripts.Services.Audio
+namespace _Project.Scripts.Services.Audio.Executor
 {
   public class ButtonSound
   {

@@ -13,6 +13,8 @@ using _Project.Scripts.Features.ShopScreen.Mono;
 using _Project.Scripts.Features.ShopScreen.Serialized;
 using _Project.Scripts.Services._Interfaces;
 using _Project.Scripts.Services.Audio;
+using _Project.Scripts.Services.Audio.Enum;
+using _Project.Scripts.Services.Audio.Executor;
 using _Project.Scripts.Services.Localization.Logic;
 using _Project.Scripts.Services.Unlocker;
 using AppacheAds.Scripts.Interfaces;
@@ -321,7 +323,7 @@ namespace _Project.Scripts.Features.ShopScreen
     }
 
     private void CreateSounds(ShopView shopView) => 
-      new ButtonSound(_audioService, shopView.BackButton.gameObject, AudioId.SoundButton);
+      new ButtonSound(_audioService, shopView.BackButton.gameObject, AudioId.ClickBack);
 
     private ScrollViewItemButton GetItemButton(ShopItemData itemData) =>
       _shopItemButtons[itemData.ItemType].FirstOrDefault(item => item.GetId() == itemData.Id);

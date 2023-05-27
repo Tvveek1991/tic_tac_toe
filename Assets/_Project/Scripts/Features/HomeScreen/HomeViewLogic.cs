@@ -5,7 +5,8 @@ using _Project.Scripts.Animation;
 using _Project.Scripts.Features.GameScreen.Serialized;
 using _Project.Scripts.Features.HomeScreen.Mono;
 using _Project.Scripts.Services._Interfaces;
-using _Project.Scripts.Services.Audio;
+using _Project.Scripts.Services.Audio.Enum;
+using _Project.Scripts.Services.Audio.Executor;
 using _Project.Scripts.Services.Localization.Logic;
 using _Project.Scripts.Services.Localization.Mono;
 using DG.Tweening;
@@ -72,10 +73,10 @@ namespace _Project.Scripts.Features.HomeScreen
 
     private void CreateSounds()
     {
-      new ButtonSound(_audioService, _homeViewMono.ShopButton.gameObject, AudioId.SoundButton);
-      new ButtonSound(_audioService, _homeViewMono.NoAdsButton.gameObject, AudioId.SoundButton);
-      new ButtonSound(_audioService, _homeViewMono.SettingsButton.gameObject, AudioId.SoundButton);
-      new ButtonSound(_audioService, _homeViewMono.CreateButton.gameObject, AudioId.SoundButton);
+      new ButtonSound(_audioService, _homeViewMono.ShopButton.gameObject, AudioId.Click);
+      new ButtonSound(_audioService, _homeViewMono.NoAdsButton.gameObject, AudioId.Click);
+      new ButtonSound(_audioService, _homeViewMono.SettingsButton.gameObject, AudioId.Click);
+      new ButtonSound(_audioService, _homeViewMono.CreateButton.gameObject, AudioId.Click);
     }
 
     private void SwitchGame(bool isClassic)

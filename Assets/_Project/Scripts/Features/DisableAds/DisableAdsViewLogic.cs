@@ -4,7 +4,7 @@ using System.Linq;
 using _Project.Scripts.Animation;
 using _Project.Scripts.Features.DisableAds.Mono;
 using _Project.Scripts.Services._Interfaces;
-using _Project.Scripts.Services.Audio;
+using _Project.Scripts.Services.Audio.Enum;
 using _Project.Scripts.Services.Localization.Logic;
 using _Project.Scripts.Services.Localization.Mono;
 using Sirenix.Utilities;
@@ -29,10 +29,10 @@ namespace _Project.Scripts.Features.DisableAds
 
     public void Construct(string price, Action onShowAds, Action onClose, Action onContinue, Action onPurchase)
     {
-      _disableAdsWindow.ShowBtn.onClick.AddListener((() => _audioService.Play(AudioId.SoundButton)));
-      _disableAdsWindow.CloseBtn.onClick.AddListener((() => _audioService.Play(AudioId.SoundButton)));
-      _disableAdsWindow.ContinueBtn.onClick.AddListener((() => _audioService.Play(AudioId.SoundButton)));
-      _disableAdsWindow.PurchaseBtn.onClick.AddListener((() => _audioService.Play(AudioId.SoundButton)));
+      _disableAdsWindow.ShowBtn.onClick.AddListener((() => _audioService.Play(AudioId.Click)));
+      _disableAdsWindow.CloseBtn.onClick.AddListener((() => _audioService.Play(AudioId.ClickBack)));
+      _disableAdsWindow.ContinueBtn.onClick.AddListener((() => _audioService.Play(AudioId.Click)));
+      _disableAdsWindow.PurchaseBtn.onClick.AddListener((() => _audioService.Play(AudioId.Click)));
 
       _disableAdsWindow.ShowBtn.onClick.AddListener(delegate { onShowAds?.Invoke(); });
       _disableAdsWindow.CloseBtn.onClick.AddListener(delegate { onClose?.Invoke(); });

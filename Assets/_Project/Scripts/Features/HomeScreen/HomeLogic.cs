@@ -91,7 +91,7 @@ namespace _Project.Scripts.Features.HomeScreen
     {
       Object.Destroy(MoneyCounter.gameObject);
       
-      _disableAdsLogic.Cleanup();
+      _disableAdsLogic?.Cleanup();
 
       _homeFactory.ClearHomeView();
       _uiFactory.ClearSettingsWindow();

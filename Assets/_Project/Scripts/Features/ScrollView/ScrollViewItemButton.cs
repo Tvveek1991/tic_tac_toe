@@ -4,6 +4,7 @@ using System.Linq;
 using _Project.Scripts.Features.ScrollView.Serialized;
 using _Project.Scripts.Services._Interfaces;
 using _Project.Scripts.Services.Audio;
+using _Project.Scripts.Services.Audio.Enum;
 using _Project.Scripts.Services.Localization.Logic;
 using _Project.Scripts.Services.Localization.Mono;
 using _Project.Scripts.Services.Unlocker;
@@ -174,7 +175,7 @@ namespace _Project.Scripts.Features.ScrollView
     public void PlayOpenContentSound(bool fromInit = false)
     {
       if (fromInit == false)
-        AudioService.Play(AudioId.SoundButton);
+        AudioService.Play(AudioId.Click);
     }
 
     public void Activate()

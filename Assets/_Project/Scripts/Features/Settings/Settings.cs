@@ -6,7 +6,8 @@ using _Project.Scripts.Core_Logic.Screens;
 using _Project.Scripts.Core_Logic.StatesMachine.Interfaces;
 using _Project.Scripts.Features.Policy;
 using _Project.Scripts.Services._Interfaces;
-using _Project.Scripts.Services.Audio;
+using _Project.Scripts.Services.Audio.Enum;
+using _Project.Scripts.Services.Audio.Executor;
 using _Project.Scripts.Services.Localization.Logic;
 using _Project.Scripts.Services.Localization.Mono;
 using AppacheAds.Scripts.Interfaces;
@@ -121,12 +122,12 @@ namespace _Project.Scripts.Features.Settings
 
     private void SoundCreator()
     {
-      new ButtonSound(_audioService, ButtonBack.gameObject, AudioId.SoundButton);
-      new ButtonSound(_audioService, ButtonMusic.gameObject, AudioId.SoundButton);
-      new ButtonSound(_audioService, ButtonSound.gameObject, AudioId.SoundButton);
-      new ButtonSound(_audioService, ButtonPrivacyPolicy.gameObject, AudioId.SoundButton);
-      new ButtonSound(_audioService, ButtonRate.gameObject, AudioId.SoundButton);
-      new ButtonSound(_audioService, ButtonGallery.gameObject, AudioId.SoundButton);
+      new ButtonSound(_audioService, ButtonBack.gameObject, AudioId.ClickBack);
+      new ButtonSound(_audioService, ButtonMusic.gameObject, AudioId.Click);
+      new ButtonSound(_audioService, ButtonSound.gameObject, AudioId.Click);
+      new ButtonSound(_audioService, ButtonPrivacyPolicy.gameObject, AudioId.Click);
+      new ButtonSound(_audioService, ButtonRate.gameObject, AudioId.Click);
+      new ButtonSound(_audioService, ButtonGallery.gameObject, AudioId.Click);
     }
 
     public void OpenWindow()

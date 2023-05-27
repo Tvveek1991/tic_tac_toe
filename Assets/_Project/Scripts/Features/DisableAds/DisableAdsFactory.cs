@@ -29,9 +29,7 @@ namespace _Project.Scripts.Features.DisableAds
     {
       Transform parent = GameObject.Find(BaseCanvas).transform;
 
-      var windowPrefab = Create<DisableAdsWindow>(DisableAdsPath);
-      
-      _disableAdsWindow = Object.Instantiate(windowPrefab, parent);
+      _disableAdsWindow = Create<DisableAdsWindow>(DisableAdsPath, parent);
       _disableAdsWindow.gameObject.SetActive(false);
 
       _disableAdsViewLogic = new DisableAdsViewLogic(_disableAdsWindow, _localeSystem, _audioService);

@@ -1,81 +1,107 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using _Project.Scripts.Services._Interfaces;
+using _Project.Scripts.Services.Audio.Data;
+using _Project.Scripts.Services.Audio.Enum;
 using UnityEngine;
+using AudioType = _Project.Scripts.Services.Audio.Enum.AudioType;
+using Object = UnityEngine.Object;
 
 namespace _Project.Scripts.Services.Audio
 {
-  public static class AudioMapping
-  {
-    private static readonly Dictionary<AudioId, AudioAsset> IdToAssetMapping =
-      new Dictionary<AudioId, AudioAsset>()
-      {
-        {AudioId.SoundButton, new SoundButton()}
-      };
-
-    public static AudioAsset GetAudioAsset(AudioId audioId)
-    {
-      return IdToAssetMapping[audioId];
-    }
-  }
-
   public class AudioService : IAudioService
   {
     private readonly IAssetProvider _assetProvider;
 
-    private static readonly Dictionary<AudioAsset, AudioSource> AudioSources =
-      new Dictionary<AudioAsset, AudioSource>();
+    private static readonly Dictionary<AudioAsset, AudioData> AudioSources =
+      new Dictionary<AudioAsset, AudioData>();
 
     private bool _isMusicDisabled;
     private bool _isSoundDisabled;
 
+    private readonly List<AudioAsset> _audio;
+
     public AudioService(IAssetProvider assetProvider)
     {
       _assetProvider = assetProvider;
+
+      _audio = new List<AudioAsset>();
+      for (int i = 0; i < System.Enum.GetNames(typeof(AudioId)).Length; i++) 
+        _audio.Add(new AudioAsset((AudioId)i));
     }
 
     public void MuteMusic(bool isMusicDisabled)
     {
       _isMusicDisabled = isMusicDisabled;
 
-      bool Predicate(KeyValuePair<AudioAsset, AudioSource> kv) => kv.Key.AssetType == AudioType.Music;
+      bool Predicate(KeyValuePair<AudioAsset, AudioData> kv) => kv.Value.Type == AudioType.Music;
 
-      Dictionary<AudioAsset, AudioSource> musicSources = AudioSources
+      Dictionary<AudioAsset, AudioData> musicSources = AudioSources
         .Where(Predicate)
         .ToDictionary(
           kv => kv.Key,
           kv => kv.Value);
 
-      foreach (AudioSource audioSource in musicSources.Values) 
-        audioSource.mute = _isMusicDisabled;
+      foreach (AudioData audioData in musicSources.Values)
+        audioData.Source.mute = _isMusicDisabled;
     }
 
     public void MuteSounds(bool isSoundDisabled)
     {
       _isSoundDisabled = isSoundDisabled;
 
-      bool Predicate(KeyValuePair<AudioAsset, AudioSource> kv) => kv.Key.AssetType == AudioType.Sound;
+      bool Predicate(KeyValuePair<AudioAsset, AudioData> kv) => kv.Value.Type == AudioType.Sound;
 
-      Dictionary<AudioAsset, AudioSource> soundSources = AudioSources
+      Dictionary<AudioAsset, AudioData> soundSources = AudioSources
         .Where(Predicate)
         .ToDictionary(
           kv => kv.Key,
           kv => kv.Value);
 
-      foreach (var audioSource in soundSources.Values)
-      {
-        audioSource.mute = _isSoundDisabled;
-      }
+      foreach (AudioData audioData in soundSources.Values) 
+        audioData.Source.mute = _isSoundDisabled;
     }
 
     public void Play(AudioId audioId)
     {
-      var audioAsset = AudioMapping.GetAudioAsset(audioId);
-      var audioSource = AudioSources.ContainsKey(audioAsset)
+      if (MusicAlreadyIsPlaying()) 
+        return;
+
+      AudioAsset audioAsset = GetAudioAsset(audioId);
+      AudioData audioData = AudioSources.ContainsKey(audioAsset)
         ? AudioSources[audioAsset]
         : CreateAudioSource(audioAsset);
 
-      audioSource.Play();
+      // Debug.Log($"Audio ID {audioId.ToString()}");
+
+      if (audioData.Type == AudioType.Music) 
+        StopOtherMusic();
+
+      audioData.Source.Play();
+
+      void StopOtherMusic()
+      {
+        foreach (AudioData audio in AudioSources.Values)
+        {
+          if (audio.Type == AudioType.Music)
+            audio.Source.Stop();
+        }
+      }
+
+      bool MusicAlreadyIsPlaying()
+      {
+        AudioAsset data = AudioSources.Keys.FirstOrDefault(x => x.AudioId == audioId); 
+        return data != null && AudioSources[data].Source.isPlaying && AudioSources[data].Type == AudioType.Music;
+      }
+    }
+
+    public void Stop(AudioId audioId)
+    {
+      foreach (AudioAsset audio in AudioSources.Keys)
+      {
+         if(audio.AudioId == audioId)
+           AudioSources[audio].Source.Stop();
+      }
     }
 
     public bool MusicIsMute() =>
@@ -84,28 +110,38 @@ namespace _Project.Scripts.Services.Audio
     public bool SoundsIsMute() =>
       _isSoundDisabled;
 
-    public void Clean() => 
-      AudioSources.Clear();
-
-    private AudioSource CreateAudioSource(AudioAsset audioAsset)
+    public void Clean()
     {
-      var audioSource = Instantiate(audioAsset);
-      AudioSources.Add(audioAsset, audioSource);
+      Debug.Log("Clean");
+      
+      foreach (AudioData value in AudioSources.Values) 
+        Object.DestroyImmediate(value.gameObject);
+      
+      AudioSources.Clear();
+    }
 
-      audioSource.mute = audioAsset.AssetType switch
+    private AudioData CreateAudioSource(AudioAsset audioAsset)
+    {
+      AudioData audioData = Instantiate(audioAsset);
+      AudioSources.Add(audioAsset, audioData);
+
+      audioData.Source.mute = audioData.Type switch 
       {
         AudioType.Sound => _isSoundDisabled,
         AudioType.Music => _isMusicDisabled,
       };
 
-      return audioSource;
+      return audioData;
     }
 
-    private AudioSource Instantiate(AudioAsset audioAsset)
+    private AudioData Instantiate(AudioAsset audioAsset)
     {
-      var original = _assetProvider.GetResource<AudioSource>(audioAsset.AssetPath);
-      var instance = Object.Instantiate(original);
+      AudioData original = _assetProvider.GetResource<AudioData>(audioAsset.AssetPath);
+      AudioData instance = Object.Instantiate(original);
       return instance;
     }
+
+    private AudioAsset GetAudioAsset(AudioId audioId) => 
+      _audio.FirstOrDefault(a => a.AudioId == audioId);
   }
 }

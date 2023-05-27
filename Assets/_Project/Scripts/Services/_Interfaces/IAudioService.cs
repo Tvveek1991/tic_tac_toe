@@ -1,3 +1,5 @@
+using _Project.Scripts.Services.Audio.Enum;
+
 namespace _Project.Scripts.Services._Interfaces
 {
   public interface IAudioService
@@ -6,7 +8,7 @@ namespace _Project.Scripts.Services._Interfaces
     bool SoundsIsMute();
     void MuteMusic(bool isMusicDisabled);
     void MuteSounds(bool isSoundDisabled);
-    void Play(Audio.AudioId audioId);
+    void Play(AudioId audioId);
     void Clean();
   }
 }

@@ -5,6 +5,8 @@ using _Project.Scripts.Animation;
 using _Project.Scripts.Animations.UI;
 using _Project.Scripts.Services._Interfaces;
 using _Project.Scripts.Services.Audio;
+using _Project.Scripts.Services.Audio.Enum;
+using _Project.Scripts.Services.Audio.Executor;
 using _Project.Scripts.Services.Localization.Logic;
 using _Project.Scripts.Services.Localization.Mono;
 using AppacheAnalytics.Scripts.Interfaces;
@@ -93,7 +95,7 @@ namespace _Project.Scripts.Features.Policy
         denyButtonCanvasGroup.alpha = 1f;
         
         new ButtonAnimation(denyButton.transform);
-        new ButtonSound(_audioService, denyButton.gameObject, AudioId.SoundButton);
+        new ButtonSound(_audioService, denyButton.gameObject, AudioId.Click);
       }
     }
 
@@ -127,10 +129,10 @@ namespace _Project.Scripts.Features.Policy
       new ButtonAnimation(acceptButton2.transform);
       new ButtonAnimation(backButton.transform);
 
-      new ButtonSound(_audioService, acceptButton1.gameObject, AudioId.SoundButton);
-      new ButtonSound(_audioService, acceptButton2.gameObject, AudioId.SoundButton);
-      new ButtonSound(_audioService, backButton.gameObject, AudioId.SoundButton);
-      new ButtonSound(_audioService, linkButton.gameObject, AudioId.SoundButton);
+      new ButtonSound(_audioService, acceptButton1.gameObject, AudioId.Click);
+      new ButtonSound(_audioService, acceptButton2.gameObject, AudioId.Click);
+      new ButtonSound(_audioService, backButton.gameObject, AudioId.ClickBack);
+      new ButtonSound(_audioService, linkButton.gameObject, AudioId.Click);
     }
 
     private void Localize(ILocaleSystem localeSystem)
