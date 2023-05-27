@@ -1,6 +1,6 @@
 using _Project.Scripts.Features.GameScreen.Serialized;
 using _Project.Scripts.Features.Player;
-using _Project.Scripts.Features.ShopScreen.Serialized;
+using _Project.Scripts.Services.Audio.Enum;
 using UnityEngine;
 
 namespace _Project.Scripts.Services._Interfaces
@@ -23,9 +23,11 @@ namespace _Project.Scripts.Services._Interfaces
     Mesh GetMesh(SymbolSign symbolSign, SymbolSize symbolSize);
     Material GetMaterial(SymbolSign symbolSign, SymbolSize symbolSize);
     Sprite GetIcon(SymbolSign symbol);
+    
+    AudioId GetMusic();
+    void GetMap();
 
     int GetSkinIndex(SymbolSign symbol);
-    void SetOpponentSkinIndex(int skinIndex);
 
     void SetOpponentData(SymbolSign symbolSign);
   }
