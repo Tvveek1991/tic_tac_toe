@@ -82,9 +82,8 @@ namespace _Project.Scripts.Services.GameMetaProvider
     public AudioId GetMusic() =>
       GetCustomData<MusicData>(ItemType.Music).ClipId;
 
-    public void GetMap()
-    {
-    }
+    public string GetMap() =>
+      GetCustomData<MapData>(ItemType.Music).Id;
 
     public Mesh GetMesh(SymbolSign symbolSign, SymbolSize symbolSize)
     {
@@ -102,25 +101,17 @@ namespace _Project.Scripts.Services.GameMetaProvider
         : symbolData.MaterialBuhurt[(int) symbolSize];
     }
 
-    public int GetSkinIndex(SymbolSign symbol)
+    public void SetOpponentData(SymbolSign symbolSign)
     {
-      List<SymbolData> list = GetAllDataType<SymbolData>(_gameCustomsData).Where(item => item.ItemType == _itemTypesTransfer[symbol]).ToList();
-      SymbolData data = list.FirstOrDefault(item => _gameSaveSystem.Get().ChosenShopContent.Contains(item.Id));
-
-      return list.IndexOf(data);
+      List<SymbolData> list = GetAllDataType<SymbolData>(_gameCustomsData).Where(item => item.ItemType == _itemTypesTransfer[symbolSign]).ToList();
+      _botData = list[Random.Range(0, list.Count)];
+      // Debug.Log(list.IndexOf(_botData));
     }
 
     public void Clear()
     {
       if (BasePlayerViewMono)
         Object.Destroy(BasePlayerViewMono.gameObject);
-    }
-
-    public void SetOpponentData(SymbolSign symbolSign)
-    {
-      List<SymbolData> list = GetAllDataType<SymbolData>(_gameCustomsData).Where(item => item.ItemType == _itemTypesTransfer[symbolSign]).ToList();
-      _botData = list[Random.Range(0, list.Count)];
-      // Debug.Log(list.IndexOf(_botData));
     }
 
     private SymbolData GetSymbolData(SymbolSign symbolSign) =>

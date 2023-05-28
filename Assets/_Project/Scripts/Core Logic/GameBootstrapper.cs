@@ -17,7 +17,6 @@ namespace _Project.Scripts.Core_Logic
   public class GameBootstrapper : MonoBehaviour
   {
     private IAssetProvider _assetProvider;
-    private INetwork _network;
     private ICurrentScreen _screenManager;
 
     private IAnalytics _analytics;
@@ -38,14 +37,12 @@ namespace _Project.Scripts.Core_Logic
       IRemote remote,
       IAdsService adsService,
       IAnalytics analytics,
-      INetwork network,
       ICurrentScreen screenManager,
       IGameStateMachine gameStateMachine)
     {
       _adsService = adsService;
       _remote = remote;
       _assetProvider = assetProvider;
-      _network = network;
       _analytics = analytics;
       _gameStateMachine = gameStateMachine;
       
@@ -86,8 +83,6 @@ namespace _Project.Scripts.Core_Logic
 #endif
         _splashLogic.Complete();
       });
-      
-      InitializeNetwork();
     }
 
     private void SendRemoteEvents()
@@ -102,9 +97,6 @@ namespace _Project.Scripts.Core_Logic
       if (_analytics.IsFirstLaunch)
         _analytics.Send($"v{Application.version.Replace(".", "_")}", true);
     }
-
-    private void InitializeNetwork() => 
-      _network.LaunchService();
 
     private void LaunchGameStateMachine()
     {

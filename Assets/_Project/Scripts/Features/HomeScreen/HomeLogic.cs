@@ -25,7 +25,6 @@ namespace _Project.Scripts.Features.HomeScreen
     private readonly IUiFactory _uiFactory;
 
     private readonly IRemote _remote;
-    private readonly INetwork _network;
     private readonly IAnalytics _analytics;
     private readonly IAdsService _adsService;
     private readonly ILocaleSystem _localeSystem;
@@ -48,10 +47,9 @@ namespace _Project.Scripts.Features.HomeScreen
     
     public HomeLogic(IGameStateMachine gameStateMachine, IAssetProvider assetProvider, ICurrentScreen currentScreen,
       IGameSaveSystem gameSaveSystem, IAdsService adsService, IAnalytics analytics, ILocaleSystem localeSystem, IAudioService audioService, 
-      IRemote remote, IMoneyService moneyService, INetwork network, IGameMetaProvider gameMetaProvider, IInAppService inAppService, IUnlockService unlockService)
+      IRemote remote, IMoneyService moneyService, IGameMetaProvider gameMetaProvider, IInAppService inAppService, IUnlockService unlockService)
     {
       _remote = remote;
-      _network = network;
       _analytics = analytics;
       _adsService = adsService;
       _localeSystem = localeSystem;
@@ -91,8 +89,6 @@ namespace _Project.Scripts.Features.HomeScreen
       MoneyCounter = _uiFactory.SpawnMoneyCounter();
       MoneyCounter.Construct(_moneyService);
 
-      SetAddress("0.0.0.0");
-
       _disableAdsLogic = new DisableAdsLogic(_assetProvider, _gameSaveSystem, _analytics, _adsService, _localeSystem, _inAppService, _audioService, delegate { Debug.Log("OnDisable"); },
         delegate { Debug.Log("OnSwitchDisableAds"); }, () => Debug.Log("OnClose"));
     }
@@ -122,9 +118,6 @@ namespace _Project.Scripts.Features.HomeScreen
 
     private void ToGame(bool isHost)
     {
-      if (!isHost) 
-        SetAddress(_homeFactory.HomeViewLogic.GetInputIp());
-
       _adsService.CurrentInterstitial.ShowInterstitial(ScreenNames.Game,
         () => _gameStateMachine.Enter<LoadGameState, bool>(isHost),
         () => _gameStateMachine.Enter<LoadGameState, bool>(isHost));
@@ -140,12 +133,6 @@ namespace _Project.Scripts.Features.HomeScreen
     {
       _analytics.Send("btn_setting");
       _uiFactory.SettingsWindow.OpenWindow();
-    }
-
-    private void SetAddress(string newIpAddress)
-    {
-      _ipAddress = newIpAddress;
-      _network.GetUnityTransport().ConnectionData.Address = _ipAddress;
     }
     
     private void UnlockFree()

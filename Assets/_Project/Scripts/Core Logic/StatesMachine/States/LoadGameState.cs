@@ -14,7 +14,6 @@ namespace _Project.Scripts.Core_Logic.StatesMachine.States
   public class LoadGameState : IPayloadedState<bool>
   {
     private readonly IRemote _remote;
-    private readonly INetwork _network;
     private readonly IAnalytics _analytics;
     private readonly IAdsService _adsService;
     private readonly ILocaleSystem _localeSystem;
@@ -32,10 +31,9 @@ namespace _Project.Scripts.Core_Logic.StatesMachine.States
 
     public LoadGameState(IAssetProvider assetProvider, ICurrentScreen currentScreen, IGameSaveSystem gameSaveSystem,
       IAdsService adsService, IAnalytics analytics, ILocaleSystem localeSystem, IAudioService audioService, IRemote remote,
-      IMoneyService moneyService, INetwork network, IGameMetaProvider gameMetaProvider, IInputResolver inputResolver)
+      IMoneyService moneyService, IGameMetaProvider gameMetaProvider, IInputResolver inputResolver)
     {
       _remote = remote;
-      _network = network;
       _analytics = analytics;
       _adsService = adsService;
       _localeSystem = localeSystem;
@@ -54,7 +52,7 @@ namespace _Project.Scripts.Core_Logic.StatesMachine.States
     public void Enter(bool isHost)
     {
       _gameLogic = new GameLogic(_gameStateMachine, _assetProvider, _currentScreen, _gameSaveSystem, _adsService,
-        _analytics, _localeSystem, _audioService, _remote, _network, _gameMetaProvider, _inputResolver);
+        _analytics, _localeSystem, _audioService, _remote, _gameMetaProvider, _inputResolver);
       _gameLogic.Enter(isHost);
     }
 

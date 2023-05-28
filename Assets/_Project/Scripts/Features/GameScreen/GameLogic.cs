@@ -18,7 +18,6 @@ namespace _Project.Scripts.Features.GameScreen
     private readonly IGameFactory _gameFactory;
 
     private readonly IRemote _remote;
-    private readonly INetwork _network;
     private readonly IAnalytics _analytics;
     private readonly IAdsService _adsService;
     private readonly ILocaleSystem _localeSystem;
@@ -32,10 +31,9 @@ namespace _Project.Scripts.Features.GameScreen
 
     public GameLogic(IGameStateMachine gameStateMachine, IAssetProvider assetProvider, ICurrentScreen currentScreen,
       IGameSaveSystem gameSaveSystem, IAdsService adsService, IAnalytics analytics, ILocaleSystem localeSystem,
-      IAudioService audioService, IRemote remote, INetwork network, IGameMetaProvider gameMetaProvider, IInputResolver inputResolver)
+      IAudioService audioService, IRemote remote, IGameMetaProvider gameMetaProvider, IInputResolver inputResolver)
     {
       _remote = remote;
-      _network = network;
       _analytics = analytics;
       _adsService = adsService;
       _localeSystem = localeSystem;
@@ -48,14 +46,14 @@ namespace _Project.Scripts.Features.GameScreen
       _gameStateMachine = gameStateMachine;
 
       _uiFactory = new UiFactory(assetProvider);
-      _gameFactory = new GameFactory(assetProvider, localeSystem, audioService, network, gameMetaProvider, inputResolver);
+      _gameFactory = new GameFactory(assetProvider, localeSystem, audioService, gameMetaProvider, inputResolver);
     }
 
     public void Enter(bool isHost)
     {
       _inputResolver.Enable();
       
-      _network.CreateClientDataTransmitter(_gameFactory, _gameMetaProvider, _inputResolver);
+      // _network.CreateClientDataTransmitter(_gameFactory, _gameMetaProvider, _inputResolver);
       
       _gameFactory.CreateField();
       _gameFactory.CreateScreen();
@@ -65,11 +63,6 @@ namespace _Project.Scripts.Features.GameScreen
       _gameFactory.GameFieldLogic.Construct(OnWin);
       _gameFactory.GameViewLogic.Construct(OnClickBack, OnCreateNonConnectionPlayer);
       _gameFactory.GameViewLogic.OpenWindow();
-
-      if(_gameMetaProvider.GetGameMode() == GameMode.Single)
-        return;
-      
-      ConnectClient(isHost);
     }
 
     public void Exit()
@@ -88,8 +81,6 @@ namespace _Project.Scripts.Features.GameScreen
     private void OnClickPlayAgain() => 
       _gameStateMachine.Enter<LoadGameState, bool>(false);
 
-    private void ConnectClient(bool isHost) =>
-      _network.ConnectClient(isHost);
 
     private void OnCreateNonConnectionPlayer() =>
       _gameFactory.SpawnPlayerObject();

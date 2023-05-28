@@ -40,11 +40,9 @@ namespace _Project.Scripts.Features.HomeScreen
       _homeViewMono.SettingsButton.onClick.AddListener(openSettingsWindow.Invoke);
 
       _homeViewMono.GameTypeButton.onClick.AddListener(() => SwitchGame(_gameMetaProvider.GetGame() != Game.Classic));
-      _homeViewMono.GameModeButton.onClick.AddListener(() => SwitchMode(_gameMetaProvider.GetGameMode() != GameMode.Single));
-      _homeViewMono.EnemyTypeButton.onClick.AddListener(() => SwitchEnemy(_gameMetaProvider.GetEnemyType() != EnemyType.OneDevice/*GetNextEnemy()*/));
+      _homeViewMono.EnemyTypeButton.onClick.AddListener(() => SwitchEnemy(_gameMetaProvider.GetEnemyType() != EnemyType.OneDevice));
       SwitchGame(_gameMetaProvider.GetGame() == Game.Classic);
-      SwitchMode(_gameMetaProvider.GetGameMode() == GameMode.Single);
-      SwitchEnemy(_gameMetaProvider.GetEnemyType() == EnemyType.OneDevice/*_gameMetaProvider.GetEnemyType()*/);
+      SwitchEnemy(_gameMetaProvider.GetEnemyType() == EnemyType.OneDevice);
 
       CreateAnimations();
       CreateSounds();
@@ -92,32 +90,9 @@ namespace _Project.Scripts.Features.HomeScreen
       Debug.Log("On game change " + _gameMetaProvider.GetGame());
     }
 
-    private void SwitchMode(bool isSingle)
-    {
-      // IconMusic.sprite = mute ? _musicOff : _musicOn;
-      _homeViewMono.SwitcherGameMode.DOLocalMove(isSingle ? Vector3.left * 50 : Vector3.right * 50, SwitcherTime);
-      // var music = SwitcherMusic.parent.GetComponent<Image>();
-      // music.sprite = mute ? Inactive : Active;
-      // music.color = mute ? InactiveColor : Color.white;
-      _gameMetaProvider.SetGameMode(isSingle ? GameMode.Single : GameMode.Multiplayer);
-      Debug.Log("On mode change " + _gameMetaProvider.GetGameMode());
-    }
-
     private void SwitchEnemy(bool isOneDevice/*EnemyType type*/)
     {
       _homeViewMono.SwitcherEnemyType.DOLocalMove(isOneDevice ? Vector3.left * 50 : Vector3.right * 50, SwitcherTime);
-      /*switch (type)
-      {
-        case EnemyType.OneDevice:
-          _homeViewMono.SwitcherEnemyType.DOLocalMove(new Vector3(-50, 25, 0), SwitcherTime);
-          break;
-        case EnemyType.Bot:
-          _homeViewMono.SwitcherEnemyType.DOLocalMove(new Vector3(50, 25, 0), SwitcherTime);
-          break;
-        case EnemyType.Network:
-          _homeViewMono.SwitcherEnemyType.DOLocalMove(new Vector3(0, -25, 0), SwitcherTime);
-          break;
-      }*/
 
       _gameMetaProvider.SetEnemyType(isOneDevice ? EnemyType.OneDevice : EnemyType.Bot);
       Debug.Log("On enemy change " + _gameMetaProvider.GetEnemyType());
@@ -126,9 +101,6 @@ namespace _Project.Scripts.Features.HomeScreen
       // music.sprite = mute ? Inactive : Active;
       // music.color = mute ? InactiveColor : Color.white;
     }
-
-    private EnemyType GetNextEnemy() =>
-      _gameMetaProvider.GetEnemyType() < EnemyType.Network ? _gameMetaProvider.GetEnemyType() + 1 : EnemyType.OneDevice;
     
     public string GetInputIp() =>
       _homeViewMono.IpInputField.text;

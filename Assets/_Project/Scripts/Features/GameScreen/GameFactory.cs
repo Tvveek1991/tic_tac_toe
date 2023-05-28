@@ -41,7 +41,7 @@ namespace _Project.Scripts.Features.GameScreen
 
     // private delegate void ConnectHandler(string guid, uint cost, Action onSpend, Action<UnlockType> onFail); example delegate
 
-    public GameFactory(IAssetProvider assetProvider, ILocaleSystem localeSystem, IAudioService audioService, INetwork network,
+    public GameFactory(IAssetProvider assetProvider, ILocaleSystem localeSystem, IAudioService audioService, 
       IGameMetaProvider gameMetaProvider, IInputResolver inputResolver) : base(assetProvider)
     {
       _audioService = audioService;
@@ -50,14 +50,14 @@ namespace _Project.Scripts.Features.GameScreen
       _dictionaryGameMode = new Dictionary<GameMode, Action>
       {
         {GameMode.Single, () => GameViewLogic = new SingleGameViewLogic(GameViewMono, this, localeSystem, _gameMetaProvider, _audioService, inputResolver)},
-        {GameMode.Multiplayer, () => GameViewLogic = new MultiplayerGameViewLogic(GameViewMono, localeSystem, network, _gameMetaProvider, _audioService, inputResolver)},
+        // {GameMode.Multiplayer, () => GameViewLogic = new MultiplayerGameViewLogic(GameViewMono, localeSystem, network, _gameMetaProvider, _audioService, inputResolver)},
       };
     }
 
     public void CreateScreen()
     {
       GameViewMono = Create<GameViewMono>(GameViewPath, GameObject.Find(CanvasPath).transform);
-      _dictionaryGameMode[_gameMetaProvider.GetGameMode()].Invoke();
+      _dictionaryGameMode[GameMode.Single].Invoke();
     }
 
     public void CreateField()

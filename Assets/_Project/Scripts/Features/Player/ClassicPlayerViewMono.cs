@@ -14,9 +14,9 @@ namespace _Project.Scripts.Features.Player
       if(InputResolver.IsLocked)
         return;
       
-      _dragableData = new DragableData(NetSymbolSign.Value, SymbolSize.Default);
+      _dragableData = new DragableData(symbolSign, SymbolSize.Default);
 
-      if ((!IsOwner && GameMetaProvider.GetGameMode() != GameMode.Single) || !NetIsPlayerTurn.Value)
+      if (!IsPlayerTurn)
         return;
 
       Ray ray = Camera.ScreenPointToRay(Application.isEditor ? Input.mousePosition : Input.touches[0].position);
@@ -29,10 +29,7 @@ namespace _Project.Scripts.Features.Player
       if (cell.GetSymbol() != SymbolSign.None)
         return;
 
-      if (GameMetaProvider.GetGameMode() == GameMode.Single)
-        cell.SetSymbol(_dragableData);
-      else
-        cell.SetSymbolServerRpc(_dragableData.GetSymbol());
+      cell.SetSymbol(_dragableData);
 
       GameFactory.GameViewLogic.ChangeTurningPlayer(GetSymbol());
     }

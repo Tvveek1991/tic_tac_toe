@@ -1,16 +1,14 @@
 using _Project.Scripts.Features.GameScreen;
 using _Project.Scripts.Features.GameScreen.Serialized;
 using _Project.Scripts.Services._Interfaces;
-using _Project.Scripts.Services.Network.Mono;
 using UnityEngine;
-using Unity.Netcode;
 
 namespace _Project.Scripts.Features.Player
 {
-  public class BasePlayerViewMono : NetworkBehaviour
+  public class BasePlayerViewMono : MonoBehaviour
   {
-    protected readonly NetworkVariable<bool> NetIsPlayerTurn = new();
-    protected readonly NetworkVariable<SymbolSign> NetSymbolSign = new();
+    protected bool IsPlayerTurn;
+    protected SymbolSign symbolSign;
     
     protected Camera Camera;
     protected BoxCollider2D BoxCollider;
@@ -20,9 +18,6 @@ namespace _Project.Scripts.Features.Player
     protected IGameMetaProvider GameMetaProvider;
 
     private int _index;
-
-    public override void OnDestroy() =>
-      NetSymbolSign.OnValueChanged -= OnValueChanged;
 
     public void Construct(IGameFactory gameFactory, IGameMetaProvider gameMetaProvider, IInputResolver inputResolver)
     {
@@ -40,63 +35,22 @@ namespace _Project.Scripts.Features.Player
     public void CreateSymbolSign(int index)
     {
       _index = index;
-
-      if (GameMetaProvider.GetGameMode() == GameMode.Single)
-        SetSymbolSign(GetSymbol());
-      else
-        SetSymbolSignServerRpc(GetSymbol());
+      SetSymbolSign(GetSymbol());
     }
 
     public void SetPlayerTurn(bool isPlayerTurn)
     {
-      // Debug.Log(name + " Is " + isPlayerTurn);
-      NetIsPlayerTurn.Value = isPlayerTurn;
+      // Debug.Log(name + " Is " + _isPlayerTurn);
+      IsPlayerTurn = isPlayerTurn;
     }
 
     public bool GetPlayerTurn() =>
-      NetIsPlayerTurn.Value;
+      IsPlayerTurn;
 
     private void SetSymbolSign(SymbolSign symbol) =>
-      NetSymbolSign.Value = symbol;
+      symbolSign = symbol;
 
     protected SymbolSign GetSymbol() =>
       (SymbolSign) (_index + 1);
-
-    #region Multiplayer
-
-    public override void OnNetworkSpawn()
-    {
-      NetSymbolSign.OnValueChanged += OnValueChanged;
-
-      name = IsOwner ? "Owner_" + OwnerClientId : "Second Player";
-      Debug.Log(name + " " + OwnerClientId);
-
-      if (!IsOwner) return;
-
-      Construct(ClientDataTransmitter.Instance.GetGameFactory(), ClientDataTransmitter.Instance.GetGameMetaProvider(), ClientDataTransmitter.Instance.GetInputResolver());
-      CreateSymbolSign((int) OwnerClientId);
-    }
-
-    [ServerRpc(RequireOwnership = false)]
-    public void SetPlayerTurnServerRpc(bool isPlayerTurn)
-    {
-      Debug.Log(name + " Is " + isPlayerTurn);
-      NetIsPlayerTurn.Value = isPlayerTurn;
-    }
-
-    [ServerRpc]
-    private void SetSymbolSignServerRpc(SymbolSign symbol) =>
-      NetSymbolSign.Value = symbol;
-
-    private void OnValueChanged(SymbolSign previous, SymbolSign next)
-    {
-      if (!IsOwner)
-        return;
-
-      GameFactory.GameViewLogic.SetPlayerUi(next);
-    }
-
-    #endregion
-
   }
 }

@@ -14,7 +14,7 @@ namespace _Project.Scripts.Features.Player
       if(InputResolver.IsLocked)
         return;
       
-      if ((!IsOwner && GameMetaProvider.GetGameMode() != GameMode.Single) || !NetIsPlayerTurn.Value)
+      if (!IsPlayerTurn)
         return;
 
       _dragablePart = GameFactory.GameViewLogic.DragDrop?.CurrentActiveDragPart;
@@ -34,13 +34,7 @@ namespace _Project.Scripts.Features.Player
 
     private void MakeMove(SymbolCell cell)
     {
-      if (GameMetaProvider.GetGameMode() == GameMode.Single)
-        cell.SetSymbol(_dragablePart.GetDragableData());
-      else
-      {
-        cell.SetSizeServerRpc(_dragablePart.GetDragableData().GetSize());
-        cell.SetSymbolServerRpc(_dragablePart.GetDragableData().GetSymbol());
-      }
+      cell.SetSymbol(_dragablePart.GetDragableData());
 
       _dragablePart.PinPart();
       GameFactory.GameViewLogic.SetFigureState(GetSymbol(), _dragablePart.GetDragableData().GetSize());

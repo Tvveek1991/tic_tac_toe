@@ -16,18 +16,13 @@ namespace _Project.Scripts.Services._Interfaces
     
     void SetGame(Game game);
     Game GetGame();
-    
-    void SetGameMode(GameMode gameMode);
-    GameMode GetGameMode();
 
     Mesh GetMesh(SymbolSign symbolSign, SymbolSize symbolSize);
     Material GetMaterial(SymbolSign symbolSign, SymbolSize symbolSize);
     Sprite GetIcon(SymbolSign symbol);
     
     AudioId GetMusic();
-    void GetMap();
-
-    int GetSkinIndex(SymbolSign symbol);
+    string GetMap();
 
     void SetOpponentData(SymbolSign symbolSign);
   }

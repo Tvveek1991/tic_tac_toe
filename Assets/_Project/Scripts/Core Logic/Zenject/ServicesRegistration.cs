@@ -33,7 +33,6 @@ namespace _Project.Scripts.Core_Logic.Zenject
       BindSingleService<ITimerController, TimerController>();
       BindSingleService<IInputResolver, InputResolver>();
       BindSingleService<IInAppService, InAppService>();
-      BindSingleService<INetwork, Network>();
       BindSingleService<IAdsLogger, AdsLogger>();
       BindSingleService<IUnlockService, UnlockService>();
     }
