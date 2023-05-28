@@ -7,7 +7,6 @@ using _Project.Scripts.Features.Player;
 using _Project.Scripts.Features.ShopScreen.Serialized;
 using _Project.Scripts.Services._Interfaces;
 using _Project.Scripts.Services.Audio.Enum;
-using _Project.Scripts.Services.Unlocker;
 using UnityEngine;
 using Object = UnityEngine.Object;
 using Random = UnityEngine.Random;

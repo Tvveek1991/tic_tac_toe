@@ -13,7 +13,6 @@ using _Project.Scripts.Features.ShopScreen.Data;
 using _Project.Scripts.Features.ShopScreen.Mono;
 using _Project.Scripts.Features.ShopScreen.Serialized;
 using _Project.Scripts.Services._Interfaces;
-using _Project.Scripts.Services.Audio;
 using _Project.Scripts.Services.Audio.Enum;
 using _Project.Scripts.Services.Audio.Executor;
 using _Project.Scripts.Services.Localization.Logic;
@@ -21,7 +20,6 @@ using _Project.Scripts.Services.Unlocker;
 using AppacheAds.Scripts.Interfaces;
 using AppacheAnalytics.Scripts.Interfaces;
 using Sirenix.Utilities;
-using UnityEngine;
 using Object = UnityEngine.Object;
 
 namespace _Project.Scripts.Features.ShopScreen
@@ -54,6 +52,7 @@ namespace _Project.Scripts.Features.ShopScreen
     private readonly ShopItemData[] _shopItemData;
     private readonly ShopTypeData[] _shopTypesData;
 
+    private readonly ContentViewLogic _contentViewLogic;
 
     private Dictionary<ItemType, ScrollViewSectionButton> _sectionButtons;
 
@@ -84,6 +83,9 @@ namespace _Project.Scripts.Features.ShopScreen
         ShopItemData[] itemsData = _shopItemData?.Where(item => item.ItemType == typeData.Type).ToArray();
         _itemsDataMap.Add(typeData.Type, itemsData);
       }
+      
+      _contentViewLogic = new ContentViewLogic();
+      _contentViewLogic.Construct(_gameMetaProvider, _gameSaveSystem, _assetProvider, _audioService);
 
       _currentScreen.SetCurrentScreen(ScreenNames.Shop);
     }
@@ -215,22 +217,11 @@ namespace _Project.Scripts.Features.ShopScreen
             _gameSaveSystem.Get().ChosenShopContent.Remove(item.GetId());
         }
 
-        if (fromInit == false)
+        if (!fromInit)
           _gameSaveSystem.Save();
       }
 
-      if (fromInit == false)
-      {
-        /*if (itemData.ItemType == ShopItemType.Look && !_gameSaveSystem.Get().UpgradeContentChosenMoreThenOnce.Contains(itemData.Id))
-        {
-          _gameSaveSystem.Get().UpgradeContentChosenMoreThenOnce.Add(itemData.Id);
-          _gameSaveSystem.Save();
-        }
-        else
-          _contentViewLogic.Display();*/
-      }
-      // else
-      // _contentViewLogic.Display();
+      _contentViewLogic.Display();
     }
 
     private void TryUnlock(ShopItemData itemData, bool fromInit = false)
@@ -241,7 +232,6 @@ namespace _Project.Scripts.Features.ShopScreen
         GetItemButton(itemData)?.OpenContent(fromInit);
         OnClickItem(itemData, fromInit);
 
-        AccessForUnlock();
         RefreshProgressBar();
 
         SendOpenEvent(itemData);
@@ -281,22 +271,8 @@ namespace _Project.Scripts.Features.ShopScreen
         else
           itemButton.SetChooseState();
       }
-
-      AccessForUnlock();
+      
       RefreshProgressBar();
-    }
-
-    private void AccessForUnlock()
-    {
-      foreach (KeyValuePair<ItemType, ScrollViewItemButton[]> pair in _shopItemButtons)
-      {
-        var index = 0;
-        List<ScrollViewItemButton> scrollViewItemButtons = pair.Value.ToList().FindAll(item => _unlockService.GetUnlockType(item.GetId()) == UnlockType.Money);
-
-        foreach (ScrollViewItemButton itemButton in scrollViewItemButtons
-          .Where(itemButton => IsUnlocked(itemButton.GetId()) && scrollViewItemButtons.IndexOf(itemButton) + 1 < scrollViewItemButtons.Count))
-          index = scrollViewItemButtons.IndexOf(itemButton) + 1;
-      }
     }
 
     private void RefreshProgressBar()
