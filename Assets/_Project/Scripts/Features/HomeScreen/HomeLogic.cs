@@ -41,7 +41,6 @@ namespace _Project.Scripts.Features.HomeScreen
     private readonly GameCustomData[] _gameCustomsData;
     
     private DisableAdsLogic _disableAdsLogic;
-    private MoneyCounter MoneyCounter { get; set; }
 
     private string _ipAddress;
     
@@ -85,9 +84,6 @@ namespace _Project.Scripts.Features.HomeScreen
         _analytics, privacyPolicyFactory, _currentScreen, _adsService, _remote);
 
       CheckNetwork();
-      
-      MoneyCounter = _uiFactory.SpawnMoneyCounter();
-      MoneyCounter.Construct(_moneyService);
 
       _disableAdsLogic = new DisableAdsLogic(_assetProvider, _gameSaveSystem, _analytics, _adsService, _localeSystem, _inAppService, _audioService, delegate { Debug.Log("OnDisable"); },
         delegate { Debug.Log("OnSwitchDisableAds"); }, () => Debug.Log("OnClose"));
@@ -95,8 +91,6 @@ namespace _Project.Scripts.Features.HomeScreen
 
     public void CloseHomeView()
     {
-      Object.Destroy(MoneyCounter.gameObject);
-      
       _disableAdsLogic?.Cleanup();
 
       _homeFactory.ClearHomeView();
