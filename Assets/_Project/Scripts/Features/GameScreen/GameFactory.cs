@@ -10,7 +10,6 @@ using _Project.Scripts.Features.GameScreen.Serialized;
 using _Project.Scripts.Features.Player;
 using _Project.Scripts.Services._Interfaces;
 using _Project.Scripts.Services.Localization.Logic;
-using _Project.Scripts.Services.Network;
 using UnityEngine;
 
 namespace _Project.Scripts.Features.GameScreen

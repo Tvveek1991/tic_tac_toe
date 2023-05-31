@@ -6,7 +6,6 @@ using _Project.Scripts.Services.InApps.Scripts.Main;
 using _Project.Scripts.Services.InputResolver;
 using _Project.Scripts.Services.Localization.Logic;
 using _Project.Scripts.Services.Money;
-using _Project.Scripts.Services.Network;
 using _Project.Scripts.Services.SaveSystem;
 using _Project.Scripts.Services.Timer;
 using _Project.Scripts.Services.Timer.Interfaces;
