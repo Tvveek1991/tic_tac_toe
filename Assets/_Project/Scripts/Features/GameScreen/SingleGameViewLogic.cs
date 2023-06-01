@@ -20,7 +20,7 @@ namespace _Project.Scripts.Features.GameScreen
       : base(gameViewMono, localeSystem, gameMetaProvider, audioService, inputResolver)
     {
       _gameFactory = gameFactory;
-      _bot = GameMetaProvider.GetGame() == Game.Classic ? new ClassicBot(_gameFactory) : new BuhurtBot(gameFactory);
+      _bot = GameMetaProvider.GetGame() == Game.Classic ? new ClassicBot(_gameFactory) : new BuhurtBot(_gameFactory);
       GameMetaProvider.SetOpponentData(SymbolSign.O);
     }
 
@@ -42,9 +42,6 @@ namespace _Project.Scripts.Features.GameScreen
       SymbolSign nextSign = activeSign == SymbolSign.X ? SymbolSign.O : SymbolSign.X;
       RefreshAfterChangeTurn(nextSign);
 
-      if (InputResolver.IsLocked)
-        return;
-
       if (GameMetaProvider.GetEnemyType() == EnemyType.Bot)
         BotTurn(activeSign);
       else if (GameMetaProvider.GetEnemyType() == EnemyType.OneDevice)
@@ -64,17 +61,23 @@ namespace _Project.Scripts.Features.GameScreen
 
     private void RefreshAfterChangeTurn(SymbolSign nextSign)
     {
-      GameMetaProvider.GetPlayerViewMono().SetPlayerTurn(GameMetaProvider.GetEnemyType() == EnemyType.OneDevice || nextSign == SymbolSign.X);
+      bool isPlayerTurn = GameMetaProvider.GetEnemyType() == EnemyType.OneDevice || nextSign == SymbolSign.X;
+
+      GameMetaProvider.GetPlayerViewMono().SetPlayerTurn(isPlayerTurn);
       SetPlayerUi(nextSign);
       GameViewMono.TurnText.text = nextSign == SymbolSign.X ? "Player X" : "Player O";
     }
 
     private void BotTurn(SymbolSign activeSign)
     {
-      if (GameMetaProvider.GetGame() == Game.Classic)
-        (_bot as ClassicBot)?.BotTurn(() => RefreshAfterChangeTurn(activeSign));
-      else
-        (_bot as BuhurtBot)?.BotTurn(() => RefreshAfterChangeTurn(activeSign));
+      InputResolver.Disable();
+      _bot?.BotTurn(OnTurnEnd);
+      
+      void OnTurnEnd()
+      {
+        InputResolver.Enable();
+        RefreshAfterChangeTurn(activeSign);
+      }
     }
   }
 }
