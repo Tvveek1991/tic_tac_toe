@@ -1,5 +1,4 @@
 ﻿using System;
-using _Modules._InApps.Interfaces;
 using _Project.Scripts.Service_Base;
 using Product = _Modules._InApps.Scripts.Main.Product;
 

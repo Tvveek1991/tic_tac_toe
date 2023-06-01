@@ -1,9 +1,7 @@
-﻿using System;
-using _Modules._InApps.Scripts;
-using _Project.Scripts.Services.InApps.Scripts;
+﻿using _Project.Scripts.Services.InApps.Scripts;
 using UnityEngine.Purchasing;
 
-namespace _Modules._InApps.Interfaces
+namespace _Project.Scripts.Services._Interfaces
 {
   public interface IInAppCallback
   {

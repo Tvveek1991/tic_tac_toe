@@ -84,6 +84,8 @@ namespace _Project.Scripts.Features.HomeScreen
 
       _disableAdsLogic = new DisableAdsLogic(_assetProvider, _gameSaveSystem, _analytics, _adsService, _localeSystem, _inAppService, _audioService, delegate { Debug.Log("OnDisable"); },
         delegate { Debug.Log("OnSwitchDisableAds"); }, () => Debug.Log("OnClose"));
+      
+      _inAppService.AddInAppCallback(_disableAdsLogic);
     }
 
     public void CloseHomeView()

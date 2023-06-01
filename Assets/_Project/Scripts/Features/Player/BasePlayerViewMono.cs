@@ -8,7 +8,7 @@ namespace _Project.Scripts.Features.Player
   public class BasePlayerViewMono : MonoBehaviour
   {
     protected bool IsPlayerTurn;
-    protected SymbolSign symbolSign;
+    protected SymbolSign SymbolSign;
     
     protected Camera Camera;
     protected BoxCollider2D BoxCollider;
@@ -48,7 +48,7 @@ namespace _Project.Scripts.Features.Player
       IsPlayerTurn;
 
     private void SetSymbolSign(SymbolSign symbol) =>
-      symbolSign = symbol;
+      SymbolSign = symbol;
 
     protected SymbolSign GetSymbol() =>
       (SymbolSign) (_index + 1);

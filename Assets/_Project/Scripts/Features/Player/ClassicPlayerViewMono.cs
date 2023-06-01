@@ -14,7 +14,7 @@ namespace _Project.Scripts.Features.Player
       if(InputResolver.IsLocked)
         return;
       
-      _dragableData = new DragableData(symbolSign, SymbolSize.Default);
+      _dragableData = new DragableData(SymbolSign, SymbolSize.Default);
 
       if (!IsPlayerTurn)
         return;

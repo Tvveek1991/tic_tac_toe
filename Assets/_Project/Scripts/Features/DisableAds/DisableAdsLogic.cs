@@ -1,7 +1,6 @@
 using System;
 using _Features.Disable_Ads_Window.Timer;
 using _Features.Disable_Ads_Window.Timer.Interfaces;
-using _Modules._InApps.Interfaces;
 using _Project.Scripts.Core_Logic.Screens;
 using _Project.Scripts.Features.DisableAdsScreen.Timer.Interfaces;
 using _Project.Scripts.Features.NotLoaded;
@@ -144,7 +143,9 @@ namespace _Project.Scripts.Features.DisableAds
     private void OnPurchase()
     {
       _analytics.Send("btn_no_ads_24h");
-      _inAppService.Purchase(ProductsId.ToString());
+      // _inAppService.Purchase(ProductsId.ToString()); while test
+
+      OnPurchaseComplete(null);
     }
 
     private void OnContinue() =>

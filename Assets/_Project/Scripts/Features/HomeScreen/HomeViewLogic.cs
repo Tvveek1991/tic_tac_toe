@@ -39,9 +39,13 @@ namespace _Project.Scripts.Features.HomeScreen
       _homeViewMono.ConnectButton.onClick.AddListener(() => toGame.Invoke(false));
       _homeViewMono.SettingsButton.onClick.AddListener(openSettingsWindow.Invoke);
 
-      _homeViewMono.GameTypeButton.onClick.AddListener(() => SwitchGame(_gameMetaProvider.GetGame() != Game.Classic));
+      _homeViewMono.BackButton.onClick.AddListener(() => SetEnemyTypePanel(false));
+      _homeViewMono.ScreenButton.onClick.AddListener(() => SetEnemyTypePanel(false));
+
+      _homeViewMono.ClassicButton.onClick.AddListener(() => OnClickGame(Game.Classic));
+      _homeViewMono.BuhurtButton.onClick.AddListener(() => OnClickGame(Game.Buhurt));
+
       _homeViewMono.EnemyTypeButton.onClick.AddListener(() => SwitchEnemy(_gameMetaProvider.GetEnemyType() != EnemyType.OneDevice));
-      SwitchGame(_gameMetaProvider.GetGame() == Game.Classic);
       SwitchEnemy(_gameMetaProvider.GetEnemyType() == EnemyType.OneDevice);
 
       CreateAnimations();
@@ -67,6 +71,10 @@ namespace _Project.Scripts.Features.HomeScreen
       new ButtonAnimation(_homeViewMono.ConnectButton.transform);
       new ButtonAnimation(_homeViewMono.SettingsButton.transform);
       new ButtonAnimation(_homeViewMono.NoAdsButton.transform);
+      new ButtonAnimation(_homeViewMono.BackButton.transform);
+      
+      new ButtonAnimation(_homeViewMono.ClassicButton.transform);
+      new ButtonAnimation(_homeViewMono.BuhurtButton.transform);
     }
 
     private void CreateSounds()
@@ -74,20 +82,30 @@ namespace _Project.Scripts.Features.HomeScreen
       new ButtonSound(_audioService, _homeViewMono.ShopButton.gameObject, AudioId.Click);
       new ButtonSound(_audioService, _homeViewMono.NoAdsButton.gameObject, AudioId.Click);
       new ButtonSound(_audioService, _homeViewMono.SettingsButton.gameObject, AudioId.Click);
+      
+      new ButtonSound(_audioService, _homeViewMono.EnemyTypeButton.gameObject, AudioId.Click);
+      
+      new ButtonSound(_audioService, _homeViewMono.ClassicButton.gameObject, AudioId.Click);
+      new ButtonSound(_audioService, _homeViewMono.BuhurtButton.gameObject, AudioId.Click);
+      
+      new ButtonSound(_audioService, _homeViewMono.BackButton.gameObject, AudioId.ClickBack);
       new ButtonSound(_audioService, _homeViewMono.CreateButton.gameObject, AudioId.StartButton);
       
       _audioService.Play(_gameMetaProvider.GetMusic());
     }
 
-    private void SwitchGame(bool isClassic)
+    private void OnClickGame(Game gameMode)
     {
-      // IconMusic.sprite = mute ? _musicOff : _musicOn;
-      _homeViewMono.SwitcherGameType.DOLocalMove(isClassic ? Vector3.left * 50 : Vector3.right * 50, SwitcherTime);
-      // var music = SwitcherMusic.parent.GetComponent<Image>();
-      // music.sprite = mute ? Inactive : Active;
-      // music.color = mute ? InactiveColor : Color.white;
-      _gameMetaProvider.SetGame(isClassic ? Game.Classic : Game.Buhurt);
+      SetEnemyTypePanel(true);
+      _gameMetaProvider.SetGame(gameMode);
+
       Debug.Log("On game change " + _gameMetaProvider.GetGame());
+    }
+
+    private void SetEnemyTypePanel(bool isOn)
+    {
+      _homeViewMono.EnemyTypeCanvasGroup.blocksRaycasts = isOn;
+      _homeViewMono.EnemyTypeCanvasGroup.DOFade(isOn ? 1f: 0f, SwitcherTime);
     }
 
     private void SwitchEnemy(bool isOneDevice/*EnemyType type*/)

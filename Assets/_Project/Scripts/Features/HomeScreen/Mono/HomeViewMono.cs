@@ -6,18 +6,21 @@ namespace _Project.Scripts.Features.HomeScreen.Mono
 {
   public class HomeViewMono : MonoBehaviour
   {
+    public Button ClassicButton;
+    public Button BuhurtButton;
     public Button ShopButton;
     public Button CreateButton;
     public Button ConnectButton;
     public Button NoAdsButton;
     public Button SettingsButton;
-
-    public Button GameTypeButton;
-    public Button GameModeButton;
     public Button EnemyTypeButton;
-    public Transform SwitcherGameType;
-    public Transform SwitcherGameMode;
+    
+    public Button BackButton;
+    public Button ScreenButton;
+    
     public Transform SwitcherEnemyType;
+    
+    public CanvasGroup EnemyTypeCanvasGroup;
 
     public TMP_InputField IpInputField;
   }

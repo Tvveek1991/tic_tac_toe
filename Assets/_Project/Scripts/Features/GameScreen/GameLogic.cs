@@ -52,8 +52,6 @@ namespace _Project.Scripts.Features.GameScreen
     {
       _inputResolver.Enable();
       
-      // _network.CreateClientDataTransmitter(_gameFactory, _gameMetaProvider, _inputResolver);
-      
       _gameFactory.CreateField();
       _gameFactory.CreateScreen();
       _gameFactory.CreateEndGame();
