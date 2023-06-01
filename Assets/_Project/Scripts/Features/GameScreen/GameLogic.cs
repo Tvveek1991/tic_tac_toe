@@ -2,6 +2,7 @@ using _Project.Scripts.Core_Logic.Screens;
 using _Project.Scripts.Core_Logic.StatesMachine.Interfaces;
 using _Project.Scripts.Core_Logic.StatesMachine.States;
 using _Project.Scripts.Features.GameScreen.Serialized;
+using _Project.Scripts.Features.Loading;
 using _Project.Scripts.Services._Interfaces;
 using _Project.Scripts.Services.Localization.Logic;
 using AppacheAds.Scripts.Interfaces;
@@ -21,6 +22,7 @@ namespace _Project.Scripts.Features.GameScreen
     private readonly IAdsService _adsService;
     private readonly ILocaleSystem _localeSystem;
     private readonly IAudioService _audioService;
+    private readonly ILoadingLogic _loadingLogic;
     private readonly IInputResolver _inputResolver;
     private readonly ICurrentScreen _currentScreen;
     private readonly IGameSaveSystem _gameSaveSystem;
@@ -30,13 +32,14 @@ namespace _Project.Scripts.Features.GameScreen
 
     public GameLogic(IGameStateMachine gameStateMachine, IAssetProvider assetProvider, ICurrentScreen currentScreen,
       IGameSaveSystem gameSaveSystem, IAdsService adsService, IAnalytics analytics, ILocaleSystem localeSystem,
-      IAudioService audioService, IRemote remote, IGameMetaProvider gameMetaProvider, IInputResolver inputResolver)
+      IAudioService audioService, IRemote remote, IGameMetaProvider gameMetaProvider, IInputResolver inputResolver, ILoadingLogic loadingLogic)
     {
       _remote = remote;
       _analytics = analytics;
       _adsService = adsService;
       _localeSystem = localeSystem;
       _audioService = audioService;
+      _loadingLogic = loadingLogic;
       _inputResolver = inputResolver;
       _currentScreen = currentScreen;
       _assetProvider = assetProvider;
@@ -46,11 +49,12 @@ namespace _Project.Scripts.Features.GameScreen
 
       _uiFactory = new UiFactory(assetProvider);
       _gameFactory = new GameFactory(assetProvider, localeSystem, audioService, gameMetaProvider, inputResolver);
+      
     }
 
     public void Enter(bool isHost)
     {
-      _inputResolver.Enable();
+      _inputResolver.Disable();
       
       _gameFactory.CreateField();
       _gameFactory.CreateScreen();
@@ -60,6 +64,8 @@ namespace _Project.Scripts.Features.GameScreen
       _gameFactory.GameFieldLogic.Construct(OnWin);
       _gameFactory.GameViewLogic.Construct(OnClickBack, OnCreateNonConnectionPlayer);
       _gameFactory.GameViewLogic.OpenWindow();
+      
+      _loadingLogic.Enter(() => _inputResolver.Enable());
     }
 
     public void Exit()

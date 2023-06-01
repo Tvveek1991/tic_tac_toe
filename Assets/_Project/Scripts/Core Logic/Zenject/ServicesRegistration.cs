@@ -1,3 +1,4 @@
+using _Project.Scripts.Features.Loading;
 using _Project.Scripts.Services._Interfaces;
 using _Project.Scripts.Services.AssetProvider;
 using _Project.Scripts.Services.Audio;
@@ -34,6 +35,7 @@ namespace _Project.Scripts.Core_Logic.Zenject
       BindSingleService<IInAppService, InAppService>();
       BindSingleService<IAdsLogger, AdsLogger>();
       BindSingleService<IUnlockService, UnlockService>();
+      BindSingleService<ILoadingLogic, LoadingLogic>();
     }
 
     private void BindSingleService<T, T2>() where T2 : T => 

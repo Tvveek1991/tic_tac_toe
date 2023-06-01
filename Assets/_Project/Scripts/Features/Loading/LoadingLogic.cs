@@ -1,3 +1,4 @@
+using System;
 using _Project.Scripts.Services._Interfaces;
 
 namespace _Project.Scripts.Features.Loading
@@ -9,8 +10,12 @@ namespace _Project.Scripts.Features.Loading
     public LoadingLogic(IAssetProvider assetProvider) => 
       _loadingFactory = new LoadingFactory(assetProvider);
 
-    public void Enter() => 
-      _loadingFactory.CreateScreen();
+    public void Enter(Action onEnd) => 
+      _loadingFactory.CreateScreen(() =>
+      {
+        onEnd?.Invoke();
+        Exit();
+      });
 
     public void Exit() => 
       _loadingFactory.ClearScreen();
