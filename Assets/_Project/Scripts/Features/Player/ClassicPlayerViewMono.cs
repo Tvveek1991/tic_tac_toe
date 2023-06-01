@@ -13,12 +13,12 @@ namespace _Project.Scripts.Features.Player
     {
       if(InputResolver.IsLocked)
         return;
-      
-      _dragableData = new DragableData(SymbolSign, SymbolSize.Default);
 
       if (!IsPlayerTurn)
         return;
-
+      
+      _dragableData = new DragableData(SymbolSign, SymbolSize.Default);
+      
       Ray ray = Camera.ScreenPointToRay(Application.isEditor ? Input.mousePosition : Input.touches[0].position);
 
       if (!Physics.Raycast(ray, out RaycastHit hit))

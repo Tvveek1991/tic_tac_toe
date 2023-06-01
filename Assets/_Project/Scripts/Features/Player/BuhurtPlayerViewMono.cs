@@ -19,7 +19,7 @@ namespace _Project.Scripts.Features.Player
 
       _dragablePart = GameFactory.GameViewLogic.DragDrop?.CurrentActiveDragPart;
       
-      Ray ray = Camera.ScreenPointToRay(Application.isEditor ? Input.mousePosition : (Vector3) Input.touches[0].position);
+      Ray ray = Camera.ScreenPointToRay(Application.isEditor ? Input.mousePosition : Input.touches[0].position);
 
       if (!Physics.Raycast(ray, out RaycastHit hit) || _dragablePart == null)
         return;
