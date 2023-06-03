@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20557b3a95a34cf0b6f8962753f4f156, type: 3}
   m_Name: Appache Analytics Settings
   m_EditorClassIdentifier: 
-  FlurryKey: 
+  FlurryKey: TRJZ8KS6KFH74DSZ5VMK
   AppmetricaKey: 
   MyTrackerKey: 
-  IsLoggerEnabled: 0
+  IsLoggerEnabled: 1

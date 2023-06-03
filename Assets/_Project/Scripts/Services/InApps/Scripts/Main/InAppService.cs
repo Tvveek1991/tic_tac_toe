@@ -98,6 +98,8 @@ namespace _Project.Scripts.Services.InApps.Scripts.Main
         inAppCallback.OnNotPurchased();
     }
 
+    public void OnInitializeFailed(InitializationFailureReason error, string message) { }
+
     public PurchaseProcessingResult ProcessPurchase(PurchaseEventArgs e)
     {
       ExecutePurchasedProducts(e);
