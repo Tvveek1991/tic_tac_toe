@@ -7,6 +7,7 @@ using _Project.Scripts.Features.Splashscreen;
 using _Project.Scripts.Services._Interfaces;
 using AppacheAds.Scripts.Interfaces;
 using AppacheAnalytics.Scripts.Interfaces;
+using AppacheRemote.Scripts.Data;
 using AppacheRemote.Scripts.Interfaces;
 using UnityEngine;
 using Zenject;
@@ -55,7 +56,8 @@ namespace _Project.Scripts.Core_Logic
       _splashLogic = new SplashLogic(_assetProvider);
       _splashLogic.Launch(initializeGame);
 
-      InitializeRemote();
+      // InitializeRemote();
+      InitializeAnalytics();
     }
 
     private void InitializeRemote()
@@ -74,7 +76,7 @@ namespace _Project.Scripts.Core_Logic
     {
       SendRemoteEvents();
       
-      _adsService.Initialize(_remote.GetPlacementType(), () =>
+      _adsService.Initialize(/*_remote.GetPlacementType()*/PlacementType.@default, () =>
       {
 #if !WITHOUT_BANNER
         _adsService.Banner.OnBannerLoad += () => { _adsService.Banner.HideBanner(); };
