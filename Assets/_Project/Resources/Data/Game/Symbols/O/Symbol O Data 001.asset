@@ -15,7 +15,8 @@ MonoBehaviour:
   Id: 5de557f0-58c9-4f63-951c-121e9a47d0fa
   Name: ClassicO
   Description: 
-  _meshClassic: {fileID: 6539068158514867886, guid: 2ca4a7031f88f6540a3f666ed45ee635, type: 3}
+  _itemType: 1
+  _meshClassic: {fileID: 923626674953086053, guid: 73aa053ab0af39d43adb43c4935a4860, type: 3}
   _materialClassic: {fileID: 2100000, guid: b11cf2882e44a3743b46e922523bc69a, type: 2}
   _meshBuhurt:
   - {fileID: 6539068158514867886, guid: 2ca4a7031f88f6540a3f666ed45ee635, type: 3}
@@ -30,4 +31,3 @@ MonoBehaviour:
   - {fileID: 2100000, guid: b11cf2882e44a3743b46e922523bc69a, type: 2}
   - {fileID: 2100000, guid: b11cf2882e44a3743b46e922523bc69a, type: 2}
   _icon: {fileID: 21300000, guid: 629673a401e74874cb1075fc99981615, type: 3}
-  _itemType: 1
