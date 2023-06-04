@@ -16,6 +16,10 @@
             <action android:name="com.android.vending.INSTALL_REFERRER"/>
         </intent-filter>
     </receiver>
+    <receiver
+            android:name="com.vungle.warren.NetworkProviderReceiver"
+            android:exported="true">
+    </receiver>
     <service android:name="com.my.tracker.campaign.CampaignService" />
   </application>
   <uses-permission android:name="com.android.vending.BILLING" />
