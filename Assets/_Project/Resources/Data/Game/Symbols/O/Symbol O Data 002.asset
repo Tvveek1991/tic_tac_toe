@@ -16,7 +16,7 @@ MonoBehaviour:
   Name: SuperO
   Description: 
   _itemType: 1
-  _meshClassic: {fileID: 6539068158514867886, guid: 2ca4a7031f88f6540a3f666ed45ee635, type: 3}
+  _meshClassic: {fileID: 923626674953086053, guid: 73aa053ab0af39d43adb43c4935a4860, type: 3}
   _materialClassic: {fileID: 2100000, guid: 9ab957ab3d704dc42aecb2a92b842ed6, type: 2}
   _meshBuhurt:
   - {fileID: 6539068158514867886, guid: 2ca4a7031f88f6540a3f666ed45ee635, type: 3}

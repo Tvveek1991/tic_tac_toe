@@ -16,7 +16,7 @@ MonoBehaviour:
   Name: SuperX
   Description: 
   _itemType: 0
-  _meshClassic: {fileID: 2061150301263699924, guid: 96a36c263a068214e8fa3b06b9413daf, type: 3}
+  _meshClassic: {fileID: 8749478858862551629, guid: 604f3d76be3b920469bb4d2b61fe3d6e, type: 3}
   _materialClassic: {fileID: 2100000, guid: b11cf2882e44a3743b46e922523bc69a, type: 2}
   _meshBuhurt:
   - {fileID: 2061150301263699924, guid: 96a36c263a068214e8fa3b06b9413daf, type: 3}
