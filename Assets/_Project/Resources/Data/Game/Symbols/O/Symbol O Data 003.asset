@@ -19,11 +19,11 @@ MonoBehaviour:
   _meshClassic: {fileID: 4170667394059517457, guid: 393453fb3be1c7d43957a3e2a495237f, type: 3}
   _materialClassic: {fileID: 2100000, guid: b11cf2882e44a3743b46e922523bc69a, type: 2}
   _meshBuhurt:
-  - {fileID: 6539068158514867886, guid: 2ca4a7031f88f6540a3f666ed45ee635, type: 3}
-  - {fileID: 6539068158514867886, guid: 2ca4a7031f88f6540a3f666ed45ee635, type: 3}
-  - {fileID: 6539068158514867886, guid: 2ca4a7031f88f6540a3f666ed45ee635, type: 3}
-  - {fileID: 6539068158514867886, guid: 2ca4a7031f88f6540a3f666ed45ee635, type: 3}
-  - {fileID: 6539068158514867886, guid: 2ca4a7031f88f6540a3f666ed45ee635, type: 3}
+  - {fileID: 4170667394059517457, guid: 393453fb3be1c7d43957a3e2a495237f, type: 3}
+  - {fileID: 4170667394059517457, guid: 393453fb3be1c7d43957a3e2a495237f, type: 3}
+  - {fileID: 4170667394059517457, guid: 393453fb3be1c7d43957a3e2a495237f, type: 3}
+  - {fileID: 4170667394059517457, guid: 393453fb3be1c7d43957a3e2a495237f, type: 3}
+  - {fileID: 4170667394059517457, guid: 393453fb3be1c7d43957a3e2a495237f, type: 3}
   _materialBuhurt:
   - {fileID: 2100000, guid: b11cf2882e44a3743b46e922523bc69a, type: 2}
   - {fileID: 2100000, guid: b11cf2882e44a3743b46e922523bc69a, type: 2}
