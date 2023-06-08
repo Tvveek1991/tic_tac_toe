@@ -17,3 +17,7 @@ MonoBehaviour:
   Description: SignOItem.Desc_3
   itemType: 1
   _icon: {fileID: 21300000, guid: 7b6682b08b141694aa14db64da337b27, type: 3}
+  _previewScaleFactor: 1
+  _previewMeshes:
+  - {fileID: 4170667394059517457, guid: 393453fb3be1c7d43957a3e2a495237f, type: 3}
+  _previewMaterials: []

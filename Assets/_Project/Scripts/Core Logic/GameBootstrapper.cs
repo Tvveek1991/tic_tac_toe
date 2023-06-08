@@ -8,6 +8,7 @@ using _Project.Scripts.Services._Interfaces;
 using AppacheAds.Scripts.Interfaces;
 using AppacheAnalytics.Scripts.Interfaces;
 using AppacheRemote.Scripts.Interfaces;
+using FlurrySDK;
 using UnityEngine;
 using Zenject;
 
@@ -86,7 +87,7 @@ namespace _Project.Scripts.Core_Logic
 
     private void SendRemoteEvents()
     {
-      // Flurry.UserProperties.Add("AB_remote_config", _remote.GetPlacementType().ToString());
+      Flurry.UserProperties.Add("AB_remote_config", _remote.GetPlacementType().ToString());
 
       _analytics.Send("AB_remote_config", new Dictionary<string, object>()
       {

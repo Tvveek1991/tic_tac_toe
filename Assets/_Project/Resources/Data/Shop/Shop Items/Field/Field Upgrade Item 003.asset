@@ -17,3 +17,7 @@ MonoBehaviour:
   Description: FieldItem.Desc_3
   itemType: 2
   _icon: {fileID: 21300000, guid: ea3a51adc7ff645478d805a0219b88d0, type: 3}
+  _previewScaleFactor: 0.7
+  _previewMeshes:
+  - {fileID: -6163770093825864477, guid: 2c2311baa1e25a648b26f45eac2c9814, type: 3}
+  _previewMaterials: []

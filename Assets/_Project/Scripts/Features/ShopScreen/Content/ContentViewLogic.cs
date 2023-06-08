@@ -1,52 +1,51 @@
 using System.Collections.Generic;
 using _Project.Scripts.Features.Data;
+using _Project.Scripts.Features.ShopScreen.Mono;
 using _Project.Scripts.Features.ShopScreen.Serialized;
 using _Project.Scripts.Services._Interfaces;
+using DG.Tweening;
 using UnityEngine;
 
 namespace _Project.Scripts.Features.ShopScreen.Content
 {
   public class ContentViewLogic : IContentViewLogic
   {
-    private const string ShopItemsPath = "Data/Shop/Shop Items";
+    private const float Duration = .15f;
+    private readonly IAudioService _audioService;
+    private readonly IGameMetaProvider _gameMetaProvider;
 
-    private Dictionary<ItemType, BaseDisplayContent> _displayInstances;
+    private readonly List<IconPreview> _shopViewPreview;
 
-    private IGameSaveSystem _gameSaveSystem;
-    private IAssetProvider _assetProvider;
-
-    private ShopItemData[] _shopItemsData;
-
-    public void Construct(IGameMetaProvider gameMetaProvider, IGameSaveSystem gameSaveSystem, IAssetProvider assetProvider, IAudioService audioService)
+    public ContentViewLogic(IGameMetaProvider gameMetaProvider, IAudioService audioService, List<IconPreview> shopViewPreview)
     {
-      _assetProvider = assetProvider;
-      _gameSaveSystem = gameSaveSystem;
+      _audioService = audioService;
+      _gameMetaProvider = gameMetaProvider;
 
-      _shopItemsData = _assetProvider.GetAllResources<ShopItemData>(ShopItemsPath);
-      var lookDisplayContent = new LookDisplayContent(gameMetaProvider, _gameSaveSystem, audioService);
+      _shopViewPreview = shopViewPreview;
+    }
 
-      _displayInstances = new Dictionary<ItemType, BaseDisplayContent>()
+    public void LoadContent(ShopItemData shopItemData)
+    {
+      if (shopItemData.ItemType == ItemType.Music)
+        _audioService.Play(_gameMetaProvider.GetMusic());
+
+      LoadPreview(shopItemData);
+    }
+
+    private void LoadPreview(ShopItemData itemData)
+    {
+      for (var i = 0; i < _shopViewPreview.Count; i++)
       {
-        {ItemType.SymbolX, lookDisplayContent},
-        {ItemType.SymbolO, lookDisplayContent},
-        {ItemType.Field, lookDisplayContent},
-        {ItemType.Music, lookDisplayContent},
-      };
+        int i1 = i;
+        _shopViewPreview[i].Hide(() =>
+        {
+          if (i1 >= itemData.PreviewMeshes.Count) 
+            return;
+          
+          _shopViewPreview[i1].SetVisual(itemData.PreviewMeshes[i1]);
+          _shopViewPreview[i1].Show(i1 == 0 ? itemData.PreviewScaleFactor : 1);
+        });
+      }
     }
-
-    public void Display()
-    {
-      foreach (ShopItemData upgrade in _shopItemsData)
-        if (_gameSaveSystem.Get().ChosenShopContent.Contains(upgrade.Id))
-          Display(upgrade);
-    }
-
-    private void Display(ShopItemData shopItemData) => 
-      _displayInstances[shopItemData.ItemType].Display(shopItemData);
-  }
-
-  public abstract class BaseDisplayContent
-  {
-    public abstract void Display(ShopItemData shopItemData);
   }
 }

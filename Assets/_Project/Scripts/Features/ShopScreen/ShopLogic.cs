@@ -20,6 +20,7 @@ using _Project.Scripts.Services.Unlocker;
 using AppacheAds.Scripts.Interfaces;
 using AppacheAnalytics.Scripts.Interfaces;
 using Sirenix.Utilities;
+using UnityEngine;
 using Object = UnityEngine.Object;
 
 namespace _Project.Scripts.Features.ShopScreen
@@ -52,7 +53,7 @@ namespace _Project.Scripts.Features.ShopScreen
     private readonly ShopItemData[] _shopItemData;
     private readonly ShopTypeData[] _shopTypesData;
 
-    private readonly ContentViewLogic _contentViewLogic;
+    private IContentViewLogic _contentViewLogic;
 
     private Dictionary<ItemType, ScrollViewSectionButton> _sectionButtons;
 
@@ -83,9 +84,6 @@ namespace _Project.Scripts.Features.ShopScreen
         ShopItemData[] itemsData = _shopItemData?.Where(item => item.ItemType == typeData.Type).ToArray();
         _itemsDataMap.Add(typeData.Type, itemsData);
       }
-      
-      _contentViewLogic = new ContentViewLogic();
-      _contentViewLogic.Construct(_gameMetaProvider, _gameSaveSystem, _assetProvider, _audioService);
 
       _currentScreen.SetCurrentScreen(ScreenNames.Shop);
     }
@@ -95,6 +93,8 @@ namespace _Project.Scripts.Features.ShopScreen
       _shopView = _shopFactory.CreateShopView();
       _shopView.Construct(onCloseOverride ?? CloseShop);
 
+      _contentViewLogic = new ContentViewLogic(_gameMetaProvider, _audioService, _shopView.GetIconPreview());
+      
       CreateShopContent();
 
       CheckUnlocked();
@@ -221,7 +221,7 @@ namespace _Project.Scripts.Features.ShopScreen
           _gameSaveSystem.Save();
       }
 
-      _contentViewLogic.Display();
+      _contentViewLogic.LoadContent(itemData);
     }
 
     private void TryUnlock(ShopItemData itemData, bool fromInit = false)

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using _Project.Scripts.Features.ScrollView;
 using _Project.Scripts.Features.ShopScreen.Serialized;
@@ -36,6 +37,9 @@ namespace _Project.Scripts.Features.ShopScreen.Mono
 
     public SectionButton[] SectionButtons;
 
+    [Space(20)] 
+    [SerializeField] private List<IconPreview> _preview;
+
     private Vector3 _windowDefaultPos;
     private Action _onClickBack;
 
@@ -43,6 +47,8 @@ namespace _Project.Scripts.Features.ShopScreen.Mono
     {
       _onClickBack = onClickBack;
       BackButton.onClick.AddListener(Hide);
+      
+      _preview.ForEach(item => item.Construct());
 
       _windowDefaultPos = MainPanel.GetComponent<RectTransform>().anchoredPosition;
       Show();
@@ -62,6 +68,9 @@ namespace _Project.Scripts.Features.ShopScreen.Mono
     public ScrollViewSectionButton GetSectionButton(ItemType type) =>
       SectionButtons.FirstOrDefault(x => x.Type == type)?.Button;
 
+    public List<IconPreview> GetIconPreview() =>
+      _preview;
+    
     private void Show()
     {
       TopPanel.interactable = false;
