@@ -3,13 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using _Features.Disable_Ads_Window.Timer.Data;
-using _Features.Disable_Ads_Window.Timer.Interfaces;
 using _Project.Scripts.Features.DisableAdsScreen.Timer.Interfaces;
 using UnityEngine;
 
-namespace _Features.Disable_Ads_Window.Timer.Mono
+namespace _Project.Scripts.Features.DisableAds.Timer.Mono
 {
-  public class Timer : AppacheAds.Scripts.Mono.Singleton<Timer>
+  public class Timer /*: AppacheAds.Scripts.Mono.Singleton<Timer>*/
   {
     private readonly List<ICallbackExecutor> _callbackExecutor = new List<ICallbackExecutor>();
     private TimerData _timerData;
@@ -33,8 +32,8 @@ namespace _Features.Disable_Ads_Window.Timer.Mono
     
     public void Launch(DateTime startDatetime)
     {
-      StopAllCoroutines();
-      StartCoroutine(Tick(startDatetime));
+      // StopAllCoroutines();
+      // StartCoroutine(Tick(startDatetime));
     }
 
     public string GetTimerGuid() => 

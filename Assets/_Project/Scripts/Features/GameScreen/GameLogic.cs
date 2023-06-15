@@ -5,9 +5,9 @@ using _Project.Scripts.Features.GameScreen.Serialized;
 using _Project.Scripts.Features.Loading;
 using _Project.Scripts.Services._Interfaces;
 using _Project.Scripts.Services.Localization.Logic;
-using AppacheAds.Scripts.Interfaces;
-using AppacheAnalytics.Scripts.Interfaces;
-using AppacheRemote.Scripts.Interfaces;
+using SableGamesAds.Scripts.Interfaces;
+using SableGamesAnalytics.Scripts.Interfaces;
+using SableGamesRemote.Scripts.Interfaces;
 using UnityEngine;
 
 namespace _Project.Scripts.Features.GameScreen

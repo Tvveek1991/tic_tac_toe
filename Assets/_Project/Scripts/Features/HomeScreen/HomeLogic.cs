@@ -1,15 +1,10 @@
-using _Project.Scripts.Core_Logic.Screens;
 using _Project.Scripts.Core_Logic.StatesMachine.Interfaces;
-using _Project.Scripts.Core_Logic.StatesMachine.States;
 using _Project.Scripts.Features.Data;
 using _Project.Scripts.Features.DisableAds;
 using _Project.Scripts.Features.Policy;
 using _Project.Scripts.Services._Interfaces;
 using _Project.Scripts.Services.Localization.Logic;
 using _Project.Scripts.Services.Unlocker;
-using AppacheAds.Scripts.Interfaces;
-using AppacheAnalytics.Scripts.Interfaces;
-using AppacheRemote.Scripts.Interfaces;
 using UnityEngine;
 
 namespace _Project.Scripts.Features.HomeScreen
@@ -21,16 +16,16 @@ namespace _Project.Scripts.Features.HomeScreen
     private readonly IHomeFactory _homeFactory;
     private readonly IUiFactory _uiFactory;
 
-    private readonly IRemote _remote;
-    private readonly IAnalytics _analytics;
-    private readonly IAdsService _adsService;
+    // private readonly IRemote _remote;
+    // private readonly IAnalytics _analytics;
+    // private readonly IAdsService _adsService;
     private readonly ILocaleSystem _localeSystem;
     private readonly IAudioService _audioService;
     private readonly IMoneyService _moneyService;
     private readonly IInAppService _inAppService;
     private readonly IUnlockService _unlockService;
     private readonly IAssetProvider _assetProvider;
-    private readonly ICurrentScreen _currentScreen;
+    // private readonly ICurrentScreen _currentScreen;
     private readonly IGameSaveSystem _gameSaveSystem;
     private readonly IGameMetaProvider _gameMetaProvider;
     private readonly IGameStateMachine _gameStateMachine;
@@ -41,20 +36,20 @@ namespace _Project.Scripts.Features.HomeScreen
 
     private string _ipAddress;
     
-    public HomeLogic(IGameStateMachine gameStateMachine, IAssetProvider assetProvider, ICurrentScreen currentScreen,
-      IGameSaveSystem gameSaveSystem, IAdsService adsService, IAnalytics analytics, ILocaleSystem localeSystem, IAudioService audioService, 
-      IRemote remote, IMoneyService moneyService, IGameMetaProvider gameMetaProvider, IInAppService inAppService, IUnlockService unlockService)
+    public HomeLogic(IGameStateMachine gameStateMachine, IAssetProvider assetProvider/*, ICurrentScreen currentScreen*/,
+      IGameSaveSystem gameSaveSystem/*, IAdsService adsService, IAnalytics analytics*/, ILocaleSystem localeSystem, IAudioService audioService, 
+      /*IRemote remote,*/ IMoneyService moneyService, IGameMetaProvider gameMetaProvider, IInAppService inAppService, IUnlockService unlockService)
     {
-      _remote = remote;
-      _analytics = analytics;
-      _adsService = adsService;
+      // _remote = remote;
+      // _analytics = analytics;
+      // _adsService = adsService;
       _localeSystem = localeSystem;
       _audioService = audioService;
       _moneyService = moneyService;
       _inAppService = inAppService;
       _unlockService = unlockService;
       _assetProvider = assetProvider;
-      _currentScreen = currentScreen;
+      // _currentScreen = currentScreen;
       _gameSaveSystem = gameSaveSystem;
       _gameMetaProvider = gameMetaProvider;
       _gameStateMachine = gameStateMachine;
@@ -67,7 +62,7 @@ namespace _Project.Scripts.Features.HomeScreen
     
     public void CreateHomeView()
     {
-      _currentScreen.SetCurrentScreen(ScreenNames.Home);
+      // _currentScreen.SetCurrentScreen(ScreenNames.Home);
       
       UnlockFree();
 
@@ -77,13 +72,13 @@ namespace _Project.Scripts.Features.HomeScreen
       IPrivacyPolicyFactory privacyPolicyFactory = new PrivacyPolicyFactory(_assetProvider);
 
       _uiFactory.SpawnSettingsWindow();
-      _uiFactory.SettingsWindow.Construct(_gameStateMachine, _gameSaveSystem, _audioService, _localeSystem,
-        _analytics, privacyPolicyFactory, _currentScreen, _adsService, _remote);
+      /*_uiFactory.SettingsWindow.Construct(_gameStateMachine, _gameSaveSystem, _audioService, _localeSystem,
+        _analytics, privacyPolicyFactory, _currentScreen, _adsService, _remote);*/
 
       CheckNetwork();
 
-      _disableAdsLogic = new DisableAdsLogic(_assetProvider, _gameSaveSystem, _analytics, _adsService, _localeSystem, _inAppService, _audioService, delegate { Debug.Log("OnDisable"); },
-        delegate { Debug.Log("OnSwitchDisableAds"); }, () => Debug.Log("OnClose"));
+      /*_disableAdsLogic = new DisableAdsLogic(_assetProvider, _gameSaveSystem, _analytics, _adsService, _localeSystem, _inAppService, _audioService, delegate { Debug.Log("OnDisable"); },
+        delegate { Debug.Log("OnSwitchDisableAds"); }, () => Debug.Log("OnClose"));*/
       
       _inAppService.AddInAppCallback(_disableAdsLogic);
     }
@@ -105,15 +100,17 @@ namespace _Project.Scripts.Features.HomeScreen
       _uiFactory.NoInternetWindow.Construct(_localeSystem, () => { _uiFactory.ClearNoInternetWindow(); });
     }
 
-    private void ToShop() =>
-      _adsService.CurrentInterstitial.ShowInterstitial(ScreenNames.Game,
-        () => _gameStateMachine.Enter<LoadShopState>(), () => _gameStateMachine.Enter<LoadShopState>());
+    private void ToShop()
+    {
+      /*_adsService.CurrentInterstitial.ShowInterstitial(ScreenNames.Game,
+        () => _gameStateMachine.Enter<LoadShopState>(), () => _gameStateMachine.Enter<LoadShopState>());*/
+    }
 
     private void ToGame(bool isHost)
     {
-      _adsService.CurrentInterstitial.ShowInterstitial(ScreenNames.Game,
+      /*_adsService.CurrentInterstitial.ShowInterstitial(ScreenNames.Game,
         () => _gameStateMachine.Enter<LoadGameState, bool>(isHost),
-        () => _gameStateMachine.Enter<LoadGameState, bool>(isHost));
+        () => _gameStateMachine.Enter<LoadGameState, bool>(isHost));*/
     }
 
     private void ToNoAds()
@@ -124,7 +121,7 @@ namespace _Project.Scripts.Features.HomeScreen
 
     private void OpenSettingsWindow()
     {
-      _analytics.Send("btn_setting");
+      // _analytics.Send("btn_setting");
       _uiFactory.SettingsWindow.OpenWindow();
     }
     

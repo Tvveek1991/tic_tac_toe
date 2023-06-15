@@ -1,5 +1,6 @@
-using _Features.Disable_Ads_Window.Timer.Interfaces;
 using _Features.Disable_Ads_Window.Timer.Mono;
+using _Project.Scripts.Features.DisableAds.Timer;
+using _Project.Scripts.Features.DisableAds.Timer.Interfaces;
 using Sirenix.OdinInspector;
 using UnityEngine;
 

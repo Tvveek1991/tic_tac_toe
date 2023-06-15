@@ -4,9 +4,8 @@ using _Project.Scripts.Core_Logic.StatesMachine.Interfaces;
 using _Project.Scripts.Features.Policy;
 using _Project.Scripts.Services._Interfaces;
 using _Project.Scripts.Services.Localization.Logic;
-using AppacheAnalytics.Scripts.Interfaces;
-using AppacheRemote.Scripts.Interfaces;
-using UnityEngine;
+using SableGamesAnalytics.Scripts.Interfaces;
+using SableGamesRemote.Scripts.Interfaces;
 
 namespace _Project.Scripts.Core_Logic.StatesMachine.States
 {

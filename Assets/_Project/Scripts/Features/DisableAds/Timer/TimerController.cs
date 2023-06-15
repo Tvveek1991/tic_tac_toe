@@ -2,15 +2,15 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using _Features.Disable_Ads_Window.Timer.Data;
-using _Features.Disable_Ads_Window.Timer.Interfaces;
 using _Features.Disable_Ads_Window.Timer.Time_Providers;
+using _Project.Scripts.Features.DisableAds.Timer.Interfaces;
 using _Project.Scripts.Features.DisableAdsScreen.Timer.Interfaces;
 using JetBrains.Annotations;
 using Newtonsoft.Json;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-namespace _Features.Disable_Ads_Window.Timer
+namespace _Project.Scripts.Features.DisableAds.Timer
 {
   public class TimerController : ITimerController
   {
@@ -19,7 +19,7 @@ namespace _Features.Disable_Ads_Window.Timer
     private Timers _data;
     
     private readonly List<ICallbackExecutor> _callbacks = new List<ICallbackExecutor>();
-    private readonly List<Mono.Timer> _timerInstances = new List<Mono.Timer>();
+    private readonly List<_Project.Scripts.Features.DisableAds.Timer.Mono.Timer> _timerInstances = new List<_Project.Scripts.Features.DisableAds.Timer.Mono.Timer>();
 
     public ITimeProvider TimeProvider { get; private set; }
     
@@ -66,7 +66,7 @@ namespace _Features.Disable_Ads_Window.Timer
         return;
       }
 
-      Mono.Timer monoTimer = _timerInstances.FirstOrDefault(p => p.GetTimerGuid() == guid);
+      _Project.Scripts.Features.DisableAds.Timer.Mono.Timer monoTimer = _timerInstances.FirstOrDefault(p => p.GetTimerGuid() == guid);
       monoTimer.GetCallbackExecutor().ForEach(p => p?.ExecuteWhenComplete());
 
       RelaunchTimer();
@@ -75,7 +75,7 @@ namespace _Features.Disable_Ads_Window.Timer
     public bool IsUnderTimer(string guid) => 
       _timerInstances.Any(p => p.GetTimerGuid() == guid);
 
-    public Mono.Timer GetTimer(string guid) => 
+    public _Project.Scripts.Features.DisableAds.Timer.Mono.Timer GetTimer(string guid) => 
       _timerInstances.FirstOrDefault(p => p.GetTimerGuid() == guid);
 
     public void AddCallback(ICallbackExecutor callbackExecutor)
@@ -85,7 +85,7 @@ namespace _Features.Disable_Ads_Window.Timer
       
       _callbacks.Add(callbackExecutor);
 
-      Mono.Timer timer = _timerInstances.FirstOrDefault(p => p.GetTimerGuid() == callbackExecutor.GetTimerGuid());
+      _Project.Scripts.Features.DisableAds.Timer.Mono.Timer timer = _timerInstances.FirstOrDefault(p => p.GetTimerGuid() == callbackExecutor.GetTimerGuid());
       if(timer != null)
         timer.AddCallbackExecutor(callbackExecutor);
       
@@ -97,7 +97,7 @@ namespace _Features.Disable_Ads_Window.Timer
       if (!_callbacks.Contains(callbackExecutor))
         return;
       
-      Mono.Timer timer = _timerInstances.FirstOrDefault(p => p.GetTimerGuid() == callbackExecutor.GetTimerGuid());
+      _Project.Scripts.Features.DisableAds.Timer.Mono.Timer timer = _timerInstances.FirstOrDefault(p => p.GetTimerGuid() == callbackExecutor.GetTimerGuid());
       if(timer != null)
         timer.RemoveCallbackExecutor(callbackExecutor);
       
@@ -109,18 +109,18 @@ namespace _Features.Disable_Ads_Window.Timer
       foreach (TimerData dataActiveTimer in _data.ActiveTimers) 
         CreateInstance(dataActiveTimer, FindCallback(dataActiveTimer.Guid));
       
-      foreach (Mono.Timer timerInstance in _timerInstances) 
+      foreach (_Project.Scripts.Features.DisableAds.Timer.Mono.Timer timerInstance in _timerInstances) 
         Debug.Log($"Recreate {timerInstance.GetTimerGuid()} Target Date {timerInstance.GetTargetTime()}");
     }
 
     private void CreateInstance(TimerData timerData, ICallbackExecutor callbackExecutor)
     {
-      var timer = Object.FindObjectOfType<Mono.Timer>();
+      /*var timer = Object.FindObjectOfType<_Project.Scripts.Features.DisableAds.Timer.Mono.Timer>();
 
       if (timer == null)
       {
         GameObject timerObject = new GameObject($"Timer {timerData.Guid}");
-        timer = timerObject.AddComponent<Mono.Timer>();
+        timer = timerObject.AddComponent<_Project.Scripts.Features.DisableAds.Timer.Mono.Timer>();
       }
 
       timer.Construct(timerData, callbackExecutor, CompleteTimer);
@@ -131,7 +131,7 @@ namespace _Features.Disable_Ads_Window.Timer
       {
         _timerInstances.Add(timer);
         timer.Launch(TimeProvider.GetCurrentTime());
-      }
+      }*/
     }
 
     private void RelaunchTimer()

@@ -1,4 +1,3 @@
-using _Features.Disable_Ads_Window.Timer.Interfaces;
 using _Project.Scripts.Features.DisableAdsScreen.Timer.Interfaces;
 using UnityEngine;
 

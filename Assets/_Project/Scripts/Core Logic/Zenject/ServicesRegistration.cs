@@ -11,9 +11,9 @@ using _Project.Scripts.Services.SaveSystem;
 using _Project.Scripts.Services.Timer;
 using _Project.Scripts.Services.Timer.Interfaces;
 using _Project.Scripts.Services.Unlocker;
-using AppacheAds.Scripts.Logger;
-using AppacheAnalytics.Scripts.Interfaces;
-using AppacheAnalytics.Scripts.Logic;
+using SableGamesAds.Scripts.Logger;
+using SableGamesAnalytics.Scripts.Interfaces;
+using SableGamesAnalytics.Scripts.Logic;
 using Zenject;
 
 namespace _Project.Scripts.Core_Logic.Zenject

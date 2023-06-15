@@ -5,10 +5,10 @@ using _Project.Scripts.Core_Logic.StatesMachine.Interfaces;
 using _Project.Scripts.Core_Logic.StatesMachine.States;
 using _Project.Scripts.Features.Splashscreen;
 using _Project.Scripts.Services._Interfaces;
-using AppacheAds.Scripts.Interfaces;
-using AppacheAnalytics.Scripts.Interfaces;
-using AppacheRemote.Scripts.Interfaces;
 using FlurrySDK;
+using SableGamesAds.Scripts.Interfaces;
+using SableGamesAnalytics.Scripts.Interfaces;
+using SableGamesRemote.Scripts.Interfaces;
 using UnityEngine;
 using Zenject;
 

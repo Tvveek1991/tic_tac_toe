@@ -4,8 +4,8 @@ using _Project.Scripts.Features.NotLoaded;
 using _Project.Scripts.Services._data;
 using _Project.Scripts.Services._Interfaces;
 using _Project.Scripts.Services.Localization.Logic;
-using AppacheAds.Scripts.Interfaces;
-using AppacheRemote.Scripts.Interfaces;
+using SableGamesAds.Scripts.Interfaces;
+using SableGamesRemote.Scripts.Interfaces;
 using UnityEngine;
 
 namespace _Project.Scripts.Services.Unlocker
@@ -71,14 +71,16 @@ namespace _Project.Scripts.Services.Unlocker
     private void SpendMoney(string guid, uint cost, Action onSpend, Action<UnlockType> onFail = null) =>
       _moneyService.Spend(cost, onSpend);
 
-    private void ShowReward(string guid, uint cost, Action onSpend, Action<UnlockType> onFail = null) =>
+    private void ShowReward(string guid, uint cost, Action onSpend, Action<UnlockType> onFail = null)
+    {
       _adsService.Rewarded.ShowReward(guid, () => onSpend(), () =>
       {
         onFail?.Invoke(UnlockType.Advertising);
-        
+
         INotLoadedWindowLogic notLoadedWindowLogic = new NotLoadedWindowLogic(_localeSystem, _assetProvider);
         notLoadedWindowLogic.Open();
       });
+    }
 
     private void OpenIAP(string guid, uint cost, Action onSpend, Action<UnlockType> onFail = null) => 
       onSpend?.Invoke();

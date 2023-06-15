@@ -1,11 +1,10 @@
 using System;
 using _Project.Scripts.Services._Interfaces;
-using Common;
 using UnityEngine;
 
 namespace _Project.Scripts.Services.Money
 {
-  public class MoneyService : IMoneyService, IService
+  public class MoneyService : IMoneyService/*, IService*/
   {
     public uint MoneyCount { get; private set; }
     public event Action<uint> OnCountChange;

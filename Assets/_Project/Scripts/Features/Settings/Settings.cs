@@ -10,9 +10,6 @@ using _Project.Scripts.Services.Audio.Enum;
 using _Project.Scripts.Services.Audio.Executor;
 using _Project.Scripts.Services.Localization.Logic;
 using _Project.Scripts.Services.Localization.Mono;
-using AppacheAds.Scripts.Interfaces;
-using AppacheAnalytics.Scripts.Interfaces;
-using AppacheRemote.Scripts.Interfaces;
 using DG.Tweening;
 using Sirenix.Utilities;
 using UnityEngine;
@@ -82,7 +79,6 @@ namespace _Project.Scripts.Features.Settings
       IGameSaveSystem gameSaveSystem,
       IAudioService audioService,
       ILocaleSystem localeSystem,
-      // ILoadScreenService loadScreenService,
       IAnalytics analytics,
       IPrivacyPolicyFactory privacyPolicyFactor,
       ICurrentScreen screenManager,

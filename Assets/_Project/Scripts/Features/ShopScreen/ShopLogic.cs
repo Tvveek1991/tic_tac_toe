@@ -17,10 +17,9 @@ using _Project.Scripts.Services.Audio.Enum;
 using _Project.Scripts.Services.Audio.Executor;
 using _Project.Scripts.Services.Localization.Logic;
 using _Project.Scripts.Services.Unlocker;
-using AppacheAds.Scripts.Interfaces;
-using AppacheAnalytics.Scripts.Interfaces;
+using SableGamesAds.Scripts.Interfaces;
+using SableGamesAnalytics.Scripts.Interfaces;
 using Sirenix.Utilities;
-using UnityEngine;
 using Object = UnityEngine.Object;
 
 namespace _Project.Scripts.Features.ShopScreen
@@ -106,7 +105,7 @@ namespace _Project.Scripts.Features.ShopScreen
     public void ClearShopView()
     {
       _currentScreen.SetCurrentScreen(ScreenNames.Home);
-
+      
       _adsService.Banner.HideBanner();
 
       if (!_shopView) return;
