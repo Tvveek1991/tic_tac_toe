@@ -1,5 +1,75 @@
 {
   "dependencies": {
+    "com.google.external-dependency-manager": {
+      "version": "1.2.175",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {},
+      "url": "http://165.227.167.227:4873"
+    },
+    "com.google.firebase.analytics": {
+      "version": "9.4.0",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {
+        "com.google.firebase.app": "9.4.0"
+      },
+      "url": "http://165.227.167.227:4873"
+    },
+    "com.google.firebase.app": {
+      "version": "file:com.google.firebase.app-9.4.0.tgz",
+      "depth": 0,
+      "source": "local-tarball",
+      "dependencies": {
+        "com.google.external-dependency-manager": "1.2.172"
+      }
+    },
+    "com.google.firebase.crashlytics": {
+      "version": "9.4.0",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {
+        "com.google.firebase.app": "9.4.0"
+      },
+      "url": "http://165.227.167.227:4873"
+    },
+    "com.google.firebase.remote-config": {
+      "version": "9.4.0",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {
+        "com.google.firebase.app": "9.4.0"
+      },
+      "url": "http://165.227.167.227:4873"
+    },
+    "com.sablegames.ads": {
+      "version": "1.0.0",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {
+        "com.sablegames.analytics": "1.0.0",
+        "com.sablegames.remote": "1.0.0"
+      },
+      "url": "http://165.227.167.227:4873"
+    },
+    "com.sablegames.analytics": {
+      "version": "1.0.0",
+      "depth": 1,
+      "source": "registry",
+      "dependencies": {
+        "com.google.firebase.analytics": "9.4.0"
+      },
+      "url": "http://165.227.167.227:4873"
+    },
+    "com.sablegames.remote": {
+      "version": "1.0.0",
+      "depth": 1,
+      "source": "registry",
+      "dependencies": {
+        "com.google.firebase.remote-config": "9.4.0"
+      },
+      "url": "http://165.227.167.227:4873"
+    },
     "com.unity.2d.sprite": {
       "version": "1.0.0",
       "depth": 0,

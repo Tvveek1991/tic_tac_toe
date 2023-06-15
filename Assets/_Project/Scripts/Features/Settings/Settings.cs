@@ -11,6 +11,9 @@ using _Project.Scripts.Services.Audio.Executor;
 using _Project.Scripts.Services.Localization.Logic;
 using _Project.Scripts.Services.Localization.Mono;
 using DG.Tweening;
+using SableGamesAds.Scripts.Interfaces;
+using SableGamesAnalytics.Scripts.Interfaces;
+using SableGamesRemote.Scripts.Interfaces;
 using Sirenix.Utilities;
 using UnityEngine;
 using UnityEngine.UI;
@@ -56,7 +59,6 @@ namespace _Project.Scripts.Features.Settings
     private Sprite _switcherOn;
     private Sprite _switcherOff;
 
-    // private ILoadScreenService _loadScreenService;
     private IGameSaveSystem _gameSaveSystem;
     private IAudioService _audioService;
     private IAnalytics _analytics;
@@ -90,7 +92,6 @@ namespace _Project.Scripts.Features.Settings
       _screenManager = screenManager;
       _gameStateMachine = gameStateMachine;
 
-      // _loadScreenService = loadScreenService;
       _gameSaveSystem = gameSaveSystem;
       _audioService = audioService;
       _analytics = analytics;
