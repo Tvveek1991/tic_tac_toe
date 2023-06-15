@@ -1,13 +1,14 @@
 using System;
-using _Project.Scripts.Core_Logic.Screens;
-using _Project.Scripts.Features.DisableAds.Timer;
-using _Project.Scripts.Features.DisableAds.Timer.Interfaces;
-using _Project.Scripts.Features.DisableAdsScreen.Timer.Interfaces;
 using _Project.Scripts.Features.NotLoaded;
 using _Project.Scripts.Services._data;
 using _Project.Scripts.Services._Interfaces;
 using _Project.Scripts.Services.InApps.Scripts;
 using _Project.Scripts.Services.Localization.Logic;
+using _Project.Scripts.Services.Timer;
+using _Project.Scripts.Services.Timer.Interfaces;
+using _Project.Scripts.Timer.Interfaces;
+using SableGamesAds.Scripts.Interfaces;
+using SableGamesAnalytics.Scripts.Interfaces;
 using UnityEngine;
 using UnityEngine.Purchasing;
 
@@ -24,8 +25,8 @@ namespace _Project.Scripts.Features.DisableAds
     private readonly IDisableAdsFactory _disableAdsFactory;
     
     private readonly IGameSaveSystem _gameSaveSystem;
-    // private readonly IAnalytics _analytics;
-    // private readonly IAdsService _adsService;
+    private readonly IAnalytics _analytics;
+    private readonly IAdsService _adsService;
     private readonly IInAppService _inAppService;
     private readonly ILocaleSystem _localeSystem;
     private readonly IAudioService _audioService;
@@ -45,8 +46,8 @@ namespace _Project.Scripts.Features.DisableAds
       set => PlayerPrefs.SetInt("DisableAdsLogic.WasDisabled", value ? 1 : 0);
     }
 
-    public DisableAdsLogic(IAssetProvider assetProvider, IGameSaveSystem gameSaveSystem/*, IAnalytics analytics,
-      IAdsService adsService*/, ILocaleSystem localeSystem, IInAppService inAppService, IAudioService audioService, 
+    public DisableAdsLogic(IAssetProvider assetProvider, IGameSaveSystem gameSaveSystem, IAnalytics analytics,
+      IAdsService adsService, ILocaleSystem localeSystem, IInAppService inAppService, IAudioService audioService, 
       Action<bool> onDisableAds, Action<bool> switchDisableAdsButton, Action onClose = null)
     {
       _assetProvider = assetProvider;
@@ -56,8 +57,8 @@ namespace _Project.Scripts.Features.DisableAds
       _inAppService = inAppService;
       _localeSystem = localeSystem;
       _gameSaveSystem = gameSaveSystem;
-      // _analytics = analytics;
-      // _adsService = adsService;
+      _analytics = analytics;
+      _adsService = adsService;
       _onDisableAds = onDisableAds;
       _onClose = onClose;
       
