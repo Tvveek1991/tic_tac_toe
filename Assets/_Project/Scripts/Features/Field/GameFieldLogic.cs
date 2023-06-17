@@ -65,7 +65,7 @@ namespace _Project.Scripts.Features.Field
     private void SetFieldCell(int x, int y, DragableData dragableData)
     {
       if(_cells[y, x] == null)
-        Debug.Log("IS NULL");
+        return;
       
       _cells[y, x].MeshFilter.mesh = _gameMetaProvider.GetMesh(dragableData.GetSymbol(), dragableData.GetSize());
       _cells[y, x].MeshRenderer.material = _gameMetaProvider.GetMaterial(dragableData.GetSymbol(), dragableData.GetSize());

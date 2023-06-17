@@ -30,7 +30,8 @@ namespace _Project.Scripts.Features.GameScreen
 
     public IDragDrop DragDrop { get; private set; }
 
-    protected GameViewLogic(GameViewMono gameViewMono, ILocaleSystem localeSystem, IGameMetaProvider gameMetaProvider, IAudioService audioService, IInputResolver inputResolver)
+    protected GameViewLogic(GameViewMono gameViewMono, ILocaleSystem localeSystem, IGameMetaProvider gameMetaProvider, IAudioService audioService,
+      IInputResolver inputResolver)
     {
       GameViewMono = gameViewMono;
       InputResolver = inputResolver;
@@ -91,7 +92,7 @@ namespace _Project.Scripts.Features.GameScreen
     private void CreateDragDrop()
     {
       DragDrop = GameViewMono.gameObject.AddComponent<DragDrop>();
-      GameViewMono.GetFigures().ForEach(item => item.Construct(DragDrop));
+      GameViewMono.GetFigures().ForEach(item => item.Construct(DragDrop, InputResolver));
     }
 
     private void AppearAnimation()

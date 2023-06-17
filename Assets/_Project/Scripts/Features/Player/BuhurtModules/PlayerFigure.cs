@@ -2,6 +2,7 @@ using System;
 using _Project.Scripts.Features.Data;
 using _Project.Scripts.Features.DragAndDrop.Interface;
 using _Project.Scripts.Features.GameScreen.Serialized;
+using _Project.Scripts.Services._Interfaces;
 using _Project.Scripts.Services.GameMetaProvider;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -22,13 +23,16 @@ namespace _Project.Scripts.Features.Player.BuhurtModules
     private DragablePart _dragablePart;
 
     private IDragDrop _dragDrop;
+    
+    private IInputResolver _inputResolver;
 
-    public void Construct(IDragDrop dragDrop)
+    public void Construct(IDragDrop dragDrop, IInputResolver inputResolver)
     {
       _mesh = GetComponentInChildren<MeshFilter>();
       _meshRenderer = GetComponentInChildren<MeshRenderer>();
 
       _dragDrop = dragDrop;
+      _inputResolver = inputResolver;
 
       _dragablePart = CreateDragableFromGameIconPrefab();
     }
@@ -49,7 +53,7 @@ namespace _Project.Scripts.Features.Player.BuhurtModules
 
     public void OnPointerDown(PointerEventData eventData)
     {
-      if (_isMoved)
+      if (_isMoved || _inputResolver.IsLocked)
         return;
 
       _dragablePart.SetDragableData(new DragableData(Sign, Size));
