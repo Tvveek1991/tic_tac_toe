@@ -3,14 +3,10 @@ using _Project.Scripts.Features.Data;
 using _Project.Scripts.Features.ShopScreen.Mono;
 using _Project.Scripts.Features.ShopScreen.Serialized;
 using _Project.Scripts.Services._Interfaces;
-using DG.Tweening;
-using UnityEngine;
-
 namespace _Project.Scripts.Features.ShopScreen.Content
 {
   public class ContentViewLogic : IContentViewLogic
   {
-    private const float Duration = .15f;
     private readonly IAudioService _audioService;
     private readonly IGameMetaProvider _gameMetaProvider;
 

@@ -95,6 +95,8 @@ namespace _Project.Scripts.Features.ShopScreen.Mono
       
       TopPanel.alpha = 1;
       TopPanel.DOFade(0, AnimDuration);
+      
+      _preview.ForEach(item => item.Hide(null));
 
       MainPanel.interactable = false;
       RectTransform mainRect = MainPanel.GetComponent<RectTransform>();

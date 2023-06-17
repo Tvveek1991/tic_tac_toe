@@ -93,7 +93,7 @@ namespace _Project.Scripts.Features.ShopScreen
       _shopView.Construct(onCloseOverride ?? CloseShop);
 
       _contentViewLogic = new ContentViewLogic(_gameMetaProvider, _audioService, _shopView.GetIconPreview());
-      
+
       CreateShopContent();
 
       CheckUnlocked();
@@ -105,7 +105,7 @@ namespace _Project.Scripts.Features.ShopScreen
     public void ClearShopView()
     {
       _currentScreen.SetCurrentScreen(ScreenNames.Home);
-      
+
       _adsService.Banner.HideBanner();
 
       if (!_shopView) return;
@@ -119,6 +119,7 @@ namespace _Project.Scripts.Features.ShopScreen
         item.Value.Deactivate();
 
       _shopItemsView[type].Activate();
+      ShowSelectedPreview(type);
     }
 
     private void CreateShopContent()
@@ -231,7 +232,7 @@ namespace _Project.Scripts.Features.ShopScreen
         GetItemButton(itemData)?.OpenContent(fromInit);
         OnClickItem(itemData, fromInit);
 
-        RefreshProgressBar();
+        // RefreshProgressBar();
 
         SendOpenEvent(itemData);
       });
@@ -270,8 +271,7 @@ namespace _Project.Scripts.Features.ShopScreen
         else
           itemButton.SetChooseState();
       }
-      
-      RefreshProgressBar();
+      // RefreshProgressBar();
     }
 
     private void RefreshProgressBar()
@@ -279,6 +279,15 @@ namespace _Project.Scripts.Features.ShopScreen
       List<ShopItemData> upgradeDatas = _shopItemData.ToList().FindAll(item => _unlockService.GetUnlockType(item.Id) == UnlockType.Money);
       int boughtForMoney = upgradeDatas.Count(item => _gameSaveSystem.Get().UnlockedShopContent.Contains(item.Id));
       _shopView.AddProgress(boughtForMoney, upgradeDatas.Count);
+    }
+
+    private void ShowSelectedPreview(ItemType type)
+    {
+      foreach (ShopItemData item in _itemsDataMap[type])
+      {
+        if (_gameSaveSystem.Get().ChosenShopContent.Contains(item.Id))
+          _contentViewLogic.LoadContent(item);
+      }
     }
 
     private void CloseShop()
