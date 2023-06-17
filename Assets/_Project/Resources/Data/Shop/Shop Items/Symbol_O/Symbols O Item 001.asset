@@ -19,5 +19,5 @@ MonoBehaviour:
   _icon: {fileID: 21300000, guid: d67cea4228308f048a95670bb00b2b6b, type: 3}
   _previewScaleFactor: 1
   _previewMeshes:
-  - {fileID: 399550195671657263, guid: 167dad37fa717ed469af2c5938c891f9, type: 3}
+  - {fileID: 399550195671657263, guid: be1dd3e5ea761ef47ba1ba843fae6635, type: 3}
   _previewMaterials: []

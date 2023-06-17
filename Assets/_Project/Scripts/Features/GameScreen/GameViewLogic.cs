@@ -69,6 +69,9 @@ namespace _Project.Scripts.Features.GameScreen
 
     public virtual void SetPlayerUi(SymbolSign symbol)
     {
+      if(GameViewMono.SymbolImage == null)
+        Debug.Log("GameViewMono.SymbolImage is null");
+      
       GameViewMono.SymbolImage.sprite = GameMetaProvider.GetIcon(symbol);
       GameViewMono.SymbolImage.color = symbol == SymbolSign.X ? Color.blue : Color.red;
     }

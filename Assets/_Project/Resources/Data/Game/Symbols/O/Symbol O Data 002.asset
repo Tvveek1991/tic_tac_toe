@@ -16,14 +16,14 @@ MonoBehaviour:
   Name: SuperO
   Description: 
   _itemType: 1
-  _meshClassic: {fileID: -7384391754502548050, guid: c4419beecbed09e449047e5ef45c39d8, type: 3}
+  _meshClassic: {fileID: -7384391754502548050, guid: 3eca87f5e458589478344572be131b22, type: 3}
   _materialClassic: {fileID: 2100000, guid: 9ab957ab3d704dc42aecb2a92b842ed6, type: 2}
   _meshBuhurt:
-  - {fileID: -7384391754502548050, guid: c4419beecbed09e449047e5ef45c39d8, type: 3}
-  - {fileID: 8667159823424563162, guid: 6e681ebb93d565d43a4d389304c3240d, type: 3}
-  - {fileID: -5431172493234855953, guid: bf62b1fd56e4c5049a5865be8a38385d, type: 3}
-  - {fileID: -6521527278759438582, guid: f5dec6c596932344fbc3711e22392ee9, type: 3}
-  - {fileID: -5365449597487328321, guid: 09c5b66cc82029a4080e0fba07fe258f, type: 3}
+  - {fileID: -7384391754502548050, guid: 3eca87f5e458589478344572be131b22, type: 3}
+  - {fileID: 8667159823424563162, guid: 3eca87f5e458589478344572be131b22, type: 3}
+  - {fileID: -5431172493234855953, guid: 3eca87f5e458589478344572be131b22, type: 3}
+  - {fileID: -6521527278759438582, guid: 3eca87f5e458589478344572be131b22, type: 3}
+  - {fileID: -5365449597487328321, guid: 3eca87f5e458589478344572be131b22, type: 3}
   _materialBuhurt:
   - {fileID: 2100000, guid: 9ab957ab3d704dc42aecb2a92b842ed6, type: 2}
   - {fileID: 2100000, guid: 9ab957ab3d704dc42aecb2a92b842ed6, type: 2}

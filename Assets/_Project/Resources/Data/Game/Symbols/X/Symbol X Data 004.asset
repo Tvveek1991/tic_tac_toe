@@ -16,14 +16,14 @@ MonoBehaviour:
   Name: MegaX
   Description: 
   _itemType: 0
-  _meshClassic: {fileID: -8045729741950306773, guid: 679b4f4e6834a9840a630bf236648b4a, type: 3}
+  _meshClassic: {fileID: -8045729741950306773, guid: a782b6ce6065d5c4e9b61a04dddd98f7, type: 3}
   _materialClassic: {fileID: 2100000, guid: 9ab957ab3d704dc42aecb2a92b842ed6, type: 2}
   _meshBuhurt:
-  - {fileID: 3683115806071932662, guid: 1b89544ac93267349b608aae4101955b, type: 3}
-  - {fileID: -3123338421696817655, guid: de837a9faac18e547886ed3bd0aa391c, type: 3}
-  - {fileID: -469777908102485080, guid: 634e6c35b8bcd1340842b992e0ee91b6, type: 3}
-  - {fileID: -5692873075339752892, guid: 8ed158b84195dfc469dcb6d7cce0a3f5, type: 3}
-  - {fileID: -1246051828757231802, guid: c8d896cbe9af7ab4d8746981928d5595, type: 3}
+  - {fileID: 3683115806071932662, guid: a782b6ce6065d5c4e9b61a04dddd98f7, type: 3}
+  - {fileID: -3123338421696817655, guid: a782b6ce6065d5c4e9b61a04dddd98f7, type: 3}
+  - {fileID: -469777908102485080, guid: a782b6ce6065d5c4e9b61a04dddd98f7, type: 3}
+  - {fileID: -5692873075339752892, guid: a782b6ce6065d5c4e9b61a04dddd98f7, type: 3}
+  - {fileID: -1246051828757231802, guid: a782b6ce6065d5c4e9b61a04dddd98f7, type: 3}
   _materialBuhurt:
   - {fileID: 2100000, guid: 9ab957ab3d704dc42aecb2a92b842ed6, type: 2}
   - {fileID: 2100000, guid: 9ab957ab3d704dc42aecb2a92b842ed6, type: 2}

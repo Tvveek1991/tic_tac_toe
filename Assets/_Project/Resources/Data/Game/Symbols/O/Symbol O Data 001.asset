@@ -16,14 +16,14 @@ MonoBehaviour:
   Name: ClassicO
   Description: 
   _itemType: 1
-  _meshClassic: {fileID: 399550195671657263, guid: 167dad37fa717ed469af2c5938c891f9, type: 3}
+  _meshClassic: {fileID: 399550195671657263, guid: be1dd3e5ea761ef47ba1ba843fae6635, type: 3}
   _materialClassic: {fileID: 2100000, guid: b11cf2882e44a3743b46e922523bc69a, type: 2}
   _meshBuhurt:
-  - {fileID: 399550195671657263, guid: 167dad37fa717ed469af2c5938c891f9, type: 3}
-  - {fileID: 6011809011165250197, guid: 0cac83f69762b7947a5edf8c9815138f, type: 3}
-  - {fileID: -1429219403518120334, guid: c831e828fa8868048a03570b0f3e17cb, type: 3}
-  - {fileID: -7426737757391274571, guid: 926dc167c0542ce468389044d1e0aa59, type: 3}
-  - {fileID: 4380242030400289872, guid: 0904fe030d4257d41b1cef24e8392834, type: 3}
+  - {fileID: 399550195671657263, guid: be1dd3e5ea761ef47ba1ba843fae6635, type: 3}
+  - {fileID: 6011809011165250197, guid: be1dd3e5ea761ef47ba1ba843fae6635, type: 3}
+  - {fileID: -1429219403518120334, guid: be1dd3e5ea761ef47ba1ba843fae6635, type: 3}
+  - {fileID: -7426737757391274571, guid: be1dd3e5ea761ef47ba1ba843fae6635, type: 3}
+  - {fileID: 4380242030400289872, guid: be1dd3e5ea761ef47ba1ba843fae6635, type: 3}
   _materialBuhurt:
   - {fileID: 2100000, guid: b11cf2882e44a3743b46e922523bc69a, type: 2}
   - {fileID: 2100000, guid: b11cf2882e44a3743b46e922523bc69a, type: 2}
