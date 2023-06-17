@@ -31,6 +31,7 @@ namespace _Project.Scripts.Features.Field
       _audioService = audioService;
       _gameMetaProvider = gameMetaProvider;
 
+      SetField();
       CreateCellsField();
     }
 
@@ -41,6 +42,7 @@ namespace _Project.Scripts.Features.Field
 
     public SymbolCell[,] GetField() =>
       _cells;
+    
 
     private void CreateCellsField()
     {
@@ -61,6 +63,9 @@ namespace _Project.Scripts.Features.Field
           });
       }
     }
+    
+    private void SetField() =>
+      _gameField.SetField(_gameMetaProvider.GetMap());
 
     private void SetFieldCell(int x, int y, DragableData dragableData)
     {

@@ -1,13 +1,35 @@
 using System.Collections.Generic;
+using _Project.Scripts.Features.Data;
 using UnityEngine;
 
 namespace _Project.Scripts.Features.Field.Mono
 {
   public class GameField : MonoBehaviour
   {
-    [SerializeField] private List<SymbolCell> PlayablePoints;
+    private readonly int _main = Shader.PropertyToID("_MainTex");
     
-    public List<SymbolCell> GetPlayablePoint => 
+    [SerializeField] private Texture _transparentTexture;
+
+    [SerializeField] private MeshFilter _meshFilterField;
+    [SerializeField] private MeshRenderer _meshRendererField;
+
+    [SerializeField] private List<SymbolCell> PlayablePoints;
+
+    public List<SymbolCell> GetPlayablePoint =>
       PlayablePoints;
+
+    public void SetField(MapData mapData)
+    {
+      Debug.Log(mapData == null);
+      Debug.Log(_meshFilterField == null);
+      
+      _meshFilterField.mesh = mapData.FieldMesh;
+
+      for (var i = 0; i < _meshRendererField.materials.Length; i++)
+      {
+        Texture texture = i < mapData.Textures.Count ? mapData.Textures[i] : _transparentTexture;
+        _meshRendererField.materials[i].SetTexture(_main, texture);
+      }
+    }
   }
 }

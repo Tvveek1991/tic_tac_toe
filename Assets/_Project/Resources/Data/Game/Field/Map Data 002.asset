@@ -16,3 +16,6 @@ MonoBehaviour:
   Name: FieldItem.Name_2
   Description: 
   _itemType: 2
+  _mesh: {fileID: -6163770093825864477, guid: 2c2311baa1e25a648b26f45eac2c9814, type: 3}
+  _textures:
+  - {fileID: 2800000, guid: 96dace51c0add3a46a111a286f8455a6, type: 3}

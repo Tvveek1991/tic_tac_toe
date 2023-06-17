@@ -1,3 +1,4 @@
+using _Project.Scripts.Features.Data;
 using _Project.Scripts.Features.GameScreen.Serialized;
 using _Project.Scripts.Features.Player;
 using _Project.Scripts.Services.Audio.Enum;
@@ -22,7 +23,7 @@ namespace _Project.Scripts.Services._Interfaces
     Sprite GetIcon(SymbolSign symbol);
     
     AudioId GetMusic();
-    string GetMap();
+    MapData GetMap();
 
     void SetOpponentData(SymbolSign symbolSign);
   }

@@ -82,8 +82,8 @@ namespace _Project.Scripts.Services.GameMetaProvider
     public AudioId GetMusic() =>
       GetCustomData<MusicData>(ItemType.Music).ClipId;
 
-    public string GetMap() =>
-      GetCustomData<MapData>(ItemType.Music).Id;
+    public MapData GetMap() =>
+      GetCustomData<MapData>(ItemType.Field);
 
     public Mesh GetMesh(SymbolSign symbolSign, SymbolSize symbolSize)
     {
