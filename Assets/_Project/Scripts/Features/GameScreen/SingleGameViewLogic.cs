@@ -42,7 +42,7 @@ namespace _Project.Scripts.Features.GameScreen
       SymbolSign nextSign = activeSign == SymbolSign.X ? SymbolSign.O : SymbolSign.X;
       RefreshAfterChangeTurn(nextSign);
 
-      if (GameMetaProvider.GetEnemyType() == EnemyType.Bot)
+      if (GameMetaProvider.GetEnemyType() == EnemyType.Bot && !InputResolver.IsLocked)
         BotTurn(activeSign);
       else if (GameMetaProvider.GetEnemyType() == EnemyType.OneDevice)
         GameMetaProvider.GetPlayerViewMono().CreateSymbolSign((int) nextSign - 1);
