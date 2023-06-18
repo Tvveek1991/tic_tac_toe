@@ -72,12 +72,15 @@ namespace _Project.Scripts.Features.Player.Bots
       });
     }
 
+    public virtual bool IsFiguresOver() =>
+      false;
+
     protected virtual int GetBestMove(int[] board, SymbolCell[] symbolCells)
     {
       Debug.Log("Wrong Class");
       return -1;
     }
-    
+
     protected bool CheckBigPotential(int[] board, int[] line)
     {
       int[] check = {board[line[0]], board[line[1]], board[line[2]]};

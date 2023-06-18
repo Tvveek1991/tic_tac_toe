@@ -8,7 +8,7 @@ namespace _Project.Scripts.Features.GameScreen
   public interface IGameViewLogic
   {
     IDragDrop DragDrop { get; }
-    void Construct(Action onClickBack, Action onCreateNonConnectionPlayer = null);
+    void Construct(Action onClickBack, Action onCreateNonConnectionPlayer, Action<SymbolSign> onEndGame);
     void OpenWindow();
     void SetPlayerUi(SymbolSign symbol);
     void ChangeTurningPlayer(SymbolSign activeSign = SymbolSign.None);

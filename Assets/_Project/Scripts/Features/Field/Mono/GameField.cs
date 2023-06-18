@@ -20,9 +20,6 @@ namespace _Project.Scripts.Features.Field.Mono
 
     public void SetField(MapData mapData)
     {
-      Debug.Log(mapData == null);
-      Debug.Log(_meshFilterField == null);
-      
       _meshFilterField.mesh = mapData.FieldMesh;
 
       for (var i = 0; i < _meshRendererField.materials.Length; i++)

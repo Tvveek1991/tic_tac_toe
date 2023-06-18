@@ -4,7 +4,6 @@ using _Project.Scripts.Features.Data;
 using _Project.Scripts.Features.Field.Mono;
 using _Project.Scripts.Features.GameScreen.Serialized;
 using _Project.Scripts.Services._Interfaces;
-using UnityEngine;
 
 namespace _Project.Scripts.Features.Field
 {
@@ -23,7 +22,7 @@ namespace _Project.Scripts.Features.Field
     private readonly IAudioService _audioService;
     private readonly IGameMetaProvider _gameMetaProvider;
 
-    private Action<SymbolSign> _onWin;
+    private Action<SymbolSign> _onEndGame;
 
     public GameFieldLogic(GameField gameField, IAudioService audioService, IGameMetaProvider gameMetaProvider)
     {
@@ -35,15 +34,14 @@ namespace _Project.Scripts.Features.Field
       CreateCellsField();
     }
 
-    public void Construct(Action<SymbolSign> onWin)
+    public void Construct(Action<SymbolSign> onEndGame)
     {
-      _onWin = onWin;
+      _onEndGame = onEndGame;
     }
 
     public SymbolCell[,] GetField() =>
       _cells;
     
-
     private void CreateCellsField()
     {
       for (var y = 0; y < FieldSizeY; ++y)
@@ -57,21 +55,21 @@ namespace _Project.Scripts.Features.Field
           {
             _playerSymbol = dragableData.GetSymbol();
             SetFieldCell(x1, y1, dragableData);
-            
-            if(CheckWin(_playerSymbol) || CheckDraw())
-              _onWin?.Invoke(CheckWin(_playerSymbol) ? _playerSymbol : SymbolSign.None);
+
+            if (CheckWin(_playerSymbol) || CheckDraw())
+              _onEndGame?.Invoke(CheckWin(_playerSymbol) ? _playerSymbol : SymbolSign.None);
           });
       }
     }
-    
+
     private void SetField() =>
       _gameField.SetField(_gameMetaProvider.GetMap());
 
     private void SetFieldCell(int x, int y, DragableData dragableData)
     {
-      if(_cells[y, x] == null)
+      if (_cells[y, x] == null)
         return;
-      
+
       _cells[y, x].MeshFilter.mesh = _gameMetaProvider.GetMesh(dragableData.GetSymbol(), dragableData.GetSize());
       _cells[y, x].MeshRenderer.material = _gameMetaProvider.GetMaterial(dragableData.GetSymbol(), dragableData.GetSize());
       _cells[y, x].MeshRenderer.enabled = true;

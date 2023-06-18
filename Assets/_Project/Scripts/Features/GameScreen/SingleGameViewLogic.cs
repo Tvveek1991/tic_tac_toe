@@ -24,9 +24,9 @@ namespace _Project.Scripts.Features.GameScreen
       GameMetaProvider.SetOpponentData(SymbolSign.O);
     }
 
-    public override void Construct(Action onBack, Action onCreateNonConnectionPlayer)
+    public override void Construct(Action onBack, Action onCreateNonConnectionPlayer, Action<SymbolSign> onEndGame)
     {
-      base.Construct(onBack, onCreateNonConnectionPlayer);
+      base.Construct(onBack, onCreateNonConnectionPlayer, onEndGame);
 
       OnCreateNonConnectionPlayer?.Invoke();
 
@@ -54,13 +54,16 @@ namespace _Project.Scripts.Features.GameScreen
 
       if (GameMetaProvider.GetGame() != Game.Buhurt)
         return;
-      
+
       LoadBuhurtPart(symbol);
       GameViewMono.SetVisibleBuhurtPart(true);
     }
 
     private void RefreshAfterChangeTurn(SymbolSign nextSign)
     {
+      if(IsBuhurtFiguresOver())
+        return;
+
       bool isPlayerTurn = GameMetaProvider.GetEnemyType() == EnemyType.OneDevice || nextSign == SymbolSign.X;
 
       GameMetaProvider.GetPlayerViewMono().SetPlayerTurn(isPlayerTurn);
@@ -68,11 +71,25 @@ namespace _Project.Scripts.Features.GameScreen
       GameViewMono.TurnText.text = nextSign == SymbolSign.X ? "Player X" : "Player O";
     }
 
+    private bool IsBuhurtFiguresOver()
+    {
+      if (GameMetaProvider.GetGame() != Game.Buhurt)
+        return false;
+      
+      if (_bot.IsFiguresOver() && IsFiguresOver(SymbolSign.X) || IsFiguresOver(SymbolSign.X) && IsFiguresOver(SymbolSign.O))
+      {
+        OnEndGame?.Invoke(SymbolSign.None);
+        return true;
+      }
+
+      return false;
+    }
+
     private void BotTurn(SymbolSign activeSign)
     {
       InputResolver.Disable();
       _bot?.BotTurn(OnTurnEnd);
-      
+
       void OnTurnEnd()
       {
         InputResolver.Enable();

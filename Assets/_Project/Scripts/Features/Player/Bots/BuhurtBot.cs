@@ -4,7 +4,6 @@ using _Project.Scripts.Features.Data;
 using _Project.Scripts.Features.Field.Mono;
 using _Project.Scripts.Features.GameScreen;
 using _Project.Scripts.Features.GameScreen.Serialized;
-using _Project.Scripts.Services._Interfaces;
 using UnityEngine;
 
 namespace _Project.Scripts.Features.Player.Bots
@@ -14,7 +13,12 @@ namespace _Project.Scripts.Features.Player.Bots
     private Dictionary<SymbolSize, Dictionary<int, Potential>> _sizeChecking;
     private readonly SymbolSize[] _figures = {SymbolSize.Tiny, SymbolSize.Small, SymbolSize.Medium, SymbolSize.Big, SymbolSize.Large};
 
-    public BuhurtBot(IGameFactory gameFactory) : base(gameFactory) { }
+    public BuhurtBot(IGameFactory gameFactory) : base(gameFactory)
+    {
+    }
+
+    public override bool IsFiguresOver() => 
+      _figures.All(item => item == SymbolSize.Default);
 
     protected override int GetBestMove(int[] board, SymbolCell[] symbolCells)
     {
@@ -22,7 +26,7 @@ namespace _Project.Scripts.Features.Player.Bots
       for (var size = 0; size < 5; size++)
       {
         BestScores = new Dictionary<int, Potential>();
-        
+
         for (var i = 0; i < 9; i++)
         {
           if (board[i] == -1 || symbolCells[i].GetSize() >= _figures[size] || _figures[size] == SymbolSize.Default)
@@ -74,7 +78,7 @@ namespace _Project.Scripts.Features.Player.Bots
 
       return -1;
     }
-    
+
     private bool FindAllPotentialTurns(Potential potential)
     {
       var collectBestTurns = new List<int>();

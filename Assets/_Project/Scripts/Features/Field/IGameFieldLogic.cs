@@ -6,7 +6,7 @@ namespace _Project.Scripts.Features.Field
 {
   public interface IGameFieldLogic
   {
-    void Construct(Action<SymbolSign> onWin);
+    void Construct(Action<SymbolSign> onEndGame);
     SymbolCell[,] GetField();
   }
 }

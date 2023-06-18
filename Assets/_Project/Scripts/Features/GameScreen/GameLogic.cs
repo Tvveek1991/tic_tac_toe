@@ -61,8 +61,8 @@ namespace _Project.Scripts.Features.GameScreen
       _gameFactory.CreateEndGame();
 
       _gameFactory.EndGameLogic.Construct(OnClickBack, OnClickPlayAgain);
-      _gameFactory.GameFieldLogic.Construct(OnWin);
-      _gameFactory.GameViewLogic.Construct(OnClickBack, OnCreateNonConnectionPlayer);
+      _gameFactory.GameFieldLogic.Construct(OnEndGame);
+      _gameFactory.GameViewLogic.Construct(OnClickBack, OnCreateNonConnectionPlayer, OnEndGame);
       _gameFactory.GameViewLogic.OpenWindow();
       
       _loadingLogic.Enter(() => _inputResolver.Enable());
@@ -88,7 +88,7 @@ namespace _Project.Scripts.Features.GameScreen
     private void OnCreateNonConnectionPlayer() =>
       _gameFactory.SpawnPlayerObject();
 
-    private void OnWin(SymbolSign symbol)
+    private void OnEndGame(SymbolSign symbol)
     {
       _inputResolver.Disable();
       _gameFactory.EndGameLogic.Show(symbol);

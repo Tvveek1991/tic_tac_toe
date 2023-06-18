@@ -24,6 +24,7 @@ namespace _Project.Scripts.Features.GameScreen
     protected readonly IInputResolver InputResolver;
     protected readonly IGameMetaProvider GameMetaProvider;
 
+    protected Action<SymbolSign> OnEndGame;
     protected Action OnCreateNonConnectionPlayer;
 
     private readonly Dictionary<SymbolSign, SymbolSize[]> _figuresState;
@@ -47,8 +48,9 @@ namespace _Project.Scripts.Features.GameScreen
       };
     }
 
-    public virtual void Construct(Action onBack, Action onCreateNonConnectionPlayer)
+    public virtual void Construct(Action onBack, Action onCreateNonConnectionPlayer, Action<SymbolSign> onEndGame)
     {
+      OnEndGame = onEndGame;
       OnCreateNonConnectionPlayer = onCreateNonConnectionPlayer;
 
       Localize(_localeSystem);
@@ -81,7 +83,10 @@ namespace _Project.Scripts.Features.GameScreen
       _figuresState[symbol][(int) size] = SymbolSize.Default;
 
     public virtual void ChangeTurningPlayer(SymbolSign activeSign) { }
-
+    
+    protected bool IsFiguresOver(SymbolSign symbolSign) => 
+      _figuresState[symbolSign].All(item => item == SymbolSize.Default);
+    
     protected void LoadBuhurtPart(SymbolSign symbol)
     {
       for (var i = 0; i < _figuresState[symbol].Length; i++)
