@@ -16,14 +16,14 @@ MonoBehaviour:
   Name: MegaO
   Description: 
   _itemType: 1
-  _meshClassic: {fileID: -6683107916095652537, guid: 8ad186f3d7eacc442a90a22a3adfb230, type: 3}
+  _meshClassic: {fileID: -2628272598008668771, guid: 8ad186f3d7eacc442a90a22a3adfb230, type: 3}
   _materialClassic: {fileID: 2100000, guid: b11cf2882e44a3743b46e922523bc69a, type: 2}
   _meshBuhurt:
-  - {fileID: -6683107916095652537, guid: 8ad186f3d7eacc442a90a22a3adfb230, type: 3}
-  - {fileID: -6683107916095652537, guid: 8ad186f3d7eacc442a90a22a3adfb230, type: 3}
-  - {fileID: -6683107916095652537, guid: 8ad186f3d7eacc442a90a22a3adfb230, type: 3}
-  - {fileID: -6683107916095652537, guid: 8ad186f3d7eacc442a90a22a3adfb230, type: 3}
-  - {fileID: -6683107916095652537, guid: 8ad186f3d7eacc442a90a22a3adfb230, type: 3}
+  - {fileID: 3365678136434992556, guid: 8ad186f3d7eacc442a90a22a3adfb230, type: 3}
+  - {fileID: 2058570733095114192, guid: 8ad186f3d7eacc442a90a22a3adfb230, type: 3}
+  - {fileID: 4816299849260423400, guid: 8ad186f3d7eacc442a90a22a3adfb230, type: 3}
+  - {fileID: 9129574944229546666, guid: 8ad186f3d7eacc442a90a22a3adfb230, type: 3}
+  - {fileID: -2628272598008668771, guid: 8ad186f3d7eacc442a90a22a3adfb230, type: 3}
   _materialBuhurt:
   - {fileID: 2100000, guid: b11cf2882e44a3743b46e922523bc69a, type: 2}
   - {fileID: 2100000, guid: b11cf2882e44a3743b46e922523bc69a, type: 2}
