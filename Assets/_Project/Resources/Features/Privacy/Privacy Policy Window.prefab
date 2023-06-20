@@ -980,7 +980,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "PRIVACY POLICY\r\nLast update: 20.06.2023\r\n\r1111\nThe introduction\r\n\r\nThe
+  m_text: "PRIVACY POLICY\r\nLast update: 20.06.2023\r\n\nThe introduction\r\n\r\nThe
     developer of mobile games and applications (\"Developer\") values the privacy
     and security of the information that user shares by using Developer\u2019s games,
     mobile applications, sablegames.tilda.ws (\"Web-site\"), game portals, game forums,

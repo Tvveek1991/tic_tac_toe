@@ -52,7 +52,7 @@ namespace _Project.Scripts.Features.DisableAds
     {
       _assetProvider = assetProvider;
       _switchDisableAdsButton = switchDisableAdsButton;
-      ProductsId = ProductId.storytale_premium;
+      ProductsId = ProductId.noads;
       
       _inAppService = inAppService;
       _localeSystem = localeSystem;

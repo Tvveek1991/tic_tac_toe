@@ -27,11 +27,11 @@ namespace _Project.Scripts.Services.InApps.Scripts
     {
       _inAppService.AddProduct(new Product
       {
-        ProductName = ProductId.storytale_premium.ToString(),
+        ProductName = ProductId.noads.ToString(),
         ProductType = ProductType.NonConsumable,
         IDs = new Dictionary<string, string>
         {
-          {ProductId.storytale_premium.ToString(), GooglePlay.Name}
+          {ProductId.noads.ToString(), GooglePlay.Name}
         }
       });
     }
