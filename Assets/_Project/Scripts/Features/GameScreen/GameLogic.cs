@@ -64,6 +64,12 @@ namespace _Project.Scripts.Features.GameScreen
       _gameFactory.GameFieldLogic.Construct(OnEndGame);
       _gameFactory.GameViewLogic.Construct(OnClickBack, OnCreateNonConnectionPlayer, OnEndGame);
       _gameFactory.GameViewLogic.OpenWindow();
+
+      if (_gameMetaProvider.GetEnemyType() == EnemyType.OneDevice)
+      {
+        _inputResolver.Enable();
+        return;
+      }
       
       _loadingLogic.Enter(() => _inputResolver.Enable());
     }
