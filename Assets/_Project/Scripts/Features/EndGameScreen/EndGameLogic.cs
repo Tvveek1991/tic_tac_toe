@@ -12,6 +12,7 @@ namespace _Project.Scripts.Features.EndGameScreen
 {
   public class EndGameLogic : IEndGameLogic
   {
+    private const float Duration = .5f;
     private readonly EndGameMono _endGameWindow;
     
     private readonly IAudioService _audioService;
@@ -59,8 +60,12 @@ namespace _Project.Scripts.Features.EndGameScreen
       LoadTitle(sign);
       LoadResult();
       
-      _endGameWindow.CanvasGroup.DOFade(1f, .25f);
-      _endGameWindow.CanvasGroup.blocksRaycasts = true;
+      _endGameWindow.CanvasGroup.DOFade(1f, Duration)
+        .OnComplete(() =>
+        {
+          _endGameWindow.CanvasGroup.blocksRaycasts = true;
+        });
+      
     }
 
     private void LoadResult()

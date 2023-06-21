@@ -28,13 +28,16 @@ namespace _Project.Scripts.Features.GameScreen
       OnCreateNonConnectionPlayer?.Invoke();
 
       GameMetaProvider.GetPlayerView().Construct(_gameFactory, GameMetaProvider, InputResolver);
-      GameMetaProvider.GetPlayerView().CreateSymbolSign();
+      
       _bot.SetBotSign();
 
       GameViewMono.HideLoadScreen();
       RefreshAfterChangeTurn(SymbolSign.X);
+
+      if (GameMetaProvider.GetEnemyType() != EnemyType.Bot)
+        return;
       
-      if(GameMetaProvider.GetEnemyType() == EnemyType.Bot && GameMetaProvider.GetPlayerView().GetSymbol() == SymbolSign.O)
+      if (GameMetaProvider.GetPlayerView().GetSymbol() == SymbolSign.O)
         BotTurn();
     }
 
@@ -62,7 +65,7 @@ namespace _Project.Scripts.Features.GameScreen
 
     private void RefreshAfterChangeTurn(SymbolSign nextSign)
     {
-      if(IsBuhurtFiguresOver())
+      if (IsBuhurtFiguresOver())
         return;
 
       bool isPlayerTurn = GameMetaProvider.GetEnemyType() == EnemyType.OneDevice || nextSign == GameMetaProvider.GetPlayerView().GetSymbol();
@@ -76,7 +79,7 @@ namespace _Project.Scripts.Features.GameScreen
     {
       if (GameMetaProvider.GetGame() != Game.Buhurt)
         return false;
-      
+
       if (_bot.IsFiguresOver() && IsFiguresOver(SymbolSign.X) || IsFiguresOver(SymbolSign.X) && IsFiguresOver(SymbolSign.O))
       {
         OnEndGame?.Invoke(SymbolSign.None);

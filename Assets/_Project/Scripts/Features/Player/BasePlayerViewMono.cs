@@ -1,4 +1,3 @@
-using System;
 using _Project.Scripts.Features.GameScreen;
 using _Project.Scripts.Features.GameScreen.Serialized;
 using _Project.Scripts.Services._Interfaces;
@@ -30,10 +29,9 @@ namespace _Project.Scripts.Features.Player
       GameMetaProvider = gameMetaProvider;
 
       GameMetaProvider.SetPlayerViewMono(this);
+      
+      SymbolSign = GameMetaProvider.GetEnemyType() == EnemyType.OneDevice ? SymbolSign.X : (SymbolSign) Random.Range(1, 3);
     }
-
-    public void CreateSymbolSign() =>
-      SetSymbolSign();
 
     public void SetPlayerTurn(bool isPlayerTurn) =>
       IsPlayerTurn = isPlayerTurn;
@@ -46,8 +44,5 @@ namespace _Project.Scripts.Features.Player
 
     public void ExchangeSymbolSign() => 
       SymbolSign = SymbolSign == SymbolSign.X ? SymbolSign.O : SymbolSign.X;
-
-    private void SetSymbolSign() => 
-      SymbolSign = (SymbolSign) Random.Range(1, 3);
   }
 }
