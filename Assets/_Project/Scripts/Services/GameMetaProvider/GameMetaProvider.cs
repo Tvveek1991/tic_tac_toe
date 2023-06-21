@@ -28,7 +28,8 @@ namespace _Project.Scripts.Services.GameMetaProvider
       {SymbolSign.O, ItemType.SymbolO}
     };
 
-    private SymbolData _botData;
+    private Dictionary<SymbolSign, int> _playersScore;
+    private readonly Dictionary<SymbolSign, SymbolData> _botData = new (){{SymbolSign.X, null}, {SymbolSign.O, null}};
 
     private BasePlayerViewMono BasePlayerViewMono { get; set; }
 
@@ -38,6 +39,8 @@ namespace _Project.Scripts.Services.GameMetaProvider
       _gameSaveSystem = gameSaveSystem;
 
       _gameCustomsData = Load<GameCustomData>(GameDataPath);
+      
+      SetOpponentData(SymbolSign.O);
     }
 
     public void SetPlayerViewMono(BasePlayerViewMono basePlayerViewMono) =>
@@ -104,8 +107,23 @@ namespace _Project.Scripts.Services.GameMetaProvider
     public void SetOpponentData(SymbolSign symbolSign)
     {
       List<SymbolData> list = GetAllDataType<SymbolData>(_gameCustomsData).Where(item => item.ItemType == _itemTypesTransfer[symbolSign]).ToList();
-      _botData = list[Random.Range(0, list.Count)];
+      _botData[symbolSign] = list[Random.Range(0, list.Count)];
       // Debug.Log(list.IndexOf(_botData));
+    }
+
+    public void AddScore(SymbolSign symbolSign)
+    {
+      _playersScore ??= new Dictionary<SymbolSign, int>() {{SymbolSign.None, 0}, {SymbolSign.X, 0}, {SymbolSign.O, 0}};
+      _playersScore[symbolSign]++;
+    }
+
+    public int GetScore(SymbolSign symbolSign) =>
+      _playersScore[symbolSign];
+
+    public void ClearScore()
+    {
+      _playersScore = null;
+      SetOpponentData(SymbolSign.O);
     }
 
     public void Clear()
@@ -116,7 +134,7 @@ namespace _Project.Scripts.Services.GameMetaProvider
 
     private SymbolData GetSymbolData(SymbolSign symbolSign) =>
       !BasePlayerViewMono.GetPlayerTurn() && GetEnemyType() == EnemyType.Bot
-        ? _botData
+        ? _botData[symbolSign]
         : GetCustomData<SymbolData>(_itemTypesTransfer[symbolSign]);
 
     private T[] Load<T>(string path) where T : BaseContentData =>

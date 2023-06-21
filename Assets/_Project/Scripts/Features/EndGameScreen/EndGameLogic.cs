@@ -1,10 +1,14 @@
 using System;
+using System.Linq;
 using _Project.Scripts.Animation;
 using _Project.Scripts.Features.EndGameScreen.Mono;
 using _Project.Scripts.Features.GameScreen.Serialized;
 using _Project.Scripts.Services._Interfaces;
 using _Project.Scripts.Services.Audio.Enum;
 using _Project.Scripts.Services.Audio.Executor;
+using _Project.Scripts.Services.Localization.Logic;
+using DG.Tweening;
+using UnityEngine;
 
 namespace _Project.Scripts.Features.EndGameScreen
 {
@@ -13,17 +17,25 @@ namespace _Project.Scripts.Features.EndGameScreen
     private readonly EndGameMono _endGameWindow;
     
     private readonly IAudioService _audioService;
+    private readonly ILocaleSystem _localeSystem;
     private readonly IGameMetaProvider _gameMetaProvider;
 
-    public EndGameLogic(EndGameMono endGameWindow, IAudioService audioService)
+    public EndGameLogic(EndGameMono endGameWindow, IAudioService audioService, ILocaleSystem localeSystem, IGameMetaProvider gameMetaProvider)
     {
-      _endGameWindow = endGameWindow;
       _audioService = audioService;
+      _localeSystem = localeSystem;
+      _gameMetaProvider = gameMetaProvider;
+      
+      _endGameWindow = endGameWindow;
     }
 
     public void Construct(Action onClickHome, Action onClickPlayAgain)
     {
-      _endGameWindow.ButtonHome.onClick.AddListener(() => onClickHome?.Invoke());
+      _endGameWindow.ButtonHome.onClick.AddListener(() =>
+      {
+        _gameMetaProvider.ClearScore();
+        onClickHome?.Invoke();
+      });
       _endGameWindow.ButtonPlayAgain.onClick.AddListener(() => onClickPlayAgain?.Invoke());
 
       AddAnimations();
@@ -42,10 +54,39 @@ namespace _Project.Scripts.Features.EndGameScreen
       new ButtonAnimation(_endGameWindow.ButtonPlayAgain.transform);
     }
 
-    public void Show(SymbolSign symbolSign)
+    public void Show(SymbolSign sign)
     {
+      _gameMetaProvider.AddScore(sign);
       
-      _endGameWindow.gameObject.SetActive(true);
+      LoadTitle(sign);
+      LoadResult();
+      
+      _endGameWindow.CanvasGroup.DOFade(1f, .25f);
+      _endGameWindow.CanvasGroup.blocksRaycasts = true;
+    }
+
+    private void LoadResult()
+    {
+      for (var i = 0; i < Enum.GetValues(typeof(SymbolSign)).Length - 1; i++)
+      {
+        var sign = (SymbolSign)(i + 1);
+        _endGameWindow.ResultList.Find(item => item.SymbolSign == sign).Icon.sprite = _gameMetaProvider.GetIcon(sign);
+        _endGameWindow.ResultList.Find(item => item.SymbolSign == sign).Score.text = _gameMetaProvider.GetScore(sign).ToString();
+      }
+    }
+
+    private void LoadTitle(SymbolSign sign)
+    {
+      if (sign == SymbolSign.None)
+      {
+        _endGameWindow.TitleIcon.gameObject.SetActive(false);
+        _endGameWindow.TitleText.text = _localeSystem.GetText("EndGame.Draw");
+      }
+      else
+      {
+        _endGameWindow.TitleIcon.sprite = _gameMetaProvider.GetIcon(sign);
+        _endGameWindow.TitleText.text = _localeSystem.GetText("EndGame.Winner");
+      }
     }
   }
 }

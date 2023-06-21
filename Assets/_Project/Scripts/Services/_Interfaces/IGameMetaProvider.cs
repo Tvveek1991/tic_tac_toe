@@ -26,5 +26,9 @@ namespace _Project.Scripts.Services._Interfaces
     MapData GetMap();
 
     void SetOpponentData(SymbolSign symbolSign);
+
+    void AddScore(SymbolSign symbolSign);
+    int GetScore(SymbolSign symbolSign);
+    void ClearScore();
   }
 }

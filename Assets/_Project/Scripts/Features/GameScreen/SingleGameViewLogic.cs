@@ -1,11 +1,9 @@
 using System;
-using _Project.Scripts.Features.Data;
 using _Project.Scripts.Features.GameScreen.Mono;
 using _Project.Scripts.Features.GameScreen.Serialized;
 using _Project.Scripts.Features.Player.Bots;
 using _Project.Scripts.Services._Interfaces;
 using _Project.Scripts.Services.Localization.Logic;
-using UnityEngine;
 
 namespace _Project.Scripts.Features.GameScreen
 {
@@ -21,7 +19,6 @@ namespace _Project.Scripts.Features.GameScreen
     {
       _gameFactory = gameFactory;
       _bot = GameMetaProvider.GetGame() == Game.Classic ? new ClassicBot(_gameFactory) : new BuhurtBot(_gameFactory);
-      GameMetaProvider.SetOpponentData(SymbolSign.O);
     }
 
     public override void Construct(Action onBack, Action onCreateNonConnectionPlayer, Action<SymbolSign> onEndGame)
@@ -88,7 +85,7 @@ namespace _Project.Scripts.Features.GameScreen
     private void BotTurn(SymbolSign activeSign)
     {
       InputResolver.Disable();
-      _bot?.BotTurn(OnTurnEnd);
+      _bot?.BotTurn(OnTurnEnd, () => OnEndGame?.Invoke(SymbolSign.None));
 
       void OnTurnEnd()
       {

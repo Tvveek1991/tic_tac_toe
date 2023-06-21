@@ -34,6 +34,7 @@ namespace _Project.Scripts.Features.GameScreen
     public IEndGameLogic EndGameLogic { get; private set; }
 
     private readonly IAudioService _audioService;
+    private readonly ILocaleSystem _localeSystem;
     private readonly IGameMetaProvider _gameMetaProvider;
 
     private readonly Dictionary<GameMode, Action> _dictionaryGameMode;
@@ -44,6 +45,7 @@ namespace _Project.Scripts.Features.GameScreen
       IGameMetaProvider gameMetaProvider, IInputResolver inputResolver) : base(assetProvider)
     {
       _audioService = audioService;
+      _localeSystem = localeSystem;
       _gameMetaProvider = gameMetaProvider;
 
       _dictionaryGameMode = new Dictionary<GameMode, Action>
@@ -67,7 +69,7 @@ namespace _Project.Scripts.Features.GameScreen
     public void CreateEndGame()
     {
       EndGameWindow = Create<EndGameMono>(EndGameScreenPath, GameObject.Find(CanvasPath).transform);
-      EndGameLogic = new EndGameLogic(EndGameWindow, _audioService);
+      EndGameLogic = new EndGameLogic(EndGameWindow, _audioService, _localeSystem, _gameMetaProvider);
     }
 
     public void SpawnPlayerObject()

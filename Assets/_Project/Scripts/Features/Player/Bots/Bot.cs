@@ -6,7 +6,6 @@ using _Project.Scripts.Features.Data;
 using _Project.Scripts.Features.Field.Mono;
 using _Project.Scripts.Features.GameScreen;
 using _Project.Scripts.Features.GameScreen.Serialized;
-using _Project.Scripts.Services._Interfaces;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -49,7 +48,7 @@ namespace _Project.Scripts.Features.Player.Bots
       Debug.Log("Bot difficult is " + Difficult);
     }
 
-    public void BotTurn(Action onEndTurn)
+    public void BotTurn(Action onEndTurn, Action onEndGame)
     {
       var symbolCells = new SymbolCell[_gameFactory.GameFieldLogic.GetField().Length];
       var board = new int[_gameFactory.GameFieldLogic.GetField().Length];
@@ -68,7 +67,7 @@ namespace _Project.Scripts.Features.Player.Bots
         if (bestMove >= 0)
           symbolCells[bestMove].SetSymbol(DragableData);
         else
-          Debug.Log("GameIsOver as no winner");
+          onEndGame?.Invoke();
       });
     }
 
