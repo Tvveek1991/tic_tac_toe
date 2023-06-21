@@ -4,17 +4,19 @@ using _Project.Scripts.Features.Data;
 using _Project.Scripts.Features.Field.Mono;
 using _Project.Scripts.Features.GameScreen;
 using _Project.Scripts.Features.GameScreen.Serialized;
+using _Project.Scripts.Services._Interfaces;
 using UnityEngine;
 
 namespace _Project.Scripts.Features.Player.Bots
 {
   public class ClassicBot : Bot
   {
-    public ClassicBot(IGameFactory gameFactory) : base(gameFactory) =>
-      DragableData = new DragableData(SymbolSign.O, SymbolSize.Default);
+    public ClassicBot(IGameFactory gameFactory, IGameMetaProvider gameMetaProvider) : base(gameFactory, gameMetaProvider) {}
 
     protected override int GetBestMove(int[] board, SymbolCell[] symbolCells)
     {
+      DragableData = new DragableData(BotSign, SymbolSize.Default);
+      
       BestScores = new Dictionary<int, Potential>();
 
       for (var i = 0; i < 9; i++)
@@ -51,6 +53,9 @@ namespace _Project.Scripts.Features.Player.Bots
             BestScores.Add(i, Potential.Small);
         }
       }
+
+      if (BestScores.Count == 0)
+        return -1;
 
       if (CheckDifficult(out int bestMove))
         return bestMove;

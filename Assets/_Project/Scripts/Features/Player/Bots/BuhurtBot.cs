@@ -4,6 +4,7 @@ using _Project.Scripts.Features.Data;
 using _Project.Scripts.Features.Field.Mono;
 using _Project.Scripts.Features.GameScreen;
 using _Project.Scripts.Features.GameScreen.Serialized;
+using _Project.Scripts.Services._Interfaces;
 using UnityEngine;
 
 namespace _Project.Scripts.Features.Player.Bots
@@ -13,9 +14,7 @@ namespace _Project.Scripts.Features.Player.Bots
     private Dictionary<SymbolSize, Dictionary<int, Potential>> _sizeChecking;
     private readonly SymbolSize[] _figures = {SymbolSize.Tiny, SymbolSize.Small, SymbolSize.Medium, SymbolSize.Big, SymbolSize.Large};
 
-    public BuhurtBot(IGameFactory gameFactory) : base(gameFactory)
-    {
-    }
+    public BuhurtBot(IGameFactory gameFactory, IGameMetaProvider gameMetaProvider) : base(gameFactory, gameMetaProvider) { }
 
     public override bool IsFiguresOver() => 
       _figures.All(item => item == SymbolSize.Default);
@@ -65,6 +64,9 @@ namespace _Project.Scripts.Features.Player.Bots
         _sizeChecking.Add((SymbolSize) size, BestScores);
       }
 
+      if (BestScores.Count == 0)
+        return -1;
+
       if (FindAllPotentialTurns(Potential.Lose))
         return ChooseSizeTurn();
 
@@ -105,7 +107,7 @@ namespace _Project.Scripts.Features.Player.Bots
 
       SymbolSize size = sizeTurn[Random.Range(0, sizeTurn.Count)];
 
-      DragableData = new DragableData(SymbolSign.O, size);
+      DragableData = new DragableData(BotSign, size);
 
       _figures[(int) size] = SymbolSize.Default;
 

@@ -1,5 +1,4 @@
 using System;
-using System.Linq;
 using _Project.Scripts.Animation;
 using _Project.Scripts.Features.EndGameScreen.Mono;
 using _Project.Scripts.Features.GameScreen.Serialized;
@@ -8,7 +7,6 @@ using _Project.Scripts.Services.Audio.Enum;
 using _Project.Scripts.Services.Audio.Executor;
 using _Project.Scripts.Services.Localization.Logic;
 using DG.Tweening;
-using UnityEngine;
 
 namespace _Project.Scripts.Features.EndGameScreen
 {

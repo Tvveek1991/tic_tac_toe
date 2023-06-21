@@ -8,7 +8,7 @@ namespace _Project.Scripts.Services._Interfaces
 {
   public interface IGameMetaProvider
   {
-    BasePlayerViewMono GetPlayerViewMono();
+    BasePlayerViewMono GetPlayerView();
     void SetPlayerViewMono(BasePlayerViewMono basePlayerViewMono);
     void Clear();
     

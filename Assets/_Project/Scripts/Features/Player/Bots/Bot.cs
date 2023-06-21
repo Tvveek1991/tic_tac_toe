@@ -6,6 +6,7 @@ using _Project.Scripts.Features.Data;
 using _Project.Scripts.Features.Field.Mono;
 using _Project.Scripts.Features.GameScreen;
 using _Project.Scripts.Features.GameScreen.Serialized;
+using _Project.Scripts.Services._Interfaces;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -19,8 +20,9 @@ namespace _Project.Scripts.Features.Player.Bots
     protected List<int> BestTurns;
     protected Dictionary<int, Potential> BestScores;
 
+    protected SymbolSign BotSign;
     protected readonly BotDifficult Difficult;
-    
+
     protected DragableData DragableData;
 
     protected readonly List<int[]> Lines = new List<int[]>
@@ -38,15 +40,20 @@ namespace _Project.Scripts.Features.Player.Bots
     };
 
     private readonly IGameFactory _gameFactory;
+    private readonly IGameMetaProvider _gameMetaProvider;
 
 
-    protected Bot(IGameFactory gameFactory)
+    protected Bot(IGameFactory gameFactory, IGameMetaProvider gameMetaProvider)
     {
       _gameFactory = gameFactory;
+      _gameMetaProvider = gameMetaProvider;
 
-      Difficult = (BotDifficult)Random.Range(0, 3);
+      Difficult = (BotDifficult) Random.Range(0, 3);
       Debug.Log("Bot difficult is " + Difficult);
     }
+    
+    public void SetBotSign() =>
+      BotSign = _gameMetaProvider.GetPlayerView().GetSymbol() == SymbolSign.X ? SymbolSign.O : SymbolSign.X;
 
     public void BotTurn(Action onEndTurn, Action onEndGame)
     {

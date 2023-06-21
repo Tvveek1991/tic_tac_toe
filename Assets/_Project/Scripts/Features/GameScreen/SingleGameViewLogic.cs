@@ -18,7 +18,7 @@ namespace _Project.Scripts.Features.GameScreen
       : base(gameViewMono, localeSystem, gameMetaProvider, audioService, inputResolver)
     {
       _gameFactory = gameFactory;
-      _bot = GameMetaProvider.GetGame() == Game.Classic ? new ClassicBot(_gameFactory) : new BuhurtBot(_gameFactory);
+      _bot = GameMetaProvider.GetGame() == Game.Classic ? new ClassicBot(_gameFactory, gameMetaProvider) : new BuhurtBot(_gameFactory, gameMetaProvider);
     }
 
     public override void Construct(Action onBack, Action onCreateNonConnectionPlayer, Action<SymbolSign> onEndGame)
@@ -27,11 +27,15 @@ namespace _Project.Scripts.Features.GameScreen
 
       OnCreateNonConnectionPlayer?.Invoke();
 
-      GameMetaProvider.GetPlayerViewMono().Construct(_gameFactory, GameMetaProvider, InputResolver);
-      GameMetaProvider.GetPlayerViewMono().CreateSymbolSign(0);
+      GameMetaProvider.GetPlayerView().Construct(_gameFactory, GameMetaProvider, InputResolver);
+      GameMetaProvider.GetPlayerView().CreateSymbolSign();
+      _bot.SetBotSign();
 
       GameViewMono.HideLoadScreen();
       RefreshAfterChangeTurn(SymbolSign.X);
+      
+      if(GameMetaProvider.GetEnemyType() == EnemyType.Bot && GameMetaProvider.GetPlayerView().GetSymbol() == SymbolSign.O)
+        BotTurn();
     }
 
     public override void ChangeTurningPlayer(SymbolSign activeSign)
@@ -40,9 +44,9 @@ namespace _Project.Scripts.Features.GameScreen
       RefreshAfterChangeTurn(nextSign);
 
       if (GameMetaProvider.GetEnemyType() == EnemyType.Bot && !InputResolver.IsLocked)
-        BotTurn(activeSign);
+        BotTurn();
       else if (GameMetaProvider.GetEnemyType() == EnemyType.OneDevice)
-        GameMetaProvider.GetPlayerViewMono().CreateSymbolSign((int) nextSign - 1);
+        GameMetaProvider.GetPlayerView().ExchangeSymbolSign();
     }
 
     public override void SetPlayerUi(SymbolSign symbol)
@@ -61,9 +65,9 @@ namespace _Project.Scripts.Features.GameScreen
       if(IsBuhurtFiguresOver())
         return;
 
-      bool isPlayerTurn = GameMetaProvider.GetEnemyType() == EnemyType.OneDevice || nextSign == SymbolSign.X;
+      bool isPlayerTurn = GameMetaProvider.GetEnemyType() == EnemyType.OneDevice || nextSign == GameMetaProvider.GetPlayerView().GetSymbol();
 
-      GameMetaProvider.GetPlayerViewMono().SetPlayerTurn(isPlayerTurn);
+      GameMetaProvider.GetPlayerView().SetPlayerTurn(isPlayerTurn);
       SetPlayerUi(nextSign);
       GameViewMono.TurnText.text = nextSign == SymbolSign.X ? "Player X" : "Player O";
     }
@@ -82,7 +86,7 @@ namespace _Project.Scripts.Features.GameScreen
       return false;
     }
 
-    private void BotTurn(SymbolSign activeSign)
+    private void BotTurn()
     {
       InputResolver.Disable();
       _bot?.BotTurn(OnTurnEnd, () => OnEndGame?.Invoke(SymbolSign.None));
@@ -90,7 +94,7 @@ namespace _Project.Scripts.Features.GameScreen
       void OnTurnEnd()
       {
         InputResolver.Enable();
-        RefreshAfterChangeTurn(activeSign);
+        RefreshAfterChangeTurn(GameMetaProvider.GetPlayerView().GetSymbol());
       }
     }
   }

@@ -1,7 +1,9 @@
+using System;
 using _Project.Scripts.Features.GameScreen;
 using _Project.Scripts.Features.GameScreen.Serialized;
 using _Project.Scripts.Services._Interfaces;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace _Project.Scripts.Features.Player
 {
@@ -17,8 +19,6 @@ namespace _Project.Scripts.Features.Player
     protected IInputResolver InputResolver;
     protected IGameMetaProvider GameMetaProvider;
 
-    private int _index;
-
     public void Construct(IGameFactory gameFactory, IGameMetaProvider gameMetaProvider, IInputResolver inputResolver)
     {
       Camera = Camera.main;
@@ -32,25 +32,22 @@ namespace _Project.Scripts.Features.Player
       GameMetaProvider.SetPlayerViewMono(this);
     }
 
-    public void CreateSymbolSign(int index)
-    {
-      _index = index;
-      SetSymbolSign(GetSymbol());
-    }
+    public void CreateSymbolSign() =>
+      SetSymbolSign();
 
-    public void SetPlayerTurn(bool isPlayerTurn)
-    {
-      // Debug.Log(name + " Is " + _isPlayerTurn);
+    public void SetPlayerTurn(bool isPlayerTurn) =>
       IsPlayerTurn = isPlayerTurn;
-    }
 
     public bool GetPlayerTurn() =>
       IsPlayerTurn;
 
-    private void SetSymbolSign(SymbolSign symbol) =>
-      SymbolSign = symbol;
+    public SymbolSign GetSymbol() =>
+      SymbolSign;
 
-    protected SymbolSign GetSymbol() =>
-      (SymbolSign) (_index + 1);
+    public void ExchangeSymbolSign() => 
+      SymbolSign = SymbolSign == SymbolSign.X ? SymbolSign.O : SymbolSign.X;
+
+    private void SetSymbolSign() => 
+      SymbolSign = (SymbolSign) Random.Range(1, 3);
   }
 }

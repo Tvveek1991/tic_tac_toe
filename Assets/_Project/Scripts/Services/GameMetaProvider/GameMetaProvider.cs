@@ -40,13 +40,14 @@ namespace _Project.Scripts.Services.GameMetaProvider
 
       _gameCustomsData = Load<GameCustomData>(GameDataPath);
       
+      SetOpponentData(SymbolSign.X);
       SetOpponentData(SymbolSign.O);
     }
 
     public void SetPlayerViewMono(BasePlayerViewMono basePlayerViewMono) =>
       BasePlayerViewMono = basePlayerViewMono;
 
-    public BasePlayerViewMono GetPlayerViewMono() =>
+    public BasePlayerViewMono GetPlayerView() =>
       BasePlayerViewMono;
 
     public void SetGame(Game game)
