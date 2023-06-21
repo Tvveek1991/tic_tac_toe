@@ -37,7 +37,7 @@ namespace _Project.Scripts.Features.GameScreen
     private readonly ILocaleSystem _localeSystem;
     private readonly IGameMetaProvider _gameMetaProvider;
 
-    private readonly Dictionary<GameMode, Action> _dictionaryGameMode;
+    private readonly Dictionary<EnemyType, Action> _dictionaryGameMode;
 
     // private delegate void ConnectHandler(string guid, uint cost, Action onSpend, Action<UnlockType> onFail); example delegate
 
@@ -48,9 +48,10 @@ namespace _Project.Scripts.Features.GameScreen
       _localeSystem = localeSystem;
       _gameMetaProvider = gameMetaProvider;
 
-      _dictionaryGameMode = new Dictionary<GameMode, Action>
+      _dictionaryGameMode = new Dictionary<EnemyType, Action>
       {
-        {GameMode.Single, () => GameViewLogic = new SingleGameViewLogic(GameViewMono, this, localeSystem, _gameMetaProvider, _audioService, inputResolver)},
+        {EnemyType.Bot, () => GameViewLogic = new SingleGameViewLogic(GameViewMono, this, localeSystem, _gameMetaProvider, _audioService, inputResolver)},
+        {EnemyType.OneDevice, () => GameViewLogic = new SingleGameViewLogic(GameViewMono, this, localeSystem, _gameMetaProvider, _audioService, inputResolver)},
         // {GameMode.Multiplayer, () => GameViewLogic = new MultiplayerGameViewLogic(GameViewMono, localeSystem, network, _gameMetaProvider, _audioService, inputResolver)},
       };
     }
@@ -58,7 +59,7 @@ namespace _Project.Scripts.Features.GameScreen
     public void CreateScreen()
     {
       GameViewMono = Create<GameViewMono>(GameViewPath, GameObject.Find(CanvasPath).transform);
-      _dictionaryGameMode[GameMode.Single].Invoke();
+      _dictionaryGameMode[_gameMetaProvider.GetEnemyType()].Invoke();
     }
 
     public void CreateField()

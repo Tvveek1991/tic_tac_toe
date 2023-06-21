@@ -26,7 +26,6 @@ namespace _Project.Scripts.Services._data
 
 
     public Game Game = Game.Classic;
-    public GameMode Mode = GameMode.Single;
     public EnemyType Enemy = EnemyType.Bot;
   }
 }

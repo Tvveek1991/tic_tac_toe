@@ -68,15 +68,6 @@ namespace _Project.Scripts.Services.GameMetaProvider
     public EnemyType GetEnemyType() =>
       _gameSaveSystem.Get().Enemy;
 
-    public void SetGameMode(GameMode gameMode)
-    {
-      _gameSaveSystem.Get().Mode = gameMode;
-      _gameSaveSystem.Save();
-    }
-
-    public GameMode GetGameMode() =>
-      _gameSaveSystem.Get().Mode;
-
     public Sprite GetIcon(SymbolSign sign)
     {
       ItemType itemType = _itemTypesTransfer[sign];
