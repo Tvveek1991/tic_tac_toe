@@ -19,7 +19,7 @@ namespace _Project.Scripts.Features.Loading
     {
       CanvasGroup.alpha = 0;
 
-      int count = Random.Range(1, 4);
+      int count = 1;// Random.Range(1, 4);
       Icon.DORotate(new Vector3(0, 0, 360), Duration)
         .SetRelative(true)
         .SetLoops(count, LoopType.Restart)
