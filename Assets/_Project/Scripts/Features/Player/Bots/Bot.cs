@@ -6,6 +6,7 @@ using _Project.Scripts.Features.Data;
 using _Project.Scripts.Features.Field.Mono;
 using _Project.Scripts.Features.GameScreen;
 using _Project.Scripts.Features.GameScreen.Serialized;
+using _Project.Scripts.Features.Player.Bots.Serialized;
 using _Project.Scripts.Services._Interfaces;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -20,23 +21,25 @@ namespace _Project.Scripts.Features.Player.Bots
     protected List<int> BestTurns;
     protected Dictionary<int, Potential> BestScores;
 
+    private SymbolSign _playerSign;
     protected SymbolSign BotSign;
+    
     protected readonly BotDifficult Difficult;
 
     protected DragableData DragableData;
 
-    protected readonly List<int[]> Lines = new List<int[]>
+    private readonly List<int[]> _lines = new List<int[]>
     {
       new[] {0, 1, 2}, new[] {3, 4, 5}, new[] {6, 7, 8}, // horizontals
       new[] {0, 3, 6}, new[] {1, 4, 7}, new[] {2, 5, 8}, // verticals
       new[] {0, 4, 8}, new[] {2, 4, 6} // diagonals
     };
 
-    private readonly int[][] _bigPotentialCase =
+    private readonly SymbolSign[][] _bigPotentialCase =
     {
-      new[] {-1, -1, 1},
-      new[] {1, -1, -1},
-      new[] {-1, 1, -1}
+      new[] {SymbolSign.O, SymbolSign.O, SymbolSign.X},
+      new[] {SymbolSign.X, SymbolSign.O, SymbolSign.O},
+      new[] {SymbolSign.O, SymbolSign.X, SymbolSign.O}
     };
 
     private readonly IGameFactory _gameFactory;
@@ -51,20 +54,23 @@ namespace _Project.Scripts.Features.Player.Bots
       Difficult = (BotDifficult) Random.Range(0, 3);
       Debug.Log("Bot difficult is " + Difficult);
     }
-    
-    public void SetBotSign() =>
-      BotSign = _gameMetaProvider.GetPlayerView().GetSymbol() == SymbolSign.X ? SymbolSign.O : SymbolSign.X;
+
+    public void SetBotSign()
+    {
+      _playerSign = _gameMetaProvider.GetPlayerView().GetSymbol();
+      BotSign = _playerSign == SymbolSign.X ? SymbolSign.O : SymbolSign.X;
+    }
 
     public void BotTurn(Action onEndTurn, Action onEndGame)
     {
       var symbolCells = new SymbolCell[_gameFactory.GameFieldLogic.GetField().Length];
-      var board = new int[_gameFactory.GameFieldLogic.GetField().Length];
+      var board = new SymbolSign[_gameFactory.GameFieldLogic.GetField().Length];
 
       for (var y = 0; y < FieldSizeY; y++)
       for (var x = 0; x < FieldSizeX; x++)
       {
         symbolCells[3 * y + x] = _gameFactory.GameFieldLogic.GetField()[y, x];
-        board[3 * y + x] = GetNumbForEvaluate(_gameFactory.GameFieldLogic.GetField()[y, x].GetSymbol());
+        board[3 * y + x] = _gameFactory.GameFieldLogic.GetField()[y, x].GetSymbol();
       }
 
       Wait(onEndTurn, () =>
@@ -81,17 +87,64 @@ namespace _Project.Scripts.Features.Player.Bots
     public virtual bool IsFiguresOver() =>
       false;
 
-    protected virtual int GetBestMove(int[] board, SymbolCell[] symbolCells)
+    protected virtual int GetBestMove(SymbolSign[] board, SymbolCell[] symbolCells) { return -1; }
+    
+    protected void AddPotentialTurns(SymbolSign[] newBoard, int i)
     {
-      Debug.Log("Wrong Class");
-      return -1;
+      foreach (int[] item in _lines)
+      {
+        if (CheckBigPotential(newBoard, item) && !BestScores.ContainsKey(i))
+          BestScores.Add(i, Potential.Big);
+      }
+
+      foreach (int[] item in _lines)
+      {
+        if (CheckSmallPotential(newBoard, item) && !BestScores.ContainsKey(i))
+          BestScores.Add(i, Potential.Small);
+      }
     }
 
-    protected bool CheckBigPotential(int[] board, int[] line)
+    protected bool CheckWin(SymbolSign[] newBoard, int cell, out int winMove)
     {
-      int[] check = {board[line[0]], board[line[1]], board[line[2]]};
-      return _bigPotentialCase.Any(item => item == check);
+      if (_lines.Any(item => newBoard[item[0]] == BotSign && newBoard[item[1]] == BotSign && newBoard[item[2]] == BotSign))
+      {
+        if (!BestScores.ContainsKey(cell))
+          BestScores.Add(cell, Potential.Winner);
+        else
+          BestScores[cell] = Potential.Winner;
+        {
+          winMove = cell;
+          return true;
+        }
+      }
+
+      winMove = -1;
+      return false;
     }
+
+    protected void CheckLose(SymbolSign[] board)
+    {
+      for (var i = 0; i < 9; i++)
+      {
+        if (board[i] != 0) continue;
+
+        var newBoard = (SymbolSign[]) board.Clone();
+        newBoard[i] = _playerSign;
+
+        if (!_lines.Any(item => newBoard[item[0]] == _playerSign && newBoard[item[1]] == _playerSign && newBoard[item[2]] == _playerSign))
+          continue;
+
+        if (!BestScores.ContainsKey(i))
+          BestScores.Add(i, Potential.Lose);
+        else
+          BestScores[i] = Potential.Lose;
+
+        // Debug.Log("Lose turn_" + cell);
+      }
+    }
+
+    protected virtual bool FindAllPotentialTurns(Potential potential) => 
+      false;
 
     private async void Wait(Action onEndTurn, Action makeTurn)
     {
@@ -100,27 +153,13 @@ namespace _Project.Scripts.Features.Player.Bots
       onEndTurn?.Invoke();
     }
 
-    private int GetNumbForEvaluate(SymbolSign symbolSign) =>
-      symbolSign switch
-      {
-        SymbolSign.X => 1,
-        SymbolSign.O => -1,
-        _ => 0
-      };
-
-    protected enum Potential
+    private bool CheckBigPotential(SymbolSign[] board, int[] line)
     {
-      Small,
-      Big,
-      Lose,
-      Winner,
+      SymbolSign[] check = {board[line[0]], board[line[1]], board[line[2]]};
+      return _bigPotentialCase.Any(item => item == check);
     }
 
-    protected enum BotDifficult
-    {
-      Easy,
-      Medium,
-      Hard
-    }
+    private bool CheckSmallPotential(SymbolSign[] newBoard, int[] item) =>
+      new[] {newBoard[item[0]], newBoard[item[1]], newBoard[item[2]]}.All(x => x != _playerSign);
   }
 }
