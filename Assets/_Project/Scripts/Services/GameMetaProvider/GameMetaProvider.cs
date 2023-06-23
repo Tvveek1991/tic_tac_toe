@@ -28,8 +28,9 @@ namespace _Project.Scripts.Services.GameMetaProvider
       {SymbolSign.O, ItemType.SymbolO}
     };
 
+    private int _winStreak;
     private Dictionary<SymbolSign, int> _playersScore;
-    private readonly Dictionary<SymbolSign, SymbolData> _botData = new (){{SymbolSign.X, null}, {SymbolSign.O, null}};
+    private readonly Dictionary<SymbolSign, SymbolData> _botData = new() {{SymbolSign.X, null}, {SymbolSign.O, null}};
 
     private BasePlayerViewMono BasePlayerViewMono { get; set; }
 
@@ -39,7 +40,7 @@ namespace _Project.Scripts.Services.GameMetaProvider
       _gameSaveSystem = gameSaveSystem;
 
       _gameCustomsData = Load<GameCustomData>(GameDataPath);
-      
+
       SetOpponentData(SymbolSign.X);
       SetOpponentData(SymbolSign.O);
     }
@@ -96,13 +97,6 @@ namespace _Project.Scripts.Services.GameMetaProvider
         : symbolData.MaterialBuhurt[(int) symbolSize];
     }
 
-    public void SetOpponentData(SymbolSign symbolSign)
-    {
-      List<SymbolData> list = GetAllDataType<SymbolData>(_gameCustomsData).Where(item => item.ItemType == _itemTypesTransfer[symbolSign]).ToList();
-      _botData[symbolSign] = list[Random.Range(0, list.Count)];
-      // Debug.Log(list.IndexOf(_botData));
-    }
-
     public void AddScore(SymbolSign symbolSign)
     {
       _playersScore ??= new Dictionary<SymbolSign, int>() {{SymbolSign.None, 0}, {SymbolSign.X, 0}, {SymbolSign.O, 0}};
@@ -115,13 +109,37 @@ namespace _Project.Scripts.Services.GameMetaProvider
     public void ClearScore()
     {
       _playersScore = null;
+
       SetOpponentData(SymbolSign.O);
+      SetOpponentData(SymbolSign.X);
+
+      _winStreak = 0;
     }
+
+    public void AddWinStreak(bool isWin)
+    {
+      _winStreak = isWin ? ++_winStreak : 0;
+      
+      if (_winStreak <= _gameSaveSystem.Get().WinStreak)
+        return;
+
+      _gameSaveSystem.Get().WinStreak = (uint) _winStreak;
+      _gameSaveSystem.Save();
+    }
+
+    public uint GetWinStreak() =>
+      _gameSaveSystem.Get().WinStreak;
 
     public void Clear()
     {
       if (BasePlayerViewMono)
         Object.Destroy(BasePlayerViewMono.gameObject);
+    }
+
+    private void SetOpponentData(SymbolSign symbolSign)
+    {
+      List<SymbolData> list = GetAllDataType<SymbolData>(_gameCustomsData).Where(item => item.ItemType == _itemTypesTransfer[symbolSign]).ToList();
+      _botData[symbolSign] = list[Random.Range(0, list.Count)];
     }
 
     private SymbolData GetSymbolData(SymbolSign symbolSign) =>

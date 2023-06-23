@@ -25,10 +25,12 @@ namespace _Project.Scripts.Services._Interfaces
     AudioId GetMusic();
     MapData GetMap();
 
-    void SetOpponentData(SymbolSign symbolSign);
-
     void AddScore(SymbolSign symbolSign);
     int GetScore(SymbolSign symbolSign);
     void ClearScore();
+
+
+    void AddWinStreak(bool isWin);
+    uint GetWinStreak();
   }
 }

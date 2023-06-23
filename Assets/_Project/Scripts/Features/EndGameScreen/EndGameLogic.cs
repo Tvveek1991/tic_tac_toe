@@ -7,6 +7,7 @@ using _Project.Scripts.Services.Audio.Enum;
 using _Project.Scripts.Services.Audio.Executor;
 using _Project.Scripts.Services.Localization.Logic;
 using DG.Tweening;
+using UnityEngine;
 
 namespace _Project.Scripts.Features.EndGameScreen
 {
@@ -14,7 +15,7 @@ namespace _Project.Scripts.Features.EndGameScreen
   {
     private const float Duration = .5f;
     private readonly EndGameMono _endGameWindow;
-    
+
     private readonly IAudioService _audioService;
     private readonly ILocaleSystem _localeSystem;
     private readonly IGameMetaProvider _gameMetaProvider;
@@ -24,7 +25,7 @@ namespace _Project.Scripts.Features.EndGameScreen
       _audioService = audioService;
       _localeSystem = localeSystem;
       _gameMetaProvider = gameMetaProvider;
-      
+
       _endGameWindow = endGameWindow;
     }
 
@@ -56,23 +57,40 @@ namespace _Project.Scripts.Features.EndGameScreen
     public void Show(SymbolSign sign)
     {
       _gameMetaProvider.AddScore(sign);
-      
+
       LoadTitle(sign);
+      LoadWinStreak(sign);
       LoadResult();
-      
+
       _endGameWindow.CanvasGroup.DOFade(1f, Duration)
-        .OnComplete(() =>
-        {
-          _endGameWindow.CanvasGroup.blocksRaycasts = true;
-        });
-      
+        .OnComplete(() => { _endGameWindow.CanvasGroup.blocksRaycasts = true; });
+    }
+
+    private void LoadWinStreak(SymbolSign sign)
+    {
+      if (_gameMetaProvider.GetEnemyType() != EnemyType.Bot)
+        return;
+
+      if (sign != SymbolSign.None)
+        _gameMetaProvider.AddWinStreak(_gameMetaProvider.GetPlayerView().GetSymbol() == sign);
+
+      if (_gameMetaProvider.GetWinStreak() < 2)
+        return;
+
+      _endGameWindow.WinStreakText.transform.parent.gameObject.SetActive(true);
+      _endGameWindow.WinStreakText.text = _localeSystem.GetText("") + " " + _gameMetaProvider.GetWinStreak();
     }
 
     private void LoadResult()
     {
+      if (_gameMetaProvider.GetEnemyType() != EnemyType.OneDevice)
+        return;
+
+      _endGameWindow.ScorePanel.SetActive(true);
+
       for (var i = 0; i < Enum.GetValues(typeof(SymbolSign)).Length - 1; i++)
       {
-        var sign = (SymbolSign)(i + 1);
+        var sign = (SymbolSign) (i + 1);
         _endGameWindow.ResultList.Find(item => item.SymbolSign == sign).Icon.sprite = _gameMetaProvider.GetIcon(sign);
         _endGameWindow.ResultList.Find(item => item.SymbolSign == sign).Score.text = _gameMetaProvider.GetScore(sign).ToString();
       }

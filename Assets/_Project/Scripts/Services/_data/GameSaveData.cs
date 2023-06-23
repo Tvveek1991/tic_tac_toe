@@ -19,6 +19,7 @@ namespace _Project.Scripts.Services._data
     public bool IsSoundDisabled;
     public bool IsVibrationDisabled;
 
+    public uint WinStreak;
     public uint MoneyCount = 100;
     
     public List<string> ChosenShopContent = new ();

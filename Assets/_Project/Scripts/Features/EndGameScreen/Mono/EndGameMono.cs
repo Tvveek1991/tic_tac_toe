@@ -16,8 +16,12 @@ namespace _Project.Scripts.Features.EndGameScreen.Mono
 
     public List<Result> ResultList;
 
+    public GameObject ScorePanel;
+    
     public Image TitleIcon;
     public TextMeshProUGUI TitleText;
+    
+    public TextMeshProUGUI WinStreakText;
 
     [Serializable]
     public class Result
