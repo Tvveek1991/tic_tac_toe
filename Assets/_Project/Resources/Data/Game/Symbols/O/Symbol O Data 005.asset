@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Symbol O Data 005
   m_EditorClassIdentifier: 
   Id: 146a68c7-1ecf-4cd3-be78-1bfbabc8b04a
-  Name: MegaO
+  Name: CookieO
   Description: 
   _itemType: 1
   _meshClassic: {fileID: 5763435600152313747, guid: 8ad186f3d7eacc442a90a22a3adfb230, type: 3}

@@ -55,7 +55,7 @@ namespace _Project.Scripts.Features.Player.Bots
       return -1;
     }
 
-    protected override bool FindAllPotentialTurns(Potential potential)
+    private bool FindAllPotentialTurns(Potential potential)
     {
       BestTurns = (from item in BestScores where item.Value == potential select item.Key).ToList();
       return BestTurns.Count > 0;

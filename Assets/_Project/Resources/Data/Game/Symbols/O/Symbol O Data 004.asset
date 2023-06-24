@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Symbol O Data 004
   m_EditorClassIdentifier: 
   Id: 9f198c90-6bfd-4d44-9d11-f15c878b49e2
-  Name: MegaO
+  Name: ChessO
   Description: 
   _itemType: 1
   _meshClassic: {fileID: -8045729741950306773, guid: a782b6ce6065d5c4e9b61a04dddd98f7, type: 3}

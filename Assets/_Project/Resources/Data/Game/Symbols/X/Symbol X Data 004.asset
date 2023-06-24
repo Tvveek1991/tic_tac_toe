@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Symbol X Data 004
   m_EditorClassIdentifier: 
   Id: b74b7aad-c5ce-45b8-a5d6-76f8adc7f9a7
-  Name: MegaX
+  Name: ChessX
   Description: 
   _itemType: 0
   _meshClassic: {fileID: -8045729741950306773, guid: a782b6ce6065d5c4e9b61a04dddd98f7, type: 3}

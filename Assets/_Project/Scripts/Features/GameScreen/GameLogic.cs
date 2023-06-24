@@ -96,9 +96,15 @@ namespace _Project.Scripts.Features.GameScreen
 
     private void OnEndGame(SymbolSign symbol)
     {
+      Debug.Log("Win is " + symbol);
+      
       _inputResolver.Disable();
       _gameFactory.EndGameLogic.Show(symbol);
-      Debug.Log("Win is " + symbol);
+      
+      if(_gameMetaProvider.GetGame() != Game.Buhurt)
+        return;
+      
+      _gameFactory.GameViewLogic.HideBottomPanel();
     }
   }
 }

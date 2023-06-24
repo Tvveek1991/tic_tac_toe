@@ -34,10 +34,11 @@ namespace _Project.Scripts.Features.Player
 
     private void MakeMove(SymbolCell cell)
     {
-      cell.SetSymbol(_dragablePart.GetDragableData());
-
       _dragablePart.PinPart();
       GameFactory.GameViewLogic.SetFigureState(GetSymbol(), _dragablePart.GetDragableData().GetSize());
+      
+      cell.SetSymbol(_dragablePart.GetDragableData());
+      
       GameFactory.GameViewLogic.ChangeTurningPlayer(GetSymbol());
     }
   }

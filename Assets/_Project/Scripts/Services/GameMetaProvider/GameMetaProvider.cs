@@ -136,10 +136,11 @@ namespace _Project.Scripts.Services.GameMetaProvider
         Object.Destroy(BasePlayerViewMono.gameObject);
     }
 
-    private void SetOpponentData(SymbolSign symbolSign)
+    private void SetOpponentData(SymbolSign sign)
     {
-      List<SymbolData> list = GetAllDataType<SymbolData>(_gameCustomsData).Where(item => item.ItemType == _itemTypesTransfer[symbolSign]).ToList();
-      _botData[symbolSign] = list[Random.Range(0, list.Count)];
+      List<SymbolData> list = GetAllDataType<SymbolData>(_gameCustomsData).Where(item => item.ItemType == _itemTypesTransfer[sign]).ToList();
+      _botData[sign] = list[Random.Range(0, list.Count)];
+      Debug.Log( _botData[sign].Name);
     }
 
     private SymbolData GetSymbolData(SymbolSign symbolSign) =>

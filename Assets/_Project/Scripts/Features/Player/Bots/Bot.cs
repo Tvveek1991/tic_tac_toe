@@ -84,9 +84,6 @@ namespace _Project.Scripts.Features.Player.Bots
       });
     }
 
-    public virtual bool IsFiguresOver() =>
-      false;
-
     protected virtual int GetBestMove(SymbolSign[] board, SymbolCell[] symbolCells) { return -1; }
     
     protected void AddPotentialTurns(SymbolSign[] newBoard, int i)
@@ -142,9 +139,6 @@ namespace _Project.Scripts.Features.Player.Bots
         // Debug.Log("Lose turn_" + cell);
       }
     }
-
-    protected virtual bool FindAllPotentialTurns(Potential potential) => 
-      false;
 
     private async void Wait(Action onEndTurn, Action makeTurn)
     {

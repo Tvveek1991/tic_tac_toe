@@ -3,7 +3,6 @@ using _Project.Scripts.Features.Data;
 using _Project.Scripts.Features.DragAndDrop.Interface;
 using _Project.Scripts.Features.GameScreen.Serialized;
 using _Project.Scripts.Services._Interfaces;
-using _Project.Scripts.Services.GameMetaProvider;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -42,7 +41,7 @@ namespace _Project.Scripts.Features.Player.BuhurtModules
       Sign = symbolSign;
       
       _isMoved = isMoved;
-      _meshRenderer.enabled = !_isMoved;
+      SetVisibility(!_isMoved);
       
       if(_isMoved)
         return;
@@ -50,6 +49,9 @@ namespace _Project.Scripts.Features.Player.BuhurtModules
       _mesh.mesh = mesh;
       _meshRenderer.material = material;
     }
+
+    public void SetVisibility(bool isOn) => 
+      _meshRenderer.enabled = isOn;
 
     public void OnPointerDown(PointerEventData eventData)
     {

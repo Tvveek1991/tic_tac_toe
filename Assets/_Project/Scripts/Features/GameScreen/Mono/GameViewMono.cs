@@ -36,6 +36,8 @@ namespace _Project.Scripts.Features.GameScreen.Mono
 
     public void SetVisibleBuhurtPart(bool isOn)
     {
+      playerFigures.ForEach(item => item.SetVisibility(isOn));
+      
       playerFiguresCanvasGroup.DOFade(isOn ? 1f : 0f, .5f);
       playerFiguresCanvasGroup.blocksRaycasts = isOn;
     }

@@ -7,7 +7,6 @@ using _Project.Scripts.Features.GameScreen;
 using _Project.Scripts.Features.GameScreen.Serialized;
 using _Project.Scripts.Features.Player.Bots.Serialized;
 using _Project.Scripts.Services._Interfaces;
-using Sirenix.Utilities;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -16,14 +15,13 @@ namespace _Project.Scripts.Features.Player.Bots
   public class BuhurtBot : Bot
   {
     private Dictionary<SymbolSize, Dictionary<int, Potential>> _sizeChecking;
-    private readonly SymbolSize[] _figures = {SymbolSize.Tiny, SymbolSize.Small, SymbolSize.Medium, SymbolSize.Big, SymbolSize.Large};
 
-    public BuhurtBot(IGameFactory gameFactory, IGameMetaProvider gameMetaProvider) : base(gameFactory, gameMetaProvider)
-    {
-    }
+    private readonly Dictionary<SymbolSign, SymbolSize[]> _figures;
+    // private readonly SymbolSize[] _figures = {SymbolSize.Tiny, SymbolSize.Small, SymbolSize.Medium, SymbolSize.Big, SymbolSize.Large};
 
-    public override bool IsFiguresOver() =>
-      _figures.All(item => item == SymbolSize.Default);
+    public BuhurtBot(IGameFactory gameFactory, IGameMetaProvider gameMetaProvider, Dictionary<SymbolSign, SymbolSize[]> figuresState)
+      : base(gameFactory, gameMetaProvider) =>
+      _figures = figuresState;
 
     protected override int GetBestMove(SymbolSign[] board, SymbolCell[] symbolCells)
     {
@@ -34,7 +32,7 @@ namespace _Project.Scripts.Features.Player.Bots
         BestScores = new Dictionary<int, Potential>();
         for (var cell = 0; cell < 9; cell++)
         {
-          if (board[cell] == BotSign || symbolCells[cell].GetSize() >= _figures[size] || _figures[size] == SymbolSize.Default)
+          if (board[cell] == BotSign || symbolCells[cell].GetSize() >= _figures[BotSign][size] || _figures[BotSign][size] == SymbolSize.Default)
             continue;
 
           var newBoard = (SymbolSign[]) board.Clone();
@@ -48,10 +46,12 @@ namespace _Project.Scripts.Features.Player.Bots
           AddPotentialTurns(newBoard, cell);
         }
 
+        // Debug.Log((SymbolSize)size);
+        // Debug.Log(BestScores.Count);
         _sizeChecking.Add((SymbolSize) size, BestScores);
       }
 
-      if (BestScores.Count == 0)
+      if (_sizeChecking.All(item => item.Value.Count == 0))
         return -1;
 
       if (FindAllPotentialTurns(Potential.Lose))
@@ -66,7 +66,7 @@ namespace _Project.Scripts.Features.Player.Bots
       return -1;
     }
 
-    protected override bool FindAllPotentialTurns(Potential potential)
+    private bool FindAllPotentialTurns(Potential potential)
     {
       var collectBestTurns = new List<int>();
 
@@ -90,15 +90,14 @@ namespace _Project.Scripts.Features.Player.Bots
           sizeTurn.Add(item.Key);
       }
 
-      Debug.Log(sizeTurn.Count);
-      sizeTurn.ForEach(item => Debug.Log(item));
-
       SymbolSize size = sizeTurn[Random.Range(0, sizeTurn.Count)];
 
       DragableData = new DragableData(BotSign, size);
 
-      _figures[(int) size] = SymbolSize.Default;
-      _figures.ForEach(item => Debug.Log(item));
+      _figures[BotSign][(int) size] = SymbolSize.Default;
+
+      // Debug.Log(sizeTurn.Count);
+      // sizeTurn.ForEach(item => Debug.Log(item));
 
       return rnd;
     }
