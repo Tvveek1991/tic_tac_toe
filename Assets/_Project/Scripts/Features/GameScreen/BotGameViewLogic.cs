@@ -14,7 +14,7 @@ namespace _Project.Scripts.Features.GameScreen
     public BotGameViewLogic(GameViewMono gameViewMono, IGameFactory gameFactory, ILocaleSystem localeSystem, IGameMetaProvider gameMetaProvider,
       IAudioService audioService, IInputResolver inputResolver)
       : base(gameViewMono, gameFactory, localeSystem, gameMetaProvider, audioService, inputResolver) =>
-      _bot = GameMetaProvider.GetGame() == Game.Classic ? new ClassicBot(gameFactory, gameMetaProvider) : new BuhurtBot(gameFactory, gameMetaProvider);
+      _bot = GameMetaProvider.GetGame() == Game.Classic ? new ClassicBot(gameFactory, gameMetaProvider) : new BuhurtBot(gameFactory, gameMetaProvider, FiguresState);
 
     public override void Construct(Action onBack, Action onCreateNonConnectionPlayer, Action<SymbolSign> onEndGame)
     {
@@ -34,14 +34,6 @@ namespace _Project.Scripts.Features.GameScreen
         BotTurn();
     }
 
-    protected override void RefreshAfterChangeTurn(SymbolSign nextSign)
-    {
-      if (IsBuhurtFiguresOver())
-        return;
-
-      base.RefreshAfterChangeTurn(nextSign);
-    }
-
     private void BotTurn()
     {
       InputResolver.Disable();
@@ -52,20 +44,6 @@ namespace _Project.Scripts.Features.GameScreen
         InputResolver.Enable();
         RefreshAfterChangeTurn(GameMetaProvider.GetPlayerView().GetSymbol());
       }
-    }
-
-    private bool IsBuhurtFiguresOver()
-    {
-      if (GameMetaProvider.GetGame() != Game.Buhurt)
-        return false;
-
-      if (_bot.IsFiguresOver() && IsFiguresOver(SymbolSign.X) || IsFiguresOver(SymbolSign.X) && IsFiguresOver(SymbolSign.O))
-      {
-        OnEndGame?.Invoke(SymbolSign.None);
-        return true;
-      }
-
-      return false;
     }
   }
 }

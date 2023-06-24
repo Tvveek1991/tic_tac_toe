@@ -20,6 +20,8 @@ namespace _Project.Scripts.Features.GameScreen
     protected readonly IGameMetaProvider GameMetaProvider;
 
     protected Action<SymbolSign> OnEndGame;
+    
+    protected readonly Dictionary<SymbolSign, SymbolSize[]> FiguresState;
 
     private readonly IGameFactory _gameFactory;
     private readonly ILocaleSystem _localeSystem;
@@ -29,7 +31,6 @@ namespace _Project.Scripts.Features.GameScreen
 
     private Action _onCreateNonConnectionPlayer;
 
-    private readonly Dictionary<SymbolSign, SymbolSize[]> _figuresState;
 
     public IDragDrop DragDrop { get; private set; }
 
@@ -45,15 +46,15 @@ namespace _Project.Scripts.Features.GameScreen
       _localeSystem = localeSystem;
       _audioService = audioService;
 
-      _figuresState = new Dictionary<SymbolSign, SymbolSize[]>
+      if (GameMetaProvider.GetGame() != Game.Buhurt)
+        return;
+
+      FiguresState = new Dictionary<SymbolSign, SymbolSize[]>
       {
         {SymbolSign.X, new[] {SymbolSize.Tiny, SymbolSize.Small, SymbolSize.Medium, SymbolSize.Big, SymbolSize.Large}},
         {SymbolSign.O, new[] {SymbolSize.Tiny, SymbolSize.Small, SymbolSize.Medium, SymbolSize.Big, SymbolSize.Large}}
       };
       
-      if (GameMetaProvider.GetGame() != Game.Buhurt)
-        return;
-
       CreateDragDrop();
     }
 
@@ -66,7 +67,11 @@ namespace _Project.Scripts.Features.GameScreen
       _gameViewMono.gameObject.SetActive(false);
       AppendClickSound(_audioService);
 
-      _gameViewMono.BackButton.onClick.AddListener(() => onBack?.Invoke());
+      _gameViewMono.BackButton.onClick.AddListener(() =>
+      {
+        GameMetaProvider.ClearScore();
+        onBack?.Invoke();
+      });
 
       AppendButtonsAnimation();
 
@@ -84,6 +89,37 @@ namespace _Project.Scripts.Features.GameScreen
       RefreshAfterChangeTurn(nextSign);
     }
 
+    public void OpenWindow() =>
+      AppearAnimation();
+
+    public void SetFigureState(SymbolSign symbol, SymbolSize size) =>
+      FiguresState[symbol][(int) size] = SymbolSize.Default;
+
+    protected void RefreshAfterChangeTurn(SymbolSign nextSign)
+    {
+      if (IsBuhurtFiguresOver())
+        return;
+      
+      bool isPlayerTurn = GameMetaProvider.GetEnemyType() == EnemyType.OneDevice || nextSign == GameMetaProvider.GetPlayerView().GetSymbol();
+
+      GameMetaProvider.GetPlayerView().SetPlayerTurn(isPlayerTurn);
+      SetPlayerUi(nextSign);
+      _gameViewMono.TurnText.text = nextSign == SymbolSign.X ? "Player X" : "Player O";
+    }
+
+    private bool IsBuhurtFiguresOver()
+    {
+      if (GameMetaProvider.GetGame() != Game.Buhurt)
+        return false;
+
+      // if (_bot.IsFiguresOver() && IsFiguresOver(GameMetaProvider.GetPlayerView().GetSymbol()) || IsFiguresOver(SymbolSign.X) && IsFiguresOver(SymbolSign.O))
+      if (!IsFiguresOver(SymbolSign.X) || !IsFiguresOver(SymbolSign.O)) 
+        return false;
+      
+      OnEndGame?.Invoke(SymbolSign.None);
+      return true;
+    }
+
     private void SetPlayerUi(SymbolSign symbol)
     {
       if (_gameViewMono.SymbolImage == null)
@@ -99,24 +135,6 @@ namespace _Project.Scripts.Features.GameScreen
       _gameViewMono.SetVisibleBuhurtPart(true);
     }
 
-    public void OpenWindow() =>
-      AppearAnimation();
-
-    public void SetFigureState(SymbolSign symbol, SymbolSize size) =>
-      _figuresState[symbol][(int) size] = SymbolSize.Default;
-
-    protected bool IsFiguresOver(SymbolSign symbolSign) =>
-      _figuresState[symbolSign].All(item => item == SymbolSize.Default);
-
-    protected virtual void RefreshAfterChangeTurn(SymbolSign nextSign)
-    {
-      bool isPlayerTurn = GameMetaProvider.GetEnemyType() == EnemyType.OneDevice || nextSign == GameMetaProvider.GetPlayerView().GetSymbol();
-
-      GameMetaProvider.GetPlayerView().SetPlayerTurn(isPlayerTurn);
-      SetPlayerUi(nextSign);
-      _gameViewMono.TurnText.text = nextSign == SymbolSign.X ? "Player X" : "Player O";
-    }
-
     private void CreateDragDrop()
     {
       DragDrop = _gameViewMono.gameObject.AddComponent<DragDrop>();
@@ -125,8 +143,8 @@ namespace _Project.Scripts.Features.GameScreen
 
     private void LoadBuhurtPart(SymbolSign symbol)
     {
-      for (var i = 0; i < _figuresState[symbol].Length; i++)
-        _gameViewMono.GetFigures()[i].LoadFigure(symbol, _figuresState[symbol][i] == SymbolSize.Default,
+      for (var i = 0; i < FiguresState[symbol].Length; i++)
+        _gameViewMono.GetFigures()[i].LoadFigure(symbol, FiguresState[symbol][i] == SymbolSize.Default,
           GameMetaProvider.GetMesh(symbol, (SymbolSize) i), GameMetaProvider.GetMaterial(symbol, (SymbolSize) i));
     }
 
@@ -150,5 +168,8 @@ namespace _Project.Scripts.Features.GameScreen
 
     private void AppendClickSound(IAudioService audioService) =>
       _gameViewMono.BackButton.onClick.AddListener((() => audioService.Play(AudioId.ClickBack)));
+
+    private bool IsFiguresOver(SymbolSign symbolSign) =>
+      FiguresState[symbolSign].All(item => item == SymbolSize.Default);
   }
 }

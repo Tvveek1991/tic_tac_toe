@@ -97,8 +97,8 @@ namespace _Project.Scripts.Features.Field
       return false;
     }
 
-    private bool CheckDraw() => 
-      _gameField.GetPlayablePoint.All(t => t.GetSymbol() != SymbolSign.None);
+    private bool CheckDraw() =>
+      _gameMetaProvider.GetGame() != Game.Buhurt && _gameField.GetPlayablePoint.All(t => t.GetSymbol() != SymbolSign.None);
 
     private bool CheckLine(int x, int y, int vx, int vy, int len, SymbolSign sign)
     {
