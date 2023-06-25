@@ -29,8 +29,7 @@ namespace _Project.Scripts.Features.Player.Bots
         var newBoard = (SymbolSign[]) board.Clone();
         newBoard[cell] = BotSign;
 
-        if (CheckWin(newBoard, cell, out int winMove)) 
-          return winMove;
+        CheckWin(newBoard, cell);
 
         CheckLose(board);
 
@@ -39,6 +38,9 @@ namespace _Project.Scripts.Features.Player.Bots
 
       if (BestScores.Count == 0)
         return -1;
+      
+      if (FindAllPotentialTurns(Potential.Winner))
+        return BestTurns[Random.Range(0, BestTurns.Count)];
 
       if (CheckDifficult(out int bestMove))
         return bestMove;

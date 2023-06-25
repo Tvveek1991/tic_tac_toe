@@ -37,11 +37,7 @@ namespace _Project.Scripts.Features.Player.Bots
           var newBoard = (SymbolSign[]) board.Clone();
           newBoard[cell] = BotSign;
 
-          if (CheckWin(newBoard, cell, out int winMove))
-          {
-            CreateDragableData((SymbolSize)size);
-            return winMove;
-          }
+          CheckWin(newBoard, cell);
 
           CheckLose(board);
 
@@ -54,6 +50,9 @@ namespace _Project.Scripts.Features.Player.Bots
       if (_sizeChecking.All(item => item.Value.Count == 0))
         return -1;
 
+      if (FindAllPotentialTurns(Potential.Winner))
+        return ChooseSizeTurn();
+      
       if (FindAllPotentialTurns(Potential.Lose))
         return ChooseSizeTurn();
 

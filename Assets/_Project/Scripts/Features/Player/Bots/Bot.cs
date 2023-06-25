@@ -23,7 +23,7 @@ namespace _Project.Scripts.Features.Player.Bots
 
     private SymbolSign _playerSign;
     protected SymbolSign BotSign;
-    
+
     protected readonly BotDifficult Difficult;
 
     protected DragableData DragableData;
@@ -84,39 +84,18 @@ namespace _Project.Scripts.Features.Player.Bots
       });
     }
 
-    protected virtual int GetBestMove(SymbolSign[] board, SymbolCell[] symbolCells) { return -1; }
-    
-    protected void AddPotentialTurns(SymbolSign[] newBoard, int i)
+    protected virtual int GetBestMove(SymbolSign[] board, SymbolCell[] symbolCells) => 
+      -1;
+
+    protected void CheckWin(SymbolSign[] newBoard, int cell)
     {
-      foreach (int[] item in _lines)
-      {
-        if (CheckBigPotential(newBoard, item) && !BestScores.ContainsKey(i))
-          BestScores.Add(i, Potential.Big);
-      }
-
-      foreach (int[] item in _lines)
-      {
-        if (CheckSmallPotential(newBoard, item) && !BestScores.ContainsKey(i))
-          BestScores.Add(i, Potential.Small);
-      }
-    }
-
-    protected bool CheckWin(SymbolSign[] newBoard, int cell, out int winMove)
-    {
-      if (_lines.Any(item => newBoard[item[0]] == BotSign && newBoard[item[1]] == BotSign && newBoard[item[2]] == BotSign))
-      {
-        if (!BestScores.ContainsKey(cell))
-          BestScores.Add(cell, Potential.Winner);
-        else
-          BestScores[cell] = Potential.Winner;
-        {
-          winMove = cell;
-          return true;
-        }
-      }
-
-      winMove = -1;
-      return false;
+      if (!_lines.Any(item => newBoard[item[0]] == BotSign && newBoard[item[1]] == BotSign && newBoard[item[2]] == BotSign)) 
+        return;
+      
+      if (!BestScores.ContainsKey(cell))
+        BestScores.Add(cell, Potential.Winner);
+      else
+        BestScores[cell] = Potential.Winner;
     }
 
     protected void CheckLose(SymbolSign[] board)
@@ -135,8 +114,21 @@ namespace _Project.Scripts.Features.Player.Bots
           BestScores.Add(i, Potential.Lose);
         else
           BestScores[i] = Potential.Lose;
+      }
+    }
 
-        // Debug.Log("Lose turn_" + cell);
+    protected void AddPotentialTurns(SymbolSign[] newBoard, int i)
+    {
+      foreach (int[] item in _lines)
+      {
+        if (CheckBigPotential(newBoard, item) && !BestScores.ContainsKey(i))
+          BestScores.Add(i, Potential.Big);
+      }
+
+      foreach (int[] item in _lines)
+      {
+        if (CheckSmallPotential(newBoard, item) && !BestScores.ContainsKey(i))
+          BestScores.Add(i, Potential.Small);
       }
     }
 
