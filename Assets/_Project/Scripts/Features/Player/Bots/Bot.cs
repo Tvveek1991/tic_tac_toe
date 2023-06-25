@@ -35,12 +35,7 @@ namespace _Project.Scripts.Features.Player.Bots
       new[] {0, 4, 8}, new[] {2, 4, 6} // diagonals
     };
 
-    private readonly SymbolSign[][] _bigPotentialCase =
-    {
-      new[] {SymbolSign.O, SymbolSign.O, SymbolSign.X},
-      new[] {SymbolSign.X, SymbolSign.O, SymbolSign.O},
-      new[] {SymbolSign.O, SymbolSign.X, SymbolSign.O}
-    };
+    private SymbolSign[][] _bigPotentialCase;
 
     private readonly IGameFactory _gameFactory;
     private readonly IGameMetaProvider _gameMetaProvider;
@@ -55,10 +50,17 @@ namespace _Project.Scripts.Features.Player.Bots
       Debug.Log("Bot difficult is " + Difficult);
     }
 
-    public void SetBotSign()
+    public void Construct()
     {
       _playerSign = _gameMetaProvider.GetPlayerView().GetSymbol();
       BotSign = _playerSign == SymbolSign.X ? SymbolSign.O : SymbolSign.X;
+
+      _bigPotentialCase = new[]
+      {
+        new[] {BotSign, BotSign, _playerSign},
+        new[] {_playerSign, BotSign, BotSign},
+        new[] {BotSign, _playerSign, BotSign}
+      };
     }
 
     public void BotTurn(Action onEndTurn, Action onEndGame)
@@ -84,14 +86,14 @@ namespace _Project.Scripts.Features.Player.Bots
       });
     }
 
-    protected virtual int GetBestMove(SymbolSign[] board, SymbolCell[] symbolCells) => 
+    protected virtual int GetBestMove(SymbolSign[] board, SymbolCell[] symbolCells) =>
       -1;
 
     protected void CheckWin(SymbolSign[] newBoard, int cell)
     {
-      if (!_lines.Any(item => newBoard[item[0]] == BotSign && newBoard[item[1]] == BotSign && newBoard[item[2]] == BotSign)) 
+      if (!_lines.Any(item => newBoard[item[0]] == BotSign && newBoard[item[1]] == BotSign && newBoard[item[2]] == BotSign))
         return;
-      
+
       if (!BestScores.ContainsKey(cell))
         BestScores.Add(cell, Potential.Winner);
       else

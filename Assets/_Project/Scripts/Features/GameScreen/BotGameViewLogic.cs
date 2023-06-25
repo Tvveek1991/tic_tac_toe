@@ -20,7 +20,7 @@ namespace _Project.Scripts.Features.GameScreen
     {
       base.Construct(onBack, onCreateNonConnectionPlayer, onEndGame);
 
-      _bot.SetBotSign();
+      _bot.Construct();
 
       if (GameMetaProvider.GetPlayerView().GetSymbol() == SymbolSign.O)
         BotTurn();
