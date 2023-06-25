@@ -17,7 +17,6 @@ namespace _Project.Scripts.Features.Player.Bots
     private Dictionary<SymbolSize, Dictionary<int, Potential>> _sizeChecking;
 
     private readonly Dictionary<SymbolSign, SymbolSize[]> _figures;
-    // private readonly SymbolSize[] _figures = {SymbolSize.Tiny, SymbolSize.Small, SymbolSize.Medium, SymbolSize.Big, SymbolSize.Large};
 
     public BuhurtBot(IGameFactory gameFactory, IGameMetaProvider gameMetaProvider, Dictionary<SymbolSign, SymbolSize[]> figuresState)
       : base(gameFactory, gameMetaProvider) =>
@@ -39,15 +38,16 @@ namespace _Project.Scripts.Features.Player.Bots
           newBoard[cell] = BotSign;
 
           if (CheckWin(newBoard, cell, out int winMove))
+          {
+            CreateDragableData((SymbolSize)size);
             return winMove;
+          }
 
           CheckLose(board);
 
           AddPotentialTurns(newBoard, cell);
         }
 
-        // Debug.Log((SymbolSize)size);
-        // Debug.Log(BestScores.Count);
         _sizeChecking.Add((SymbolSize) size, BestScores);
       }
 
@@ -82,7 +82,21 @@ namespace _Project.Scripts.Features.Player.Bots
     private int ChooseSizeTurn()
     {
       int rnd = BestTurns[Random.Range(0, BestTurns.Count)];
+      
+      List<SymbolSize> sizeTurn = GetAvailableSizes(rnd);
+      SymbolSize size = sizeTurn[Random.Range(0, sizeTurn.Count)];
+      CreateDragableData(size);
 
+      _figures[BotSign][(int) size] = SymbolSize.Default;
+
+      return rnd;
+    }
+
+    private void CreateDragableData(SymbolSize size) => 
+      DragableData = new DragableData(BotSign, size);
+
+    private List<SymbolSize> GetAvailableSizes(int rnd)
+    {
       var sizeTurn = new List<SymbolSize>();
       foreach (KeyValuePair<SymbolSize, Dictionary<int, Potential>> item in _sizeChecking)
       {
@@ -90,16 +104,7 @@ namespace _Project.Scripts.Features.Player.Bots
           sizeTurn.Add(item.Key);
       }
 
-      SymbolSize size = sizeTurn[Random.Range(0, sizeTurn.Count)];
-
-      DragableData = new DragableData(BotSign, size);
-
-      _figures[BotSign][(int) size] = SymbolSize.Default;
-
-      // Debug.Log(sizeTurn.Count);
-      // sizeTurn.ForEach(item => Debug.Log(item));
-
-      return rnd;
+      return sizeTurn;
     }
   }
 }
