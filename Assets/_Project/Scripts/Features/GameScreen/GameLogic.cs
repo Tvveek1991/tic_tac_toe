@@ -82,6 +82,8 @@ namespace _Project.Scripts.Features.GameScreen
 
     private void OnClickBack()
     {
+      _gameMetaProvider.ClearScore();
+      
       _adsService.CurrentInterstitial.ShowInterstitial(ScreenNames.Home,
         _gameStateMachine.Enter<LoadHomeState>,
         _gameStateMachine.Enter<LoadHomeState>);

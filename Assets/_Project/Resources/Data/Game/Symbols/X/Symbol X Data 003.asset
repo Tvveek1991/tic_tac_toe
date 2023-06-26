@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Symbol X Data 003
   m_EditorClassIdentifier: 
   Id: 2b3cebf3-7c5e-456f-bbac-905c42c59015
-  Name: MegaX
+  Name: DiceX
   Description: 
   _itemType: 0
   _meshClassic: {fileID: 4170667394059517457, guid: 393453fb3be1c7d43957a3e2a495237f, type: 3}

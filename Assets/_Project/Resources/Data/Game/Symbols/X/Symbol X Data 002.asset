@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Symbol X Data 002
   m_EditorClassIdentifier: 
   Id: 4ec6d87e-2a4a-41a0-ad00-af34d758fcdd
-  Name: SuperX
+  Name: ZeroX
   Description: 
   _itemType: 0
   _meshClassic: {fileID: 399550195671657263, guid: be1dd3e5ea761ef47ba1ba843fae6635, type: 3}

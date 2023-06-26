@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Symbol O Data 002
   m_EditorClassIdentifier: 
   Id: 697138f0-4871-4ccf-a5c6-9466e881013a
-  Name: SuperO
+  Name: CrossO
   Description: 
   _itemType: 1
   _meshClassic: {fileID: -7384391754502548050, guid: 3eca87f5e458589478344572be131b22, type: 3}

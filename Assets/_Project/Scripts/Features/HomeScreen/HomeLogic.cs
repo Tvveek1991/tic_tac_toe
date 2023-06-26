@@ -113,6 +113,8 @@ namespace _Project.Scripts.Features.HomeScreen
 
     private void ToGame(bool isHost)
     {
+      // _gameMetaProvider.ClearScore();
+      
       _adsService.CurrentInterstitial.ShowInterstitial(ScreenNames.Game,
         () => _gameStateMachine.Enter<LoadGameState, bool>(isHost),
         () => _gameStateMachine.Enter<LoadGameState, bool>(isHost));

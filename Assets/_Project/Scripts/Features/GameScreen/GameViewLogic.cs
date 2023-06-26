@@ -65,11 +65,7 @@ namespace _Project.Scripts.Features.GameScreen
       Localize(_localeSystem);
       AppendClickSound(_audioService);
 
-      _gameViewMono.BackButton.onClick.AddListener(() =>
-      {
-        GameMetaProvider.ClearScore();
-        onBack?.Invoke();
-      });
+      _gameViewMono.BackButton.onClick.AddListener(() => onBack?.Invoke());
 
       AppendButtonsAnimation();
 

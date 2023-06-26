@@ -55,6 +55,8 @@ namespace _Project.Scripts.Features.Player.Bots
       _playerSign = _gameMetaProvider.GetPlayerView().GetSymbol();
       BotSign = _playerSign == SymbolSign.X ? SymbolSign.O : SymbolSign.X;
 
+      _gameMetaProvider.CreateBotData(BotSign);
+      
       _bigPotentialCase = new[]
       {
         new[] {BotSign, BotSign, _playerSign},

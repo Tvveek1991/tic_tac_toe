@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Symbol O Data 003
   m_EditorClassIdentifier: 
   Id: 59943283-d8ea-4310-8efa-a36f571e42c7
-  Name: MegaO
+  Name: DiceO
   Description: 
   _itemType: 1
   _meshClassic: {fileID: 4170667394059517457, guid: 393453fb3be1c7d43957a3e2a495237f, type: 3}

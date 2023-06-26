@@ -40,9 +40,6 @@ namespace _Project.Scripts.Services.GameMetaProvider
       _gameSaveSystem = gameSaveSystem;
 
       _gameCustomsData = Load<GameCustomData>(GameDataPath);
-
-      SetOpponentData(SymbolSign.X);
-      SetOpponentData(SymbolSign.O);
     }
 
     public void SetPlayerViewMono(BasePlayerViewMono basePlayerViewMono) =>
@@ -84,6 +81,7 @@ namespace _Project.Scripts.Services.GameMetaProvider
     public Mesh GetMesh(SymbolSign symbolSign, SymbolSize symbolSize)
     {
       SymbolData symbolData = GetSymbolData(symbolSign);
+
       return GetGame() == Game.Classic
         ? symbolData.MeshClassic
         : symbolData.MeshBuhurt[(int) symbolSize];
@@ -108,18 +106,14 @@ namespace _Project.Scripts.Services.GameMetaProvider
 
     public void ClearScore()
     {
-      _playersScore = null;
-
-      SetOpponentData(SymbolSign.O);
-      SetOpponentData(SymbolSign.X);
-
       _winStreak = 0;
+      _playersScore = null;
     }
 
     public void AddWinStreak(bool isWin)
     {
       _winStreak = isWin ? ++_winStreak : 0;
-      
+
       if (_winStreak <= _gameSaveSystem.Get().WinStreak)
         return;
 
@@ -136,11 +130,14 @@ namespace _Project.Scripts.Services.GameMetaProvider
         Object.Destroy(BasePlayerViewMono.gameObject);
     }
 
+    public void CreateBotData(SymbolSign botSign) => 
+      SetOpponentData(botSign);
+
     private void SetOpponentData(SymbolSign sign)
     {
       List<SymbolData> list = GetAllDataType<SymbolData>(_gameCustomsData).Where(item => item.ItemType == _itemTypesTransfer[sign]).ToList();
       _botData[sign] = list[Random.Range(0, list.Count)];
-      Debug.Log( _botData[sign].Name);
+      Debug.Log(_botData[sign].Name);
     }
 
     private SymbolData GetSymbolData(SymbolSign symbolSign) =>
@@ -157,7 +154,6 @@ namespace _Project.Scripts.Services.GameMetaProvider
       {
         if (!_gameSaveSystem.Get().ChosenShopContent.Contains(data.Id) || data.ItemType != itemType)
           continue;
-        // Debug.Log(data.Name);
         return data;
       }
 

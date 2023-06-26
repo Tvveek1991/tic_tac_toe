@@ -29,6 +29,7 @@ namespace _Project.Scripts.Services._Interfaces
     int GetScore(SymbolSign symbolSign);
     void ClearScore();
 
+    void CreateBotData(SymbolSign botSign);
 
     void AddWinStreak(bool isWin);
     uint GetWinStreak();

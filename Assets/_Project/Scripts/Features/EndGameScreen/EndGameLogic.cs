@@ -30,11 +30,7 @@ namespace _Project.Scripts.Features.EndGameScreen
 
     public void Construct(Action onClickHome, Action onClickPlayAgain)
     {
-      _endGameWindow.ButtonHome.onClick.AddListener(() =>
-      {
-        _gameMetaProvider.ClearScore();
-        onClickHome?.Invoke();
-      });
+      _endGameWindow.ButtonHome.onClick.AddListener(() => onClickHome?.Invoke());
       _endGameWindow.ButtonPlayAgain.onClick.AddListener(() => onClickPlayAgain?.Invoke());
 
       AddAnimations();
