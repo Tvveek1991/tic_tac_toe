@@ -25,9 +25,9 @@ MonoBehaviour:
   - {fileID: -7426737757391274571, guid: be1dd3e5ea761ef47ba1ba843fae6635, type: 3}
   - {fileID: 4380242030400289872, guid: be1dd3e5ea761ef47ba1ba843fae6635, type: 3}
   _materialBuhurt:
-  - {fileID: 2100000, guid: b11cf2882e44a3743b46e922523bc69a, type: 2}
-  - {fileID: 2100000, guid: b11cf2882e44a3743b46e922523bc69a, type: 2}
-  - {fileID: 2100000, guid: b11cf2882e44a3743b46e922523bc69a, type: 2}
-  - {fileID: 2100000, guid: b11cf2882e44a3743b46e922523bc69a, type: 2}
-  - {fileID: 2100000, guid: b11cf2882e44a3743b46e922523bc69a, type: 2}
+  - {fileID: 2100000, guid: 9ab957ab3d704dc42aecb2a92b842ed6, type: 2}
+  - {fileID: 2100000, guid: 9ab957ab3d704dc42aecb2a92b842ed6, type: 2}
+  - {fileID: 2100000, guid: 9ab957ab3d704dc42aecb2a92b842ed6, type: 2}
+  - {fileID: 2100000, guid: 9ab957ab3d704dc42aecb2a92b842ed6, type: 2}
+  - {fileID: 2100000, guid: 9ab957ab3d704dc42aecb2a92b842ed6, type: 2}
   _icon: {fileID: 21300000, guid: 567787ab75ddbdb438a14598c07d87be, type: 3}
