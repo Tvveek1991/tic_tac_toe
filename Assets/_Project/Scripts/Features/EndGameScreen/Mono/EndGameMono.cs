@@ -21,6 +21,7 @@ namespace _Project.Scripts.Features.EndGameScreen.Mono
     public Image TitleIcon;
     public TextMeshProUGUI TitleText;
     
+    public TextMeshProUGUI BestWinStreakText;
     public TextMeshProUGUI WinStreakText;
 
     [Serializable]

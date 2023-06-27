@@ -29,7 +29,7 @@ namespace _Project.Scripts.Features.GameScreen
 
     private readonly GameViewMono _gameViewMono;
 
-    private Action _onCreateNonConnectionPlayer;
+    private Action _onCreatePlayer;
 
     public IDragDrop DragDrop { get; private set; }
 
@@ -57,10 +57,10 @@ namespace _Project.Scripts.Features.GameScreen
       CreateDragDrop();
     }
 
-    public virtual void Construct(Action onBack, Action onCreateNonConnectionPlayer, Action<SymbolSign> onEndGame)
+    public virtual void Construct(Action onBack, Action onCreatePlayer, Action<SymbolSign> onEndGame)
     {
       OnEndGame = onEndGame;
-      _onCreateNonConnectionPlayer = onCreateNonConnectionPlayer;
+      _onCreatePlayer = onCreatePlayer;
 
       Localize(_localeSystem);
       AppendClickSound(_audioService);
@@ -69,12 +69,11 @@ namespace _Project.Scripts.Features.GameScreen
 
       AppendButtonsAnimation();
 
-      _onCreateNonConnectionPlayer?.Invoke();
+      _onCreatePlayer?.Invoke();
 
       GameMetaProvider.GetPlayerView().Construct(_gameFactory, GameMetaProvider, InputResolver);
 
       _gameViewMono.HideLoadScreen();
-      RefreshAfterChangeTurn(SymbolSign.X);
 
       if (GameMetaProvider.GetGame() != Game.Buhurt)
         return;

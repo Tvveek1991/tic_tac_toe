@@ -16,11 +16,13 @@ namespace _Project.Scripts.Features.GameScreen
       : base(gameViewMono, gameFactory, localeSystem, gameMetaProvider, audioService, inputResolver) =>
       _bot = GameMetaProvider.GetGame() == Game.Classic ? new ClassicBot(gameFactory, gameMetaProvider) : new BuhurtBot(gameFactory, gameMetaProvider, FiguresState);
 
-    public override void Construct(Action onBack, Action onCreateNonConnectionPlayer, Action<SymbolSign> onEndGame)
+    public override void Construct(Action onBack, Action onCreatePlayer, Action<SymbolSign> onEndGame)
     {
-      base.Construct(onBack, onCreateNonConnectionPlayer, onEndGame);
+      base.Construct(onBack, onCreatePlayer, onEndGame);
 
       _bot.Construct();
+      
+      RefreshAfterChangeTurn(SymbolSign.X);
 
       if (GameMetaProvider.GetPlayerView().GetSymbol() == SymbolSign.O)
         BotTurn();

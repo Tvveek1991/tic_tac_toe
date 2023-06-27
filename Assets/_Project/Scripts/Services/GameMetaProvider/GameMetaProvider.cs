@@ -28,7 +28,7 @@ namespace _Project.Scripts.Services.GameMetaProvider
       {SymbolSign.O, ItemType.SymbolO}
     };
 
-    private int _winStreak;
+    private uint _winStreak;
     private Dictionary<SymbolSign, int> _playersScore;
     private readonly Dictionary<SymbolSign, SymbolData> _botData = new() {{SymbolSign.X, null}, {SymbolSign.O, null}};
 
@@ -81,7 +81,6 @@ namespace _Project.Scripts.Services.GameMetaProvider
     public Mesh GetMesh(SymbolSign symbolSign, SymbolSize symbolSize)
     {
       SymbolData symbolData = GetSymbolData(symbolSign);
-
       return GetGame() == Game.Classic
         ? symbolData.MeshClassic
         : symbolData.MeshBuhurt[(int) symbolSize];
@@ -121,8 +120,8 @@ namespace _Project.Scripts.Services.GameMetaProvider
       _gameSaveSystem.Save();
     }
 
-    public uint GetWinStreak() =>
-      _gameSaveSystem.Get().WinStreak;
+    public uint GetWinStreak(bool isBest) =>
+      isBest ? _gameSaveSystem.Get().WinStreak : _winStreak;
 
     public void Clear()
     {

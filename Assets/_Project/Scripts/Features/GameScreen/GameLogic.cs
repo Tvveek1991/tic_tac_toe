@@ -62,7 +62,7 @@ namespace _Project.Scripts.Features.GameScreen
 
       _gameFactory.EndGameLogic.Construct(OnClickBack, OnClickPlayAgain);
       _gameFactory.GameFieldLogic.Construct(OnEndGame);
-      _gameFactory.GameViewLogic.Construct(OnClickBack, OnCreateNonConnectionPlayer, OnEndGame);
+      _gameFactory.GameViewLogic.Construct(OnClickBack, OnCreatePlayer, OnEndGame);
       _gameFactory.GameViewLogic.OpenWindow();
 
       if (_gameMetaProvider.GetEnemyType() == EnemyType.OneDevice)
@@ -93,7 +93,7 @@ namespace _Project.Scripts.Features.GameScreen
       _gameStateMachine.Enter<LoadGameState, bool>(false);
 
 
-    private void OnCreateNonConnectionPlayer() =>
+    private void OnCreatePlayer() =>
       _gameFactory.SpawnPlayerObject();
 
     private void OnEndGame(SymbolSign symbol)

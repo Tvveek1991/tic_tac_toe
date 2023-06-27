@@ -1,3 +1,4 @@
+using System;
 using _Project.Scripts.Features.GameScreen.Mono;
 using _Project.Scripts.Features.GameScreen.Serialized;
 using _Project.Scripts.Services._Interfaces;
@@ -11,6 +12,12 @@ namespace _Project.Scripts.Features.GameScreen
       IAudioService audioService, IInputResolver inputResolver)
       : base(gameViewMono, gameFactory, localeSystem, gameMetaProvider, audioService, inputResolver)
     {
+    }
+    
+    public override void Construct(Action onBack, Action onCreatePlayer, Action<SymbolSign> onEndGame)
+    {
+      base.Construct(onBack, onCreatePlayer, onEndGame);
+      RefreshAfterChangeTurn(SymbolSign.X);
     }
 
     public override void ChangeTurningPlayer(SymbolSign activeSign)

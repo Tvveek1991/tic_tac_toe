@@ -69,11 +69,12 @@ namespace _Project.Scripts.Features.EndGameScreen
       if (sign != SymbolSign.None)
         _gameMetaProvider.AddWinStreak(_gameMetaProvider.GetPlayerView().GetSymbol() == sign);
 
-      if (_gameMetaProvider.GetWinStreak() < 2)
+      if (_gameMetaProvider.GetWinStreak(true) < 2)
         return;
 
-      _endGameWindow.WinStreakText.transform.parent.gameObject.SetActive(true);
-      _endGameWindow.WinStreakText.text = _localeSystem.GetText("") + " " + _gameMetaProvider.GetWinStreak();
+      _endGameWindow.BestWinStreakText.transform.parent.gameObject.SetActive(true);
+      _endGameWindow.WinStreakText.text = _localeSystem.GetText("") + " " + _gameMetaProvider.GetWinStreak(false);
+      _endGameWindow.BestWinStreakText.text = _localeSystem.GetText("") + " " + _gameMetaProvider.GetWinStreak(true);
     }
 
     private void LoadResult()

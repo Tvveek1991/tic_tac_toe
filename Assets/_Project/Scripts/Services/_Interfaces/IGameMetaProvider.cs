@@ -32,6 +32,6 @@ namespace _Project.Scripts.Services._Interfaces
     void CreateBotData(SymbolSign botSign);
 
     void AddWinStreak(bool isWin);
-    uint GetWinStreak();
+    uint GetWinStreak(bool isBest);
   }
 }
