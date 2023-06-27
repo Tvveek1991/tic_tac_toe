@@ -38,21 +38,21 @@ Rate.Description	Тебе понравилось в нашем приложен�
 Rate.Rate	Оценить	Rate
 Rate.Thanks	Большое спасибо за оценку!	Thank you so much for rating!
 Rate.Welcome	Пожалуйста	You're welcome
-ShopName.Figures_X	Figures_X	Figures_X
-ShopName.Figures_O	Figures_O	Figures_O
-ShopName.Field	Field	Field
-ShopName.Music	Music	Music
-SignXItem.Name_1	SignXItem._2	SignXItem._3
-SignXItem.Name_2	SignXItem._3	SignXItem._4
-SignXItem.Name_3	SignXItem._4	SignXItem._5
-SignOItem.Name_1	SignOItem._2	SignOItem._3
-SignOItem.Name_2	SignOItem._3	SignOItem._4
-SignOItem.Name_3	SignOItem._4	SignOItem._5
-FieldItem.Name_1	FieldItem._2	FieldItem._3
-FieldItem.Name_2	FieldItem._3	FieldItem._4
-FieldItem.Name_3	FieldItem._4	FieldItem._5
-MusicItem.Name_1	MusicItem._2	MusicItem._3
-MusicItem.Name_2	MusicItem._3	MusicItem._4
-MusicItem.Name_3	MusicItem._4	MusicItem._5
+SignItem.DefaultX	Крестик	Cross
+SignItem.DefaultO	Нолик	Zero
+SignItem.Dice	Кубик	Dice
+SignItem.Сhess	Шахматы	Chess
+SignItem.Cookie	Печенье	Cookies
+SignItem.LollyPop	Леденцы	Lolly Pop
+FieldItem.Classic	Классика	Classic
+FieldItem.Castle	Крепость	Castle
+MusicItem.Name_1	Нежный шепот	Tranquil Harmony
+MusicItem.Name_2	Объятия безмятежности	Serenity's Embrace
+MusicItem.Name_3	Энергетическое безумие	Energetic Frenzy
 Mode.Classic	Классика	Classic
 Mode.Buhurt	5на5	5*5
+EndGame.BestWinStreak	Лучшая серия побед	Best Win Streak
+EndGame.WinStreak	Серия побед	Win Streak
+EndGame.Winner	Победил игрок:	Win player:
+EndGame.Draw	Ничья	Draw
+Shop.Get	Забрать	Get

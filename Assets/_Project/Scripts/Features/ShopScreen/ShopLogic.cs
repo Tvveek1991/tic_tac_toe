@@ -170,7 +170,7 @@ namespace _Project.Scripts.Features.ShopScreen
         ShopItemData item = _itemsDataMap[t.Type][index];
         ScrollViewItemButton scrollViewItemButton = _shopFactory.CreateItemButton(_shopItemsView[t.Type].ContentParent);
 
-        string level = item.Description.Equals("") ? string.Empty : "112 " /*+ string.Format(_localeSystem.GetText("Level"), index + 1)*/;
+        string level = item.Description.Equals("") ? string.Empty : "" /*+ string.Format(_localeSystem.GetText("Level"), index + 1)*/;
         string description = _localeSystem.GetText(item.Name) + level;
 
         scrollViewItemButton.Construct(_localeSystem, _unlockService,

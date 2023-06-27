@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Symbols X Item 005
   m_EditorClassIdentifier: 
   Id: 1b9218d7-c4b9-4710-8a5a-59e6a10e491a
-  Name: SignXItem.Name_5
-  Description: SignXItem.Desc_5
+  Name: SignItem.LollyPop
+  Description: 
   itemType: 0
   _icon: {fileID: 21300000, guid: ce42a76897a28634486fb5ba7f675067, type: 3}
   _previewScaleFactor: 1

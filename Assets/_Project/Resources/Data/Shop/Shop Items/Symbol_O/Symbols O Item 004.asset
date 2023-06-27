@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Symbols O Item 004
   m_EditorClassIdentifier: 
   Id: 9f198c90-6bfd-4d44-9d11-f15c878b49e2
-  Name: SignOItem.Name_4
-  Description: SignOItem.Desc_4
+  Name: "SignItem.\u0421hess"
+  Description: 
   itemType: 1
   _icon: {fileID: 21300000, guid: 7b6682b08b141694aa14db64da337b27, type: 3}
   _previewScaleFactor: 1

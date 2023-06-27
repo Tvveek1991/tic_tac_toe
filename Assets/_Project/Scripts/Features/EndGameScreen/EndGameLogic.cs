@@ -73,8 +73,8 @@ namespace _Project.Scripts.Features.EndGameScreen
         return;
 
       _endGameWindow.BestWinStreakText.transform.parent.gameObject.SetActive(true);
-      _endGameWindow.WinStreakText.text = _localeSystem.GetText("") + " " + _gameMetaProvider.GetWinStreak(false);
-      _endGameWindow.BestWinStreakText.text = _localeSystem.GetText("") + " " + _gameMetaProvider.GetWinStreak(true);
+      _endGameWindow.WinStreakText.text = _localeSystem.GetText("EndGame.WinStreak") + " " + _gameMetaProvider.GetWinStreak(false);
+      _endGameWindow.BestWinStreakText.text = _localeSystem.GetText("EndGame.BestWinStreak") + " " + _gameMetaProvider.GetWinStreak(true);
     }
 
     private void LoadResult()

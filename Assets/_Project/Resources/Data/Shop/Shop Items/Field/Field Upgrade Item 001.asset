@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Field Upgrade Item 001
   m_EditorClassIdentifier: 
   Id: a965a9fc-31fc-4d04-b521-1862bd225e63
-  Name: FieldItem.Name_1
-  Description: FieldItem.Desc_1
+  Name: FieldItem.Classic
+  Description: 
   itemType: 2
   _icon: {fileID: 21300000, guid: ea3a51adc7ff645478d805a0219b88d0, type: 3}
   _previewScaleFactor: 0.7

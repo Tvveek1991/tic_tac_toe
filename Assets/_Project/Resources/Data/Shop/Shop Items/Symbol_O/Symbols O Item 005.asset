@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Symbols O Item 005
   m_EditorClassIdentifier: 
   Id: 146a68c7-1ecf-4cd3-be78-1bfbabc8b04a
-  Name: SignOItem.Name_5
-  Description: SignOItem.Desc_5
+  Name: SignItem.Cookie
+  Description: 
   itemType: 1
   _icon: {fileID: 21300000, guid: 7b6682b08b141694aa14db64da337b27, type: 3}
   _previewScaleFactor: 1
