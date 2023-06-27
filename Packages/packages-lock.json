@@ -43,7 +43,7 @@
       "url": "http://165.227.167.227:4873"
     },
     "com.sablegames.ads": {
-      "version": "1.0.0",
+      "version": "1.0.1",
       "depth": 0,
       "source": "registry",
       "dependencies": {
