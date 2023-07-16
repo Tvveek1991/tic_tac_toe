@@ -11,9 +11,9 @@ namespace _Project.Scripts.Core_Logic.Zenject
   {
     public override void InstallBindings()
     {
-      Container.Bind<IAnalytics>().To<SableGamesAnalytics.AnalyticsDummy>().AsSingle();
-      Container.Bind<IRemote>().To<RemoteDummy>().AsSingle();
-      Container.Bind<IAdsService>().To<AdsDummy>().AsSingle();
+      Container.Bind<IAnalytics>().To<SableGamesAnalytics.Analytics>().AsSingle();
+      Container.Bind<IRemote>().To<Remote>().AsSingle();
+      Container.Bind<IAdsService>().To<AdsService>().AsSingle();
     }
   }
 }

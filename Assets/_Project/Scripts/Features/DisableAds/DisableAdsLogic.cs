@@ -159,8 +159,8 @@ namespace _Project.Scripts.Features.DisableAds
 
     private void OnShowAds()
     {
-      // _analytics.Send("btn_no_ads_24h");
-      // _adsService.Rewarded.ShowReward("DisableAds", OnReward, OnNotLoadedAds);
+      _analytics.Send("btn_no_ads_24h");
+      _adsService.Rewarded.ShowReward("DisableAds", OnReward, OnNotLoadedAds);
     }
 
     private void OnReward()
