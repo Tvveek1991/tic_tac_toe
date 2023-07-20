@@ -64,7 +64,7 @@ namespace _Project.Scripts.Features.GameScreen
 
     public void CreateField()
     {
-      GameField = Create<GameField>(GameFieldPath);
+      GameField = Create<GameField>(GameFieldPath, GameObject.Find(CanvasPath).transform);
       GameFieldLogic = new GameFieldLogic(GameField, _audioService, _gameMetaProvider);
     }
     public void CreateEndGame()

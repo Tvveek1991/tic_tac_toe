@@ -55,9 +55,9 @@ namespace _Project.Scripts.Features.GameScreen
     public void Enter(bool isHost)
     {
       _inputResolver.Disable();
-      
-      _gameFactory.CreateField();
+
       _gameFactory.CreateScreen();
+      _gameFactory.CreateField();
       _gameFactory.CreateEndGame();
 
       _gameFactory.EndGameLogic.Construct(OnClickBack, OnClickPlayAgain);

@@ -22,8 +22,8 @@ namespace _Project.Scripts.Features.Field.Mono
     {
       _onClickCell = onClickCell;
 
-      _meshFilter = GetComponentsInChildren<MeshFilter>()[1];
-      _meshRenderer = GetComponentsInChildren<MeshRenderer>()[1];
+      _meshFilter = GetComponentInChildren<MeshFilter>();
+      _meshRenderer = GetComponentInChildren<MeshRenderer>();
     }
 
     public SymbolSign GetSymbol() =>
