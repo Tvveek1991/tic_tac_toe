@@ -4,6 +4,7 @@ using _Project.Scripts.Animation;
 using _Project.Scripts.Animations.UI;
 using _Project.Scripts.Core_Logic.Screens;
 using _Project.Scripts.Core_Logic.StatesMachine.Interfaces;
+using _Project.Scripts.Core_Logic.StatesMachine.States;
 using _Project.Scripts.Features.Policy;
 using _Project.Scripts.Services._Interfaces;
 using _Project.Scripts.Services.Audio.Enum;
@@ -66,14 +67,13 @@ namespace _Project.Scripts.Features.Settings
 
     private PrivacyPolicy _privacyPolicy;
     private IPrivacyPolicyFactory _privacyPolicyFactory;
-    
+
     private IGameStateMachine _gameStateMachine;
 
     private List<FadeCanvasGroup> _fadeCanvasGroups;
     private SlideWindow _slideWindow;
 
     private string _cachedScreen;
-    private IAdsService _adsService;
     private IRemote _remote;
 
     public void Construct(
@@ -84,11 +84,9 @@ namespace _Project.Scripts.Features.Settings
       IAnalytics analytics,
       IPrivacyPolicyFactory privacyPolicyFactor,
       ICurrentScreen screenManager,
-      IAdsService adsService,
       IRemote remote)
     {
       _remote = remote;
-      _adsService = adsService;
       _screenManager = screenManager;
       _gameStateMachine = gameStateMachine;
 
@@ -98,7 +96,8 @@ namespace _Project.Scripts.Features.Settings
 
       _privacyPolicyFactory = privacyPolicyFactor;
       _privacyPolicy = _privacyPolicyFactory.SpawnPrivacyPolicy();
-      _privacyPolicy.Construct(_gameSaveSystem, _audioService, localeSystem, analytics, _remote);
+      _privacyPolicy.Construct(_gameSaveSystem, _audioService, localeSystem, analytics, _remote, 
+        () => { _gameStateMachine.Enter<LoadPolicyState>(); });
 
       Localize(localeSystem);
       LoadSprites();
@@ -148,10 +147,7 @@ namespace _Project.Scripts.Features.Settings
 
     private void CloseWindow()
     {
-      _slideWindow.Close(null, () =>
-      {
-        gameObject.SetActive(false);
-      });
+      _slideWindow.Close(null, () => { gameObject.SetActive(false); });
 
       _fadeCanvasGroups.ToArray().ForEach(x => x.Disappear());
     }
@@ -253,8 +249,8 @@ namespace _Project.Scripts.Features.Settings
       Sound
     }
 
-    
-    public void Clear() => 
+
+    public void Clear() =>
       _privacyPolicyFactory.Clear();
   }
 }

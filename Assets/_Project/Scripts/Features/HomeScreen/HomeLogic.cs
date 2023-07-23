@@ -78,7 +78,7 @@ namespace _Project.Scripts.Features.HomeScreen
 
       _uiFactory.SpawnSettingsWindow();
       _uiFactory.SettingsWindow.Construct(_gameStateMachine, _gameSaveSystem, _audioService, _localeSystem,
-        _analytics, privacyPolicyFactory, _currentScreen, _adsService, _remote);
+        _analytics, privacyPolicyFactory, _currentScreen, _remote);
 
       CheckNetwork();
 

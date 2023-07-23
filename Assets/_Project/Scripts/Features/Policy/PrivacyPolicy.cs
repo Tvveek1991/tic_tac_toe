@@ -8,6 +8,7 @@ using _Project.Scripts.Services.Audio.Enum;
 using _Project.Scripts.Services.Audio.Executor;
 using _Project.Scripts.Services.Localization.Logic;
 using _Project.Scripts.Services.Localization.Mono;
+using DG.Tweening;
 using SableGamesAnalytics.Scripts.Interfaces;
 using SableGamesRemote.Scripts.Interfaces;
 using TMPro;
@@ -19,23 +20,31 @@ namespace _Project.Scripts.Features.Policy
 {
   public class PrivacyPolicy : MonoBehaviour
   {
-    [Header("AcceptScreen")] [SerializeField]
-    private GameObject acceptScreen;
+    private const float Duration = .25f;
 
-    [SerializeField] private Button linkButton;
-    [SerializeField] private Button acceptButton1;
+    [SerializeField] private CanvasGroup scrollCanvasGroup;
+    [SerializeField] private CanvasGroup deniedCanvasGroup;
 
-    [Header("ScrollScreen")] [SerializeField]
-    private ScrollRect scrollRect;
+    [Header("Accept part")] [SerializeField]
+    private Button buttonLink;
 
-    [SerializeField] private GameObject scrollScreen;
-    [SerializeField] private Button acceptButton2;
-    [SerializeField] private Button backButton;
+    [SerializeField] private Button buttonAccept;
 
-    [SerializeField] private Button denyButton;
-    [SerializeField] private CanvasGroup denyButtonCanvasGroup;
-    
+    [Header("Scroll part")] [SerializeField]
+    private Button buttonBack;
+
+    [SerializeField] private Button buttonScrollAccept;
+    [SerializeField] private GameObject toggles;
+
+    [SerializeField] private Toggle toggleDeny;
+    [SerializeField] private Toggle togglePersonalized;
+
     [SerializeField] private TextMeshProUGUI _policyText;
+
+    [Header("Denied part")] [SerializeField]
+    private Button buttonYes;
+
+    [SerializeField] private Button buttonNo;
 
     public event Action ClosingStarted;
     public event Action ClosingFinished;
@@ -48,32 +57,36 @@ namespace _Project.Scripts.Features.Policy
     private FadeImage _fadeBlurPanel;
     private List<FadeCanvasGroup> _fadeCanvasGroups;
 
+    private Action _onDeny;
+
     public void Construct(IGameSaveSystem gameSaveSystem, IAudioService audioService,
-      ILocaleSystem localeSystem, IAnalytics analytics, IRemote remote)
+      ILocaleSystem localeSystem, IAnalytics analytics, IRemote remote, Action onDeny = null)
     {
+      _onDeny = onDeny;
+      
       _remote = remote;
       _analytics = analytics;
       _audioService = audioService;
       _gameSaveSystem = gameSaveSystem;
-
-      AssignFades();
-
-      gameObject.SetActive(false);
-
-      denyButton.gameObject.SetActive(_gameSaveSystem.Get().IsPolicyAccepted);
       
-      denyButtonCanvasGroup.interactable = false;
-      denyButtonCanvasGroup.alpha = 0.5f;
-
-      Localize(localeSystem);
-
+      AddSounds();
+      AssignFades();
       AssignAnimations();
+      AssignListeners();
+      
+      Localize(localeSystem);
+      
+      VisibilityScrollPart(_gameSaveSystem.Get().IsPolicyAccepted);
 
-      scrollRect.onValueChanged.AddListener(OnDrag);
-
+      toggles.gameObject.SetActive(_gameSaveSystem.Get().IsPolicyAccepted);
+      buttonBack.gameObject.SetActive(_gameSaveSystem.Get().IsPolicyAccepted);
+      buttonScrollAccept.gameObject.SetActive(!_gameSaveSystem.Get().IsPolicyAccepted);
+      
       FetchPolicyText();
+      
+      gameObject.SetActive(false);
     }
-    
+
     private void FetchPolicyText()
     {
       string policyText = _remote.GetPrivacyText();
@@ -84,34 +97,11 @@ namespace _Project.Scripts.Features.Policy
       _policyText.text = policyText;
     }
 
-    private void OnDrag(Vector2 arg0)
-    {
-      float normalizedPosition = scrollRect.verticalNormalizedPosition;
-
-      if (normalizedPosition <= 0.01f)
-      {
-        denyButtonCanvasGroup.interactable = true;
-        denyButtonCanvasGroup.alpha = 1f;
-        
-        new ButtonAnimation(denyButton.transform);
-        new ButtonSound(_audioService, denyButton.gameObject, AudioId.Click);
-      }
-    }
-
     public void OpenWindow()
     {
       gameObject.SetActive(true);
 
-      if (_gameSaveSystem.Get().IsPolicyAccepted)
-        ShowScrollScreen();
-      else
-        ShowAcceptScreen();
 
-      acceptButton2.gameObject.SetActive(!_gameSaveSystem.Get().IsPolicyAccepted);
-      backButton.gameObject.SetActive(_gameSaveSystem.Get().IsPolicyAccepted);
-
-      AssignListeners();
-      // _inputResolver.Disable();
       _fadeBlurPanel.Appear();
       _fadeCanvasGroups.ForEach(x => x.Appear());
     }
@@ -124,14 +114,21 @@ namespace _Project.Scripts.Features.Policy
 
     private void AssignAnimations()
     {
-      new ButtonAnimation(acceptButton1.transform);
-      new ButtonAnimation(acceptButton2.transform);
-      new ButtonAnimation(backButton.transform);
+      new ButtonAnimation(buttonScrollAccept.transform);
+      new ButtonAnimation(buttonAccept.transform);
+      new ButtonAnimation(buttonBack.transform);
+      new ButtonAnimation(buttonYes.transform);
+      new ButtonAnimation(buttonNo.transform);
+    }
 
-      new ButtonSound(_audioService, acceptButton1.gameObject, AudioId.Click);
-      new ButtonSound(_audioService, acceptButton2.gameObject, AudioId.Click);
-      new ButtonSound(_audioService, backButton.gameObject, AudioId.ClickBack);
-      new ButtonSound(_audioService, linkButton.gameObject, AudioId.Click);
+    private void AddSounds()
+    {
+      new ButtonSound(_audioService, buttonScrollAccept.gameObject, AudioId.Click);
+      new ButtonSound(_audioService, buttonBack.gameObject, AudioId.ClickBack);
+      new ButtonSound(_audioService, buttonAccept.gameObject, AudioId.Click);
+      new ButtonSound(_audioService, buttonLink.gameObject, AudioId.Click);
+      new ButtonSound(_audioService, buttonYes.gameObject, AudioId.Click);
+      new ButtonSound(_audioService, buttonNo.gameObject, AudioId.Click);
     }
 
     private void Localize(ILocaleSystem localeSystem)
@@ -161,7 +158,7 @@ namespace _Project.Scripts.Features.Policy
 
       _audioService.Clean();
 
-      SceneManager.LoadScene("Main");
+      _onDeny?.Invoke();
     }
 
     private void Back() =>
@@ -172,7 +169,7 @@ namespace _Project.Scripts.Features.Policy
       _fadeBlurPanel.Disappear(null, OnClosingFinished);
       _fadeCanvasGroups.ForEach(x => x.Disappear());
       ClosingStarted?.Invoke();
-      RemoveListeners();
+
       gameObject.SetActive(false);
       ClosingFinished?.Invoke();
 
@@ -183,41 +180,37 @@ namespace _Project.Scripts.Features.Policy
       }
     }
 
-    private void ShowAcceptScreen()
+    private void VisibilityScrollPart(bool isVisible)
     {
-      acceptScreen.gameObject.SetActive(true);
-      scrollScreen.gameObject.SetActive(false);
+      scrollCanvasGroup.DOFade(isVisible ? 1f : 0f, Duration);
+      scrollCanvasGroup.blocksRaycasts = isVisible;
     }
 
-    private void ShowScrollScreen()
+    private void VisibilityDeniedPart(bool isVisible)
     {
-      acceptScreen.gameObject.SetActive(false);
-      scrollScreen.gameObject.SetActive(true);
+      deniedCanvasGroup.DOFade(isVisible ? 1f : 0f, Duration);
+      deniedCanvasGroup.blocksRaycasts = isVisible;
     }
 
     private void AssignListeners()
     {
-      if (!_gameSaveSystem.Get().IsPolicyAccepted)
+      buttonBack.onClick.AddListener(Back);
+      buttonAccept.onClick.AddListener(Accept);
+      buttonScrollAccept.onClick.AddListener(Accept);
+      buttonLink.onClick.AddListener(() => VisibilityScrollPart(true));
+      
+      buttonYes.onClick.AddListener(Deny);
+      buttonNo.onClick.AddListener(() =>
       {
-        linkButton.onClick.AddListener(ShowScrollScreen);
-        acceptButton1.onClick.AddListener(Accept);
-        acceptButton2.onClick.AddListener(Accept);
-      }
-      else
+        toggleDeny.isOn = true;
+        VisibilityDeniedPart(false);
+      });
+
+      toggleDeny.onValueChanged.AddListener(delegate(bool isOn)
       {
-        denyButton.onClick.AddListener(Deny);
-        backButton.onClick.AddListener(Back);
-      }
-    }
-
-    private void RemoveListeners()
-    {
-      linkButton.onClick.RemoveListener(ShowScrollScreen);
-      acceptButton1.onClick.RemoveListener(Accept);
-      acceptButton2.onClick.RemoveListener(Accept);
-
-      denyButton.onClick.RemoveListener(Deny);
-      backButton.onClick.RemoveListener(Back);
+        if(!isOn)
+          VisibilityDeniedPart(true);
+      });
     }
 
     private void AssignFades()
@@ -225,9 +218,10 @@ namespace _Project.Scripts.Features.Policy
       _fadeBlurPanel = new FadeImage(GetComponent<Image>());
       _fadeCanvasGroups = new List<FadeCanvasGroup>();
 
-      var groups = GetComponentsInChildren<CanvasGroup>(true).ToList();
-      groups.Remove(denyButtonCanvasGroup);
-      
+      List<CanvasGroup> groups = GetComponentsInChildren<CanvasGroup>(true).ToList();
+      groups.Remove(scrollCanvasGroup);
+      groups.Remove(deniedCanvasGroup);
+
       foreach (CanvasGroup canvasGroup in groups)
         _fadeCanvasGroups.Add(new FadeCanvasGroup(canvasGroup));
     }
