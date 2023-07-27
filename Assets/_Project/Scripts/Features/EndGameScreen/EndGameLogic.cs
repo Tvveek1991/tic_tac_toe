@@ -7,6 +7,7 @@ using _Project.Scripts.Services.Audio.Enum;
 using _Project.Scripts.Services.Audio.Executor;
 using _Project.Scripts.Services.Localization.Logic;
 using DG.Tweening;
+using UnityEngine;
 
 namespace _Project.Scripts.Features.EndGameScreen
 {
@@ -31,22 +32,11 @@ namespace _Project.Scripts.Features.EndGameScreen
     public void Construct(Action onClickHome, Action onClickPlayAgain)
     {
       _endGameWindow.ButtonHome.onClick.AddListener(() => onClickHome?.Invoke());
+      _endGameWindow.ButtonOk.onClick.AddListener(OnClickOk);
       _endGameWindow.ButtonPlayAgain.onClick.AddListener(() => onClickPlayAgain?.Invoke());
 
       AddAnimations();
       AddSounds();
-    }
-
-    private void AddSounds()
-    {
-      new ButtonSound(_audioService, _endGameWindow.ButtonHome.gameObject, AudioId.ClickBack);
-      new ButtonSound(_audioService, _endGameWindow.ButtonPlayAgain.gameObject, AudioId.Click);
-    }
-
-    private void AddAnimations()
-    {
-      new ButtonAnimation(_endGameWindow.ButtonHome.transform);
-      new ButtonAnimation(_endGameWindow.ButtonPlayAgain.transform);
     }
 
     public void Show(SymbolSign sign)
@@ -59,6 +49,31 @@ namespace _Project.Scripts.Features.EndGameScreen
 
       _endGameWindow.CanvasGroup.DOFade(1f, Duration)
         .OnComplete(() => { _endGameWindow.CanvasGroup.blocksRaycasts = true; });
+    }
+
+    private void OnClickOk()
+    {
+      _endGameWindow.WinnerCanvasGroup.blocksRaycasts = false;
+      _endGameWindow.WinnerCanvasGroup.DOFade(0, Duration)
+        .OnComplete(() =>
+        {
+          _endGameWindow.EndCanvasGroup.blocksRaycasts = true;
+          _endGameWindow.EndCanvasGroup.DOFade(1f, Duration);
+        });
+    }
+
+    private void AddSounds()
+    {
+      new ButtonSound(_audioService, _endGameWindow.ButtonHome.gameObject, AudioId.ClickBack);
+      new ButtonSound(_audioService, _endGameWindow.ButtonPlayAgain.gameObject, AudioId.Click);
+      new ButtonSound(_audioService, _endGameWindow.ButtonOk.gameObject, AudioId.Click);
+    }
+
+    private void AddAnimations()
+    {
+      new ButtonAnimation(_endGameWindow.ButtonOk.transform);
+      new ButtonAnimation(_endGameWindow.ButtonHome.transform);
+      new ButtonAnimation(_endGameWindow.ButtonPlayAgain.transform);
     }
 
     private void LoadWinStreak(SymbolSign sign)
@@ -92,18 +107,7 @@ namespace _Project.Scripts.Features.EndGameScreen
       }
     }
 
-    private void LoadTitle(SymbolSign sign)
-    {
-      if (sign == SymbolSign.None)
-      {
-        _endGameWindow.TitleIcon.gameObject.SetActive(false);
-        _endGameWindow.TitleText.text = _localeSystem.GetText("EndGame.Draw");
-      }
-      else
-      {
-        _endGameWindow.TitleIcon.sprite = _gameMetaProvider.GetIcon(sign);
-        _endGameWindow.TitleText.text = _localeSystem.GetText("EndGame.Winner");
-      }
-    }
+    private void LoadTitle(SymbolSign sign) =>
+      _endGameWindow.TitleIcon.sprite = sign == SymbolSign.None ? _endGameWindow.Draw : _gameMetaProvider.GetIcon(sign);
   }
 }

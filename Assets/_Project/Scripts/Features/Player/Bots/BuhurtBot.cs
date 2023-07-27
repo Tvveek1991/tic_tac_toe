@@ -51,7 +51,10 @@ namespace _Project.Scripts.Features.Player.Bots
         return -1;
 
       if (FindAllPotentialTurns(Potential.Winner))
+      {
+        IsWinnTurn = true;
         return ChooseSizeTurn();
+      }
       
       if (FindAllPotentialTurns(Potential.Lose))
         return ChooseSizeTurn();

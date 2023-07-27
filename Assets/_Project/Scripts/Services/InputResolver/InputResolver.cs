@@ -7,7 +7,7 @@ namespace _Project.Scripts.Services.InputResolver
   {
     private readonly List<INonUIInput> _inputModules = new List<INonUIInput>();
 
-    public bool IsLocked { get; set; }
+    public bool IsLocked { get; private set; }
 
     public void Register(INonUIInput inputUnit)
     {

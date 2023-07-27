@@ -53,8 +53,8 @@ namespace _Project.Scripts.Core_Logic.StatesMachine.States
 
     public void Enter(bool isHost)
     {
-      _gameLogic = new GameLogic(_gameStateMachine, _assetProvider, _currentScreen, _gameSaveSystem, _adsService,
-        _analytics, _localeSystem, _audioService, _remote, _gameMetaProvider, _inputResolver, _loadingLogic);
+      _gameLogic = new GameLogic(_gameStateMachine, _assetProvider, _adsService,
+        _localeSystem, _audioService, _gameMetaProvider, _inputResolver, _loadingLogic);
       _gameLogic.Enter(isHost);
     }
 

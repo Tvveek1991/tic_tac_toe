@@ -38,9 +38,12 @@ namespace _Project.Scripts.Features.Player.Bots
 
       if (BestScores.Count == 0)
         return -1;
-      
+
       if (FindAllPotentialTurns(Potential.Winner))
+      {
+        IsWinnTurn = true;
         return BestTurns[Random.Range(0, BestTurns.Count)];
+      }
 
       if (CheckDifficult(out int bestMove))
         return bestMove;

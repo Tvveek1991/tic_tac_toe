@@ -28,6 +28,8 @@ namespace _Project.Scripts.Features.Player.Bots
 
     protected DragableData DragableData;
 
+    protected bool IsWinnTurn;
+
     private readonly List<int[]> _lines = new List<int[]>
     {
       new[] {0, 1, 2}, new[] {3, 4, 5}, new[] {6, 7, 8}, // horizontals
@@ -65,7 +67,7 @@ namespace _Project.Scripts.Features.Player.Bots
       };
     }
 
-    public void BotTurn(Action onEndTurn, Action onEndGame)
+    public async void BotTurn(Action onEndTurn, Action onEndGame)
     {
       var symbolCells = new SymbolCell[_gameFactory.GameFieldLogic.GetField().Length];
       var board = new SymbolSign[_gameFactory.GameFieldLogic.GetField().Length];
@@ -77,8 +79,7 @@ namespace _Project.Scripts.Features.Player.Bots
         board[3 * y + x] = _gameFactory.GameFieldLogic.GetField()[y, x].GetSymbol();
       }
 
-      Wait(onEndTurn, () =>
-      {
+      await Wait(() => {
         int bestMove = GetBestMove(board, symbolCells);
 
         if (bestMove >= 0)
@@ -86,6 +87,11 @@ namespace _Project.Scripts.Features.Player.Bots
         else
           onEndGame?.Invoke();
       });
+      
+      if(IsWinnTurn)
+        return;
+      
+      onEndTurn?.Invoke();
     }
 
     protected virtual int GetBestMove(SymbolSign[] board, SymbolCell[] symbolCells) =>
@@ -136,11 +142,10 @@ namespace _Project.Scripts.Features.Player.Bots
       }
     }
 
-    private async void Wait(Action onEndTurn, Action makeTurn)
+    private async Task Wait(Action makeTurn)
     {
       await Task.Delay(TimeSpan.FromSeconds(1f));
       makeTurn?.Invoke();
-      onEndTurn?.Invoke();
     }
 
     private bool CheckBigPotential(SymbolSign[] board, int[] line)

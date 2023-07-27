@@ -39,10 +39,7 @@ namespace _Project.Scripts.Features.GameScreen
     private void BotTurn()
     {
       InputResolver.Disable();
-      _bot?.BotTurn(OnTurnEnd, () =>
-      {
-        OnEndGame?.Invoke(SymbolSign.None);
-      });
+      _bot?.BotTurn(OnTurnEnd, () => { OnEndGame?.Invoke(SymbolSign.None); });
 
       void OnTurnEnd()
       {
