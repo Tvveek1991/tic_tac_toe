@@ -11,18 +11,21 @@ using _Project.Scripts.Services.Localization.Logic;
 using _Project.Scripts.Services.Localization.Mono;
 using DG.Tweening;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace _Project.Scripts.Features.HomeScreen
 {
   public class HomeViewLogic : IHomeViewLogic
   {
-    private const float SwitcherTime = .25f;
+    private const float Duration = .25f;
 
     private readonly HomeViewMono _homeViewMono;
     private readonly ILocaleSystem _localeSystem;
     private readonly IAudioService _audioService;
     private readonly IGameMetaProvider _gameMetaProvider;
 
+    private Action<bool> _toGame;
+    
     public HomeViewLogic(HomeViewMono homeViewMono, ILocaleSystem localeSystem, IAudioService audioService, IGameMetaProvider gameMetaProvider)
     {
       _homeViewMono = homeViewMono;
@@ -33,19 +36,18 @@ namespace _Project.Scripts.Features.HomeScreen
 
     public void Construct(Action openSettingsWindow, Action toShop, Action<bool> toGame, Action toNoAds)
     {
+      _toGame = toGame;
+      
       _homeViewMono.ShopButton.onClick.AddListener(toShop.Invoke);
       _homeViewMono.NoAdsButton.onClick.AddListener(toNoAds.Invoke);
-      _homeViewMono.CreateButton.onClick.AddListener(() => toGame.Invoke(true));
-      _homeViewMono.ConnectButton.onClick.AddListener(() => toGame.Invoke(false));
       _homeViewMono.SettingsButton.onClick.AddListener(openSettingsWindow.Invoke);
-
-      _homeViewMono.BackButton.onClick.AddListener(() => SetEnemyTypePanel(false));
-      _homeViewMono.ScreenButton.onClick.AddListener(() => SetEnemyTypePanel(false));
 
       _homeViewMono.ClassicButton.onClick.AddListener(() => OnClickGame(Game.Classic));
       _homeViewMono.BuhurtButton.onClick.AddListener(() => OnClickGame(Game.Buhurt));
 
-      _homeViewMono.EnemyTypeButton.onClick.AddListener(() => SwitchEnemy(_gameMetaProvider.GetEnemyType() != EnemyType.OneDevice));
+      _homeViewMono.FriendsButton.onClick.AddListener(() => SwitchEnemy(true));
+      _homeViewMono.SingleButton.onClick.AddListener(() => SwitchEnemy(false));
+
       SwitchEnemy(_gameMetaProvider.GetEnemyType() == EnemyType.OneDevice);
 
       CreateAnimations();
@@ -67,11 +69,8 @@ namespace _Project.Scripts.Features.HomeScreen
     private void CreateAnimations()
     {
       new ButtonAnimation(_homeViewMono.ShopButton.transform);
-      new ButtonAnimation(_homeViewMono.CreateButton.transform);
-      new ButtonAnimation(_homeViewMono.ConnectButton.transform);
       new ButtonAnimation(_homeViewMono.SettingsButton.transform);
       new ButtonAnimation(_homeViewMono.NoAdsButton.transform);
-      new ButtonAnimation(_homeViewMono.BackButton.transform);
       
       new ButtonAnimation(_homeViewMono.ClassicButton.transform);
       new ButtonAnimation(_homeViewMono.BuhurtButton.transform);
@@ -83,34 +82,25 @@ namespace _Project.Scripts.Features.HomeScreen
       new ButtonSound(_audioService, _homeViewMono.NoAdsButton.gameObject, AudioId.Click);
       new ButtonSound(_audioService, _homeViewMono.SettingsButton.gameObject, AudioId.Click);
       
-      new ButtonSound(_audioService, _homeViewMono.EnemyTypeButton.gameObject, AudioId.Click);
-      
       new ButtonSound(_audioService, _homeViewMono.ClassicButton.gameObject, AudioId.Click);
       new ButtonSound(_audioService, _homeViewMono.BuhurtButton.gameObject, AudioId.Click);
-      
-      new ButtonSound(_audioService, _homeViewMono.BackButton.gameObject, AudioId.ClickBack);
-      new ButtonSound(_audioService, _homeViewMono.CreateButton.gameObject, AudioId.StartButton);
       
       _audioService.Play(_gameMetaProvider.GetMusic());
     }
 
     private void OnClickGame(Game gameMode)
     {
-      SetEnemyTypePanel(true);
       _gameMetaProvider.SetGame(gameMode);
-
+      _toGame.Invoke(true);
       Debug.Log("On game change " + _gameMetaProvider.GetGame());
     }
 
-    private void SetEnemyTypePanel(bool isOn)
+    private void SwitchEnemy(bool isOneDevice)
     {
-      _homeViewMono.EnemyTypeCanvasGroup.blocksRaycasts = isOn;
-      _homeViewMono.EnemyTypeCanvasGroup.DOFade(isOn ? 1f: 0f, SwitcherTime);
-    }
-
-    private void SwitchEnemy(bool isOneDevice/*EnemyType type*/)
-    {
-      _homeViewMono.SwitcherEnemyType.DOLocalMove(isOneDevice ? Vector3.left * 50 : Vector3.right * 50, SwitcherTime);
+      _homeViewMono.SingleButton.GetComponent<Image>().DOFade(isOneDevice? .05f : 1f, Duration);
+      _homeViewMono.FriendsButton.GetComponent<Image>().DOFade(isOneDevice? 1f : .05f, Duration);
+      
+      // _homeViewMono.SwitcherEnemyType.DOLocalMove(isOneDevice ? Vector3.left * 50 : Vector3.right * 50, SwitcherTime);
 
       _gameMetaProvider.SetEnemyType(isOneDevice ? EnemyType.OneDevice : EnemyType.Bot);
       Debug.Log("On enemy change " + _gameMetaProvider.GetEnemyType());
@@ -119,8 +109,5 @@ namespace _Project.Scripts.Features.HomeScreen
       // music.sprite = mute ? Inactive : Active;
       // music.color = mute ? InactiveColor : Color.white;
     }
-    
-    public string GetInputIp() =>
-      _homeViewMono.IpInputField.text;
   }
 }

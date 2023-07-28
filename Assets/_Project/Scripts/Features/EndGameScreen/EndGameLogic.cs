@@ -7,13 +7,12 @@ using _Project.Scripts.Services.Audio.Enum;
 using _Project.Scripts.Services.Audio.Executor;
 using _Project.Scripts.Services.Localization.Logic;
 using DG.Tweening;
-using UnityEngine;
 
 namespace _Project.Scripts.Features.EndGameScreen
 {
   public class EndGameLogic : IEndGameLogic
   {
-    private const float Duration = .5f;
+    private const float Duration = .25f;
     private readonly EndGameMono _endGameWindow;
 
     private readonly IAudioService _audioService;
