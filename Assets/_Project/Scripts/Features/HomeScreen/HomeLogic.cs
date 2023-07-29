@@ -86,6 +86,8 @@ namespace _Project.Scripts.Features.HomeScreen
         delegate { Debug.Log("OnSwitchDisableAds"); }, () => Debug.Log("OnClose"));
       
       _inAppService.AddInAppCallback(_disableAdsLogic);
+      
+      _adsService.Banner.HideBanner();
     }
 
     public void CloseHomeView()
