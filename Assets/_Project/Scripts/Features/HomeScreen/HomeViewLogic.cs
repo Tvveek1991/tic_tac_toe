@@ -99,15 +99,9 @@ namespace _Project.Scripts.Features.HomeScreen
     {
       _homeViewMono.SingleButton.GetComponent<Image>().DOFade(isOneDevice? .05f : 1f, Duration);
       _homeViewMono.FriendsButton.GetComponent<Image>().DOFade(isOneDevice? 1f : .05f, Duration);
-      
-      // _homeViewMono.SwitcherEnemyType.DOLocalMove(isOneDevice ? Vector3.left * 50 : Vector3.right * 50, SwitcherTime);
 
       _gameMetaProvider.SetEnemyType(isOneDevice ? EnemyType.OneDevice : EnemyType.Bot);
       Debug.Log("On enemy change " + _gameMetaProvider.GetEnemyType());
-      // IconMusic.sprite = mute ? _musicOff : _musicOn;
-      // var music = SwitcherMusic.parent.GetComponent<Image>();
-      // music.sprite = mute ? Inactive : Active;
-      // music.color = mute ? InactiveColor : Color.white;
     }
   }
 }

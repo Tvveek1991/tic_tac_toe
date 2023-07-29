@@ -9,24 +9,23 @@ namespace _Project.Scripts.Features.EndGameScreen.Mono
 {
   public class EndGameMono : MonoBehaviour
   {
-    public Button ButtonOk;
     public Button ButtonHome;
     public Button ButtonPlayAgain;
 
     public CanvasGroup CanvasGroup;
-    public CanvasGroup WinnerCanvasGroup;
-    public CanvasGroup EndCanvasGroup;
 
     public List<Result> ResultList;
 
     public GameObject ScorePanel;
     
-    public Image TitleIcon;
-    
     public TextMeshProUGUI BestWinStreakText;
     public TextMeshProUGUI WinStreakText;
 
-    public Sprite Draw;
+    [Space(20)]
+    public Image ResultIcon;
+    public Sprite WinIcon;
+    public Sprite LoseIcon;
+    public Sprite DrawIcon;
 
     [Serializable]
     public class Result

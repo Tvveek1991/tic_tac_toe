@@ -31,7 +31,6 @@ namespace _Project.Scripts.Features.EndGameScreen
     public void Construct(Action onClickHome, Action onClickPlayAgain)
     {
       _endGameWindow.ButtonHome.onClick.AddListener(() => onClickHome?.Invoke());
-      _endGameWindow.ButtonOk.onClick.AddListener(OnClickOk);
       _endGameWindow.ButtonPlayAgain.onClick.AddListener(() => onClickPlayAgain?.Invoke());
 
       AddAnimations();
@@ -50,27 +49,14 @@ namespace _Project.Scripts.Features.EndGameScreen
         .OnComplete(() => { _endGameWindow.CanvasGroup.blocksRaycasts = true; });
     }
 
-    private void OnClickOk()
-    {
-      _endGameWindow.WinnerCanvasGroup.blocksRaycasts = false;
-      _endGameWindow.WinnerCanvasGroup.DOFade(0, Duration)
-        .OnComplete(() =>
-        {
-          _endGameWindow.EndCanvasGroup.blocksRaycasts = true;
-          _endGameWindow.EndCanvasGroup.DOFade(1f, Duration);
-        });
-    }
-
     private void AddSounds()
     {
       new ButtonSound(_audioService, _endGameWindow.ButtonHome.gameObject, AudioId.ClickBack);
       new ButtonSound(_audioService, _endGameWindow.ButtonPlayAgain.gameObject, AudioId.Click);
-      new ButtonSound(_audioService, _endGameWindow.ButtonOk.gameObject, AudioId.Click);
     }
 
     private void AddAnimations()
     {
-      new ButtonAnimation(_endGameWindow.ButtonOk.transform);
       new ButtonAnimation(_endGameWindow.ButtonHome.transform);
       new ButtonAnimation(_endGameWindow.ButtonPlayAgain.transform);
     }
@@ -87,8 +73,8 @@ namespace _Project.Scripts.Features.EndGameScreen
         return;
 
       _endGameWindow.BestWinStreakText.transform.parent.gameObject.SetActive(true);
-      _endGameWindow.WinStreakText.text = _localeSystem.GetText("EndGame.WinStreak") + " " + _gameMetaProvider.GetWinStreak(false);
-      _endGameWindow.BestWinStreakText.text = _localeSystem.GetText("EndGame.BestWinStreak") + " " + _gameMetaProvider.GetWinStreak(true);
+      _endGameWindow.WinStreakText.text = _localeSystem.GetText("EndGame.WinStreak") + ": " + _gameMetaProvider.GetWinStreak(false);
+      _endGameWindow.BestWinStreakText.text = _localeSystem.GetText("EndGame.BestWinStreak") + ": " + _gameMetaProvider.GetWinStreak(true);
     }
 
     private void LoadResult()
@@ -107,6 +93,7 @@ namespace _Project.Scripts.Features.EndGameScreen
     }
 
     private void LoadTitle(SymbolSign sign) =>
-      _endGameWindow.TitleIcon.sprite = sign == SymbolSign.None ? _endGameWindow.Draw : _gameMetaProvider.GetIcon(sign);
+      _endGameWindow.ResultIcon.sprite = sign == SymbolSign.None ? _endGameWindow.DrawIcon : 
+        (sign == _gameMetaProvider.GetPlayerView().GetSymbol() ? _endGameWindow.WinIcon :  _endGameWindow.LoseIcon);
   }
 }
