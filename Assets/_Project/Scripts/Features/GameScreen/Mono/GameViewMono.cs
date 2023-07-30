@@ -11,12 +11,8 @@ namespace _Project.Scripts.Features.GameScreen.Mono
   {
     [Space(20)] [SerializeField] private Button backButton;
 
-    [SerializeField] private CanvasGroup loadScreen;
-    [SerializeField] private TextMeshProUGUI loadProgress;
-
-    [Header("Player UI")] 
-    [SerializeField] private TextMeshProUGUI turnText;
-    [SerializeField] private Image symbolImage;
+    [SerializeField] private SymbolOperatorUI playerPart;
+    [SerializeField] private SymbolOperatorUI opponentPart;
 
     [Header("Buhurt UI")] 
     [SerializeField] private CanvasGroup playerFiguresCanvasGroup;
@@ -25,11 +21,8 @@ namespace _Project.Scripts.Features.GameScreen.Mono
     private readonly int _netPlayersCount;
 
     public Button BackButton => backButton;
-    public TextMeshProUGUI TurnText => turnText;
-    public Image SymbolImage => symbolImage;
-
-    public void HideLoadScreen() =>
-      loadScreen.DOFade(0, .5f).OnComplete(() => loadScreen.blocksRaycasts = false);
+    public SymbolOperatorUI PlayerPart => playerPart;
+    public SymbolOperatorUI OpponentPart => opponentPart;
 
     public List<PlayerFigure> GetFigures() =>
       playerFigures;

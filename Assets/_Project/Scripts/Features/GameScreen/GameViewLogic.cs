@@ -73,7 +73,10 @@ namespace _Project.Scripts.Features.GameScreen
 
       GameMetaProvider.GetPlayerView().Construct(_gameFactory, GameMetaProvider, InputResolver);
 
-      _gameViewMono.HideLoadScreen();
+      SymbolSign symbol = GameMetaProvider.GetPlayerView().GetSymbol();
+      
+      _gameViewMono.PlayerPart.Construct(GameMetaProvider.GetIcon(symbol));
+      _gameViewMono.OpponentPart.Construct(GameMetaProvider.GetIcon(symbol == SymbolSign.X ? SymbolSign.O : SymbolSign.X));
 
       if (GameMetaProvider.GetGame() != Game.Buhurt)
         return;
@@ -105,7 +108,20 @@ namespace _Project.Scripts.Features.GameScreen
 
       GameMetaProvider.GetPlayerView().SetPlayerTurn(isPlayerTurn);
       SetPlayerUi(nextSign);
-      _gameViewMono.TurnText.text = nextSign == SymbolSign.X ? "Player X" : "Player O";
+    }
+
+    private void SetPlayerUi(SymbolSign symbol)
+    {
+      bool isPlayerSymbol = GameMetaProvider.GetEnemyType() == EnemyType.OneDevice ? 
+        symbol == SymbolSign.X : symbol == GameMetaProvider.GetPlayerView().GetSymbol();
+
+      _gameViewMono.PlayerPart.SetActivity(isPlayerSymbol);
+      _gameViewMono.OpponentPart.SetActivity(!isPlayerSymbol);
+
+      if (GameMetaProvider.GetGame() != Game.Buhurt)
+        return;
+
+      LoadBuhurtPart(symbol);
     }
 
     private bool IsBuhurtFiguresOver()
@@ -118,20 +134,6 @@ namespace _Project.Scripts.Features.GameScreen
       
       OnEndGame?.Invoke(SymbolSign.None);
       return true;
-    }
-
-    private void SetPlayerUi(SymbolSign symbol)
-    {
-      if (_gameViewMono.SymbolImage == null)
-        return;
-
-      _gameViewMono.SymbolImage.sprite = GameMetaProvider.GetIcon(symbol);
-      _gameViewMono.SymbolImage.color = symbol == SymbolSign.X ? Color.blue : Color.red;
-
-      if (GameMetaProvider.GetGame() != Game.Buhurt)
-        return;
-
-      LoadBuhurtPart(symbol);
     }
 
     private void CreateDragDrop()
@@ -147,10 +149,8 @@ namespace _Project.Scripts.Features.GameScreen
           GameMetaProvider.GetMesh(symbol, (SymbolSize) i), GameMetaProvider.GetMaterial(symbol, (SymbolSize) i));
     }
 
-    private void AppearAnimation()
-    {
+    private void AppearAnimation() => 
       _gameViewMono.gameObject.SetActive(true);
-    }
 
     private void Localize(ILocaleSystem localeSystem)
     {
