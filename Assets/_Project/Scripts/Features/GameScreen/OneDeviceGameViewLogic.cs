@@ -10,13 +10,11 @@ namespace _Project.Scripts.Features.GameScreen
   {
     public OneDeviceGameViewLogic(GameViewMono gameViewMono, IGameFactory gameFactory, ILocaleSystem localeSystem, IGameMetaProvider gameMetaProvider,
       IAudioService audioService, IInputResolver inputResolver)
-      : base(gameViewMono, gameFactory, localeSystem, gameMetaProvider, audioService, inputResolver)
-    {
-    }
+      : base(gameViewMono, gameFactory, localeSystem, gameMetaProvider, audioService, inputResolver) { }
     
-    public override void Construct(Action onBack, Action onCreatePlayer, Action<SymbolSign> onEndGame)
+    public override void Construct(Action onBack, Action<SymbolSign> onEndGame)
     {
-      base.Construct(onBack, onCreatePlayer, onEndGame);
+      base.Construct(onBack, onEndGame);
       RefreshAfterChangeTurn(SymbolSign.X);
     }
 

@@ -116,7 +116,7 @@ namespace _Project.Scripts.Services.GameMetaProvider
       if (_winStreak <= _gameSaveSystem.Get().WinStreak)
         return;
 
-      _gameSaveSystem.Get().WinStreak = (uint) _winStreak;
+      _gameSaveSystem.Get().WinStreak = _winStreak;
       _gameSaveSystem.Save();
     }
 
@@ -129,14 +129,10 @@ namespace _Project.Scripts.Services.GameMetaProvider
         Object.Destroy(BasePlayerViewMono.gameObject);
     }
 
-    public void CreateBotData(SymbolSign botSign) => 
-      SetOpponentData(botSign);
-
-    private void SetOpponentData(SymbolSign sign)
+    public void CreateBotData(SymbolSign botSign)
     {
-      List<SymbolData> list = GetAllDataType<SymbolData>(_gameCustomsData).Where(item => item.ItemType == _itemTypesTransfer[sign]).ToList();
-      _botData[sign] = list[Random.Range(0, list.Count)];
-      Debug.Log(_botData[sign].Name);
+      List < SymbolData > list = GetAllDataType<SymbolData>(_gameCustomsData).Where(item => item.ItemType == _itemTypesTransfer[botSign]).ToList();
+      _botData[botSign] = list[Random.Range(0, list.Count)];
     }
 
     private SymbolData GetSymbolData(SymbolSign symbolSign) =>

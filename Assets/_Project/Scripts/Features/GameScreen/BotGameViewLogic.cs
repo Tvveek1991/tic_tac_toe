@@ -13,14 +13,15 @@ namespace _Project.Scripts.Features.GameScreen
 
     public BotGameViewLogic(GameViewMono gameViewMono, IGameFactory gameFactory, ILocaleSystem localeSystem, IGameMetaProvider gameMetaProvider,
       IAudioService audioService, IInputResolver inputResolver)
-      : base(gameViewMono, gameFactory, localeSystem, gameMetaProvider, audioService, inputResolver) =>
-      _bot = GameMetaProvider.GetGame() == Game.Classic ? new ClassicBot(gameFactory, gameMetaProvider) : new BuhurtBot(gameFactory, gameMetaProvider, FiguresState);
-
-    public override void Construct(Action onBack, Action onCreatePlayer, Action<SymbolSign> onEndGame)
+      : base(gameViewMono, gameFactory, localeSystem, gameMetaProvider, audioService, inputResolver)
     {
-      base.Construct(onBack, onCreatePlayer, onEndGame);
-
+      _bot = GameMetaProvider.GetGame() == Game.Classic ? new ClassicBot(gameFactory, gameMetaProvider) : new BuhurtBot(gameFactory, gameMetaProvider, FiguresState);
       _bot.Construct();
+    }
+
+    public override void Construct(Action onBack, Action<SymbolSign> onEndGame)
+    {
+      base.Construct(onBack, onEndGame);
       
       RefreshAfterChangeTurn(SymbolSign.X);
 

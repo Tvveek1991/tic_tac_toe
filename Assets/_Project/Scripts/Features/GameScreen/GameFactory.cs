@@ -20,31 +20,35 @@ namespace _Project.Scripts.Features.GameScreen
 
     private const string ClassicPlayerPath = "Features/Player/Classic Player";
     private const string BuhurtPlayerPath = "Features/Player/Buhurt Player";
-    
+
     private const string GameViewPath = "Features/GameScreen/Game Window";
     private const string GameFieldPath = "Features/GameScreen/Fields/Game Field";
     private const string EndGameScreenPath = "Features/GameScreen/End Game Screen";
-
-    private GameViewMono GameViewMono { get; set; }
-    private GameField GameField { get; set; }
-    private EndGameMono EndGameWindow { get; set; }
-
-    public IGameFieldLogic GameFieldLogic { get; private set; }
-    public IGameViewLogic GameViewLogic { get; private set; }
-    public IEndGameLogic EndGameLogic { get; private set; }
-
+    
     private readonly IAudioService _audioService;
     private readonly ILocaleSystem _localeSystem;
+    private readonly IInputResolver _inputResolver;
     private readonly IGameMetaProvider _gameMetaProvider;
 
     private readonly Dictionary<EnemyType, Action> _dictionaryGameMode;
 
+    public BasePlayerViewMono PlayerViewMono { get; private set; }
+    public IGameFieldLogic GameFieldLogic { get; private set; }
+    public IGameViewLogic GameViewLogic { get; private set; }
+    public IEndGameLogic EndGameLogic { get; private set; }
+    
+    private GameViewMono GameViewMono { get; set; }
+    private GameField GameField { get; set; }
+    private EndGameMono EndGameWindow { get; set; }
+
+
     // private delegate void ConnectHandler(string guid, uint cost, Action onSpend, Action<UnlockType> onFail); example delegate
 
-    public GameFactory(IAssetProvider assetProvider, ILocaleSystem localeSystem, IAudioService audioService, 
+    public GameFactory(IAssetProvider assetProvider, ILocaleSystem localeSystem, IAudioService audioService,
       IGameMetaProvider gameMetaProvider, IInputResolver inputResolver) : base(assetProvider)
     {
       _audioService = audioService;
+      _inputResolver = inputResolver;
       _localeSystem = localeSystem;
       _gameMetaProvider = gameMetaProvider;
 
@@ -52,7 +56,6 @@ namespace _Project.Scripts.Features.GameScreen
       {
         {EnemyType.Bot, () => GameViewLogic = new BotGameViewLogic(GameViewMono, this, localeSystem, _gameMetaProvider, _audioService, inputResolver)},
         {EnemyType.OneDevice, () => GameViewLogic = new OneDeviceGameViewLogic(GameViewMono, this, localeSystem, _gameMetaProvider, _audioService, inputResolver)},
-        // {GameMode.Multiplayer, () => GameViewLogic = new MultiplayerGameViewLogic(GameViewMono, localeSystem, network, _gameMetaProvider, _audioService, inputResolver)},
       };
     }
 
@@ -67,6 +70,7 @@ namespace _Project.Scripts.Features.GameScreen
       GameField = Create<GameField>(GameFieldPath, GameObject.Find(CanvasPath).transform);
       GameFieldLogic = new GameFieldLogic(GameField, _audioService, _gameMetaProvider);
     }
+
     public void CreateEndGame()
     {
       EndGameWindow = Create<EndGameMono>(EndGameScreenPath, GameObject.Find(CanvasPath).transform);
@@ -75,9 +79,9 @@ namespace _Project.Scripts.Features.GameScreen
 
     public void SpawnPlayerObject()
     {
-      var playerViewMono = Create<BasePlayerViewMono>(_gameMetaProvider.GetGame() == Game.Classic ? ClassicPlayerPath : BuhurtPlayerPath);
-      
-      _gameMetaProvider.SetPlayerViewMono(playerViewMono);
+      PlayerViewMono = Create<BasePlayerViewMono>(_gameMetaProvider.GetGame() == Game.Classic ? ClassicPlayerPath : BuhurtPlayerPath);
+      PlayerViewMono.Construct(this, _gameMetaProvider, _inputResolver);
+      _gameMetaProvider.SetPlayerViewMono(PlayerViewMono);
     }
 
     public void ClearScreen()
@@ -93,11 +97,17 @@ namespace _Project.Scripts.Features.GameScreen
         Clear(GameField.gameObject);
         GameField = null;
       }
-      
+
       if (EndGameWindow != null)
       {
         Clear(EndGameWindow.gameObject);
         EndGameWindow = null;
+      }
+
+      if (PlayerViewMono != null)
+      {
+        Clear(PlayerViewMono.gameObject);
+        PlayerViewMono = null;
       }
     }
   }

@@ -17,6 +17,8 @@ namespace _Project.Scripts.Features.GameScreen.Mono
     [Header("Buhurt UI")] 
     [SerializeField] private CanvasGroup playerFiguresCanvasGroup;
     [SerializeField] private List<PlayerFigure> playerFigures;
+    [SerializeField] private CanvasGroup opponentFiguresCanvasGroup;
+    [SerializeField] private List<PlayerFigure> opponentFigures;
     
     private readonly int _netPlayersCount;
 
@@ -26,6 +28,8 @@ namespace _Project.Scripts.Features.GameScreen.Mono
 
     public List<PlayerFigure> GetFigures() =>
       playerFigures;
+    public List<PlayerFigure> GetOpponentFigures() =>
+      opponentFigures;
 
     public void SetVisibleBuhurtPart(bool isOn)
     {

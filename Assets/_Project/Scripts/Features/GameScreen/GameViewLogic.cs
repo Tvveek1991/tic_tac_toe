@@ -29,8 +29,6 @@ namespace _Project.Scripts.Features.GameScreen
 
     private readonly GameViewMono _gameViewMono;
 
-    private Action _onCreatePlayer;
-
     public IDragDrop DragDrop { get; private set; }
 
     protected GameViewLogic(GameViewMono gameViewMono, IGameFactory gameFactory, ILocaleSystem localeSystem, IGameMetaProvider gameMetaProvider,
@@ -39,12 +37,14 @@ namespace _Project.Scripts.Features.GameScreen
       _gameViewMono = gameViewMono;
 
       _gameFactory = gameFactory;
-      InputResolver = inputResolver;
-      GameMetaProvider = gameMetaProvider;
-
       _localeSystem = localeSystem;
       _audioService = audioService;
-
+      
+      InputResolver = inputResolver;
+      GameMetaProvider = gameMetaProvider;
+      
+      _gameFactory.SpawnPlayerObject();
+      
       if (GameMetaProvider.GetGame() != Game.Buhurt)
         return;
 
@@ -57,29 +57,25 @@ namespace _Project.Scripts.Features.GameScreen
       CreateDragDrop();
     }
 
-    public virtual void Construct(Action onBack, Action onCreatePlayer, Action<SymbolSign> onEndGame)
+    public virtual void Construct(Action onBack, Action<SymbolSign> onEndGame)
     {
       OnEndGame = onEndGame;
-      _onCreatePlayer = onCreatePlayer;
-
-      Localize(_localeSystem);
-      AppendClickSound(_audioService);
 
       _gameViewMono.BackButton.onClick.AddListener(() => onBack?.Invoke());
-
+      
+      Localize(_localeSystem);
       AppendButtonsAnimation();
-
-      _onCreatePlayer?.Invoke();
-
-      GameMetaProvider.GetPlayerView().Construct(_gameFactory, GameMetaProvider, InputResolver);
+      AppendClickSound(_audioService);
 
       SymbolSign symbol = GameMetaProvider.GetPlayerView().GetSymbol();
-      
       _gameViewMono.PlayerPart.Construct(GameMetaProvider.GetIcon(symbol));
       _gameViewMono.OpponentPart.Construct(GameMetaProvider.GetIcon(symbol == SymbolSign.X ? SymbolSign.O : SymbolSign.X));
 
       if (GameMetaProvider.GetGame() != Game.Buhurt)
         return;
+      
+      LoadPlayerBuhurtPart(symbol);
+      LoadOpponentBuhurtPart(symbol == SymbolSign.X ? SymbolSign.O : SymbolSign.X);
 
       _gameViewMono.SetVisibleBuhurtPart(true);
     }
@@ -112,16 +108,16 @@ namespace _Project.Scripts.Features.GameScreen
 
     private void SetPlayerUi(SymbolSign symbol)
     {
-      bool isPlayerSymbol = GameMetaProvider.GetEnemyType() == EnemyType.OneDevice ? 
+      bool isFirstPlayer = GameMetaProvider.GetEnemyType() == EnemyType.OneDevice ? 
         symbol == SymbolSign.X : symbol == GameMetaProvider.GetPlayerView().GetSymbol();
 
-      _gameViewMono.PlayerPart.SetActivity(isPlayerSymbol);
-      _gameViewMono.OpponentPart.SetActivity(!isPlayerSymbol);
+      _gameViewMono.PlayerPart.SetActivity(isFirstPlayer);
+      _gameViewMono.OpponentPart.SetActivity(!isFirstPlayer);
 
       if (GameMetaProvider.GetGame() != Game.Buhurt)
         return;
-
-      LoadBuhurtPart(symbol);
+      
+      // LoadPlayerBuhurtPart(symbol);
     }
 
     private bool IsBuhurtFiguresOver()
@@ -140,12 +136,19 @@ namespace _Project.Scripts.Features.GameScreen
     {
       DragDrop = _gameViewMono.gameObject.AddComponent<DragDrop>();
       _gameViewMono.GetFigures().ForEach(item => item.Construct(DragDrop, InputResolver));
+      _gameViewMono.GetOpponentFigures().ForEach(item => item.Construct(DragDrop, InputResolver));
     }
 
-    private void LoadBuhurtPart(SymbolSign symbol)
+    private void LoadPlayerBuhurtPart(SymbolSign symbol)
     {
       for (var i = 0; i < FiguresState[symbol].Length; i++)
         _gameViewMono.GetFigures()[i].LoadFigure(symbol, FiguresState[symbol][i] == SymbolSize.Default,
+          GameMetaProvider.GetMesh(symbol, (SymbolSize) i), GameMetaProvider.GetMaterial(symbol, (SymbolSize) i));
+    }
+    private void LoadOpponentBuhurtPart(SymbolSign symbol)
+    {
+      for (var i = 0; i < FiguresState[symbol].Length; i++)
+        _gameViewMono.GetOpponentFigures()[i].LoadFigure(symbol, FiguresState[symbol][i] == SymbolSize.Default,
           GameMetaProvider.GetMesh(symbol, (SymbolSize) i), GameMetaProvider.GetMaterial(symbol, (SymbolSize) i));
     }
 
