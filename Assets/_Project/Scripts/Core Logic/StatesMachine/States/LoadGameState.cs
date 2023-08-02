@@ -11,7 +11,7 @@ using SableGamesRemote.Scripts.Interfaces;
 
 namespace _Project.Scripts.Core_Logic.StatesMachine.States
 {
-  public class LoadGameState : IPayloadedState<bool>
+  public class LoadGameState : IState
   {
     private readonly IRemote _remote;
     private readonly IAnalytics _analytics;
@@ -51,17 +51,17 @@ namespace _Project.Scripts.Core_Logic.StatesMachine.States
     public void Construct(IGameStateMachine gameStateMachine) =>
       _gameStateMachine = gameStateMachine;
 
-    public void Enter(bool isHost)
+    public void Enter()
     {
       _gameLogic = new GameLogic(_gameStateMachine, _assetProvider, _adsService,
         _localeSystem, _audioService, _gameMetaProvider, _inputResolver, _loadingLogic);
-      _gameLogic.Enter(isHost);
+      _gameLogic.Enter();
     }
 
     public void Exit() =>
       _gameLogic.Exit();
 
-    public Task AsyncEnter(bool isHost) =>
+    public Task AsyncEnter() =>
       throw new NotImplementedException();
   }
 }

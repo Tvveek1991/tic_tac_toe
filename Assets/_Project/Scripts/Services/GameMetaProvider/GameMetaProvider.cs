@@ -78,17 +78,17 @@ namespace _Project.Scripts.Services.GameMetaProvider
     public MapData GetMap() =>
       GetCustomData<MapData>(ItemType.Field);
 
-    public Mesh GetMesh(SymbolSign symbolSign, SymbolSize symbolSize)
+    public Mesh GetMesh(SymbolSign symbolSign, SymbolSize symbolSize, bool isBot = false)
     {
-      SymbolData symbolData = GetSymbolData(symbolSign);
+      SymbolData symbolData = GetSymbolData(symbolSign, isBot);
       return GetGame() == Game.Classic
         ? symbolData.MeshClassic
         : symbolData.MeshBuhurt[(int) symbolSize];
     }
 
-    public Material GetMaterial(SymbolSign symbolSign, SymbolSize symbolSize)
+    public Material GetMaterial(SymbolSign symbolSign, SymbolSize symbolSize, bool isBot = false)
     {
-      SymbolData symbolData = GetSymbolData(symbolSign);
+      SymbolData symbolData = GetSymbolData(symbolSign, isBot);
       return GetGame() == Game.Classic
         ? symbolData.MaterialClassic
         : symbolData.MaterialBuhurt[(int) symbolSize];
@@ -135,10 +135,12 @@ namespace _Project.Scripts.Services.GameMetaProvider
       _botData[botSign] = list[Random.Range(0, list.Count)];
     }
 
-    private SymbolData GetSymbolData(SymbolSign symbolSign) =>
-      !BasePlayerViewMono.GetPlayerTurn() && GetEnemyType() == EnemyType.Bot
+    private SymbolData GetSymbolData(SymbolSign symbolSign, bool isBot = false)
+    {
+      return isBot
         ? _botData[symbolSign]
         : GetCustomData<SymbolData>(_itemTypesTransfer[symbolSign]);
+    }
 
     private T[] Load<T>(string path) where T : BaseContentData =>
       _assetProvider.GetAllResources<T>(path);

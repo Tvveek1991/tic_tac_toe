@@ -24,7 +24,7 @@ namespace _Project.Scripts.Features.HomeScreen
     private readonly IAudioService _audioService;
     private readonly IGameMetaProvider _gameMetaProvider;
 
-    private Action<bool> _toGame;
+    private Action _toGame;
     
     public HomeViewLogic(HomeViewMono homeViewMono, ILocaleSystem localeSystem, IAudioService audioService, IGameMetaProvider gameMetaProvider)
     {
@@ -34,7 +34,7 @@ namespace _Project.Scripts.Features.HomeScreen
       _gameMetaProvider = gameMetaProvider;
     }
 
-    public void Construct(Action openSettingsWindow, Action toShop, Action<bool> toGame, Action toNoAds)
+    public void Construct(Action openSettingsWindow, Action toShop, Action toGame, Action toNoAds)
     {
       _toGame = toGame;
       
@@ -91,7 +91,7 @@ namespace _Project.Scripts.Features.HomeScreen
     private void OnClickGame(Game gameMode)
     {
       _gameMetaProvider.SetGame(gameMode);
-      _toGame.Invoke(true);
+      _toGame.Invoke();
       Debug.Log("On game change " + _gameMetaProvider.GetGame());
     }
 

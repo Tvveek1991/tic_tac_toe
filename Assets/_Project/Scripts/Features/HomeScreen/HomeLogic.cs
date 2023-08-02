@@ -113,13 +113,13 @@ namespace _Project.Scripts.Features.HomeScreen
         () => _gameStateMachine.Enter<LoadShopState>(), () => _gameStateMachine.Enter<LoadShopState>());
     }
 
-    private void ToGame(bool isHost)
+    private void ToGame()
     {
       // _gameMetaProvider.ClearScore();
       
       _adsService.CurrentInterstitial.ShowInterstitial(ScreenNames.Game,
-        () => _gameStateMachine.Enter<LoadGameState, bool>(isHost),
-        () => _gameStateMachine.Enter<LoadGameState, bool>(isHost));
+        () => _gameStateMachine.Enter<LoadGameState>(),
+        () => _gameStateMachine.Enter<LoadGameState>());
     }
 
     private void ToNoAds()

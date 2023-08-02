@@ -1,7 +1,5 @@
 using System.Collections.Generic;
 using _Project.Scripts.Features.Player.BuhurtModules;
-using DG.Tweening;
-using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -15,28 +13,19 @@ namespace _Project.Scripts.Features.GameScreen.Mono
     [SerializeField] private SymbolOperatorUI opponentPart;
 
     [Header("Buhurt UI")] 
-    [SerializeField] private CanvasGroup playerFiguresCanvasGroup;
+    [SerializeField] private CanvasGroup playerCanvasGroup;
     [SerializeField] private List<PlayerFigure> playerFigures;
-    [SerializeField] private CanvasGroup opponentFiguresCanvasGroup;
+    [SerializeField] private CanvasGroup opponentCanvasGroup;
     [SerializeField] private List<PlayerFigure> opponentFigures;
-    
-    private readonly int _netPlayersCount;
 
     public Button BackButton => backButton;
-    public SymbolOperatorUI PlayerPart => playerPart;
-    public SymbolOperatorUI OpponentPart => opponentPart;
+    public CanvasGroup PlayerCanvasGroup => playerCanvasGroup;
+    public CanvasGroup OpponentCanvasGroup => opponentCanvasGroup;
 
-    public List<PlayerFigure> GetFigures() =>
-      playerFigures;
-    public List<PlayerFigure> GetOpponentFigures() =>
-      opponentFigures;
-
-    public void SetVisibleBuhurtPart(bool isOn)
-    {
-      playerFigures.ForEach(item => item.SetVisibility(isOn));
-      
-      playerFiguresCanvasGroup.DOFade(isOn ? 1f : 0f, .5f);
-      playerFiguresCanvasGroup.blocksRaycasts = isOn;
-    }
+    public SymbolOperatorUI GetSymbolPart(bool isOpponent = false) => 
+      isOpponent ? opponentPart : playerPart;
+    
+    public List<PlayerFigure> GetFigures(bool isOpponent = false) =>
+      isOpponent ? opponentFigures : playerFigures;
   }
 }

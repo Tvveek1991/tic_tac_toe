@@ -32,7 +32,7 @@ namespace _Project.Scripts.Features.GameScreen
       _gameFactory = new GameFactory(assetProvider, localeSystem, audioService, gameMetaProvider, inputResolver);
     }
 
-    public void Enter(bool isHost)
+    public void Enter()
     {
       _inputResolver.Disable();
 
@@ -69,7 +69,7 @@ namespace _Project.Scripts.Features.GameScreen
     }
     
     private void OnClickPlayAgain() => 
-      _gameStateMachine.Enter<LoadGameState, bool>(false);
+      _gameStateMachine.Enter<LoadGameState>();
 
     private void OnEndGame(SymbolSign symbol)
     {
@@ -81,7 +81,7 @@ namespace _Project.Scripts.Features.GameScreen
       if(_gameMetaProvider.GetGame() != Game.Buhurt)
         return;
       
-      _gameFactory.GameViewLogic.HideBottomPanel();
+      _gameFactory.GameViewLogic.HidePlayersPanels();
     }
   }
 }

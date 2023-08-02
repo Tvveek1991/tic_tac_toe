@@ -10,12 +10,14 @@ using _Project.Scripts.Services._Interfaces;
 using _Project.Scripts.Services.Audio.Enum;
 using _Project.Scripts.Services.Localization.Logic;
 using _Project.Scripts.Services.Localization.Mono;
+using DG.Tweening;
 using UnityEngine;
 
 namespace _Project.Scripts.Features.GameScreen
 {
   public class GameViewLogic : IGameViewLogic
   {
+    private const float Duration = .25f;
     protected readonly IInputResolver InputResolver;
     protected readonly IGameMetaProvider GameMetaProvider;
 
@@ -23,7 +25,6 @@ namespace _Project.Scripts.Features.GameScreen
 
     protected readonly Dictionary<SymbolSign, SymbolSize[]> FiguresState;
 
-    private readonly IGameFactory _gameFactory;
     private readonly ILocaleSystem _localeSystem;
     private readonly IAudioService _audioService;
 
@@ -36,14 +37,13 @@ namespace _Project.Scripts.Features.GameScreen
     {
       _gameViewMono = gameViewMono;
 
-      _gameFactory = gameFactory;
       _localeSystem = localeSystem;
       _audioService = audioService;
       
       InputResolver = inputResolver;
       GameMetaProvider = gameMetaProvider;
       
-      _gameFactory.SpawnPlayerObject();
+      gameFactory.SpawnPlayerObject();
       
       if (GameMetaProvider.GetGame() != Game.Buhurt)
         return;
@@ -67,17 +67,25 @@ namespace _Project.Scripts.Features.GameScreen
       AppendButtonsAnimation();
       AppendClickSound(_audioService);
 
-      SymbolSign symbol = GameMetaProvider.GetPlayerView().GetSymbol();
-      _gameViewMono.PlayerPart.Construct(GameMetaProvider.GetIcon(symbol));
-      _gameViewMono.OpponentPart.Construct(GameMetaProvider.GetIcon(symbol == SymbolSign.X ? SymbolSign.O : SymbolSign.X));
-
-      if (GameMetaProvider.GetGame() != Game.Buhurt)
-        return;
+      FirstLoadPlayersUI(GameMetaProvider.GetGame());
       
-      LoadPlayerBuhurtPart(symbol);
-      LoadOpponentBuhurtPart(symbol == SymbolSign.X ? SymbolSign.O : SymbolSign.X);
+      RefreshAfterChangeTurn(SymbolSign.X);
+    }
 
-      _gameViewMono.SetVisibleBuhurtPart(true);
+    private void FirstLoadPlayersUI(Game game)
+    {
+      SymbolSign symbol = GameMetaProvider.GetPlayerView().GetSymbol();
+      
+      if (game == Game.Classic)
+      {
+        _gameViewMono.GetSymbolPart().Construct(GameMetaProvider.GetIcon(symbol));
+        _gameViewMono.GetSymbolPart(true).Construct(GameMetaProvider.GetIcon(symbol == SymbolSign.X ? SymbolSign.O : SymbolSign.X));
+      }
+      else
+      {
+        LoadPlayerBuhurtPart(symbol);
+        LoadOpponentBuhurtPart(symbol == SymbolSign.X ? SymbolSign.O : SymbolSign.X);
+      }
     }
 
     public virtual void ChangeTurningPlayer(SymbolSign activeSign)
@@ -92,8 +100,23 @@ namespace _Project.Scripts.Features.GameScreen
     public void SetFigureState(SymbolSign symbol, SymbolSize size) =>
       FiguresState[symbol][(int) size] = SymbolSize.Default;
 
-    public void HideBottomPanel() =>
-      _gameViewMono.SetVisibleBuhurtPart(false);
+    public void HidePlayersPanels()
+    {
+      _gameViewMono.GetFigures().ForEach(item => item.SetVisibility(false));
+      _gameViewMono.PlayerCanvasGroup.DOFade(0f, Duration);
+      
+      _gameViewMono.GetFigures(true).ForEach(item => item.SetVisibility(false));
+      _gameViewMono.OpponentCanvasGroup.DOFade(0f, Duration);
+    }
+
+    private void SetVisibilityFiguresPanel(bool isMainPlayer = false)
+    {
+      _gameViewMono.GetFigures().ForEach(item => item.SetVisibility(isMainPlayer));
+      _gameViewMono.PlayerCanvasGroup.DOFade(isMainPlayer ? 1f : .05f, Duration);
+      
+      _gameViewMono.GetFigures(true).ForEach(item => item.SetVisibility(!isMainPlayer));
+      _gameViewMono.OpponentCanvasGroup.DOFade(!isMainPlayer ? 1f : .05f, Duration);
+    }
 
     protected void RefreshAfterChangeTurn(SymbolSign nextSign)
     {
@@ -102,22 +125,22 @@ namespace _Project.Scripts.Features.GameScreen
 
       bool isPlayerTurn = GameMetaProvider.GetEnemyType() == EnemyType.OneDevice || nextSign == GameMetaProvider.GetPlayerView().GetSymbol();
 
-      GameMetaProvider.GetPlayerView().SetPlayerTurn(isPlayerTurn);
       SetPlayerUi(nextSign);
+      GameMetaProvider.GetPlayerView().SetPlayerTurn(isPlayerTurn);
     }
 
     private void SetPlayerUi(SymbolSign symbol)
     {
-      bool isFirstPlayer = GameMetaProvider.GetEnemyType() == EnemyType.OneDevice ? 
+      bool isMainPlayer = GameMetaProvider.GetEnemyType() == EnemyType.OneDevice ? 
         symbol == SymbolSign.X : symbol == GameMetaProvider.GetPlayerView().GetSymbol();
 
-      _gameViewMono.PlayerPart.SetActivity(isFirstPlayer);
-      _gameViewMono.OpponentPart.SetActivity(!isFirstPlayer);
+      _gameViewMono.GetSymbolPart().SetActivity(isMainPlayer);
+      _gameViewMono.GetSymbolPart(true).SetActivity(!isMainPlayer);
 
       if (GameMetaProvider.GetGame() != Game.Buhurt)
         return;
-      
-      // LoadPlayerBuhurtPart(symbol);
+
+      SetVisibilityFiguresPanel(isMainPlayer);
     }
 
     private bool IsBuhurtFiguresOver()
@@ -136,7 +159,7 @@ namespace _Project.Scripts.Features.GameScreen
     {
       DragDrop = _gameViewMono.gameObject.AddComponent<DragDrop>();
       _gameViewMono.GetFigures().ForEach(item => item.Construct(DragDrop, InputResolver));
-      _gameViewMono.GetOpponentFigures().ForEach(item => item.Construct(DragDrop, InputResolver));
+      _gameViewMono.GetFigures(true).ForEach(item => item.Construct(DragDrop, InputResolver));
     }
 
     private void LoadPlayerBuhurtPart(SymbolSign symbol)
@@ -145,11 +168,13 @@ namespace _Project.Scripts.Features.GameScreen
         _gameViewMono.GetFigures()[i].LoadFigure(symbol, FiguresState[symbol][i] == SymbolSize.Default,
           GameMetaProvider.GetMesh(symbol, (SymbolSize) i), GameMetaProvider.GetMaterial(symbol, (SymbolSize) i));
     }
+    
     private void LoadOpponentBuhurtPart(SymbolSign symbol)
     {
       for (var i = 0; i < FiguresState[symbol].Length; i++)
-        _gameViewMono.GetOpponentFigures()[i].LoadFigure(symbol, FiguresState[symbol][i] == SymbolSize.Default,
-          GameMetaProvider.GetMesh(symbol, (SymbolSize) i), GameMetaProvider.GetMaterial(symbol, (SymbolSize) i));
+        _gameViewMono.GetFigures(true)[i].LoadFigure(symbol, FiguresState[symbol][i] == SymbolSize.Default,
+          GameMetaProvider.GetMesh(symbol, (SymbolSize) i, GameMetaProvider.GetEnemyType() == EnemyType.Bot),
+          GameMetaProvider.GetMaterial(symbol, (SymbolSize) i, GameMetaProvider.GetEnemyType() == EnemyType.Bot));
     }
 
     private void AppearAnimation() => 

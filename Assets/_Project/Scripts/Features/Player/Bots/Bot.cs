@@ -59,8 +59,7 @@ namespace _Project.Scripts.Features.Player.Bots
 
       _gameMetaProvider.CreateBotData(BotSign);
       
-      _bigPotentialCase = new[]
-      {
+      _bigPotentialCase = new[] {
         new[] {BotSign, BotSign, _playerSign},
         new[] {_playerSign, BotSign, BotSign},
         new[] {BotSign, _playerSign, BotSign}

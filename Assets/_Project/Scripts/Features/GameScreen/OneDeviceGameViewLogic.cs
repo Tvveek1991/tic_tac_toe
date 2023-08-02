@@ -15,7 +15,6 @@ namespace _Project.Scripts.Features.GameScreen
     public override void Construct(Action onBack, Action<SymbolSign> onEndGame)
     {
       base.Construct(onBack, onEndGame);
-      RefreshAfterChangeTurn(SymbolSign.X);
     }
 
     public override void ChangeTurningPlayer(SymbolSign activeSign)

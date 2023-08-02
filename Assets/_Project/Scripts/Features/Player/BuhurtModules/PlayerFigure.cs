@@ -1,4 +1,3 @@
-using System;
 using _Project.Scripts.Features.Data;
 using _Project.Scripts.Features.DragAndDrop.Interface;
 using _Project.Scripts.Features.GameScreen.Serialized;
@@ -55,6 +54,7 @@ namespace _Project.Scripts.Features.Player.BuhurtModules
 
     public void OnPointerDown(PointerEventData eventData)
     {
+      Debug.Log("_inputResolver.IsLocked " + _inputResolver.IsLocked);
       if (_isMoved || _inputResolver.IsLocked)
         return;
 

@@ -23,8 +23,6 @@ namespace _Project.Scripts.Features.GameScreen
     {
       base.Construct(onBack, onEndGame);
       
-      RefreshAfterChangeTurn(SymbolSign.X);
-
       if (GameMetaProvider.GetPlayerView().GetSymbol() == SymbolSign.O)
         BotTurn();
     }

@@ -29,9 +29,6 @@ namespace _Project.Scripts.Features.Player
     public void SetPlayerTurn(bool isPlayerTurn) =>
       IsPlayerTurn = isPlayerTurn;
 
-    public bool GetPlayerTurn() =>
-      IsPlayerTurn;
-
     public SymbolSign GetSymbol() =>
       SymbolSign;
 
