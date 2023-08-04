@@ -57,7 +57,6 @@ namespace _Project.Scripts.Features.Player.BuhurtModules
 
     public void OnPointerDown(PointerEventData eventData)
     {
-      Debug.Log("_inputResolver.IsLocked " + _inputResolver.IsLocked);
       if (_isMoved || _inputResolver.IsLocked)
         return;
 
