@@ -14,6 +14,8 @@ namespace _Project.Scripts.Features.Player.BuhurtModules
 
     private bool _isMoved;
 
+    private BoxCollider _boxCollider;
+    
     private MeshFilter _mesh;
     private MeshRenderer _meshRenderer;
 
@@ -28,6 +30,7 @@ namespace _Project.Scripts.Features.Player.BuhurtModules
     {
       _mesh = GetComponentInChildren<MeshFilter>();
       _meshRenderer = GetComponentInChildren<MeshRenderer>();
+      _boxCollider = GetComponentInChildren<BoxCollider>();
 
       _dragDrop = dragDrop;
       _inputResolver = inputResolver;
@@ -72,6 +75,7 @@ namespace _Project.Scripts.Features.Player.BuhurtModules
 
     private void OnStartDrag()
     {
+      _boxCollider.enabled = false;
     }
 
     private void OnPin()
@@ -80,6 +84,7 @@ namespace _Project.Scripts.Features.Player.BuhurtModules
 
     private void OnReturn()
     {
+      _boxCollider.enabled = true;
     }
   }
 }
