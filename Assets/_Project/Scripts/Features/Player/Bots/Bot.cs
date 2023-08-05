@@ -82,9 +82,13 @@ namespace _Project.Scripts.Features.Player.Bots
         int bestMove = GetBestMove(board, symbolCells);
 
         if (bestMove >= 0)
+        {
           symbolCells[bestMove].SetSymbol(DragableData);
+          _gameFactory.GameViewLogic.SetFigureState(DragableData.GetSymbol(), DragableData.GetSize());
+        }
         else
           onEndGame?.Invoke();
+        
       });
       
       if(IsWinnTurn)

@@ -18,8 +18,8 @@ namespace _Project.Scripts.Services._Interfaces
     void SetGame(Game game);
     Game GetGame();
 
-    Mesh GetMesh(SymbolSign symbolSign, SymbolSize symbolSize, bool isBot = false);
-    Material GetMaterial(SymbolSign symbolSign, SymbolSize symbolSize, bool isBot = false);
+    Mesh GetMesh(DragableData dragableData);
+    Material GetMaterial(DragableData dragableData);
     Sprite GetIcon(SymbolSign symbol);
     
     AudioId GetMusic();

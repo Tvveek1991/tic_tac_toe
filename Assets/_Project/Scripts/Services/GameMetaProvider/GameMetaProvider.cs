@@ -78,20 +78,20 @@ namespace _Project.Scripts.Services.GameMetaProvider
     public MapData GetMap() =>
       GetCustomData<MapData>(ItemType.Field);
 
-    public Mesh GetMesh(SymbolSign symbolSign, SymbolSize symbolSize, bool isBot = false)
+    public Mesh GetMesh(DragableData dragableData)
     {
-      SymbolData symbolData = GetSymbolData(symbolSign, isBot);
+      SymbolData symbolData = GetSymbolData(dragableData.GetSymbol(), dragableData.IsBot);
       return GetGame() == Game.Classic
         ? symbolData.MeshClassic
-        : symbolData.MeshBuhurt[(int) symbolSize];
+        : symbolData.MeshBuhurt[(int) dragableData.GetSize()];
     }
 
-    public Material GetMaterial(SymbolSign symbolSign, SymbolSize symbolSize, bool isBot = false)
+    public Material GetMaterial(DragableData dragableData)
     {
-      SymbolData symbolData = GetSymbolData(symbolSign, isBot);
+      SymbolData symbolData = GetSymbolData(dragableData.GetSymbol(), dragableData.IsBot);
       return GetGame() == Game.Classic
         ? symbolData.MaterialClassic
-        : symbolData.MaterialBuhurt[(int) symbolSize];
+        : symbolData.MaterialBuhurt[(int) dragableData.GetSize()];
     }
 
     public void AddScore(SymbolSign symbolSign)

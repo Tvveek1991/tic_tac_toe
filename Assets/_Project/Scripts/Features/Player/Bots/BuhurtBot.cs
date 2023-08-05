@@ -7,7 +7,6 @@ using _Project.Scripts.Features.GameScreen;
 using _Project.Scripts.Features.GameScreen.Serialized;
 using _Project.Scripts.Features.Player.Bots.Serialized;
 using _Project.Scripts.Services._Interfaces;
-using UnityEngine;
 using Random = UnityEngine.Random;
 
 namespace _Project.Scripts.Features.Player.Bots
@@ -93,7 +92,6 @@ namespace _Project.Scripts.Features.Player.Bots
 
       return rnd;
     }
-
 
     private List<SymbolSize> GetAvailableSizes(int rnd)
     {

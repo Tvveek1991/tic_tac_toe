@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using _Project.Scripts.Animation;
+using _Project.Scripts.Features.Data;
 using _Project.Scripts.Features.DragAndDrop;
 using _Project.Scripts.Features.DragAndDrop.Interface;
 using _Project.Scripts.Features.GameScreen.Mono;
@@ -154,16 +155,19 @@ namespace _Project.Scripts.Features.GameScreen
     private void LoadPlayerBuhurtPart(SymbolSign symbol)
     {
       for (var i = 0; i < FiguresState[symbol].Length; i++)
-        _gameViewMono.GetFigures()[i].FirstLoadFigure(symbol, GameMetaProvider.GetMesh(symbol, (SymbolSize) i), 
-          GameMetaProvider.GetMaterial(symbol, (SymbolSize) i));
+      {
+        var dragableData = new DragableData(symbol, (SymbolSize) i);
+        _gameViewMono.GetFigures()[i].FirstLoadFigure(symbol, GameMetaProvider.GetMesh(dragableData), GameMetaProvider.GetMaterial(dragableData));
+      }
     }
 
     private void LoadOpponentBuhurtPart(SymbolSign symbol)
     {
       for (var i = 0; i < FiguresState[symbol].Length; i++)
-        _gameViewMono.GetFigures(true)[i].FirstLoadFigure(symbol,
-          GameMetaProvider.GetMesh(symbol, (SymbolSize) i, GameMetaProvider.GetEnemyType() == EnemyType.Bot),
-          GameMetaProvider.GetMaterial(symbol, (SymbolSize) i, GameMetaProvider.GetEnemyType() == EnemyType.Bot));
+      {
+        var dragableData = new DragableData(symbol, (SymbolSize) i, GameMetaProvider.GetEnemyType() == EnemyType.Bot);
+        _gameViewMono.GetFigures(true)[i].FirstLoadFigure(symbol, GameMetaProvider.GetMesh(dragableData), GameMetaProvider.GetMaterial(dragableData));
+      }
     }
 
     private bool IsBuhurtFiguresOver()
