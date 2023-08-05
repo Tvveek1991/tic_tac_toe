@@ -19,7 +19,7 @@ namespace _Project.Scripts.Features.Player.Bots
     protected override int GetBestMove(SymbolSign[] board, SymbolCell[] symbolCells)
     {
       BestScores = new Dictionary<int, Potential>();
-      DragableData = new DragableData(BotSign, SymbolSize.Default);
+      DragableData = new DragableData(BotSign, SymbolSize.Default, true);
 
       for (var cell = 0; cell < 9; cell++)
       {

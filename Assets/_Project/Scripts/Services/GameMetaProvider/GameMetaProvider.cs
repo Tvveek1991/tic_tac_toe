@@ -135,12 +135,10 @@ namespace _Project.Scripts.Services.GameMetaProvider
       _botData[botSign] = list[Random.Range(0, list.Count)];
     }
 
-    private SymbolData GetSymbolData(SymbolSign symbolSign, bool isBot = false)
-    {
-      return isBot
+    private SymbolData GetSymbolData(SymbolSign symbolSign, bool isBot = false) =>
+      isBot
         ? _botData[symbolSign]
         : GetCustomData<SymbolData>(_itemTypesTransfer[symbolSign]);
-    }
 
     private T[] Load<T>(string path) where T : BaseContentData =>
       _assetProvider.GetAllResources<T>(path);

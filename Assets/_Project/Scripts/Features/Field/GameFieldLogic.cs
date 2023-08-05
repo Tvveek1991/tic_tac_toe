@@ -70,8 +70,8 @@ namespace _Project.Scripts.Features.Field
       if (_cells[y, x] == null)
         return;
 
-      _cells[y, x].MeshFilter.mesh = _gameMetaProvider.GetMesh(dragableData.GetSymbol(), dragableData.GetSize());
-      _cells[y, x].MeshRenderer.material = _gameMetaProvider.GetMaterial(dragableData.GetSymbol(), dragableData.GetSize());
+      _cells[y, x].MeshFilter.mesh = _gameMetaProvider.GetMesh(dragableData.GetSymbol(), dragableData.GetSize(), dragableData.IsBot);
+      _cells[y, x].MeshRenderer.material = _gameMetaProvider.GetMaterial(dragableData.GetSymbol(), dragableData.GetSize(), dragableData.IsBot);
       _cells[y, x].MeshRenderer.enabled = true;
 
       // Debug.Log("Win is " + CheckWin(_playerSymbol) + (CheckWin(_playerSymbol) ? " Is" + _playerSymbol : ""));

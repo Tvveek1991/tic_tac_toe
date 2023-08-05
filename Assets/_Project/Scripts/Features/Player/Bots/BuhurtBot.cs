@@ -87,15 +87,13 @@ namespace _Project.Scripts.Features.Player.Bots
       
       List<SymbolSize> sizeTurn = GetAvailableSizes(rnd);
       SymbolSize size = sizeTurn[Random.Range(0, sizeTurn.Count)];
-      CreateDragableData(size);
+      DragableData = new DragableData(BotSign, size, true);
 
       _figures[BotSign][(int) size] = SymbolSize.Default;
 
       return rnd;
     }
 
-    private void CreateDragableData(SymbolSize size) => 
-      DragableData = new DragableData(BotSign, size);
 
     private List<SymbolSize> GetAvailableSizes(int rnd)
     {

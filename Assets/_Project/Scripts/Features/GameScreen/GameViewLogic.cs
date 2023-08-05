@@ -11,7 +11,6 @@ using _Project.Scripts.Services.Audio.Enum;
 using _Project.Scripts.Services.Localization.Logic;
 using _Project.Scripts.Services.Localization.Mono;
 using DG.Tweening;
-using UnityEngine;
 
 namespace _Project.Scripts.Features.GameScreen
 {
@@ -23,7 +22,11 @@ namespace _Project.Scripts.Features.GameScreen
 
     protected Action<SymbolSign> OnEndGame;
 
-    protected readonly Dictionary<SymbolSign, SymbolSize[]> FiguresState;
+    protected readonly Dictionary<SymbolSign, SymbolSize[]> FiguresState = new()
+    {
+      {SymbolSign.X, new[] {SymbolSize.Tiny, SymbolSize.Small, SymbolSize.Medium, SymbolSize.Big, SymbolSize.Large}},
+      {SymbolSign.O, new[] {SymbolSize.Tiny, SymbolSize.Small, SymbolSize.Medium, SymbolSize.Big, SymbolSize.Large}}
+    };
 
     private readonly ILocaleSystem _localeSystem;
     private readonly IAudioService _audioService;
@@ -47,12 +50,6 @@ namespace _Project.Scripts.Features.GameScreen
       
       if (GameMetaProvider.GetGame() != Game.Buhurt)
         return;
-
-      FiguresState = new Dictionary<SymbolSign, SymbolSize[]>
-      {
-        {SymbolSign.X, new[] {SymbolSize.Tiny, SymbolSize.Small, SymbolSize.Medium, SymbolSize.Big, SymbolSize.Large}},
-        {SymbolSign.O, new[] {SymbolSize.Tiny, SymbolSize.Small, SymbolSize.Medium, SymbolSize.Big, SymbolSize.Large}}
-      };
 
       CreateDragDrop();
     }
@@ -97,8 +94,12 @@ namespace _Project.Scripts.Features.GameScreen
     public void OpenWindow() =>
       AppearAnimation();
 
-    public void SetFigureState(SymbolSign symbol, SymbolSize size) =>
+    public void SetFigureState(SymbolSign symbol, SymbolSize size)
+    {
       FiguresState[symbol][(int) size] = SymbolSize.Default;
+      _gameViewMono.GetFigures().Find(item => item.Sign == symbol && item.Size == size)?.SetSizeToMoved();
+      _gameViewMono.GetFigures(true).Find(item => item.Sign == symbol && item.Size == size)?.SetSizeToMoved();
+    }
 
     public void HidePlayersPanels()
     {
@@ -143,18 +144,6 @@ namespace _Project.Scripts.Features.GameScreen
       SetVisibilityFiguresPanel(isMainPlayer);
     }
 
-    private bool IsBuhurtFiguresOver()
-    {
-      if (GameMetaProvider.GetGame() != Game.Buhurt)
-        return false;
-
-      if (!CheckLastFiguresSymbol() && !IsFiguresOver())
-        return false;
-      
-      OnEndGame?.Invoke(SymbolSign.None);
-      return true;
-    }
-
     private void CreateDragDrop()
     {
       DragDrop = _gameViewMono.gameObject.AddComponent<DragDrop>();
@@ -165,16 +154,28 @@ namespace _Project.Scripts.Features.GameScreen
     private void LoadPlayerBuhurtPart(SymbolSign symbol)
     {
       for (var i = 0; i < FiguresState[symbol].Length; i++)
-        _gameViewMono.GetFigures()[i].LoadFigure(symbol, FiguresState[symbol][i] == SymbolSize.Default,
-          GameMetaProvider.GetMesh(symbol, (SymbolSize) i), GameMetaProvider.GetMaterial(symbol, (SymbolSize) i));
+        _gameViewMono.GetFigures()[i].FirstLoadFigure(symbol, GameMetaProvider.GetMesh(symbol, (SymbolSize) i), 
+          GameMetaProvider.GetMaterial(symbol, (SymbolSize) i));
     }
-    
+
     private void LoadOpponentBuhurtPart(SymbolSign symbol)
     {
       for (var i = 0; i < FiguresState[symbol].Length; i++)
-        _gameViewMono.GetFigures(true)[i].LoadFigure(symbol, FiguresState[symbol][i] == SymbolSize.Default,
+        _gameViewMono.GetFigures(true)[i].FirstLoadFigure(symbol,
           GameMetaProvider.GetMesh(symbol, (SymbolSize) i, GameMetaProvider.GetEnemyType() == EnemyType.Bot),
           GameMetaProvider.GetMaterial(symbol, (SymbolSize) i, GameMetaProvider.GetEnemyType() == EnemyType.Bot));
+    }
+
+    private bool IsBuhurtFiguresOver()
+    {
+      if (GameMetaProvider.GetGame() != Game.Buhurt)
+        return false;
+
+      if (!CheckLastFiguresSymbol() && !IsFiguresOver())
+        return false;
+      
+      OnEndGame?.Invoke(SymbolSign.None);
+      return true;
     }
 
     private void AppearAnimation() => 

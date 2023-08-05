@@ -9,13 +9,10 @@ namespace _Project.Scripts.Features.Player.BuhurtModules
 {
   public class PlayerFigure : MonoBehaviour, IPointerDownHandler
   {
-    public SymbolSign Sign;
-    public SymbolSize Size;
-
-    private bool _isMoved;
+    [SerializeField] private SymbolSize _size;
 
     private BoxCollider _boxCollider;
-    
+
     private MeshFilter _mesh;
     private MeshRenderer _meshRenderer;
 
@@ -23,8 +20,11 @@ namespace _Project.Scripts.Features.Player.BuhurtModules
     private DragablePart _dragablePart;
 
     private IDragDrop _dragDrop;
-    
+
     private IInputResolver _inputResolver;
+
+    public SymbolSign Sign { get; private set; }
+    public SymbolSize Size => _size;
 
     public void Construct(IDragDrop dragDrop, IInputResolver inputResolver)
     {
@@ -38,29 +38,34 @@ namespace _Project.Scripts.Features.Player.BuhurtModules
       _dragablePart = CreateDragableFromGameIconPrefab();
     }
 
-    public void LoadFigure(SymbolSign symbolSign, bool isMoved, Mesh mesh = null, Material material = null)
+    public void FirstLoadFigure(SymbolSign symbolSign, Mesh mesh, Material material)
     {
       Sign = symbolSign;
-      
-      _isMoved = isMoved;
-      SetVisibility(!_isMoved);
-      
-      if(_isMoved)
-        return;
 
       _mesh.mesh = mesh;
       _meshRenderer.material = material;
     }
 
-    public void SetVisibility(bool isOn) => 
+    public void SetVisibility(bool isOn)
+    {
+      if (_size == SymbolSize.Default)
+      {
+        _meshRenderer.enabled = false;
+        return;
+      }
+
       _meshRenderer.enabled = isOn;
+    }
+
+    public void SetSizeToMoved() => 
+      _size = SymbolSize.Default;
 
     public void OnPointerDown(PointerEventData eventData)
     {
-      if (_isMoved || _inputResolver.IsLocked)
+      if (_size == SymbolSize.Default || _inputResolver.IsLocked)
         return;
 
-      _dragablePart.SetDragableData(new DragableData(Sign, Size));
+      _dragablePart.SetDragableData(new DragableData(Sign, _size));
       _dragDrop.BindPartToCursor(_dragablePart);
     }
 
