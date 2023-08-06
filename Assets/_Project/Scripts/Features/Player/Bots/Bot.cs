@@ -21,7 +21,6 @@ namespace _Project.Scripts.Features.Player.Bots
     protected List<int> BestTurns;
     protected Dictionary<int, Potential> BestScores;
 
-    private SymbolSign _playerSign;
     protected SymbolSign BotSign;
 
     protected readonly BotDifficult Difficult;
@@ -29,6 +28,8 @@ namespace _Project.Scripts.Features.Player.Bots
     protected DragableData DragableData;
 
     protected bool IsWinnTurn;
+    
+    protected readonly IGameFactory GameFactory;
 
     private readonly List<int[]> _lines = new()
     {
@@ -37,15 +38,15 @@ namespace _Project.Scripts.Features.Player.Bots
       new[] {0, 4, 8}, new[] {2, 4, 6} // diagonals
     };
 
+    private SymbolSign _playerSign;
     private SymbolSign[][] _bigPotentialCase;
 
-    private readonly IGameFactory _gameFactory;
     private readonly IGameMetaProvider _gameMetaProvider;
 
 
     protected Bot(IGameFactory gameFactory, IGameMetaProvider gameMetaProvider)
     {
-      _gameFactory = gameFactory;
+      GameFactory = gameFactory;
       _gameMetaProvider = gameMetaProvider;
 
       Difficult = (BotDifficult) Random.Range(0, 3);
@@ -68,24 +69,21 @@ namespace _Project.Scripts.Features.Player.Bots
 
     public async void BotTurn(Action onEndTurn, Action onEndGame)
     {
-      var symbolCells = new SymbolCell[_gameFactory.GameFieldLogic.GetField().Length];
-      var board = new SymbolSign[_gameFactory.GameFieldLogic.GetField().Length];
+      var symbolCells = new SymbolCell[GameFactory.GameFieldLogic.GetField().Length];
+      var board = new SymbolSign[GameFactory.GameFieldLogic.GetField().Length];
 
       for (var y = 0; y < FieldSizeY; y++)
       for (var x = 0; x < FieldSizeX; x++)
       {
-        symbolCells[3 * y + x] = _gameFactory.GameFieldLogic.GetField()[y, x];
-        board[3 * y + x] = _gameFactory.GameFieldLogic.GetField()[y, x].GetSymbol();
+        symbolCells[3 * y + x] = GameFactory.GameFieldLogic.GetField()[y, x];
+        board[3 * y + x] = GameFactory.GameFieldLogic.GetField()[y, x].GetSymbol();
       }
 
       await Wait(() => {
         int bestMove = GetBestMove(board, symbolCells);
 
         if (bestMove >= 0)
-        {
           symbolCells[bestMove].SetSymbol(DragableData);
-          _gameFactory.GameViewLogic.SetFigureState(DragableData.GetSymbol(), DragableData.GetSize());
-        }
         else
           onEndGame?.Invoke();
         

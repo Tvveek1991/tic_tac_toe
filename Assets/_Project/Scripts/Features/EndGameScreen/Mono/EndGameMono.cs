@@ -17,6 +17,7 @@ namespace _Project.Scripts.Features.EndGameScreen.Mono
     public List<Result> ResultList;
 
     public GameObject ScorePanel;
+    public GameObject WinStreakPanel;
     
     public TextMeshProUGUI BestWinStreakText;
     public TextMeshProUGUI WinStreakText;
