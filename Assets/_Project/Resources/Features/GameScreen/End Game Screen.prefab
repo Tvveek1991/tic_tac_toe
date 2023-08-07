@@ -1507,6 +1507,7 @@ MonoBehaviour:
     Icon: {fileID: 6073063058831781525}
     Score: {fileID: 8520288408160234049}
   ScorePanel: {fileID: 4236838330518645706}
+  WinnerSymbol: {fileID: 6511069072873685144}
   WinStreakPanel: {fileID: 3855661890297753343}
   BestWinStreakText: {fileID: 2511281769737980251}
   WinStreakText: {fileID: 5572041409153946745}

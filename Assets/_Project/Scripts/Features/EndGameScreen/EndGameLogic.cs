@@ -43,7 +43,7 @@ namespace _Project.Scripts.Features.EndGameScreen
 
       LoadTitle(sign);
       LoadWinStreak(sign);
-      LoadResult();
+      LoadResult(sign);
 
       _endGameWindow.CanvasGroup.DOFade(1f, Duration)
         .OnComplete(() => { _endGameWindow.CanvasGroup.blocksRaycasts = true; });
@@ -82,11 +82,12 @@ namespace _Project.Scripts.Features.EndGameScreen
       _endGameWindow.BestWinStreakText.text = _localeSystem.GetText("EndGame.BestWinStreak") + ": " + _gameMetaProvider.GetWinStreak(true);
     }
 
-    private void LoadResult()
+    private void LoadResult(SymbolSign winnerSign)
     {
       if (_gameMetaProvider.GetEnemyType() != EnemyType.OneDevice)
         return;
 
+      _endGameWindow.WinnerSymbol.sprite = _gameMetaProvider.GetIcon(winnerSign);
       _endGameWindow.ScorePanel.SetActive(true);
 
       for (var i = 0; i < Enum.GetValues(typeof(SymbolSign)).Length - 1; i++)
