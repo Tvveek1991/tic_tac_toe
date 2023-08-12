@@ -87,7 +87,7 @@ namespace _Project.Scripts.Features.EndGameScreen
       if (_gameMetaProvider.GetEnemyType() != EnemyType.OneDevice)
         return;
 
-      _endGameWindow.WinnerSymbol.sprite = _gameMetaProvider.GetIcon(winnerSign);
+      _endGameWindow.WinnerSymbol.sprite = winnerSign == SymbolSign.None ? _endGameWindow.DrawIcon : _gameMetaProvider.GetIcon(winnerSign);
       _endGameWindow.ScorePanel.SetActive(true);
 
       for (var i = 0; i < Enum.GetValues(typeof(SymbolSign)).Length - 1; i++)

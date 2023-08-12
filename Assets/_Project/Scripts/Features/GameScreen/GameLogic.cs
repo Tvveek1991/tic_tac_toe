@@ -54,10 +54,8 @@ namespace _Project.Scripts.Features.GameScreen
       _loadingLogic.Enter(() => _inputResolver.Enable());
     }
 
-    public void Exit()
-    {
+    public void Exit() => 
       _gameFactory.ClearScreen();
-    }
 
     private void OnClickBack()
     {
