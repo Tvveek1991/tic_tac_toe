@@ -12,8 +12,8 @@ namespace _Project.Scripts.Features.GameScreen
     private readonly Bot _bot;
 
     public BotGameViewLogic(GameViewMono gameViewMono, IGameFactory gameFactory, ILocaleSystem localeSystem, IGameMetaProvider gameMetaProvider,
-      IAudioService audioService, IInputResolver inputResolver)
-      : base(gameViewMono, gameFactory, localeSystem, gameMetaProvider, audioService, inputResolver)
+      IAudioService audioService, IInputResolver inputResolver, IAssetProvider assetProvider)
+      : base(gameViewMono, gameFactory, localeSystem, gameMetaProvider, audioService, inputResolver, assetProvider)
     {
       _bot = GameMetaProvider.GetGame() == Game.Classic ? new ClassicBot(gameFactory, gameMetaProvider) : new BuhurtBot(gameFactory, gameMetaProvider, FiguresState);
       _bot.Construct();

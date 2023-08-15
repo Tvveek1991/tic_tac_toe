@@ -7,6 +7,7 @@ using _Project.Scripts.Features.DragAndDrop;
 using _Project.Scripts.Features.DragAndDrop.Interface;
 using _Project.Scripts.Features.GameScreen.Mono;
 using _Project.Scripts.Features.GameScreen.Serialized;
+using _Project.Scripts.Features.Tutorial;
 using _Project.Scripts.Services._Interfaces;
 using _Project.Scripts.Services.Audio.Enum;
 using _Project.Scripts.Services.Localization.Logic;
@@ -29,19 +30,23 @@ namespace _Project.Scripts.Features.GameScreen
       {SymbolSign.O, new[] {SymbolSize.Tiny, SymbolSize.Small, SymbolSize.Medium, SymbolSize.Big, SymbolSize.Large}}
     };
 
+    private readonly IAssetProvider _assetProvider;
     private readonly ILocaleSystem _localeSystem;
     private readonly IAudioService _audioService;
 
     private readonly GameViewMono _gameViewMono;
+    
+    private TutorialLogic _tutorialLogic;
 
     public IDragDrop DragDrop { get; private set; }
 
     protected GameViewLogic(GameViewMono gameViewMono, IGameFactory gameFactory, ILocaleSystem localeSystem, IGameMetaProvider gameMetaProvider,
-      IAudioService audioService, IInputResolver inputResolver)
+      IAudioService audioService, IInputResolver inputResolver, IAssetProvider assetProvider)
     {
       _gameViewMono = gameViewMono;
 
       _localeSystem = localeSystem;
+      _assetProvider = assetProvider;
       _audioService = audioService;
       
       InputResolver = inputResolver;
@@ -58,8 +63,12 @@ namespace _Project.Scripts.Features.GameScreen
     public virtual void Construct(Action onBack, Action<SymbolSign> onEndGame)
     {
       OnEndGame = onEndGame;
+      
+      _tutorialLogic = new TutorialLogic(_assetProvider, _localeSystem);
+      _tutorialLogic.Construct();
 
       _gameViewMono.BackButton.onClick.AddListener(() => onBack?.Invoke());
+      _gameViewMono.TutorialButton.onClick.AddListener(() => _tutorialLogic.SetActivity(true));
       
       Localize(_localeSystem);
       AppendButtonsAnimation();
@@ -68,6 +77,7 @@ namespace _Project.Scripts.Features.GameScreen
       FirstLoadPlayersUI(GameMetaProvider.GetGame());
       
       RefreshAfterChangeTurn(SymbolSign.X);
+
     }
 
     private void FirstLoadPlayersUI(Game game)
@@ -110,6 +120,9 @@ namespace _Project.Scripts.Features.GameScreen
       _gameViewMono.GetFigures(true).ForEach(item => item.SetVisibility(false));
       _gameViewMono.OpponentCanvasGroup.DOFade(0f, Duration);
     }
+
+    public void Clear() =>
+      _tutorialLogic.Exit();
 
     private void SetVisibilityFiguresPanel(bool isMainPlayer = false)
     {

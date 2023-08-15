@@ -9,8 +9,8 @@ namespace _Project.Scripts.Features.GameScreen
   public class OneDeviceGameViewLogic : GameViewLogic
   {
     public OneDeviceGameViewLogic(GameViewMono gameViewMono, IGameFactory gameFactory, ILocaleSystem localeSystem, IGameMetaProvider gameMetaProvider,
-      IAudioService audioService, IInputResolver inputResolver)
-      : base(gameViewMono, gameFactory, localeSystem, gameMetaProvider, audioService, inputResolver) { }
+      IAudioService audioService, IInputResolver inputResolver, IAssetProvider assetProvider)
+      : base(gameViewMono, gameFactory, localeSystem, gameMetaProvider, audioService, inputResolver, assetProvider) { }
     
     public override void Construct(Action onBack, Action<SymbolSign> onEndGame)
     {

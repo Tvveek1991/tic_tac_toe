@@ -7,7 +7,9 @@ namespace _Project.Scripts.Features.GameScreen.Mono
 {
   public class GameViewMono : MonoBehaviour
   {
-    [Space(20)] [SerializeField] private Button backButton;
+    [Space(20)]
+    [SerializeField]  private Button backButton;
+    [SerializeField]  private Button tutorialButton;
 
     [SerializeField] private SymbolOperatorUI playerPart;
     [SerializeField] private SymbolOperatorUI opponentPart;
@@ -19,6 +21,7 @@ namespace _Project.Scripts.Features.GameScreen.Mono
     [SerializeField] private List<PlayerFigure> opponentFigures;
 
     public Button BackButton => backButton;
+    public Button TutorialButton => tutorialButton;
     public CanvasGroup PlayerCanvasGroup => playerCanvasGroup;
     public CanvasGroup OpponentCanvasGroup => opponentCanvasGroup;
 

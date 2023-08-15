@@ -12,5 +12,6 @@ namespace _Project.Scripts.Features.GameScreen
     void ChangeTurningPlayer(SymbolSign activeSign = SymbolSign.None);
     void SetFigureState(SymbolSign symbol, SymbolSize size);
     void HidePlayersPanels();
+    void Clear();
   }
 }

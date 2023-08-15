@@ -54,8 +54,10 @@ namespace _Project.Scripts.Features.GameScreen
 
       _dictionaryGameMode = new Dictionary<EnemyType, Action>
       {
-        {EnemyType.Bot, () => GameViewLogic = new BotGameViewLogic(GameViewMono, this, localeSystem, _gameMetaProvider, _audioService, inputResolver)},
-        {EnemyType.OneDevice, () => GameViewLogic = new OneDeviceGameViewLogic(GameViewMono, this, localeSystem, _gameMetaProvider, _audioService, inputResolver)},
+        {EnemyType.Bot, () => GameViewLogic = new BotGameViewLogic(GameViewMono, this, localeSystem, 
+          _gameMetaProvider, _audioService, inputResolver, assetProvider)},
+        {EnemyType.OneDevice, () => GameViewLogic = new OneDeviceGameViewLogic(GameViewMono, this, localeSystem, 
+          _gameMetaProvider, _audioService, inputResolver, assetProvider)},
       };
     }
 
