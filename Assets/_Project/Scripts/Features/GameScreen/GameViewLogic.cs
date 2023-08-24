@@ -5,6 +5,7 @@ using _Project.Scripts.Animation;
 using _Project.Scripts.Features.Data;
 using _Project.Scripts.Features.DragAndDrop;
 using _Project.Scripts.Features.DragAndDrop.Interface;
+using _Project.Scripts.Features.Field.Mono;
 using _Project.Scripts.Features.GameScreen.Mono;
 using _Project.Scripts.Features.GameScreen.Serialized;
 using _Project.Scripts.Features.Tutorial;
@@ -13,6 +14,7 @@ using _Project.Scripts.Services.Audio.Enum;
 using _Project.Scripts.Services.Localization.Logic;
 using _Project.Scripts.Services.Localization.Mono;
 using DG.Tweening;
+using Sirenix.Utilities;
 
 namespace _Project.Scripts.Features.GameScreen
 {
@@ -33,9 +35,10 @@ namespace _Project.Scripts.Features.GameScreen
     private readonly IAssetProvider _assetProvider;
     private readonly ILocaleSystem _localeSystem;
     private readonly IAudioService _audioService;
+    private readonly IGameFactory _gameFactory;
 
     private readonly GameViewMono _gameViewMono;
-    
+
     private TutorialLogic _tutorialLogic;
 
     public IDragDrop DragDrop { get; private set; }
@@ -48,12 +51,13 @@ namespace _Project.Scripts.Features.GameScreen
       _localeSystem = localeSystem;
       _assetProvider = assetProvider;
       _audioService = audioService;
-      
+      _gameFactory = gameFactory;
+
       InputResolver = inputResolver;
       GameMetaProvider = gameMetaProvider;
-      
+
       gameFactory.SpawnPlayerObject();
-      
+
       if (GameMetaProvider.GetGame() != Game.Buhurt)
         return;
 
@@ -63,27 +67,26 @@ namespace _Project.Scripts.Features.GameScreen
     public virtual void Construct(Action onBack, Action<SymbolSign> onEndGame)
     {
       OnEndGame = onEndGame;
-      
+
       _tutorialLogic = new TutorialLogic(_assetProvider, _localeSystem);
       _tutorialLogic.Construct();
 
       _gameViewMono.BackButton.onClick.AddListener(() => onBack?.Invoke());
       _gameViewMono.TutorialButton.onClick.AddListener(() => _tutorialLogic.SetActivity(true));
-      
+
       Localize(_localeSystem);
       AppendButtonsAnimation();
       AppendClickSound(_audioService);
 
       FirstLoadPlayersUI(GameMetaProvider.GetGame());
-      
-      RefreshAfterChangeTurn(SymbolSign.X);
 
+      RefreshAfterChangeTurn(SymbolSign.X);
     }
 
     private void FirstLoadPlayersUI(Game game)
     {
       SymbolSign symbol = GameMetaProvider.GetPlayerView().GetSymbol();
-      
+
       if (game == Game.Classic)
       {
         _gameViewMono.GetSymbolPart().Construct(GameMetaProvider.GetIcon(symbol));
@@ -116,7 +119,7 @@ namespace _Project.Scripts.Features.GameScreen
     {
       _gameViewMono.GetFigures().ForEach(item => item.SetVisibility(false));
       _gameViewMono.PlayerCanvasGroup.DOFade(0f, Duration);
-      
+
       _gameViewMono.GetFigures(true).ForEach(item => item.SetVisibility(false));
       _gameViewMono.OpponentCanvasGroup.DOFade(0f, Duration);
     }
@@ -128,7 +131,7 @@ namespace _Project.Scripts.Features.GameScreen
     {
       _gameViewMono.GetFigures().ForEach(item => item.SetVisibility(isMainPlayer));
       _gameViewMono.PlayerCanvasGroup.DOFade(isMainPlayer ? 1f : .05f, Duration);
-      
+
       _gameViewMono.GetFigures(true).ForEach(item => item.SetVisibility(!isMainPlayer));
       _gameViewMono.OpponentCanvasGroup.DOFade(!isMainPlayer ? 1f : .05f, Duration);
     }
@@ -142,12 +145,16 @@ namespace _Project.Scripts.Features.GameScreen
 
       SetPlayerUi(nextSign);
       GameMetaProvider.GetPlayerView().SetPlayerTurn(isPlayerTurn);
+
+      if (isPlayerTurn)
+        ShowPotentialTurn(nextSign);
+      else
+        HidePotentialTurn();
     }
 
     private void SetPlayerUi(SymbolSign symbol)
     {
-      bool isMainPlayer = GameMetaProvider.GetEnemyType() == EnemyType.OneDevice ? 
-        symbol == SymbolSign.X : symbol == GameMetaProvider.GetPlayerView().GetSymbol();
+      bool isMainPlayer = GameMetaProvider.GetEnemyType() == EnemyType.OneDevice ? symbol == SymbolSign.X : symbol == GameMetaProvider.GetPlayerView().GetSymbol();
 
       _gameViewMono.GetSymbolPart().SetActivity(isMainPlayer);
       _gameViewMono.GetSymbolPart(true).SetActivity(!isMainPlayer);
@@ -182,6 +189,36 @@ namespace _Project.Scripts.Features.GameScreen
         _gameViewMono.GetFigures(true)[i].FirstLoadFigure(symbol, GameMetaProvider.GetMesh(dragableData), GameMetaProvider.GetMaterial(dragableData));
       }
     }
+    
+    private const int FieldSizeX = 3;
+    private const int FieldSizeY = 3;
+    private void ShowPotentialTurn(SymbolSign symbolSign)
+    {
+      var symbolCells = new SymbolCell[_gameFactory.GameFieldLogic.GetField().Length];
+      var board = new SymbolSign[_gameFactory.GameFieldLogic.GetField().Length];
+      
+      for (var y = 0; y < FieldSizeY; y++)
+      for (var x = 0; x < FieldSizeX; x++)
+      {
+        symbolCells[3 * y + x] = _gameFactory.GameFieldLogic.GetField()[y, x];
+        board[3 * y + x] = _gameFactory.GameFieldLogic.GetField()[y, x].GetSymbol();
+      }
+
+      symbolCells.ForEach(item =>
+      {
+        if (item.GetSymbol() == SymbolSign.None)
+        {
+          var dragableData = new DragableData(symbolSign, SymbolSize.Default);
+          item.ShowPotentialTurn(GameMetaProvider.GetMesh(dragableData));
+        }
+      });
+    }
+    
+    private void HidePotentialTurn()
+    {
+      foreach (SymbolCell symbolCell in _gameFactory.GameFieldLogic.GetField())
+        symbolCell.HidePotentialTurn();
+    }
 
     private bool IsBuhurtFiguresOver()
     {
@@ -190,12 +227,12 @@ namespace _Project.Scripts.Features.GameScreen
 
       if (!CheckLastFiguresSymbol() && !IsFiguresOver())
         return false;
-      
+
       OnEndGame?.Invoke(SymbolSign.None);
       return true;
     }
 
-    private void AppearAnimation() => 
+    private void AppearAnimation() =>
       _gameViewMono.gameObject.SetActive(true);
 
     private void Localize(ILocaleSystem localeSystem)

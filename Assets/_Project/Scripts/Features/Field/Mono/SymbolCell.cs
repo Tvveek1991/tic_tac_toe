@@ -10,6 +10,8 @@ namespace _Project.Scripts.Features.Field.Mono
     private SymbolSign _symbol;
     private SymbolSize _size = SymbolSize.Default;
 
+    private PotentialTurn _potentialTurn;
+    
     private MeshFilter _meshFilter;
     private MeshRenderer _meshRenderer;
 
@@ -24,6 +26,9 @@ namespace _Project.Scripts.Features.Field.Mono
 
       _meshFilter = GetComponentInChildren<MeshFilter>();
       _meshRenderer = GetComponentInChildren<MeshRenderer>();
+      
+      _potentialTurn = GetComponentInChildren<PotentialTurn>();
+      _potentialTurn.Construct();
     }
 
     public SymbolSign GetSymbol() =>
@@ -38,5 +43,11 @@ namespace _Project.Scripts.Features.Field.Mono
       _size = dragableData.GetSize();
       _onClickCell.Invoke(dragableData);
     }
+
+    public void ShowPotentialTurn(Mesh getMesh) =>
+      _potentialTurn.ShowPotentialTurn(getMesh);
+
+    public void HidePotentialTurn() =>
+      _potentialTurn.Hide();
   }
 }
