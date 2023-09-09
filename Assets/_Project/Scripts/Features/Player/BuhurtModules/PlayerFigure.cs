@@ -1,3 +1,4 @@
+using System;
 using _Project.Scripts.Features.Data;
 using _Project.Scripts.Features.DragAndDrop.Interface;
 using _Project.Scripts.Features.GameScreen.Serialized;
@@ -26,12 +27,18 @@ namespace _Project.Scripts.Features.Player.BuhurtModules
     public SymbolSign Sign { get; private set; }
     public SymbolSize Size => _size;
 
-    public void Construct(IDragDrop dragDrop, IInputResolver inputResolver)
+    private Action _hidePotentials;
+    private Action<DragablePart> _showPotentialTurn;
+
+    public void Construct(IDragDrop dragDrop, IInputResolver inputResolver, Action<DragablePart> showPotentialTurn, Action hidePotentials)
     {
       _mesh = GetComponentInChildren<MeshFilter>();
       _meshRenderer = GetComponentInChildren<MeshRenderer>();
       _boxCollider = GetComponentInChildren<BoxCollider>();
 
+      _hidePotentials = hidePotentials;
+      _showPotentialTurn = showPotentialTurn;
+      
       _dragDrop = dragDrop;
       _inputResolver = inputResolver;
 
@@ -80,6 +87,7 @@ namespace _Project.Scripts.Features.Player.BuhurtModules
     private void OnStartDrag()
     {
       _boxCollider.enabled = false;
+      _showPotentialTurn.Invoke(_dragablePart);
     }
 
     private void OnPin()
@@ -89,6 +97,7 @@ namespace _Project.Scripts.Features.Player.BuhurtModules
     private void OnReturn()
     {
       _boxCollider.enabled = true;
+      _hidePotentials?.Invoke();
     }
   }
 }

@@ -1,5 +1,4 @@
 using _Project.Scripts.Features.Field.Mono;
-using _Project.Scripts.Features.GameScreen.Serialized;
 using _Project.Scripts.Features.Player.BuhurtModules;
 using UnityEngine;
 

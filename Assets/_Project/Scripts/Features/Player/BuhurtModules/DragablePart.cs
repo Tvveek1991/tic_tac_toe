@@ -54,8 +54,8 @@ namespace _Project.Scripts.Features.Player.BuhurtModules
     public void PinPart() => 
       _onPin?.Invoke();
 
-    public bool CanPin(SymbolSize symbolSize, SymbolSign netSymbolSign) => 
-      symbolSize < _dragableData.GetSize() && netSymbolSign != _dragableData.GetSymbol();
+    public bool CanPin(SymbolSize symbolSize, SymbolSign symbolSign) => 
+      symbolSize < _dragableData.GetSize() && symbolSign != _dragableData.GetSymbol();
 
     private void SetPlaceData(PlaceData placeData) =>
       transform.SetPlaceData(placeData);

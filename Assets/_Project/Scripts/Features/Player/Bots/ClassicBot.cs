@@ -23,7 +23,7 @@ namespace _Project.Scripts.Features.Player.Bots
 
       for (var cell = 0; cell < 9; cell++)
       {
-        if (board[cell] != 0)
+        if (board[cell] != SymbolSign.None)
           continue;
 
         var newBoard = (SymbolSign[]) board.Clone();

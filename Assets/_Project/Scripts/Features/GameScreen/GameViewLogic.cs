@@ -8,6 +8,7 @@ using _Project.Scripts.Features.DragAndDrop.Interface;
 using _Project.Scripts.Features.Field.Mono;
 using _Project.Scripts.Features.GameScreen.Mono;
 using _Project.Scripts.Features.GameScreen.Serialized;
+using _Project.Scripts.Features.Player.BuhurtModules;
 using _Project.Scripts.Features.Tutorial;
 using _Project.Scripts.Services._Interfaces;
 using _Project.Scripts.Services.Audio.Enum;
@@ -168,8 +169,8 @@ namespace _Project.Scripts.Features.GameScreen
     private void CreateDragDrop()
     {
       DragDrop = _gameViewMono.gameObject.AddComponent<DragDrop>();
-      _gameViewMono.GetFigures().ForEach(item => item.Construct(DragDrop, InputResolver));
-      _gameViewMono.GetFigures(true).ForEach(item => item.Construct(DragDrop, InputResolver));
+      _gameViewMono.GetFigures().ForEach(item => item.Construct(DragDrop, InputResolver, ShowPotentialTurn, HidePotentialTurn));
+      _gameViewMono.GetFigures(true).ForEach(item => item.Construct(DragDrop, InputResolver, ShowPotentialTurn, HidePotentialTurn));
     }
 
     private void LoadPlayerBuhurtPart(SymbolSign symbol)
@@ -194,6 +195,9 @@ namespace _Project.Scripts.Features.GameScreen
     private const int FieldSizeY = 3;
     private void ShowPotentialTurn(SymbolSign symbolSign)
     {
+      if(GameMetaProvider.GetGame() == Game.Buhurt)
+        return;
+      
       var symbolCells = new SymbolCell[_gameFactory.GameFieldLogic.GetField().Length];
       var board = new SymbolSign[_gameFactory.GameFieldLogic.GetField().Length];
       
@@ -209,6 +213,27 @@ namespace _Project.Scripts.Features.GameScreen
         if (item.GetSymbol() == SymbolSign.None)
         {
           var dragableData = new DragableData(symbolSign, SymbolSize.Default);
+          item.ShowPotentialTurn(GameMetaProvider.GetMesh(dragableData));
+        }
+      });
+    }
+    private void ShowPotentialTurn(DragablePart dragablePart)
+    {
+      var symbolCells = new SymbolCell[_gameFactory.GameFieldLogic.GetField().Length];
+      var board = new SymbolSign[_gameFactory.GameFieldLogic.GetField().Length];
+      
+      for (var y = 0; y < FieldSizeY; y++)
+      for (var x = 0; x < FieldSizeX; x++)
+      {
+        symbolCells[3 * y + x] = _gameFactory.GameFieldLogic.GetField()[y, x];
+        board[3 * y + x] = _gameFactory.GameFieldLogic.GetField()[y, x].GetSymbol();
+      }
+
+      symbolCells.ForEach(item =>
+      {
+        if (item.GetSize() < dragablePart.GetDragableData().GetSize() && item.GetSymbol() != dragablePart.GetDragableData().GetSymbol())
+        {
+          var dragableData = new DragableData(dragablePart.GetDragableData().GetSymbol(), dragablePart.GetDragableData().GetSize());
           item.ShowPotentialTurn(GameMetaProvider.GetMesh(dragableData));
         }
       });
