@@ -13,8 +13,8 @@ namespace _Project.Scripts.Features.DisableAds.Mono
 
     public Text PurchasePrice;
     
-    public Text AdsWatchedProgress;
-    public Text[] DisableAdsTimers;
+    public TextMeshProUGUI AdsWatchedProgress;
+    public TextMeshProUGUI[] DisableAdsTimers;
 
     public GameObject InfoPanelBefore, InfoPanelAfter;
     public GameObject AdsOfferEnabled, AdsOfferDisabled;
