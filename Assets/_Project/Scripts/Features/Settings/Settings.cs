@@ -225,19 +225,19 @@ namespace _Project.Scripts.Features.Settings
       switch (type)
       {
         case SoundType.Music:
-          IconMusic.sprite = mute ? _musicOff : _musicOn;
-          SwitcherMusic.DOLocalMove(mute ? Vector3.left * 19 : Vector3.right * 19, SwitcherTime); //ToDo: Заменить на бахину анимацию
-          var music = SwitcherMusic.parent.GetComponent<Image>();
-          music.sprite = mute ? Inactive : Active;
-          music.color = mute ? InactiveColor : Color.white;
+          // IconMusic.sprite = mute ? _musicOff : _musicOn;
+          SwitcherMusic.DOLocalMove(mute ? Vector3.left * 40 : Vector3.right * 40, SwitcherTime);
+          // var music = SwitcherMusic.parent.GetComponent<Image>();
+          // music.sprite = mute ? Inactive : Active;
+          // music.color = mute ? InactiveColor : Color.white;
           _audioService.MuteMusic(mute);
           break;
         case SoundType.Sound:
-          IconSound.sprite = mute ? _soundOff : _soundOn;
-          SwitcherSound.DOLocalMove(mute ? Vector3.left * 19 : Vector3.right * 19, SwitcherTime); //ToDo: Заменить на бахину анимацию
-          var sound = SwitcherSound.parent.GetComponent<Image>();
-          sound.sprite = mute ? Inactive : Active;
-          sound.color = mute ? InactiveColor : Color.white;
+          // IconSound.sprite = mute ? _soundOff : _soundOn;
+          SwitcherSound.DOLocalMove(mute ? Vector3.left * 40 : Vector3.right * 40, SwitcherTime);
+          // var sound = SwitcherSound.parent.GetComponent<Image>();
+          // sound.sprite = mute ? Inactive : Active;
+          // sound.color = mute ? InactiveColor : Color.white;
           _audioService.MuteSounds(mute);
           break;
       }
