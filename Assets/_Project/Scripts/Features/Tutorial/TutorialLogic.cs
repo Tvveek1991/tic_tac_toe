@@ -32,18 +32,21 @@ namespace _Project.Scripts.Features.Tutorial
       
       _tutorialFactory.TutorialView.PreviousButton.onClick.AddListener(() => ChangePage(-1));
       _tutorialFactory.TutorialView.NextButton.onClick.AddListener(() => ChangePage(1));
+      
+      _tutorialFactory.TutorialView.StageTutorials.ForEach(item => item.Construct());
     }
 
     public void SetActivity(bool isOn)
     {
       _tutorialFactory.TutorialView.CanvasGroup.DOFade(isOn ? 1f : 0f, .25f);
       _tutorialFactory.TutorialView.CanvasGroup.blocksRaycasts = isOn;
+
+      _activePage = 0;
+      _tutorialFactory.TutorialView.PreviousButton.onClick.Invoke();
     }
 
-    public void Exit()
-    {
+    public void Exit() => 
       _tutorialFactory.Clear();
-    }
 
     private void ChangePage(int direction)
     {
@@ -52,6 +55,17 @@ namespace _Project.Scripts.Features.Tutorial
 
       _tutorialFactory.TutorialView.Page.text = (_activePage + 1) + " / " + _tutorialData.Length;
       _tutorialFactory.TutorialView.Description.text = _localeSystem.GetText(_tutorialData[_activePage].DescriptionKey);
-    } 
+      
+      _tutorialFactory.TutorialView.StageTutorials.ForEach(item => item.Hide());
+      _tutorialFactory.TutorialView.StageTutorials[_activePage].Show();
+      
+      FadeSlideButtons();
+    }
+
+    private void FadeSlideButtons()
+    {
+      _tutorialFactory.TutorialView.PreviousCanvasGroup.DOFade(_activePage == 0 ? .5f : 1f, .25f);
+      _tutorialFactory.TutorialView.NextCanvasGroup.DOFade(_activePage == _tutorialData.Length - 1 ? .5f : 1f, .25f);
+    }
   }
 }

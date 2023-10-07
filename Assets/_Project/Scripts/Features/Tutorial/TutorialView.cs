@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using _Project.Scripts.Features.Tutorial.Stages;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -15,5 +17,10 @@ namespace _Project.Scripts.Features.Tutorial
     public TextMeshProUGUI Description;
     
     public CanvasGroup CanvasGroup;
+    
+    public CanvasGroup PreviousCanvasGroup;
+    public CanvasGroup NextCanvasGroup;
+    
+    public List<StageTutorial> StageTutorials;
   }
 }
