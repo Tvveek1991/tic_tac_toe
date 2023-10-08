@@ -18,7 +18,7 @@ namespace _Project.Scripts.Features.ScrollView
 {
   public class ScrollViewItemButton : MonoBehaviour, IPointerDownHandler
   {
-    protected const float Duration = .3f;
+    private const float Duration = .3f;
 
     public Button Button;
 

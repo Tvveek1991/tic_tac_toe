@@ -19,18 +19,12 @@ namespace _Project.Scripts.Features.ShopScreen.Mono
       public ScrollViewSectionButton Button;
     }
 
-    private const float ClearDuration = .5f;
     private const float AnimDuration = .5f;
     private const float WindowAnimStepY = 1000f;
 
     public Button BackButton;
 
-    public Image ProgressInfo;
-    public TextMeshProUGUI ProgressText;
-
-    public Transform ShopParent;
     public Transform ItemViewsParent;
-    public Transform SkinEffectParent;
 
     public CanvasGroup TopPanel;
     public CanvasGroup MainPanel;
@@ -53,17 +47,6 @@ namespace _Project.Scripts.Features.ShopScreen.Mono
       _windowDefaultPos = MainPanel.GetComponent<RectTransform>().anchoredPosition;
       Show();
     }
-
-    public void AddProgress(int progress, int max)
-    {
-      float percent = (float)progress / max;
-      ProgressInfo.DOFillAmount(percent, 0.2f);
-      ProgressText.text = progress + "/" + max;
-    }
-
-    public void ClearPassiveProgress() =>
-      ProgressInfo.DOFillAmount(0f, ClearDuration * ProgressInfo.fillAmount);
-
 
     public ScrollViewSectionButton GetSectionButton(ItemType type) =>
       SectionButtons.FirstOrDefault(x => x.Type == type)?.Button;
@@ -99,13 +82,12 @@ namespace _Project.Scripts.Features.ShopScreen.Mono
       _preview.ForEach(item => item.Hide(null));
 
       MainPanel.interactable = false;
-      RectTransform mainRect = MainPanel.GetComponent<RectTransform>();
+      var mainRect = MainPanel.GetComponent<RectTransform>();
       mainRect.anchoredPosition = _windowDefaultPos;   
       
       mainRect.DOAnchorPos(_windowDefaultPos - Vector3.up * WindowAnimStepY, AnimDuration)
         .OnComplete(delegate
         {
-          // TopPanel.interactable = true;
           MainPanel.interactable = true;
           _onClickBack?.Invoke();
         });
