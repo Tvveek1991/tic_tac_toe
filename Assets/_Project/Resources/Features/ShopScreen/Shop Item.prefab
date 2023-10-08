@@ -1619,7 +1619,6 @@ MonoBehaviour:
   Button: {fileID: 5254728415977669727}
   Selector: {fileID: 9164928042652562749}
   Icon: {fileID: 7052292342948803595}
-  Name: {fileID: 0}
   Description: {fileID: 6073031170892676464}
   Buy:
     Cost: {fileID: 1608464402553359261}
@@ -1633,12 +1632,6 @@ MonoBehaviour:
   UnlockPanel: {fileID: 7708521317013497687}
   LockPanel: {fileID: 666390659309834336}
   SetNativeSizeIcon: 1
-  Animator: {fileID: 0}
-  MainImage: {fileID: 0}
-  LockImage: {fileID: 0}
-  Info: {fileID: 0}
-  IconImage: {fileID: 0}
-  Counter: {fileID: 0}
 --- !u!114 &5059877749052993151
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1659,7 +1652,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 3be9f1222001eb24d8119b2a072e0c36, type: 3}
+  m_Sprite: {fileID: 0}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

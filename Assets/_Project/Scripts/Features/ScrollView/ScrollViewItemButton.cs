@@ -11,12 +11,11 @@ using _Project.Scripts.Services.Unlocker;
 using DG.Tweening;
 using TMPro;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 namespace _Project.Scripts.Features.ScrollView
 {
-  public class ScrollViewItemButton : MonoBehaviour, IPointerDownHandler
+  public class ScrollViewItemButton : MonoBehaviour
   {
     private const float Duration = .3f;
 
@@ -25,31 +24,20 @@ namespace _Project.Scripts.Features.ScrollView
     public GameObject Selector;
 
     public Image Icon;
-    public TextMeshProUGUI Name;
     public TextMeshProUGUI Description;
     public BuyZone Buy;
-
-    public RectTransform Blink;
-
-    protected CanvasGroup ActiveBuyingGroup;
-
-    protected ScrollViewItemData ScrollViewItemData;
 
     public CanvasGroup UnlockPanel;
     public CanvasGroup LockPanel;
 
     public bool SetNativeSizeIcon;
-
-    public Animator Animator;
-
-    public Image MainImage;
-    public Image LockImage;
-    public TextMeshProUGUI Info;
-    public Image IconImage;
-    public TextMeshProUGUI Counter;
     
-    protected IAudioService AudioService;
-    protected ILocaleSystem LocaleSystem;
+    private CanvasGroup _activeBuyingGroup;
+
+    private ScrollViewItemData _scrollViewItemData;
+    
+    private IAudioService _audioService;
+    private ILocaleSystem _localeSystem;
 
     private UnlockType _type;
 
@@ -68,8 +56,8 @@ namespace _Project.Scripts.Features.ScrollView
     public virtual void Construct(ILocaleSystem localeSystem, IUnlockService unlockService, ScrollViewItemData scrollViewItemData,
       Action onClickItem, IAudioService audioService, string description)
     {
-      LocaleSystem = localeSystem;
-      AudioService = audioService;
+      _localeSystem = localeSystem;
+      _audioService = audioService;
 
       SetBuyZoneDefaults(Buy.BoughtGroup);
       SetBuyZoneDefaults(Buy.AdvGroup);
@@ -79,7 +67,7 @@ namespace _Project.Scripts.Features.ScrollView
 
       SwitchLockPanels(false);
 
-      ScrollViewItemData = scrollViewItemData;
+      _scrollViewItemData = scrollViewItemData;
 
       SwitchSelector(false);
 
@@ -90,66 +78,47 @@ namespace _Project.Scripts.Features.ScrollView
 
       SetLock();
 
-      AnimateBlink();
-
-      Localize(LocaleSystem);
+      Localize(_localeSystem);
       new ButtonSound(audioService, Button.gameObject, AudioId.Click);
 
       void SetIcon()
       {
-        Icon.sprite = ScrollViewItemData.Icon;
+        Icon.sprite = _scrollViewItemData.Icon;
 
         if (SetNativeSizeIcon)
           Icon.SetNativeSize();
       }
       void SetLock()
       {
-        _type = unlockService.GetUnlockType(ScrollViewItemData.Id);
+        _type = unlockService.GetUnlockType(_scrollViewItemData.Id);
 
         if (_type == UnlockType.IAP)
         {
-          Icon.sprite = ScrollViewItemData.IconLock; 
+          Icon.sprite = _scrollViewItemData.IconLock; 
           Buy.IAPGarland.SetActive(true);
         }
 
         if (_type == UnlockType.Free)
           return;
 
-        switch (_type)
+        _activeBuyingGroup = _type switch
         {
-          case UnlockType.Money:
-            ActiveBuyingGroup = Buy.MoneyGroup;
-            break;
-          case UnlockType.Advertising:
-            ActiveBuyingGroup = Buy.AdvGroup;
-            break;
-          case UnlockType.IAP:
-            ActiveBuyingGroup = Buy.IAPGroup;
-            break;
-        }
+          UnlockType.Money => Buy.MoneyGroup,
+          UnlockType.Advertising => Buy.AdvGroup,
+          UnlockType.IAP => Buy.IAPGroup,
+          _ => _activeBuyingGroup
+        };
 
-        ActiveBuyingGroup.DOFade(1f, Duration);
+        _activeBuyingGroup.DOFade(1f, Duration);
 
-        Buy.Cost.text = unlockService.GetCost(ScrollViewItemData.Id).ToString();
+        Buy.Cost.text = unlockService.GetCost(_scrollViewItemData.Id).ToString();
       }
     }
-    
-    protected void SetBuyZoneDefaults(CanvasGroup target)
+
+    private void SetBuyZoneDefaults(CanvasGroup target)
     {
       if (target != null)
         target.alpha = 0;
-    }
-
-    private void AnimateBlink()
-    {
-      if (!Blink)
-        return;
-
-      Sequence sequence = DOTween.Sequence();
-      sequence.AppendInterval(7);
-      sequence.Append(Blink.DOAnchorPos(new Vector2(60, 0), 1f));
-
-      sequence.SetLoops(-1, LoopType.Restart);
     }
 
     protected virtual void SwitchSelector(bool value)
@@ -160,13 +129,13 @@ namespace _Project.Scripts.Features.ScrollView
 
     public virtual void OpenContent(bool fromInit = false)
     {
-      ActiveBuyingGroup.DOFade(0f, Duration);
+      _activeBuyingGroup.DOFade(0f, Duration);
 
       PlayOpenContentSound(fromInit);
 
       if (_type == UnlockType.IAP)
       {
-        Icon.sprite = ScrollViewItemData.Icon; 
+        Icon.sprite = _scrollViewItemData.Icon; 
         Buy.IAPGarland.SetActive(false);
       }
     }
@@ -174,14 +143,14 @@ namespace _Project.Scripts.Features.ScrollView
     public void PlayOpenContentSound(bool fromInit = false)
     {
       if (fromInit == false)
-        AudioService.Play(AudioId.Click);
+        _audioService.Play(AudioId.Click);
     }
 
     public void Activate()
     {
       Buy.BoughtGroup.DOFade(1, Duration);
       Buy.ChooseGroup.DOFade(0, Duration);
-      ActiveBuyingGroup.DOFade(0, Duration);
+      _activeBuyingGroup.DOFade(0, Duration);
 
       SwitchSelector(true);
     }
@@ -201,23 +170,14 @@ namespace _Project.Scripts.Features.ScrollView
     }
 
     public string GetId() =>
-      ScrollViewItemData.Id;
+      _scrollViewItemData.Id;
 
     public void SetLockButton(bool isLock)
     {
-      //Button.interactable = !isLock;
       if(LockPanel)
         LockPanel.gameObject.SetActive(isLock);
       SwitchLockPanels(isLock);
-      
-      LockImage?.gameObject.SetActive(isLock);
-      Info?.gameObject.SetActive(isLock);
-      IconImage?.gameObject.SetActive(!isLock);
-      Counter?.gameObject.SetActive(!isLock);
     }
-
-    public void SetName(string slotName) =>
-      Name.text = slotName;
 
     protected virtual void SetDescription(string description) =>
       Description.text = description;
@@ -237,12 +197,6 @@ namespace _Project.Scripts.Features.ScrollView
         UnlockPanel.alpha = 1;
         LockPanel.alpha = 0;
       }
-    }
-
-    public void OnPointerDown(PointerEventData eventData)
-    {
-      if (Animator)
-        Animator.SetBool("Pressed", true);
     }
 
     private void Localize(ILocaleSystem localeSystem)
