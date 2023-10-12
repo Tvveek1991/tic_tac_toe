@@ -124,6 +124,9 @@ namespace _Project.Scripts.Features.ShopScreen
 
       foreach (ShopTypeData t in _shopTypesData)
       {
+        if(_shopView.GetSectionButton(t.Type) == null)
+          continue;
+        
         CreateSectionButton(t);
         CreateScrollItemsView(t);
         CreateItems(t);

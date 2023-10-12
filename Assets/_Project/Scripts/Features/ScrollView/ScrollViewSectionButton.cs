@@ -17,7 +17,7 @@ namespace _Project.Scripts.Features.ScrollView
 
     public Button Button;
 
-    public GameObject Selector;
+    public Image Selector;
 
     private Sprite _iconOn;
     private Sprite _iconOff;
@@ -29,7 +29,7 @@ namespace _Project.Scripts.Features.ScrollView
     {
       _nameKey = nameKey;
 
-      if (iconOn)
+      /*if (iconOn)
       {
         Icon.sprite = iconOn;
         Icon.SetNativeSize();
@@ -37,7 +37,7 @@ namespace _Project.Scripts.Features.ScrollView
       }
 
       if (iconOff)
-        _iconOff = iconOff;
+        _iconOff = iconOff;*/
 
       SetLocale(localeSystem);
       
@@ -51,11 +51,11 @@ namespace _Project.Scripts.Features.ScrollView
     
     public void Select(bool value)
     {
-      Selector?.SetActive(value);
-      Selector.GetComponent<Image>().DOFade(value ? 1 : 0, 0.35f);
+      // Selector.SetActive(value);
+      Selector.DOFade(value ? 1 : 0.05f, 0.35f);
 
-      if (_iconOn && _iconOff)
-        Icon.sprite = value ? _iconOn : _iconOff; 
+      /*if (_iconOn && _iconOff)
+        Icon.sprite = value ? _iconOn : _iconOff; */
     }
 
     private void SetLocale(ILocaleSystem localeSystem)

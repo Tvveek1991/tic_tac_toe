@@ -68,7 +68,7 @@ namespace _Project.Scripts.Features.HomeScreen
 
     private void CreateAnimations()
     {
-      new ButtonAnimation(_homeViewMono.ShopButton.transform);
+      // new ButtonAnimation(_homeViewMono.ShopButton.transform);
       new ButtonAnimation(_homeViewMono.SettingsButton.transform);
       new ButtonAnimation(_homeViewMono.NoAdsButton.transform);
       
