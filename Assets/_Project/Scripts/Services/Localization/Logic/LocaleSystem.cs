@@ -56,6 +56,8 @@ namespace _Project.Scripts.Services.Localization.Logic
       {
         SystemLanguage.English => "en",
         SystemLanguage.Russian => "ru",
+        SystemLanguage.Spanish => "es",
+        SystemLanguage.Portuguese => "pt",
         _ => "en"
       };
     }

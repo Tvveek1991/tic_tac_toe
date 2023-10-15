@@ -1,61 +1,53 @@
-Ключ	ru	en
-Policy.PrivacyPolicy	Политика конфиденциальности	Privacy Policy
-Policy.Decription	Для использования приложения необходимо принять условия политики конфиденциальности	To use the application, you must accept the terms of the privacy policy
-Policy.Terms	Ознакомиться с условиями	View terms
-Policy.Accept	Принять	Accept
-Policy.Personalized	Персонализированная реклама	Personalized ads
-Policy.Decline	Отказаться	Decline
-Settings	Настройки	Settings
-Music	Музыка	Music
-Sounds	Звук	Sound
-Hints	Подсказки	Hints
-AdNotLoaded	Реклама не загружена	Unable to load an ad
-NoConnection.Reconnect	Идёт переподключение...	Reconnecting...
-NoConnection.Description	Отсутствует интернет-соединение, подключиться заново?	There's no connection to the internet, connect again?
-Connect	Подключиться	Connect
-Next	Далее	Next
-Back	Назад	Back
-DisableAds.Info1	Отключить рекламу навсегда	Disable ads forever and ever
-DisableAds.Info2	Реклама отключена	Ads disabled
-DisableAds.ContinueWithAds	Продолжить с рекламой	Continue with ads
-DisableAds.Show	Смотреть	Watch
-DisableAds.Thanks	Благодаря тебе проект станет лучше!	Thanks to you, the project will become better!
-DisableAds.Description1	Ты можешь навсегда убрать всю рекламу и разблокировать весь контент, а также внести вклад в развитие проекта и поднять настроение разработчикам	You can permanently remove all advertising and unlock all content, as well as contribute to the development of the project and cheer up the developers
-DisableAds.Description2	Больше никакой внезапной рекламы!	No more unexpected ads!
-DIsableAds.24h	Отключить рекламу на 24 часа	Disable ads for 24 hours
-DisableAds.BuyFor	Купить за {0}	Buy for {0}
-Customization.Apply	Применить	Apply
-Send	Отправить	Send
-Interview.Thanks	Спасибо за твой отзыв	Thanks for your feedback
-IAP.Shop	Магазин	Shop
-IAP.Title	Получи премиум-версию	Get a premium-version
-IAP.Description	Всего за {0} ты получаешь:	For just {0} you'll get:
-IAP.NoAds	Полное отсутствие рекламы в приложении	Complete lack of ads in the app
-IAP.OurThanks	Нашу благодарность за помощь проекту	Our gratitude for your help to the project
-IAP.Buy	Купить	Buy
-IAP.Continue	Продолжить бесплатно	Continue for free
-Rate.Description	Тебе понравилось в нашем приложении?	Did you like our app?
-Rate.Rate	Оценить	Rate
-Rate.Thanks	Большое спасибо за оценку!	Thank you so much for rating!
-Rate.Welcome	Пожалуйста	You're welcome
-Custom.Skins	Скины	Skins
-Custom.Music	Музыка	Music
-MusicItem.Name_1	Нежный шепот	Tranquil Harmony
-MusicItem.Name_2	Объятия безмятежности	Serenity's Embrace
-MusicItem.Name_3	Энергетическое безумие	Energetic Frenzy
-Mode.Classic	Классика	Classic
-Mode.Buhurt	5 на 5	5 vs 5
-Mode.Solo	Соло	Single
-Mode.Friends	Совместная	Friends
-Modifications	Модификации	Custom
-EndGame.BestWinStreak	Лучшая серия побед:	Best Win Streak
-EndGame.WinStreak	Серия побед:	Win Streak
-EndGame.Winner	Победил игрок:	Win player:
-EndGame.Draw	Ничья	Draw
-On	Вкл.	On
-Off	Выкл.	Off
-OpponentSearching	Поиск оппонента	Search for an opponent
-Tutorial.GoodTurn	Если ваше число больше, чем у вашего противника, вы можете закрыть его фигуру	If your number bigger than your opponent you can close it.
-Tutorial.Powers	У тебя есть только 5 фигур для победы. Используй их с умом	You only have 5 objects to win. Use them wisely.
-Tutorial.BadTurn	Если ваше число меньше, чем у вашего противника, вы не сможете закрыть его фигуру	If your number less than your opponent you can't close it.
-Tutorial.EqualTurn	Если ваше число такой же, как у вашего противника, вы тоже не сможете закрыть его фигуру. Удачи в игре!	If your number same as your opponent you can't close it too. Good luck in game!.
+Ключ	ru	en	pt	es
+Policy.PrivacyPolicy	Политика конфиденциальности	Privacy Policy	Política de Privacidade	Política de privacidad
+Policy.Decription	Для использования приложения необходимо принять условия политики конфиденциальности	To use the application, you must accept the terms of the privacy policy	Para usar o aplicativo, você deve aceitar os termos da política de privacidade.	Para utilizar la aplicación, debe aceptar los términos de la política de privacidad.
+Policy.Terms	Ознакомиться с условиями	View terms	Ver termos	Ver los términos
+Policy.Accept	Принять	Accept	Aceitar	Aceptar
+Policy.Personalized	Персонализированная реклама	Personalized ads	Anúncios personalizados	Anuncios personalizados
+Policy.Decline	Отказаться	Decline	Recusar	Rechazar
+Settings	Настройки	Settings	Configurações	Ajustes
+Music	Музыка	Music	Música	Música
+Sounds	Звук	Sound	Sonidos	Sons
+Hints	Подсказки	Hints	Dicas	Consejos
+AdNotLoaded	Реклама не загружена	Unable to load an ad	Não foi possível carregar um anúncio	No se puede cargar un anuncio
+NoConnection.Description	Отсутствует интернет-соединение, подключиться заново?	There's no connection to the internet, connect again?	Não há conexão com a internet. Conectar novamente?	No hay conexión a Internet, ¿te conectas de nuevo?
+Connect	Подключиться	Connect	Conectar	Conectar
+Next	Далее	Next	Próxima	Próxima
+Back	Назад	Back	Última	Última
+DisableAds.Info1	Отключить рекламу навсегда	Disable ads forever and ever	Desative os anúncios para todo o sempre	Deshabilita los anuncios por siempre jamás
+DisableAds.Info2	Реклама отключена	Ads disabled	Anúncios desativados	Anuncios inhabilitados
+DisableAds.ContinueWithAds	Продолжить с рекламой	Continue with ads	Continuar com anúncios	Continuar con anuncios
+DisableAds.Show	Смотреть	Watch	Assistir	Mirar
+DisableAds.Thanks	Благодаря тебе проект станет лучше!	Thanks to you, the project will become better!	Graças a você, o projeto ficará melhor!	¡Gracias a ti, el proyecto mejorará!
+DisableAds.Description1	Ты можешь навсегда убрать всю рекламу и разблокировать весь контент, а также внести вклад в развитие проекта и поднять настроение разработчикам	You can permanently remove all advertising and unlock all content, as well as contribute to the development of the project and cheer up the developers	Você pode remover permanentemente todas as publicidades e desbloquear todo o conteúdo, além de contribuir para o desenvolvimento do projeto e animar os desenvolvedores	Podrás eliminar permanentemente toda la publicidad y desbloquear todo el contenido, además de contribuir al desarrollo del proyecto y animar a los desarrolladores.
+DisableAds.Description2	Больше никакой внезапной рекламы!	No more unexpected ads!	Chega de anúncios inesperados!	¡No más anuncios inesperados!
+DIsableAds.24h	Отключить рекламу на 24 часа	Disable ads for 24 hours	Desative anúncios por 24 horas	Desactivar anuncios durante 24 horas
+DisableAds.BuyFor	Купить за {0}	Buy for {0}	Compre por {0}	Comprar por {0}
+Customization.Apply	Применить	Apply	Aplicar	Aplicar
+Send	Отправить	Send	Enviar	Enviar
+Interview.Thanks	Спасибо за твой отзыв	Thanks for your feedback	Obrigado pelo seu feedback	Gracias por tus comentarios
+Rate.Description	Тебе понравилось в нашем приложении?	Did you like our app?	Gostou do nosso aplicativo?	¿Te gustó nuestra aplicación?
+Rate.Rate	Оценить	Rate	Avalie	Califica
+Rate.Thanks	Большое спасибо за оценку!	Thank you so much for rating!	Muito obrigado pela avaliação!	¡Muchas gracias por calificar!
+Rate.Welcome	Пожалуйста	You're welcome	De nada	De nada
+Custom.Skins	Скины	Skins	Peles	Pieles
+Custom.Music	Музыка	Music	Música	Música
+MusicItem.Name_1	Нежный шепот	Tranquil Harmony	Harmonia Tranquila	Armonía tranquila
+MusicItem.Name_2	Объятия безмятежности	Serenity's Embrace	Abraço da Serenidade	El abrazo de la serenidad
+MusicItem.Name_3	Энергетическое безумие	Energetic Frenzy	Frenesi Energético	Frenesí energético
+Mode.Classic	Классика	Classic	clássico	Clásico
+Mode.Buhurt	5 на 5	5 vs 5	5 contra 5	5 contra 5
+Mode.Solo	Соло	Single	Único	Solo
+Mode.Friends	Совместная	Friends	Amigos	Amigos
+Modifications	Модификации	Custom	Personalizado	Costumbre
+EndGame.BestWinStreak	Лучшая серия побед:	Best Win Streak	Melhor sequência de vitórias	Mejor racha de victorias
+EndGame.WinStreak	Серия побед:	Win Streak	Sequência de vitórias	Racha
+EndGame.Winner	Победил игрок:	Win player:	Jogador vencedor:	Jugador ganador:
+EndGame.Draw	Ничья	Draw	Empate	Dibujar
+On	Вкл.	On	On	On
+Off	Выкл.	Off	Off	Off
+OpponentSearching	Поиск оппонента	Search for an opponent	Procure um oponente	Buscar un oponente
+Tutorial.GoodTurn	Если ваше число больше, чем у вашего противника, вы можете закрыть его фигуру	If your number bigger than your opponent you can close it.	Se o seu número for maior que o do seu oponente você pode fechá-lo.	Si tu número es mayor que el de tu oponente, puedes cerrarlo.
+Tutorial.Powers	У тебя есть только 5 фигур для победы. Используй их с умом	You only have 5 objects to win. Use them wisely.	Você só tem 5 objetos para ganhar. Use-os com sabedoria.	Sólo tienes 5 objetos para ganar. Úselos sabiamente.
+Tutorial.BadTurn	Если ваше число меньше, чем у вашего противника, вы не сможете закрыть его фигуру	If your number less than your opponent you can't close it.	Se o seu número for menor que o do seu oponente, você não poderá fechá-lo.	Si tu número es menor que el de tu oponente, no puedes cerrarlo.
+Tutorial.EqualTurn	Если ваше число такой же, как у вашего противника, вы тоже не сможете закрыть его фигуру. Удачи в игре!	If your number same as your opponent you can't close it too. Good luck in game!.	Se o seu número for igual ao do seu oponente, você também não poderá fechá-lo. Boa sorte no jogo!	Si tu número es el mismo que el de tu oponente, no puedes cerrarlo también. ¡Buena suerte en el juego!.
