@@ -191,7 +191,7 @@ namespace _Project.Scripts.Features.Settings
     private void AssignListeners()
     {
       ButtonBack.onClick.AddListener(Back);
-      ButtonPrivacyPolicy.onClick.AddListener(PrivacyPolicy);
+      // ButtonPrivacyPolicy.onClick.AddListener(PrivacyPolicy);
       ButtonMusic.onClick.AddListener(SwitchMusic);
       ButtonSound.onClick.AddListener(SwitchSound);
       Screen.onClick.AddListener(Back);

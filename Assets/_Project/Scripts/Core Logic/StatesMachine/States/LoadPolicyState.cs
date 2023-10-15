@@ -53,14 +53,14 @@ namespace _Project.Scripts.Core_Logic.StatesMachine.States
 
       _privacyPolicyFactory = new PrivacyPolicyFactory(_assetProvider);
 
-      /*if (!_gameSaveSystem.Get().IsPolicyAccepted)
+      if (!_gameSaveSystem.Get().IsPolicyAccepted)
       {
         _gameSaveSystem.Get().IsPolicyAccepted = true;
         _gameSaveSystem.Save();
 
         Next();
-      }*/
-      if (!_gameSaveSystem.Get().IsPolicyAccepted)
+      }
+      /*if (!_gameSaveSystem.Get().IsPolicyAccepted)
       {
         var privacyPolicy = _privacyPolicyFactory.SpawnPrivacyPolicy();
         privacyPolicy.Construct(_gameSaveSystem, _audioService, _localeSystem, _analytics, _remote);
@@ -72,7 +72,7 @@ namespace _Project.Scripts.Core_Logic.StatesMachine.States
           Next();
           privacyPolicy.ClosingFinished -= OnClosingFinished;
         }
-      }
+      }*/
       else
         Next();
 
