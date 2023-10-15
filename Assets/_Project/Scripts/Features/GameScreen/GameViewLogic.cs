@@ -24,7 +24,6 @@ namespace _Project.Scripts.Features.GameScreen
     private const float Duration = .25f;
     protected readonly IInputResolver InputResolver;
     protected readonly IGameMetaProvider GameMetaProvider;
-    protected readonly IGameSaveSystem GameSaveSystem;
 
     protected Action<SymbolSign> OnEndGame;
 
@@ -33,7 +32,8 @@ namespace _Project.Scripts.Features.GameScreen
       {SymbolSign.X, new[] {SymbolSize.Tiny, SymbolSize.Small, SymbolSize.Medium, SymbolSize.Big, SymbolSize.Large}},
       {SymbolSign.O, new[] {SymbolSize.Tiny, SymbolSize.Small, SymbolSize.Medium, SymbolSize.Big, SymbolSize.Large}}
     };
-
+    
+    private readonly IGameSaveSystem _gameSaveSystem;
     private readonly IAssetProvider _assetProvider;
     private readonly ILocaleSystem _localeSystem;
     private readonly IAudioService _audioService;
@@ -50,13 +50,13 @@ namespace _Project.Scripts.Features.GameScreen
     {
       _gameViewMono = gameViewMono;
 
-      _localeSystem = localeSystem;
+      _gameSaveSystem = gameSaveSystem;
       _assetProvider = assetProvider;
+      _localeSystem = localeSystem;
       _audioService = audioService;
       _gameFactory = gameFactory;
 
       InputResolver = inputResolver;
-      GameSaveSystem = gameSaveSystem;
       GameMetaProvider = gameMetaProvider;
 
       gameFactory.SpawnPlayerObject();
@@ -88,7 +88,7 @@ namespace _Project.Scripts.Features.GameScreen
       if (GameMetaProvider.GetGame() != Game.Buhurt)
         return;
       
-      _tutorialLogic = new TutorialLogic(_assetProvider, _localeSystem, GameSaveSystem);
+      _tutorialLogic = new TutorialLogic(_assetProvider, _localeSystem, _gameSaveSystem);
       _tutorialLogic.Construct();
       
       _gameViewMono.TutorialButton.onClick.AddListener(() => _tutorialLogic.SetActivity(true));
