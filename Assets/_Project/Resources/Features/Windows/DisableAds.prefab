@@ -1660,7 +1660,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   textComponent: {fileID: 6773390527723952077}
-  key: NoMoreAds
+  key: DisableAds.Info2
 --- !u!1 &2291325488284126330
 GameObject:
   m_ObjectHideFlags: 0
@@ -2080,7 +2080,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   textComponent: {fileID: 3566673281711054696}
-  key: DisableAds.RemoveForever
+  key: DisableAds.Info1
 --- !u!1 &3867509379085506199
 GameObject:
   m_ObjectHideFlags: 0
@@ -2308,7 +2308,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   textComponent: {fileID: 3032212589884373499}
-  key: DisableAds.Description.2
+  key: DisableAds.Thanks
 --- !u!1 &4034126172401384047
 GameObject:
   m_ObjectHideFlags: 0
@@ -2564,7 +2564,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   textComponent: {fileID: 1076335889319241953}
-  key: NoMoreAds
+  key: DisableAds.Description2
 --- !u!1 &5251417442732786679
 GameObject:
   m_ObjectHideFlags: 0
@@ -3411,7 +3411,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   textComponent: {fileID: 6862667776130843380}
-  key: DisableAds.Offer
+  key: DisableAds.Description1
 --- !u!1 &6931767582833260670
 GameObject:
   m_ObjectHideFlags: 0
@@ -3637,7 +3637,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   textComponent: {fileID: 6066378648531731780}
-  key: Privacy.Apply
+  key: Policy.Accept
 --- !u!1 &7116548934016765737
 GameObject:
   m_ObjectHideFlags: 0

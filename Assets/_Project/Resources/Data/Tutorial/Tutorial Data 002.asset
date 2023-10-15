@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a26bf38a383c4f4fa5b3710fb390078, type: 3}
   m_Name: Tutorial Data 002
   m_EditorClassIdentifier: 
-  _descriptionKey: tutorial.description2
+  _descriptionKey: Tutorial.Powers

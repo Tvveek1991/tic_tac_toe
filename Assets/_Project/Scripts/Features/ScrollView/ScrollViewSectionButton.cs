@@ -39,7 +39,7 @@ namespace _Project.Scripts.Features.ScrollView
       if (iconOff)
         _iconOff = iconOff;*/
 
-      SetLocale(localeSystem);
+      // SetLocale(localeSystem);
       
       Button.onClick.AddListener(() => onClickOpenShop?.Invoke());
 

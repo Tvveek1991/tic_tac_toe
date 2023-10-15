@@ -78,7 +78,7 @@ namespace _Project.Scripts.Features.ScrollView
 
       SetLock();
 
-      Localize(_localeSystem);
+      // Localize(_localeSystem);
       new ButtonSound(audioService, Button.gameObject, AudioId.Click);
 
       void SetIcon()

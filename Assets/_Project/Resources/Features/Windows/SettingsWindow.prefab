@@ -999,6 +999,7 @@ GameObject:
   - component: {fileID: 5804858411086765546}
   - component: {fileID: 7143592263236776645}
   - component: {fileID: 81813340388366735}
+  - component: {fileID: 4485832334483728343}
   m_Layer: 5
   m_Name: TurnOnText
   m_TagString: Untagged
@@ -1123,6 +1124,20 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &4485832334483728343
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3210051024067473198}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 078f66d4b59e8ee4ea72be9e3c554ee6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  textComponent: {fileID: 81813340388366735}
+  key: On
 --- !u!1 &3476201726955925705
 GameObject:
   m_ObjectHideFlags: 0
@@ -1417,6 +1432,7 @@ GameObject:
   - component: {fileID: 6659839977289616335}
   - component: {fileID: 4192148530182866530}
   - component: {fileID: 3162741662407602952}
+  - component: {fileID: 6433013757899488471}
   m_Layer: 5
   m_Name: TurnOffText
   m_TagString: Untagged
@@ -1541,6 +1557,20 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &6433013757899488471
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5295974825018008635}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 078f66d4b59e8ee4ea72be9e3c554ee6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  textComponent: {fileID: 3162741662407602952}
+  key: Off
 --- !u!1 &5598431749613021858
 GameObject:
   m_ObjectHideFlags: 0
@@ -1715,6 +1745,7 @@ GameObject:
   - component: {fileID: 6692672902979597706}
   - component: {fileID: 1130971843160405712}
   - component: {fileID: 7425269704014882170}
+  - component: {fileID: 361361616970492323}
   m_Layer: 5
   m_Name: TurnOffText
   m_TagString: Untagged
@@ -1839,6 +1870,20 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &361361616970492323
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5629592717613453239}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 078f66d4b59e8ee4ea72be9e3c554ee6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  textComponent: {fileID: 7425269704014882170}
+  key: Off
 --- !u!1 &5734891288288598435
 GameObject:
   m_ObjectHideFlags: 0
@@ -2165,6 +2210,7 @@ GameObject:
   - component: {fileID: 8559970805218413467}
   - component: {fileID: 4396465577909856434}
   - component: {fileID: 5816087940353954192}
+  - component: {fileID: 4955646346019211235}
   m_Layer: 5
   m_Name: Privacy Policy Button
   m_TagString: Untagged
@@ -2294,6 +2340,18 @@ MonoBehaviour:
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
+--- !u!114 &4955646346019211235
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6192658171920368557}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 118119dca78e4a1282f9cee326893c4f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6494143295362163745
 GameObject:
   m_ObjectHideFlags: 0
@@ -3532,6 +3590,7 @@ GameObject:
   - component: {fileID: 5127794936098026850}
   - component: {fileID: 7849752768556172298}
   - component: {fileID: 3134089012555965746}
+  - component: {fileID: 3740933074895616259}
   m_Layer: 5
   m_Name: TurnOnText
   m_TagString: Untagged
@@ -3656,6 +3715,20 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &3740933074895616259
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8871274653277501618}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 078f66d4b59e8ee4ea72be9e3c554ee6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  textComponent: {fileID: 3134089012555965746}
+  key: On
 --- !u!1 &8882303840797112151
 GameObject:
   m_ObjectHideFlags: 0

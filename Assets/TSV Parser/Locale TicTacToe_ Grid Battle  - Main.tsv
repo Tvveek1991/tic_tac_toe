@@ -8,22 +8,22 @@ Policy.Decline	Отказаться	Decline
 Settings	Настройки	Settings
 Music	Музыка	Music
 Sounds	Звук	Sound
+Hints	Подсказки	Hints
 AdNotLoaded	Реклама не загружена	Unable to load an ad
 NoConnection.Reconnect	Идёт переподключение...	Reconnecting...
 NoConnection.Description	Отсутствует интернет-соединение, подключиться заново?	There's no connection to the internet, connect again?
 Connect	Подключиться	Connect
 Next	Далее	Next
 Back	Назад	Back
-DisableAds.Description1	Наши программисты хотят кушать, поэтому в приложении есть реклама.	Our developers want to eat, so there is ads in the application.
-DisableAds.Description2	Посмотри всего два коротких ролика, чтобы убрать всю невознаграждаемую рекламу на 24 часа	Watch just two short videos to remove all non-rewarded ads for 24 hours
+DisableAds.Info1	Отключить рекламу навсегда	Disable ads forever and ever
+DisableAds.Info2	Реклама отключена	Ads disabled
 DisableAds.ContinueWithAds	Продолжить с рекламой	Continue with ads
 DisableAds.Show	Смотреть	Watch
 DisableAds.Thanks	Благодаря тебе проект станет лучше!	Thanks to you, the project will become better!
-DisableAds.Description3	Больше никакой внезапной рекламы!	No more unexpected ads!
-DisableAds.Continue	Продолжить	Continue
-DisableAds.24hour	24 часа	24 hours
-DisableAds.Info1	Отключить рекламу	Disable ads
-DisableAds.Info2	Реклама отключена	Ads disabled
+DisableAds.Description1	Ты можешь навсегда убрать всю рекламу и разблокировать весь контент, а также внести вклад в развитие проекта и поднять настроение разработчикам	You can permanently remove all advertising and unlock all content, as well as contribute to the development of the project and cheer up the developers
+DisableAds.Description2	Больше никакой внезапной рекламы!	No more unexpected ads!
+DIsableAds.24h	Отключить рекламу на 24 часа	Disable ads for 24 hours
+DisableAds.BuyFor	Купить за {0}	Buy for {0}
 Customization.Apply	Применить	Apply
 Send	Отправить	Send
 Interview.Thanks	Спасибо за твой отзыв	Thanks for your feedback
@@ -38,21 +38,24 @@ Rate.Description	Тебе понравилось в нашем приложен�
 Rate.Rate	Оценить	Rate
 Rate.Thanks	Большое спасибо за оценку!	Thank you so much for rating!
 Rate.Welcome	Пожалуйста	You're welcome
-SignItem.DefaultX	Крестик	Cross
-SignItem.DefaultO	Нолик	Zero
-SignItem.Dice	Кубик	Dice
-SignItem.Сhess	Шахматы	Chess
-SignItem.Cookie	Печенье	Cookies
-SignItem.LollyPop	Леденцы	Lolly Pop
-FieldItem.Classic	Классика	Classic
-FieldItem.Castle	Крепость	Castle
+Custom.Skins	Скины	Skins
+Custom.Music	Музыка	Music
 MusicItem.Name_1	Нежный шепот	Tranquil Harmony
 MusicItem.Name_2	Объятия безмятежности	Serenity's Embrace
 MusicItem.Name_3	Энергетическое безумие	Energetic Frenzy
 Mode.Classic	Классика	Classic
-Mode.Buhurt	5на5	5*5
-EndGame.BestWinStreak	Лучшая серия побед	Best Win Streak
-EndGame.WinStreak	Серия побед	Win Streak
+Mode.Buhurt	5 на 5	5 vs 5
+Mode.Solo	Соло	Single
+Mode.Friends	Совместная	Friends
+Modifications	Модификации	Custom
+EndGame.BestWinStreak	Лучшая серия побед:	Best Win Streak
+EndGame.WinStreak	Серия побед:	Win Streak
 EndGame.Winner	Победил игрок:	Win player:
 EndGame.Draw	Ничья	Draw
-Shop.Get	Забрать	Get
+On	Вкл.	On
+Off	Выкл.	Off
+OpponentSearching	Поиск оппонента	Search for an opponent
+Tutorial.GoodTurn	Если ваше число больше, чем у вашего противника, вы можете закрыть его фигуру	If your number bigger than your opponent you can close it.
+Tutorial.Powers	У тебя есть только 5 фигур для победы. Используй их с умом	You only have 5 objects to win. Use them wisely.
+Tutorial.BadTurn	Если ваше число меньше, чем у вашего противника, вы не сможете закрыть его фигуру	If your number less than your opponent you can't close it.
+Tutorial.EqualTurn	Если ваше число такой же, как у вашего противника, вы тоже не сможете закрыть его фигуру. Удачи в игре!	If your number same as your opponent you can't close it too. Good luck in game!.
