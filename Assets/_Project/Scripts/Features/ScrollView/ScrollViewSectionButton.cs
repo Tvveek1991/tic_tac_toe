@@ -13,7 +13,7 @@ namespace _Project.Scripts.Features.ScrollView
   public class ScrollViewSectionButton : MonoBehaviour
   {
     public Image Icon;
-    public TextMeshProUGUI Description;
+    public TextMeshProUGUI Name;
 
     public Button Button;
 
@@ -39,7 +39,7 @@ namespace _Project.Scripts.Features.ScrollView
       if (iconOff)
         _iconOff = iconOff;*/
 
-      // SetLocale(localeSystem);
+      SetLocale(localeSystem);
       
       Button.onClick.AddListener(() => onClickOpenShop?.Invoke());
 
@@ -60,10 +60,10 @@ namespace _Project.Scripts.Features.ScrollView
 
     private void SetLocale(ILocaleSystem localeSystem)
     {
-      if (!Description)
+      if (!Name)
         return;
 
-      Description.text = localeSystem.GetText(_nameKey);
+      Name.text = localeSystem.GetText(_nameKey);
     }
   }
 }

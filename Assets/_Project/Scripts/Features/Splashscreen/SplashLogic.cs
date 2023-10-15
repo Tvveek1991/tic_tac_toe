@@ -18,8 +18,8 @@ namespace _Project.Scripts.Features.Splashscreen
     {
       _splash.Construct(() =>
       {
-        onEnd?.Invoke();
         Clear();
+        onEnd?.Invoke();
       });
       
       _splash.Launch();
