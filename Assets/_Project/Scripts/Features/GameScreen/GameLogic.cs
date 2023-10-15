@@ -21,7 +21,7 @@ namespace _Project.Scripts.Features.GameScreen
     private readonly IGameStateMachine _gameStateMachine;
 
     public GameLogic(IGameStateMachine gameStateMachine, IAssetProvider assetProvider, IAdsService adsService, ILocaleSystem localeSystem,
-      IAudioService audioService, IGameMetaProvider gameMetaProvider, IInputResolver inputResolver, ILoadingLogic loadingLogic)
+      IAudioService audioService, IGameMetaProvider gameMetaProvider, IInputResolver inputResolver, ILoadingLogic loadingLogic, IGameSaveSystem gameSaveSystem)
     {
       _adsService = adsService;
       _loadingLogic = loadingLogic;
@@ -29,7 +29,7 @@ namespace _Project.Scripts.Features.GameScreen
       _gameMetaProvider = gameMetaProvider;
       _gameStateMachine = gameStateMachine;
       
-      _gameFactory = new GameFactory(assetProvider, localeSystem, audioService, gameMetaProvider, inputResolver);
+      _gameFactory = new GameFactory(assetProvider, localeSystem, audioService, gameMetaProvider, inputResolver, gameSaveSystem);
     }
 
     public void Enter()

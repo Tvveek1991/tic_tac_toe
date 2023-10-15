@@ -54,7 +54,7 @@ namespace _Project.Scripts.Core_Logic.StatesMachine.States
     public void Enter()
     {
       _gameLogic = new GameLogic(_gameStateMachine, _assetProvider, _adsService,
-        _localeSystem, _audioService, _gameMetaProvider, _inputResolver, _loadingLogic);
+        _localeSystem, _audioService, _gameMetaProvider, _inputResolver, _loadingLogic, _gameSaveSystem);
       _gameLogic.Enter();
     }
 

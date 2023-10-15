@@ -24,6 +24,7 @@ namespace _Project.Scripts.Features.GameScreen
     private const float Duration = .25f;
     protected readonly IInputResolver InputResolver;
     protected readonly IGameMetaProvider GameMetaProvider;
+    protected readonly IGameSaveSystem GameSaveSystem;
 
     protected Action<SymbolSign> OnEndGame;
 
@@ -45,7 +46,7 @@ namespace _Project.Scripts.Features.GameScreen
     public IDragDrop DragDrop { get; private set; }
 
     protected GameViewLogic(GameViewMono gameViewMono, IGameFactory gameFactory, ILocaleSystem localeSystem, IGameMetaProvider gameMetaProvider,
-      IAudioService audioService, IInputResolver inputResolver, IAssetProvider assetProvider)
+      IAudioService audioService, IInputResolver inputResolver, IAssetProvider assetProvider, IGameSaveSystem gameSaveSystem)
     {
       _gameViewMono = gameViewMono;
 
@@ -55,6 +56,7 @@ namespace _Project.Scripts.Features.GameScreen
       _gameFactory = gameFactory;
 
       InputResolver = inputResolver;
+      GameSaveSystem = gameSaveSystem;
       GameMetaProvider = gameMetaProvider;
 
       gameFactory.SpawnPlayerObject();
@@ -69,12 +71,9 @@ namespace _Project.Scripts.Features.GameScreen
     {
       OnEndGame = onEndGame;
 
-      _tutorialLogic = new TutorialLogic(_assetProvider, _localeSystem);
-      _tutorialLogic.Construct();
-
       _gameViewMono.BackButton.onClick.AddListener(() => onBack?.Invoke());
-      _gameViewMono.TutorialButton.onClick.AddListener(() => _tutorialLogic.SetActivity(true));
 
+      CreateTutorial();
       Localize(_localeSystem);
       AppendButtonsAnimation();
       AppendClickSound(_audioService);
@@ -82,6 +81,18 @@ namespace _Project.Scripts.Features.GameScreen
       FirstLoadPlayersUI(GameMetaProvider.GetGame());
 
       RefreshAfterChangeTurn(SymbolSign.X);
+    }
+
+    private void CreateTutorial()
+    {
+      if (GameMetaProvider.GetGame() != Game.Buhurt)
+        return;
+      
+      _tutorialLogic = new TutorialLogic(_assetProvider, _localeSystem, GameSaveSystem);
+      _tutorialLogic.Construct();
+      
+      _gameViewMono.TutorialButton.onClick.AddListener(() => _tutorialLogic.SetActivity(true));
+      _gameViewMono.TutorialButton.gameObject.SetActive(true);
     }
 
     private void FirstLoadPlayersUI(Game game)
@@ -126,7 +137,7 @@ namespace _Project.Scripts.Features.GameScreen
     }
 
     public void Clear() =>
-      _tutorialLogic.Exit();
+      _tutorialLogic?.Exit();
 
     private void SetVisibilityFiguresPanel(bool isMainPlayer = false)
     {

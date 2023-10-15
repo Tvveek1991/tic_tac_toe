@@ -45,7 +45,7 @@ namespace _Project.Scripts.Features.GameScreen
     // private delegate void ConnectHandler(string guid, uint cost, Action onSpend, Action<UnlockType> onFail); example delegate
 
     public GameFactory(IAssetProvider assetProvider, ILocaleSystem localeSystem, IAudioService audioService,
-      IGameMetaProvider gameMetaProvider, IInputResolver inputResolver) : base(assetProvider)
+      IGameMetaProvider gameMetaProvider, IInputResolver inputResolver, IGameSaveSystem gameSaveSystem) : base(assetProvider)
     {
       _audioService = audioService;
       _inputResolver = inputResolver;
@@ -55,9 +55,9 @@ namespace _Project.Scripts.Features.GameScreen
       _dictionaryGameMode = new Dictionary<EnemyType, Action>
       {
         {EnemyType.Bot, () => GameViewLogic = new BotGameViewLogic(GameViewMono, this, localeSystem, 
-          _gameMetaProvider, _audioService, inputResolver, assetProvider)},
+          _gameMetaProvider, _audioService, inputResolver, assetProvider, gameSaveSystem)},
         {EnemyType.OneDevice, () => GameViewLogic = new OneDeviceGameViewLogic(GameViewMono, this, localeSystem, 
-          _gameMetaProvider, _audioService, inputResolver, assetProvider)},
+          _gameMetaProvider, _audioService, inputResolver, assetProvider, gameSaveSystem)},
       };
     }
 

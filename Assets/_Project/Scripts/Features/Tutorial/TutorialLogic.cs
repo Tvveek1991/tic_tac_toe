@@ -14,12 +14,15 @@ namespace _Project.Scripts.Features.Tutorial
     private readonly TutorialData[] _tutorialData;
     
     private readonly ILocaleSystem _localeSystem;
+    private readonly IGameSaveSystem _gameSaveSystem;
 
     private int _activePage;
     
-    public TutorialLogic(IAssetProvider assetProvider, ILocaleSystem localeSystem)
+    public TutorialLogic(IAssetProvider assetProvider, ILocaleSystem localeSystem, IGameSaveSystem gameSaveSystem)
     {
       _localeSystem = localeSystem;
+      _gameSaveSystem = gameSaveSystem;
+      
       _tutorialFactory = new TutorialFactory(assetProvider);
       _tutorialData = assetProvider.GetAllResources<TutorialData>(TutorialPath);
     }
@@ -34,6 +37,8 @@ namespace _Project.Scripts.Features.Tutorial
       _tutorialFactory.TutorialView.NextButton.onClick.AddListener(() => ChangePage(1));
       
       _tutorialFactory.TutorialView.StageTutorials.ForEach(item => item.Construct());
+
+      FirstTimeTutorial();
     }
 
     public void SetActivity(bool isOn)
@@ -66,6 +71,17 @@ namespace _Project.Scripts.Features.Tutorial
     {
       _tutorialFactory.TutorialView.PreviousCanvasGroup.DOFade(_activePage == 0 ? .5f : 1f, .25f);
       _tutorialFactory.TutorialView.NextCanvasGroup.DOFade(_activePage == _tutorialData.Length - 1 ? .5f : 1f, .25f);
+    }
+
+    private void FirstTimeTutorial()
+    {
+      if (_gameSaveSystem.Get().IsFirstBuhurtSession)
+        return;
+
+      _gameSaveSystem.Get().IsFirstBuhurtSession = true;
+      _gameSaveSystem.Save();
+
+      SetActivity(true);
     }
   }
 }

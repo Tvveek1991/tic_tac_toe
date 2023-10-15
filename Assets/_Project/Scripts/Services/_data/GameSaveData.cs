@@ -5,7 +5,7 @@ namespace _Project.Scripts.Services._data
 {
   public class GameSaveData
   {
-    public bool IsFirstSession = true;
+    public bool IsFirstBuhurtSession;
 
     public bool IsPolicyAccepted;
 
