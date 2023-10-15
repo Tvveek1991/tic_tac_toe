@@ -52,7 +52,14 @@ namespace _Project.Scripts.Core_Logic.StatesMachine.States
       _screenManager.SetCurrentScreen(ScreenNames.Privacy);
 
       _privacyPolicyFactory = new PrivacyPolicyFactory(_assetProvider);
-      
+
+      /*if (!_gameSaveSystem.Get().IsPolicyAccepted)
+      {
+        _gameSaveSystem.Get().IsPolicyAccepted = true;
+        _gameSaveSystem.Save();
+
+        Next();
+      }*/
       if (!_gameSaveSystem.Get().IsPolicyAccepted)
       {
         var privacyPolicy = _privacyPolicyFactory.SpawnPrivacyPolicy();

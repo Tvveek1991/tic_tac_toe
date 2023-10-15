@@ -5,6 +5,7 @@ using _Project.Scripts.Core_Logic.StatesMachine.Interfaces;
 using _Project.Scripts.Core_Logic.StatesMachine.States;
 using _Project.Scripts.Features.Splashscreen;
 using _Project.Scripts.Services._Interfaces;
+using _Project.Scripts.Services.Consent;
 using FlurrySDK;
 using SableGamesAds.Scripts.Interfaces;
 using SableGamesAnalytics.Scripts.Interfaces;
@@ -22,6 +23,8 @@ namespace _Project.Scripts.Core_Logic
     private IAnalytics _analytics;
     private IRemote _remote;
     private IAdsService _adsService;
+    
+    private ICmpManager _cmpManager;
 
     private IGameStateMachine _gameStateMachine;
     private SplashLogic _splashLogic;
@@ -37,6 +40,7 @@ namespace _Project.Scripts.Core_Logic
       IRemote remote,
       IAdsService adsService,
       IAnalytics analytics,
+      ICmpManager cmpManager,
       ICurrentScreen screenManager,
       IGameStateMachine gameStateMachine)
     {
@@ -44,11 +48,11 @@ namespace _Project.Scripts.Core_Logic
       _remote = remote;
       _assetProvider = assetProvider;
       _analytics = analytics;
+      _cmpManager = cmpManager;
       _gameStateMachine = gameStateMachine;
       
       _screenManager = screenManager;
       _screenManager.SetCurrentScreen(ScreenNames.Splash);
-
     }
 
     private void LaunchWithSplash(Action initializeGame)
@@ -56,8 +60,11 @@ namespace _Project.Scripts.Core_Logic
       _splashLogic = new SplashLogic(_assetProvider);
       _splashLogic.Launch(initializeGame);
 
-      InitializeRemote();
+      StartCmp();
     }
+    
+    private void StartCmp() =>
+      _cmpManager.Request(InitializeRemote);
 
     private void InitializeRemote()
     {
