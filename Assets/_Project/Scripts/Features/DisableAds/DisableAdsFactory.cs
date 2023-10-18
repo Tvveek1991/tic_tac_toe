@@ -15,14 +15,16 @@ namespace _Project.Scripts.Features.DisableAds
 
     private readonly ILocaleSystem _localeSystem;
     private readonly IAudioService _audioService;
+    private readonly IGameSaveSystem _gameSaveSystem;
     
     private DisableAdsWindow _disableAdsWindow;
     private DisableAdsViewLogic _disableAdsViewLogic;
 
-    public DisableAdsFactory(IAssetProvider assetProvider, ILocaleSystem localeSystem, IAudioService audioService) : base(assetProvider)
+    public DisableAdsFactory(IAssetProvider assetProvider, ILocaleSystem localeSystem, IAudioService audioService, IGameSaveSystem gameSaveSystem) : base(assetProvider)
     {
       _localeSystem = localeSystem;
       _audioService = audioService;
+      _gameSaveSystem = gameSaveSystem;
     }
 
     public IDisableAdsViewLogic SpawnDisableAdsWindow()
@@ -32,7 +34,7 @@ namespace _Project.Scripts.Features.DisableAds
       _disableAdsWindow = Create<DisableAdsWindow>(DisableAdsPath, parent);
       _disableAdsWindow.gameObject.SetActive(false);
 
-      _disableAdsViewLogic = new DisableAdsViewLogic(_disableAdsWindow, _localeSystem, _audioService);
+      _disableAdsViewLogic = new DisableAdsViewLogic(_disableAdsWindow, _localeSystem, _audioService, _gameSaveSystem);
 
       return _disableAdsViewLogic;
     }

@@ -11,6 +11,8 @@ namespace _Project.Scripts.Features.DisableAds.Mono
     public Button ContinueBtn;
     public Button PurchaseBtn;
 
+    public SpriteSwap SwapperBackIcon;
+    
     public Text PurchasePrice;
     
     public TextMeshProUGUI AdsWatchedProgress;

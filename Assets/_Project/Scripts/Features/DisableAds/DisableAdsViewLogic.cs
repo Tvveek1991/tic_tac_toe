@@ -19,10 +19,12 @@ namespace _Project.Scripts.Features.DisableAds
 
     private readonly ILocaleSystem _localeSystem;
     private readonly IAudioService _audioService;
+    private readonly IGameSaveSystem _gameSaveSystem;
 
-    public DisableAdsViewLogic(DisableAdsWindow disableAdsWindow, ILocaleSystem localeSystem, IAudioService audioService)
+    public DisableAdsViewLogic(DisableAdsWindow disableAdsWindow, ILocaleSystem localeSystem, IAudioService audioService, IGameSaveSystem gameSaveSystem)
     {
       _disableAdsWindow = disableAdsWindow;
+      _gameSaveSystem = gameSaveSystem;
       _localeSystem = localeSystem;
       _audioService = audioService;
     }
@@ -67,6 +69,8 @@ namespace _Project.Scripts.Features.DisableAds
     {
       _disableAdsWindow.gameObject.SetActive(true);
       AppearAnimation();
+
+      _disableAdsWindow.SwapperBackIcon.SetIcon(_gameSaveSystem.Get().IsDisableAdsFirstTime);
     }
 
     private void AppearAnimation()

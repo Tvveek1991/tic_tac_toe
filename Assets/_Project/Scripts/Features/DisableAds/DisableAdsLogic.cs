@@ -24,7 +24,7 @@ namespace _Project.Scripts.Features.DisableAds
     public ProductId ProductsId { get; set; }
 
     private readonly IDisableAdsFactory _disableAdsFactory;
-    
+
     private readonly IGameSaveSystem _gameSaveSystem;
     private readonly IAnalytics _analytics;
     private readonly IAdsService _adsService;
@@ -39,7 +39,7 @@ namespace _Project.Scripts.Features.DisableAds
 
     private readonly ITimerController _timerController;
     private readonly Action<bool> _switchDisableAdsButton;
-    
+
     private bool WasDisabled
     {
       get => PlayerPrefs.GetInt("DisableAdsLogic.WasDisabled", 0) == 1;
@@ -47,28 +47,28 @@ namespace _Project.Scripts.Features.DisableAds
     }
 
     public DisableAdsLogic(IAssetProvider assetProvider, IGameSaveSystem gameSaveSystem, IAnalytics analytics,
-      IAdsService adsService, ILocaleSystem localeSystem, IInAppService inAppService, IAudioService audioService, 
+      IAdsService adsService, ILocaleSystem localeSystem, IInAppService inAppService, IAudioService audioService,
       Action<bool> onDisableAds, Action<bool> switchDisableAdsButton)
     {
       _assetProvider = assetProvider;
       _switchDisableAdsButton = switchDisableAdsButton;
       ProductsId = ProductId.noads;
-      
+
       _inAppService = inAppService;
       _localeSystem = localeSystem;
       _gameSaveSystem = gameSaveSystem;
       _analytics = analytics;
       _adsService = adsService;
       _onDisableAds = onDisableAds;
-      
-      _disableAdsFactory = new DisableAdsFactory(assetProvider, _localeSystem, audioService);
-      
+
+      _disableAdsFactory = new DisableAdsFactory(assetProvider, _localeSystem, audioService, gameSaveSystem);
+
       _disableAdsViewLogic = _disableAdsFactory.SpawnDisableAdsWindow();
-      
+
       string price = _inAppService?.GetPrice(ProductsId.ToString());
-      
+
       _disableAdsViewLogic.Construct(price, OnShowAds, OnClose, OnContinue, OnPurchase);
-      
+
       _timerController = new TimerController();
       _timerController.LaunchService();
 
@@ -86,7 +86,7 @@ namespace _Project.Scripts.Features.DisableAds
         if (WasDisabled)
           EnableAds();
       }
-      
+
       FirstOpen();
     }
 
@@ -95,13 +95,13 @@ namespace _Project.Scripts.Features.DisableAds
       if (!_gameSaveSystem.Get().IsDisableAdsFirstTime)
         return;
 
+      Open();
+      
       _gameSaveSystem.Get().IsDisableAdsFirstTime = false;
       _gameSaveSystem.Save();
-
-      Open();
     }
 
-    public void Cleanup() => 
+    public void Cleanup() =>
       _disableAdsFactory.Clear();
 
     public void Open()
@@ -111,11 +111,11 @@ namespace _Project.Scripts.Features.DisableAds
         Debug.Log("DisableAds.Open IsProductPurchased");
         return;
       }
-      
+
       SetDisableAdsProgress();
 
       _disableAdsViewLogic.ShowInfoPanelBefore();
-      
+
       if (_timerController.IsUnderTimer(TimerGuid))
         _disableAdsViewLogic.ShowAdsOfferDisabled();
       else
@@ -123,7 +123,7 @@ namespace _Project.Scripts.Features.DisableAds
 
       _analytics.Send("ad_offer_show");
       _disableAdsViewLogic.OpenWindow();
-      
+
       _adsService.Banner?.HideBanner();
     }
 
@@ -172,7 +172,7 @@ namespace _Project.Scripts.Features.DisableAds
         DisableAds();
         CreateTimer(TimerGuid, DelaySec);
       }
-      
+
       _disableAdsViewLogic.OpenWindow();
     }
 
@@ -189,7 +189,7 @@ namespace _Project.Scripts.Features.DisableAds
         Debug.Log("DisableAds.EnableAds IsProductPurchased");
         return;
       }
-      
+
       GameSaveData save = _gameSaveSystem.Get();
       save.IsDisableAdsActive = false;
       save.DisableAdsProgress = save.DisableAdsProgress >= TargetAds ? 0 : save.DisableAdsProgress;
@@ -210,7 +210,7 @@ namespace _Project.Scripts.Features.DisableAds
 #if !WITHOUT_BANNER
       _adsService.Banner.HideBanner();
 #endif
-      
+
       _switchDisableAdsButton.Invoke(true);
     }
 
@@ -224,7 +224,7 @@ namespace _Project.Scripts.Features.DisableAds
 
       _onDisableAds?.Invoke(true);
       _adsService.DisableAds();
-      
+
       if (purchase)
       {
         _switchDisableAdsButton.Invoke(false);
@@ -232,11 +232,11 @@ namespace _Project.Scripts.Features.DisableAds
         return;
       }
 
-      if(fromConstruct)
+      if (fromConstruct)
         _disableAdsViewLogic.ShowInfoPanelBefore();
       else
         _disableAdsViewLogic.ShowInfoPanelAfter();
-      
+
       _disableAdsViewLogic.ShowAdsOfferDisabled();
     }
 
@@ -263,7 +263,7 @@ namespace _Project.Scripts.Features.DisableAds
     public void Destroy()
     {
     }
-    
+
     private bool IsProductPurchased()
     {
       if (!Application.isEditor) return _inAppService.IsProductPurchased(ProductsId.ToString());
@@ -274,7 +274,7 @@ namespace _Project.Scripts.Features.DisableAds
     public void OnPurchaseComplete(Product purchased)
     {
       Debug.Log("DisableAds OnPurchaseComplete");
-      
+
       DisableAds(false, true);
       GameSaveData save = _gameSaveSystem.Get();
       save.DisableAdsIsPurchased = true;
