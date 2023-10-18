@@ -12,6 +12,7 @@ Hints	Подсказки	Hints	Dicas	Consejos
 AdNotLoaded	Реклама не загружена	Unable to load an ad	Não foi possível carregar um anúncio	No se puede cargar un anuncio
 NoConnection.Description	Отсутствует интернет-соединение, подключиться заново?	There's no connection to the internet, connect again?	Não há conexão com a internet. Conectar novamente?	No hay conexión a Internet, ¿te conectas de nuevo?
 Connect	Подключиться	Connect	Conectar	Conectar
+Start	Начать	Start	Começar	Comenzar
 Next	Далее	Next	Próxima	Próxima
 Back	Назад	Back	Última	Última
 DisableAds.Info1	Отключить рекламу навсегда	Disable ads forever and ever	Desative os anúncios para todo o sempre	Deshabilita los anuncios por siempre jamás
@@ -50,4 +51,4 @@ OpponentSearching	Поиск оппонента	Search for an opponent	Procure u
 Tutorial.GoodTurn	Если ваше число больше, чем у вашего противника, вы можете закрыть его фигуру	If your number bigger than your opponent you can close it.	Se o seu número for maior que o do seu oponente você pode fechá-lo.	Si tu número es mayor que el de tu oponente, puedes cerrarlo.
 Tutorial.Powers	У тебя есть только 5 фигур для победы. Используй их с умом	You only have 5 objects to win. Use them wisely.	Você só tem 5 objetos para ganhar. Use-os com sabedoria.	Sólo tienes 5 objetos para ganar. Úselos sabiamente.
 Tutorial.BadTurn	Если ваше число меньше, чем у вашего противника, вы не сможете закрыть его фигуру	If your number less than your opponent you can't close it.	Se o seu número for menor que o do seu oponente, você não poderá fechá-lo.	Si tu número es menor que el de tu oponente, no puedes cerrarlo.
-Tutorial.EqualTurn	Если ваше число такой же, как у вашего противника, вы тоже не сможете закрыть его фигуру. Удачи в игре!	If your number same as your opponent you can't close it too. Good luck in game!.	Se o seu número for igual ao do seu oponente, você também não poderá fechá-lo. Boa sorte no jogo!	Si tu número es el mismo que el de tu oponente, no puedes cerrarlo también. ¡Buena suerte en el juego!.
+Tutorial.EqualTurn	Если ваше число такое же, как у вашего противника, вы так же не сможете закрыть его фигуру. Удачи в игре!	If your number same as your opponent you can't close it too. Good luck in game!.	Se o seu número for igual ao do seu oponente, você também não poderá fechá-lo. Boa sorte no jogo!	Si tu número es el mismo que el de tu oponente, no puedes cerrarlo también. ¡Buena suerte en el juego!.

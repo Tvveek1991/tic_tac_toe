@@ -13,6 +13,7 @@
     "AdNotLoaded": "Реклама не загружена",
     "NoConnection.Description": "Отсутствует интернет-соединение, подключиться заново?",
     "Connect": "Подключиться",
+    "Start": "Начать",
     "Next": "Далее",
     "Back": "Назад",
     "DisableAds.Info1": "Отключить рекламу навсегда",
@@ -51,7 +52,7 @@
     "Tutorial.GoodTurn": "Если ваше число больше, чем у вашего противника, вы можете закрыть его фигуру",
     "Tutorial.Powers": "У тебя есть только 5 фигур для победы. Используй их с умом",
     "Tutorial.BadTurn": "Если ваше число меньше, чем у вашего противника, вы не сможете закрыть его фигуру",
-    "Tutorial.EqualTurn": "Если ваше число такой же, как у вашего противника, вы тоже не сможете закрыть его фигуру. Удачи в игре!"
+    "Tutorial.EqualTurn": "Если ваше число такое же, как у вашего противника, вы так же не сможете закрыть его фигуру. Удачи в игре!"
   },
   "en": {
     "Policy.PrivacyPolicy": "Privacy Policy",
@@ -67,6 +68,7 @@
     "AdNotLoaded": "Unable to load an ad",
     "NoConnection.Description": "There's no connection to the internet, connect again?",
     "Connect": "Connect",
+    "Start": "Start",
     "Next": "Next",
     "Back": "Back",
     "DisableAds.Info1": "Disable ads forever and ever",
@@ -121,6 +123,7 @@
     "AdNotLoaded": "Não foi possível carregar um anúncio",
     "NoConnection.Description": "Não há conexão com a internet. Conectar novamente?",
     "Connect": "Conectar",
+    "Start": "Começar",
     "Next": "Próxima",
     "Back": "Última",
     "DisableAds.Info1": "Desative os anúncios para todo o sempre",
@@ -175,6 +178,7 @@
     "AdNotLoaded": "No se puede cargar un anuncio",
     "NoConnection.Description": "No hay conexión a Internet, ¿te conectas de nuevo?",
     "Connect": "Conectar",
+    "Start": "Comenzar",
     "Next": "Próxima",
     "Back": "Última",
     "DisableAds.Info1": "Deshabilita los anuncios por siempre jamás",
