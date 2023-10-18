@@ -96,6 +96,8 @@ namespace _Project.Scripts.Features.ShopScreen
 
       CreateSounds();
       CreateAnimation();
+      
+      _adsService.Banner.ShowBanner();
     }
 
     public void ClearShopView()

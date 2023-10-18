@@ -18,7 +18,7 @@ namespace _Project.Scripts.Services.Consent
       if (_cmpManager.IsFormAvailable())
         GetComponent<Button>().onClick.AddListener(Show);
       else
-        GetComponentInParent<GameObject>().SetActive(false);
+        transform.parent.gameObject.SetActive(false);
     }
 
     private void Show()
