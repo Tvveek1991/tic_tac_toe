@@ -12,6 +12,7 @@ namespace _Project.Scripts.Features.Tutorial
 
     public Button PreviousButton;
     public Button NextButton;
+    public Button StartButton;
 
     public TextMeshProUGUI Page;
     public TextMeshProUGUI Description;

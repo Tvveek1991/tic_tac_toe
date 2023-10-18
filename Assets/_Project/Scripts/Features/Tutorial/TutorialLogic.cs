@@ -64,13 +64,18 @@ namespace _Project.Scripts.Features.Tutorial
       _tutorialFactory.TutorialView.StageTutorials.ForEach(item => item.Hide());
       _tutorialFactory.TutorialView.StageTutorials[_activePage].Show();
       
-      FadeSlideButtons();
+      VisibilitySlideButtons();
     }
 
-    private void FadeSlideButtons()
+    private void VisibilitySlideButtons()
     {
+      int maxPage = _tutorialData.Length - 1;
+      
       _tutorialFactory.TutorialView.PreviousCanvasGroup.DOFade(_activePage == 0 ? .5f : 1f, .25f);
-      _tutorialFactory.TutorialView.NextCanvasGroup.DOFade(_activePage == _tutorialData.Length - 1 ? .5f : 1f, .25f);
+      _tutorialFactory.TutorialView.NextCanvasGroup.DOFade(_activePage == maxPage ? .5f : 1f, .25f);
+      
+      _tutorialFactory.TutorialView.NextButton.gameObject.SetActive(_activePage < maxPage);
+      _tutorialFactory.TutorialView.StartButton.gameObject.SetActive(_activePage == maxPage);
     }
 
     private void FirstTimeTutorial()
