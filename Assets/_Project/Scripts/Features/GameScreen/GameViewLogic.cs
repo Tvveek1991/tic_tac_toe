@@ -206,7 +206,7 @@ namespace _Project.Scripts.Features.GameScreen
     private const int FieldSizeY = 3;
     private void ShowPotentialTurn(SymbolSign symbolSign)
     {
-      if(GameMetaProvider.GetGame() == Game.Buhurt)
+      if(GameMetaProvider.GetGame() == Game.Buhurt || _gameSaveSystem.Get().IsHintsDisabled)
         return;
       
       var symbolCells = new SymbolCell[_gameFactory.GameFieldLogic.GetField().Length];
@@ -230,6 +230,9 @@ namespace _Project.Scripts.Features.GameScreen
     }
     private void ShowPotentialTurn(DragablePart dragablePart)
     {
+      if(_gameSaveSystem.Get().IsHintsDisabled)
+        return;
+      
       var symbolCells = new SymbolCell[_gameFactory.GameFieldLogic.GetField().Length];
       var board = new SymbolSign[_gameFactory.GameFieldLogic.GetField().Length];
       
