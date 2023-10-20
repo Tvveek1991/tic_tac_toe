@@ -21,6 +21,7 @@ namespace _Project.Scripts.Features.EndGameScreen.Mono
     
     [Space(20)]
     public GameObject WinStreakPanel;
+    public TextMeshProUGUI ResultText;
     public TextMeshProUGUI BestWinStreakText;
     public TextMeshProUGUI WinStreakText;
 

@@ -78,8 +78,8 @@ namespace _Project.Scripts.Features.EndGameScreen
         return;
       }
 
-      _endGameWindow.WinStreakText.text = _localeSystem.GetText("EndGame.WinStreak") + ": " + _gameMetaProvider.GetWinStreak(false);
-      _endGameWindow.BestWinStreakText.text = _localeSystem.GetText("EndGame.BestWinStreak") + ": " + _gameMetaProvider.GetWinStreak(true);
+      _endGameWindow.WinStreakText.text = _localeSystem.GetText("EndGame.WinStreak") + " " + _gameMetaProvider.GetWinStreak(false);
+      _endGameWindow.BestWinStreakText.text = _localeSystem.GetText("EndGame.BestWinStreak") + " " + _gameMetaProvider.GetWinStreak(true);
     }
 
     private void LoadResult(SymbolSign winnerSign)
@@ -98,8 +98,17 @@ namespace _Project.Scripts.Features.EndGameScreen
       }
     }
 
-    private void LoadTitle(SymbolSign sign) =>
-      _endGameWindow.ResultIcon.sprite = sign == SymbolSign.None ? _endGameWindow.DrawIcon : 
-        (sign == _gameMetaProvider.GetPlayerView().GetSymbol() ? _endGameWindow.WinIcon :  _endGameWindow.LoseIcon);
+    private void LoadTitle(SymbolSign sign)
+    {
+      _endGameWindow.ResultIcon.sprite = 
+        sign == SymbolSign.None 
+          ? _endGameWindow.DrawIcon 
+          : (sign == _gameMetaProvider.GetPlayerView().GetSymbol() ? _endGameWindow.WinIcon : _endGameWindow.LoseIcon);
+      
+      _endGameWindow.ResultText.text =
+        sign == SymbolSign.None
+        ? _localeSystem.GetText("EndGame.Draw") 
+        : (sign == _gameMetaProvider.GetPlayerView().GetSymbol() ? _localeSystem.GetText("EndGame.Win")  : _localeSystem.GetText("EndGame.Lose"));
+    }
   }
 }
