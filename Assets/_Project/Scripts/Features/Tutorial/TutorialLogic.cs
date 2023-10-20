@@ -35,6 +35,7 @@ namespace _Project.Scripts.Features.Tutorial
       
       _tutorialFactory.TutorialView.PreviousButton.onClick.AddListener(() => ChangePage(-1));
       _tutorialFactory.TutorialView.NextButton.onClick.AddListener(() => ChangePage(1));
+      _tutorialFactory.TutorialView.StartButton.onClick.AddListener(() => SetActivity(false));
       
       _tutorialFactory.TutorialView.StageTutorials.ForEach(item => item.Construct());
 
