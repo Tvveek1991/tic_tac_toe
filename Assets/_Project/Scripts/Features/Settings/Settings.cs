@@ -41,6 +41,7 @@ namespace _Project.Scripts.Features.Settings
 
     public Button ButtonMusic;
     public Button ButtonSound;
+    public Button ButtonHints;
 
     public Button Screen;
 
@@ -48,6 +49,7 @@ namespace _Project.Scripts.Features.Settings
     public Image IconSound;
     public Transform SwitcherMusic;
     public Transform SwitcherSound;
+    public Transform SwitcherHints;
 
     public Sprite Active;
     public Sprite Inactive;
@@ -96,7 +98,7 @@ namespace _Project.Scripts.Features.Settings
 
       _privacyPolicyFactory = privacyPolicyFactor;
       _privacyPolicy = _privacyPolicyFactory.SpawnPrivacyPolicy();
-      _privacyPolicy.Construct(_gameSaveSystem, _audioService, localeSystem, analytics, _remote, 
+      _privacyPolicy.Construct(_gameSaveSystem, _audioService, localeSystem, analytics, _remote,
         () => { _gameStateMachine.Enter<LoadPolicyState>(); });
 
       Localize(localeSystem);
@@ -106,6 +108,7 @@ namespace _Project.Scripts.Features.Settings
 
       MuteMusic(_gameSaveSystem.Get().IsMusicDisabled);
       MuteSounds(_gameSaveSystem.Get().IsSoundDisabled);
+      RefreshHintsSwitcher();
 
       gameObject.SetActive(false);
 
@@ -121,6 +124,7 @@ namespace _Project.Scripts.Features.Settings
       new ButtonSound(_audioService, ButtonBack.gameObject, AudioId.ClickBack);
       new ButtonSound(_audioService, ButtonMusic.gameObject, AudioId.Click);
       new ButtonSound(_audioService, ButtonSound.gameObject, AudioId.Click);
+      new ButtonSound(_audioService, ButtonHints.gameObject, AudioId.Click);
       new ButtonSound(_audioService, ButtonPrivacyPolicy.gameObject, AudioId.Click);
       new ButtonSound(_audioService, ButtonRate.gameObject, AudioId.Click);
       new ButtonSound(_audioService, ButtonGallery.gameObject, AudioId.Click);
@@ -177,6 +181,14 @@ namespace _Project.Scripts.Features.Settings
     private void SwitchSound() =>
       MuteSounds(!_audioService.SoundsIsMute());
 
+    private void SwitchHints()
+    {
+      _gameSaveSystem.Get().IsHintsDisabled = !_gameSaveSystem.Get().IsHintsDisabled;
+      _gameSaveSystem.Save();
+      
+      RefreshHintsSwitcher();
+    }
+
     private void LoadSprites()
     {
       _musicOn = LoadSprite(IconMusicOnPath);
@@ -194,6 +206,7 @@ namespace _Project.Scripts.Features.Settings
       // ButtonPrivacyPolicy.onClick.AddListener(PrivacyPolicy);
       ButtonMusic.onClick.AddListener(SwitchMusic);
       ButtonSound.onClick.AddListener(SwitchSound);
+      ButtonHints.onClick.AddListener(SwitchHints);
       Screen.onClick.AddListener(Back);
     }
 
@@ -242,6 +255,9 @@ namespace _Project.Scripts.Features.Settings
           break;
       }
     }
+
+    private void RefreshHintsSwitcher() => 
+      SwitcherHints.DOLocalMove(_gameSaveSystem.Get().IsHintsDisabled ? Vector3.left * 40 : Vector3.right * 40, SwitcherTime);
 
     private enum SoundType
     {

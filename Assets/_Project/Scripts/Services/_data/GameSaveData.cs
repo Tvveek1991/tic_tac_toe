@@ -17,6 +17,7 @@ namespace _Project.Scripts.Services._data
     
     public bool IsMusicDisabled;
     public bool IsSoundDisabled;
+    public bool IsHintsDisabled;
     public bool IsVibrationDisabled;
 
     public uint WinStreak;
