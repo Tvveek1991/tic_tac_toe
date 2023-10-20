@@ -11,6 +11,7 @@ using _Project.Scripts.Features.Player;
 using _Project.Scripts.Services._Interfaces;
 using _Project.Scripts.Services.Localization.Logic;
 using UnityEngine;
+using UnityEngine.Animations;
 
 namespace _Project.Scripts.Features.GameScreen
 {
@@ -24,6 +25,7 @@ namespace _Project.Scripts.Features.GameScreen
     private const string GameViewPath = "Features/GameScreen/Game Window";
     private const string GameFieldPath = "Features/GameScreen/Fields/Game Field";
     private const string EndGameScreenPath = "Features/GameScreen/End Game Screen";
+    private const string WarningViewPath = "Features/GameScreen/Warning View";
     
     private readonly IAudioService _audioService;
     private readonly ILocaleSystem _localeSystem;
@@ -32,6 +34,9 @@ namespace _Project.Scripts.Features.GameScreen
 
     private readonly Dictionary<EnemyType, Action> _dictionaryGameMode;
 
+    private readonly Transform _canvasParent;
+
+    public WarningView WarningView { get; private set; }
     public BasePlayerViewMono PlayerViewMono { get; private set; }
     public IGameFieldLogic GameFieldLogic { get; private set; }
     public IGameViewLogic GameViewLogic { get; private set; }
@@ -59,25 +64,30 @@ namespace _Project.Scripts.Features.GameScreen
         {EnemyType.OneDevice, () => GameViewLogic = new OneDeviceGameViewLogic(GameViewMono, this, localeSystem, 
           _gameMetaProvider, _audioService, inputResolver, assetProvider, gameSaveSystem)},
       };
+      
+      _canvasParent = GameObject.Find(CanvasPath).transform;
     }
 
     public void CreateScreen()
     {
-      GameViewMono = Create<GameViewMono>(GameViewPath, GameObject.Find(CanvasPath).transform);
+      GameViewMono = Create<GameViewMono>(GameViewPath, _canvasParent);
       _dictionaryGameMode[_gameMetaProvider.GetEnemyType()].Invoke();
     }
 
     public void CreateField()
     {
-      GameField = Create<GameField>(GameFieldPath, GameObject.Find(CanvasPath).transform);
+      GameField = Create<GameField>(GameFieldPath, _canvasParent);
       GameFieldLogic = new GameFieldLogic(GameField, _audioService, _gameMetaProvider);
     }
 
     public void CreateEndGame()
     {
-      EndGameWindow = Create<EndGameMono>(EndGameScreenPath, GameObject.Find(CanvasPath).transform);
+      EndGameWindow = Create<EndGameMono>(EndGameScreenPath, _canvasParent);
       EndGameLogic = new EndGameLogic(EndGameWindow, _audioService, _localeSystem, _gameMetaProvider);
     }
+
+    public void CreateWarningView() => 
+      WarningView = Create<WarningView>(WarningViewPath, _canvasParent);
 
     public void SpawnPlayerObject()
     {
@@ -110,6 +120,12 @@ namespace _Project.Scripts.Features.GameScreen
       {
         Clear(PlayerViewMono.gameObject);
         PlayerViewMono = null;
+      }
+      
+      if (WarningView != null)
+      {
+        Clear(WarningView.gameObject);
+        WarningView = null;
       }
     }
   }

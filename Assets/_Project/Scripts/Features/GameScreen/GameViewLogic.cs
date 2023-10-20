@@ -71,7 +71,10 @@ namespace _Project.Scripts.Features.GameScreen
     {
       OnEndGame = onEndGame;
 
-      _gameViewMono.BackButton.onClick.AddListener(() => onBack?.Invoke());
+      _gameFactory.CreateWarningView();
+      _gameFactory.WarningView.Construct(InputResolver, _audioService, onBack);
+      
+      _gameViewMono.BackButton.onClick.AddListener(() => _gameFactory.WarningView.SetActivity(true));
 
       CreateTutorial();
       Localize(_localeSystem);
