@@ -10,6 +10,8 @@ namespace _Project.Scripts.Features.Player.BuhurtModules
 {
   public class PlayerFigure : MonoBehaviour, IPointerDownHandler
   {
+    private readonly int _alpha = Shader.PropertyToID("_Alpha");
+    
     [SerializeField] private SymbolSize _size;
 
     private BoxCollider _boxCollider;
@@ -61,7 +63,7 @@ namespace _Project.Scripts.Features.Player.BuhurtModules
         return;
       }
 
-      _meshRenderer.enabled = isOn;
+      _meshRenderer.material.SetFloat(_alpha, isOn ? 1 : .1f);
     }
 
     public void SetSizeToMoved() => 

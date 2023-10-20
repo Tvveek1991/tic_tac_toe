@@ -142,10 +142,10 @@ namespace _Project.Scripts.Features.GameScreen
     private void SetVisibilityFiguresPanel(bool isMainPlayer = false)
     {
       _gameViewMono.GetFigures().ForEach(item => item.SetVisibility(isMainPlayer));
-      _gameViewMono.PlayerCanvasGroup.DOFade(isMainPlayer ? 1f : .05f, Duration);
+      _gameViewMono.PlayerCanvasGroup.DOFade(isMainPlayer ? 1f : .1f, Duration);
 
       _gameViewMono.GetFigures(true).ForEach(item => item.SetVisibility(!isMainPlayer));
-      _gameViewMono.OpponentCanvasGroup.DOFade(!isMainPlayer ? 1f : .05f, Duration);
+      _gameViewMono.OpponentCanvasGroup.DOFade(!isMainPlayer ? 1f : .1f, Duration);
     }
 
     protected void RefreshAfterChangeTurn(SymbolSign nextSign)
