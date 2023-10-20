@@ -45,6 +45,8 @@ EndGame.BestWinStreak	Лучшая серия побед:	Best Win Streak	Melhor
 EndGame.WinStreak	Серия побед:	Win Streak	Sequência de vitórias	Racha
 EndGame.Winner	Победил игрок:	Win player:	Jogador vencedor:	Jugador ganador:
 EndGame.Draw	Ничья	Draw	Empate	Dibujar
+EndGame.Win	Победа	Win	Ganhar	Ganar
+EndGame.Lose	Попробуй ещё	Try again	Tente novamente	Intentar otra vez
 On	Вкл.	On	On	On
 Off	Выкл.	Off	Off	Off
 OpponentSearching	Поиск оппонента	Search for an opponent	Procure um oponente	Buscar un oponente
