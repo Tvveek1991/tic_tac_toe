@@ -71,6 +71,9 @@ namespace _Project.Scripts.Features.Player.BuhurtModules
 
     public void OnPointerDown(PointerEventData eventData)
     {
+      if(_dragDrop == null)
+        return;
+      
       if (_size == SymbolSize.Default || _inputResolver.IsLocked)
         return;
 

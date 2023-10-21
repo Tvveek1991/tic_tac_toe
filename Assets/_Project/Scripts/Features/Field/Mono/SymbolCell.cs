@@ -1,12 +1,17 @@
 using System;
 using _Project.Scripts.Features.Data;
 using _Project.Scripts.Features.GameScreen.Serialized;
+using _Project.Scripts.Services._Interfaces;
+using _Project.Scripts.Services.Audio.Enum;
+using DG.Tweening;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace _Project.Scripts.Features.Field.Mono
 {
   public class SymbolCell : MonoBehaviour
   {
+    private const float Duration = .5f;
     private SymbolSign _symbol;
     private SymbolSize _size = SymbolSize.Default;
 
@@ -14,21 +19,31 @@ namespace _Project.Scripts.Features.Field.Mono
     
     private MeshFilter _meshFilter;
     private MeshRenderer _meshRenderer;
+    
+    private Image _image;
 
     private Action<DragableData> _onClickCell;
 
     public MeshFilter MeshFilter => _meshFilter;
     public MeshRenderer MeshRenderer => _meshRenderer;
 
-    public void Construct(Action<DragableData> onClickCell)
+    private IAudioService _audioService;
+
+    public void Construct(IAudioService audioService, Action<DragableData> onClickCell)
     {
       _onClickCell = onClickCell;
+      _audioService = audioService;
 
+      _image = GetComponent<Image>();
+      
       _meshFilter = GetComponentInChildren<MeshFilter>();
       _meshRenderer = GetComponentInChildren<MeshRenderer>();
       
       _potentialTurn = GetComponentInChildren<PotentialTurn>();
       _potentialTurn.Construct();
+
+      _image.DOFade(0f, 0);
+      _image.transform.DOScale(0f, 0);
     }
 
     public SymbolSign GetSymbol() =>
@@ -49,5 +64,12 @@ namespace _Project.Scripts.Features.Field.Mono
 
     public void HidePotentialTurn() =>
       _potentialTurn.Hide();
+
+    public void ShowCell(float delay)
+    {
+      _image.DOFade(1f, Duration).SetDelay(delay * .1f);
+      _image.transform.DOScale(1f, Duration).SetDelay(delay * .1f)
+        .OnStart(() => { _audioService.Play(AudioId.Click); });
+    }
   }
 }

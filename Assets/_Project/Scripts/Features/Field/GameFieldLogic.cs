@@ -32,6 +32,7 @@ namespace _Project.Scripts.Features.Field
 
       SetField();
       CreateCellsField();
+      ShowCells();
     }
 
     public void Construct(Action<SymbolSign> onEndGame)
@@ -50,7 +51,7 @@ namespace _Project.Scripts.Features.Field
         _cells[y, x] = _gameField.GetPlayablePoint[y * FieldSizeY + x];
         int x1 = x;
         int y1 = y;
-        _cells[y, x].Construct(
+        _cells[y, x].Construct(_audioService,
           delegate(DragableData dragableData)
           {
             _playerSymbol = dragableData.GetSymbol();
@@ -61,6 +62,9 @@ namespace _Project.Scripts.Features.Field
           });
       }
     }
+
+    private void ShowCells() => 
+      new FieldAnimationHelper(_cells);
 
     private void SetField() =>
       _gameField.SetField(_gameMetaProvider.GetMap());
