@@ -13,6 +13,7 @@ namespace _Project.Scripts.Features.EndGameScreen
   public class EndGameLogic : IEndGameLogic
   {
     private const float Duration = .25f;
+    private const float MovingDuration = .5f;
     private readonly EndGameMono _endGameWindow;
 
     private readonly IAudioService _audioService;
@@ -35,6 +36,8 @@ namespace _Project.Scripts.Features.EndGameScreen
 
       AddAnimations();
       AddSounds();
+
+      _endGameWindow.CanvasGroup.alpha = 0;
     }
 
     public void Show(SymbolSign sign)
@@ -44,6 +47,8 @@ namespace _Project.Scripts.Features.EndGameScreen
       LoadTitle(sign);
       LoadWinStreak(sign);
       LoadResult(sign);
+
+      _endGameWindow.Offer.DOLocalMoveY(50f, MovingDuration).SetDelay(Duration);
 
       _endGameWindow.CanvasGroup.DOFade(1f, Duration)
         .OnComplete(() => { _endGameWindow.CanvasGroup.blocksRaycasts = true; });

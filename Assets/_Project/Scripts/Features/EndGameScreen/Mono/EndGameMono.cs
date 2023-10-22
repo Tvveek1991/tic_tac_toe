@@ -13,6 +13,8 @@ namespace _Project.Scripts.Features.EndGameScreen.Mono
     public Button ButtonPlayAgain;
 
     public CanvasGroup CanvasGroup;
+    
+    public RectTransform Offer;
 
     public List<Result> ResultList;
 

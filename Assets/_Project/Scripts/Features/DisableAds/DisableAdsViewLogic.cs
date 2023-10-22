@@ -1,13 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using _Project.Scripts.Animation;
 using _Project.Scripts.Features.DisableAds.Mono;
 using _Project.Scripts.Services._Interfaces;
 using _Project.Scripts.Services.Audio.Enum;
 using _Project.Scripts.Services.Localization.Logic;
 using _Project.Scripts.Services.Localization.Mono;
+using DG.Tweening;
 using Sirenix.Utilities;
+using Vector3 = UnityEngine.Vector3;
 
 namespace _Project.Scripts.Features.DisableAds
 {
@@ -49,6 +52,8 @@ namespace _Project.Scripts.Features.DisableAds
       new ButtonAnimation(_disableAdsWindow.CloseBtn.transform);
       new ButtonAnimation(_disableAdsWindow.ContinueBtn.transform);
       new ButtonAnimation(_disableAdsWindow.PurchaseBtn.transform);
+      
+      _disableAdsWindow.transform.localScale = Vector3.zero;
     }
 
     public void UpdateAdsWatchedProgress(int progress, int max) =>
@@ -67,14 +72,8 @@ namespace _Project.Scripts.Features.DisableAds
 
     public void OpenWindow()
     {
-      _disableAdsWindow.gameObject.SetActive(true);
-      AppearAnimation();
-
       _disableAdsWindow.SwapperBackIcon.SetIcon(_gameSaveSystem.Get().IsDisableAdsFirstTime);
-    }
-
-    private void AppearAnimation()
-    {
+      AppearAnimation();
     }
 
     public void CloseWindow()
@@ -82,9 +81,16 @@ namespace _Project.Scripts.Features.DisableAds
       DisappearAnimation();
     }
 
+    private void AppearAnimation()
+    {
+      _disableAdsWindow.transform.localScale = Vector3.zero;
+      _disableAdsWindow.transform.DOScale(1f, .25f);
+    }
+
     private void DisappearAnimation()
     {
-      _disableAdsWindow.gameObject.SetActive(false);
+      _disableAdsWindow.transform.localScale = Vector3.one;
+      _disableAdsWindow.transform.DOScale(0f, .25f);
     }
 
     public void ShowAdsOfferEnabled()
@@ -102,7 +108,7 @@ namespace _Project.Scripts.Features.DisableAds
     public void ShowInfoPanelBefore()
     {
       _disableAdsWindow.InfoPanelBefore.SetActive(true);
-      _disableAdsWindow.InfoPanelAfter.SetActive(false);
+      _disableAdsWindow.InfoPanelAfter.localScale = Vector3.zero;
 
       _disableAdsWindow.ShowBtn.gameObject.SetActive(true);
       _disableAdsWindow.ContinueBtn.gameObject.SetActive(false);
@@ -111,7 +117,7 @@ namespace _Project.Scripts.Features.DisableAds
     public void ShowInfoPanelAfter()
     {
       _disableAdsWindow.InfoPanelBefore.SetActive(false);
-      _disableAdsWindow.InfoPanelAfter.SetActive(true);
+      _disableAdsWindow.InfoPanelAfter.DOScale(Vector3.one, .25f);
 
       _disableAdsWindow.ShowBtn.gameObject.SetActive(false);
       _disableAdsWindow.ContinueBtn.gameObject.SetActive(true);

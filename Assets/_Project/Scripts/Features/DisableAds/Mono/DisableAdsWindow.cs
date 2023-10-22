@@ -18,7 +18,9 @@ namespace _Project.Scripts.Features.DisableAds.Mono
     public TextMeshProUGUI AdsWatchedProgress;
     public TextMeshProUGUI[] DisableAdsTimers;
 
-    public GameObject InfoPanelBefore, InfoPanelAfter;
-    public GameObject AdsOfferEnabled, AdsOfferDisabled;
+    public GameObject InfoPanelBefore;
+    public Transform InfoPanelAfter;
+    public GameObject AdsOfferEnabled;
+    public GameObject AdsOfferDisabled;
   }
 }

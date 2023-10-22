@@ -1763,7 +1763,7 @@ MonoBehaviour:
   - {fileID: 1098032568313362818}
   - {fileID: 6014369558969686939}
   InfoPanelBefore: {fileID: 3210329854979036811}
-  InfoPanelAfter: {fileID: 3867509379085506199}
+  InfoPanelAfter: {fileID: 154060851866278224}
   AdsOfferEnabled: {fileID: 1799698750004191756}
   AdsOfferDisabled: {fileID: 814081399505307642}
 --- !u!1 &2741466537208273168

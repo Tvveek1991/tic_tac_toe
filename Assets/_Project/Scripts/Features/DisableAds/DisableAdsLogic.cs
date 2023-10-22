@@ -173,7 +173,7 @@ namespace _Project.Scripts.Features.DisableAds
         CreateTimer(TimerGuid, DelaySec);
       }
 
-      _disableAdsViewLogic.OpenWindow();
+      // _disableAdsViewLogic.OpenWindow();
     }
 
     private void OnNotLoadedAds()
