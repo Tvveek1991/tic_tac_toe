@@ -11,5 +11,6 @@ public enum AudioId
 	Music_OST_Slow,
 	Music_OST_Standart,
 	Music_OST_Fast,
+	Tile
 }
 }

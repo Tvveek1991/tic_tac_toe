@@ -69,7 +69,7 @@ namespace _Project.Scripts.Features.Field.Mono
     {
       _image.DOFade(1f, Duration).SetDelay(delay * .1f);
       _image.transform.DOScale(1f, Duration).SetDelay(delay * .1f)
-        .OnStart(() => { _audioService.Play(AudioId.Click); });
+        .OnPlay(() => { _audioService.Play(AudioId.Tile); });
     }
   }
 }
