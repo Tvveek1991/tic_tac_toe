@@ -16,10 +16,10 @@ namespace _Project.Scripts.Features.Field.Mono
     private SymbolSize _size = SymbolSize.Default;
 
     private PotentialTurn _potentialTurn;
-    
+
     private MeshFilter _meshFilter;
     private MeshRenderer _meshRenderer;
-    
+
     private Image _image;
 
     private Action<DragableData> _onClickCell;
@@ -35,10 +35,10 @@ namespace _Project.Scripts.Features.Field.Mono
       _audioService = audioService;
 
       _image = GetComponent<Image>();
-      
+
       _meshFilter = GetComponentInChildren<MeshFilter>();
       _meshRenderer = GetComponentInChildren<MeshRenderer>();
-      
+
       _potentialTurn = GetComponentInChildren<PotentialTurn>();
       _potentialTurn.Construct();
 
@@ -54,6 +54,11 @@ namespace _Project.Scripts.Features.Field.Mono
 
     public void SetSymbol(DragableData dragableData)
     {
+      _audioService.Play(AudioId.StandFigure);
+
+      if (_image != null)
+        _image.transform.DOPunchScale(-Vector3.one * .3f, .5f, 5);
+
       _symbol = dragableData.GetSymbol();
       _size = dragableData.GetSize();
       _onClickCell.Invoke(dragableData);
