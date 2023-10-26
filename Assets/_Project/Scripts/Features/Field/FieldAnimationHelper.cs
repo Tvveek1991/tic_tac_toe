@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using _Project.Scripts.Features.Field.Mono;
-using UnityEngine;
 using Random = UnityEngine.Random;
 
 namespace _Project.Scripts.Features.Field
@@ -12,8 +12,12 @@ namespace _Project.Scripts.Features.Field
     private readonly int _fieldSizeY;
     private readonly SymbolCell[,] _cells;
 
-    public FieldAnimationHelper(SymbolCell[,] cells)
+    private Action _onEnd;
+
+    public FieldAnimationHelper(SymbolCell[,] cells, Action onEnd)
     {
+      _onEnd = onEnd;
+      
       _cells = cells;
       _fieldSizeX = _cells.GetLength(0);
       _fieldSizeY = _cells.GetLength(1);
@@ -28,6 +32,13 @@ namespace _Project.Scripts.Features.Field
       };
       
       listSubsequences[Random.Range(0, listSubsequences.Count)]?.Invoke();
+      OnEndAnimation();
+    }
+
+    private async void OnEndAnimation()
+    {
+      await Task.Delay(TimeSpan.FromSeconds(1f));
+      _onEnd?.Invoke();
     }
 
     private void InQueue()

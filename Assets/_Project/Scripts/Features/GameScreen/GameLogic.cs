@@ -35,7 +35,31 @@ namespace _Project.Scripts.Features.GameScreen
     public void Enter()
     {
       _inputResolver.Disable();
+      
+      LoadGame();
+      
+      if (_gameMetaProvider.GetEnemyType() == EnemyType.OneDevice)
+      {
+        _gameFactory.GameViewLogic.StartGame();
+        _inputResolver.Enable();
+        return;
+      }
+      
+      _loadingLogic.Enter(() =>
+      {
+        _gameFactory.GameViewLogic.StartGame();
+        _inputResolver.Enable();
+      });
+    }
 
+    public void Exit()
+    {
+      _gameFactory.ClearScreen();
+      _gameFactory.GameViewLogic.Clear();
+    }
+
+    private void LoadGame()
+    {
       _gameFactory.CreateScreen();
       _gameFactory.CreateField();
       _gameFactory.CreateEndGame();
@@ -43,21 +67,6 @@ namespace _Project.Scripts.Features.GameScreen
       _gameFactory.EndGameLogic.Construct(OnClickBack, OnClickPlayAgain);
       _gameFactory.GameFieldLogic.Construct(OnEndGame);
       _gameFactory.GameViewLogic.Construct(OnClickBack, OnEndGame);
-      _gameFactory.GameViewLogic.OpenWindow();
-
-      if (_gameMetaProvider.GetEnemyType() == EnemyType.OneDevice)
-      {
-        _inputResolver.Enable();
-        return;
-      }
-      
-      _loadingLogic.Enter(() => _inputResolver.Enable());
-    }
-
-    public void Exit()
-    {
-      _gameFactory.ClearScreen();
-      _gameFactory.GameViewLogic.Clear();
     }
 
     private void OnClickBack()

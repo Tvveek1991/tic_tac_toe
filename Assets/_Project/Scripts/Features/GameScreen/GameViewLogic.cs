@@ -22,6 +22,11 @@ namespace _Project.Scripts.Features.GameScreen
   public class GameViewLogic : IGameViewLogic
   {
     private const float Duration = .25f;
+
+    private const int FieldSizeX = 3;
+    private const int FieldSizeY = 3;
+
+    protected readonly IGameFactory GameFactory;
     protected readonly IInputResolver InputResolver;
     protected readonly IGameMetaProvider GameMetaProvider;
 
@@ -32,12 +37,11 @@ namespace _Project.Scripts.Features.GameScreen
       {SymbolSign.X, new[] {SymbolSize.Tiny, SymbolSize.Small, SymbolSize.Medium, SymbolSize.Big, SymbolSize.Large}},
       {SymbolSign.O, new[] {SymbolSize.Tiny, SymbolSize.Small, SymbolSize.Medium, SymbolSize.Big, SymbolSize.Large}}
     };
-    
+
     private readonly IGameSaveSystem _gameSaveSystem;
     private readonly IAssetProvider _assetProvider;
     private readonly ILocaleSystem _localeSystem;
     private readonly IAudioService _audioService;
-    private readonly IGameFactory _gameFactory;
 
     private readonly GameViewMono _gameViewMono;
 
@@ -54,8 +58,8 @@ namespace _Project.Scripts.Features.GameScreen
       _assetProvider = assetProvider;
       _localeSystem = localeSystem;
       _audioService = audioService;
-      _gameFactory = gameFactory;
 
+      GameFactory = gameFactory;
       InputResolver = inputResolver;
       GameMetaProvider = gameMetaProvider;
 
@@ -71,10 +75,10 @@ namespace _Project.Scripts.Features.GameScreen
     {
       OnEndGame = onEndGame;
 
-      _gameFactory.CreateWarningView();
-      _gameFactory.WarningView.Construct(InputResolver, _audioService, onBack);
-      
-      _gameViewMono.BackButton.onClick.AddListener(_gameFactory.WarningView.Show);
+      GameFactory.CreateWarningView();
+      GameFactory.WarningView.Construct(InputResolver, _audioService, onBack);
+
+      _gameViewMono.BackButton.onClick.AddListener(GameFactory.WarningView.Show);
 
       CreateTutorial();
       Localize(_localeSystem);
@@ -85,15 +89,18 @@ namespace _Project.Scripts.Features.GameScreen
 
       RefreshAfterChangeTurn(SymbolSign.X);
     }
+    
+    public virtual void StartGame() => 
+      GameFactory.GameFieldLogic.Show(null);
 
     private void CreateTutorial()
     {
       if (GameMetaProvider.GetGame() != Game.Buhurt)
         return;
-      
+
       _tutorialLogic = new TutorialLogic(_assetProvider, _localeSystem, _gameSaveSystem);
       _tutorialLogic.Construct();
-      
+
       _gameViewMono.TutorialButton.onClick.AddListener(() => _tutorialLogic.SetActivity(true));
       _gameViewMono.TutorialButton.gameObject.SetActive(true);
     }
@@ -119,9 +126,6 @@ namespace _Project.Scripts.Features.GameScreen
       SymbolSign nextSign = activeSign == SymbolSign.X ? SymbolSign.O : SymbolSign.X;
       RefreshAfterChangeTurn(nextSign);
     }
-
-    public void OpenWindow() =>
-      AppearAnimation();
 
     public void SetFigureState(SymbolSign symbol, SymbolSize size)
     {
@@ -204,22 +208,20 @@ namespace _Project.Scripts.Features.GameScreen
         _gameViewMono.GetFigures(true)[i].FirstLoadFigure(symbol, GameMetaProvider.GetMesh(dragableData), GameMetaProvider.GetMaterial(dragableData));
       }
     }
-    
-    private const int FieldSizeX = 3;
-    private const int FieldSizeY = 3;
+
     private void ShowPotentialTurn(SymbolSign symbolSign)
     {
-      if(GameMetaProvider.GetGame() == Game.Buhurt || _gameSaveSystem.Get().IsHintsDisabled)
+      if (GameMetaProvider.GetGame() == Game.Buhurt || _gameSaveSystem.Get().IsHintsDisabled)
         return;
-      
-      var symbolCells = new SymbolCell[_gameFactory.GameFieldLogic.GetField().Length];
-      var board = new SymbolSign[_gameFactory.GameFieldLogic.GetField().Length];
-      
+
+      var symbolCells = new SymbolCell[GameFactory.GameFieldLogic.GetField().Length];
+      var board = new SymbolSign[GameFactory.GameFieldLogic.GetField().Length];
+
       for (var y = 0; y < FieldSizeY; y++)
       for (var x = 0; x < FieldSizeX; x++)
       {
-        symbolCells[3 * y + x] = _gameFactory.GameFieldLogic.GetField()[y, x];
-        board[3 * y + x] = _gameFactory.GameFieldLogic.GetField()[y, x].GetSymbol();
+        symbolCells[3 * y + x] = GameFactory.GameFieldLogic.GetField()[y, x];
+        board[3 * y + x] = GameFactory.GameFieldLogic.GetField()[y, x].GetSymbol();
       }
 
       symbolCells.ForEach(item =>
@@ -231,19 +233,20 @@ namespace _Project.Scripts.Features.GameScreen
         }
       });
     }
+
     private void ShowPotentialTurn(DragablePart dragablePart)
     {
-      if(_gameSaveSystem.Get().IsHintsDisabled)
+      if (_gameSaveSystem.Get().IsHintsDisabled)
         return;
-      
-      var symbolCells = new SymbolCell[_gameFactory.GameFieldLogic.GetField().Length];
-      var board = new SymbolSign[_gameFactory.GameFieldLogic.GetField().Length];
-      
+
+      var symbolCells = new SymbolCell[GameFactory.GameFieldLogic.GetField().Length];
+      var board = new SymbolSign[GameFactory.GameFieldLogic.GetField().Length];
+
       for (var y = 0; y < FieldSizeY; y++)
       for (var x = 0; x < FieldSizeX; x++)
       {
-        symbolCells[3 * y + x] = _gameFactory.GameFieldLogic.GetField()[y, x];
-        board[3 * y + x] = _gameFactory.GameFieldLogic.GetField()[y, x].GetSymbol();
+        symbolCells[3 * y + x] = GameFactory.GameFieldLogic.GetField()[y, x];
+        board[3 * y + x] = GameFactory.GameFieldLogic.GetField()[y, x].GetSymbol();
       }
 
       symbolCells.ForEach(item =>
@@ -255,10 +258,10 @@ namespace _Project.Scripts.Features.GameScreen
         }
       });
     }
-    
+
     private void HidePotentialTurn()
     {
-      foreach (SymbolCell symbolCell in _gameFactory.GameFieldLogic.GetField())
+      foreach (SymbolCell symbolCell in GameFactory.GameFieldLogic.GetField())
         symbolCell.HidePotentialTurn();
     }
 

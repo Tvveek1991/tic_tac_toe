@@ -1,4 +1,3 @@
-using System;
 using _Project.Scripts.Features.GameScreen.Mono;
 using _Project.Scripts.Features.GameScreen.Serialized;
 using _Project.Scripts.Services._Interfaces;
@@ -11,11 +10,6 @@ namespace _Project.Scripts.Features.GameScreen
     public OneDeviceGameViewLogic(GameViewMono gameViewMono, IGameFactory gameFactory, ILocaleSystem localeSystem, IGameMetaProvider gameMetaProvider,
       IAudioService audioService, IInputResolver inputResolver, IAssetProvider assetProvider, IGameSaveSystem gameSaveSystem)
       : base(gameViewMono, gameFactory, localeSystem, gameMetaProvider, audioService, inputResolver, assetProvider, gameSaveSystem) { }
-    
-    public override void Construct(Action onBack, Action<SymbolSign> onEndGame)
-    {
-      base.Construct(onBack, onEndGame);
-    }
 
     public override void ChangeTurningPlayer(SymbolSign activeSign)
     {

@@ -1,4 +1,3 @@
-using System;
 using _Project.Scripts.Features.GameScreen.Mono;
 using _Project.Scripts.Features.GameScreen.Serialized;
 using _Project.Scripts.Features.Player.Bots;
@@ -19,12 +18,14 @@ namespace _Project.Scripts.Features.GameScreen
       _bot.Construct();
     }
 
-    public override void Construct(Action onBack, Action<SymbolSign> onEndGame)
+    public override void StartGame()
     {
-      base.Construct(onBack, onEndGame);
+      GameFactory.GameFieldLogic.Show(() =>
+      {
+        if (GameMetaProvider.GetPlayerView().GetSymbol() == SymbolSign.O)
+          BotTurn();
+      });
       
-      if (GameMetaProvider.GetPlayerView().GetSymbol() == SymbolSign.O)
-        BotTurn();
     }
 
     public override void ChangeTurningPlayer(SymbolSign activeSign)

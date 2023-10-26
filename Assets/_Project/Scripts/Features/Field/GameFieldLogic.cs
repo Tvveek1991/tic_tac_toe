@@ -32,17 +32,17 @@ namespace _Project.Scripts.Features.Field
 
       SetField();
       CreateCellsField();
-      ShowCells();
     }
 
-    public void Construct(Action<SymbolSign> onEndGame)
-    {
+    public void Construct(Action<SymbolSign> onEndGame) => 
       _onEndGame = onEndGame;
-    }
+
+    public void Show(Action onEnd) =>
+      ShowCells(onEnd);
 
     public SymbolCell[,] GetField() =>
       _cells;
-    
+
     private void CreateCellsField()
     {
       for (var y = 0; y < FieldSizeY; ++y)
@@ -63,8 +63,8 @@ namespace _Project.Scripts.Features.Field
       }
     }
 
-    private void ShowCells() => 
-      new FieldAnimationHelper(_cells);
+    private void ShowCells(Action onEnd) =>
+      new FieldAnimationHelper(_cells, onEnd);
 
     private void SetField() =>
       _gameField.SetField(_gameMetaProvider.GetMap());

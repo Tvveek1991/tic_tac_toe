@@ -8,7 +8,7 @@ namespace _Project.Scripts.Features.GameScreen
   {
     IDragDrop DragDrop { get; }
     void Construct(Action onClickBack, Action<SymbolSign> onEndGame);
-    void OpenWindow();
+    void StartGame();
     void ChangeTurningPlayer(SymbolSign activeSign = SymbolSign.None);
     void SetFigureState(SymbolSign symbol, SymbolSize size);
     void HidePlayersPanels();
