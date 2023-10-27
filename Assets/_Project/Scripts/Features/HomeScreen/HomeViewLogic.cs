@@ -19,13 +19,16 @@ namespace _Project.Scripts.Features.HomeScreen
   {
     private const float Duration = .25f;
 
+    private readonly Color32 _chosenColor = new(39, 39, 39, 255);
+    
     private readonly HomeViewMono _homeViewMono;
     private readonly ILocaleSystem _localeSystem;
     private readonly IAudioService _audioService;
     private readonly IGameMetaProvider _gameMetaProvider;
 
     private Action _toGame;
-    
+
+
     public HomeViewLogic(HomeViewMono homeViewMono, ILocaleSystem localeSystem, IAudioService audioService, IGameMetaProvider gameMetaProvider)
     {
       _homeViewMono = homeViewMono;
@@ -37,7 +40,7 @@ namespace _Project.Scripts.Features.HomeScreen
     public void Construct(Action openSettingsWindow, Action toShop, Action toGame, Action toNoAds)
     {
       _toGame = toGame;
-      
+
       _homeViewMono.ShopButton.onClick.AddListener(toShop.Invoke);
       _homeViewMono.NoAdsButton.onClick.AddListener(toNoAds.Invoke);
       _homeViewMono.SettingsButton.onClick.AddListener(openSettingsWindow.Invoke);
@@ -68,12 +71,14 @@ namespace _Project.Scripts.Features.HomeScreen
 
     private void CreateAnimations()
     {
-      // new ButtonAnimation(_homeViewMono.ShopButton.transform);
       new ButtonAnimation(_homeViewMono.SettingsButton.transform);
       new ButtonAnimation(_homeViewMono.NoAdsButton.transform);
-      
+
       new ButtonAnimation(_homeViewMono.ClassicButton.transform);
       new ButtonAnimation(_homeViewMono.BuhurtButton.transform);
+
+      new ButtonAnimation(_homeViewMono.SingleButton.transform);
+      new ButtonAnimation(_homeViewMono.FriendsButton.transform);
     }
 
     private void CreateSounds()
@@ -81,10 +86,13 @@ namespace _Project.Scripts.Features.HomeScreen
       new ButtonSound(_audioService, _homeViewMono.ShopButton.gameObject, AudioId.Click);
       new ButtonSound(_audioService, _homeViewMono.NoAdsButton.gameObject, AudioId.Click);
       new ButtonSound(_audioService, _homeViewMono.SettingsButton.gameObject, AudioId.Click);
-      
+
       new ButtonSound(_audioService, _homeViewMono.ClassicButton.gameObject, AudioId.Click);
       new ButtonSound(_audioService, _homeViewMono.BuhurtButton.gameObject, AudioId.Click);
-      
+
+      new ButtonSound(_audioService, _homeViewMono.SingleButton.gameObject, AudioId.Click);
+      new ButtonSound(_audioService, _homeViewMono.FriendsButton.gameObject, AudioId.Click);
+
       _audioService.Play(_gameMetaProvider.GetMusic());
     }
 
@@ -97,8 +105,14 @@ namespace _Project.Scripts.Features.HomeScreen
 
     private void SwitchEnemy(bool isOneDevice)
     {
-      _homeViewMono.SingleButton.GetComponent<Image>().DOFade(isOneDevice? .05f : 1f, Duration);
-      _homeViewMono.FriendsButton.GetComponent<Image>().DOFade(isOneDevice? 1f : .05f, Duration);
+      _homeViewMono.SingleText.DOColor(isOneDevice ? _chosenColor : Color.white, Duration);
+      _homeViewMono.FriendsText.DOColor(isOneDevice ? Color.white : _chosenColor, Duration);
+
+      _homeViewMono.SingleButton.GetComponent<Image>().DOFade(isOneDevice ? 0f : 1f, Duration);
+      _homeViewMono.FriendsButton.GetComponent<Image>().DOFade(isOneDevice ? 1f : 0, Duration);
+
+      _homeViewMono.SingleIcon.DOLocalMoveX(isOneDevice ? -30f : 0f, Duration);
+      _homeViewMono.FriendsIcon.DOLocalMoveX(isOneDevice ? 30f : 0f, Duration);
 
       _gameMetaProvider.SetEnemyType(isOneDevice ? EnemyType.OneDevice : EnemyType.Bot);
       Debug.Log("On enemy change " + _gameMetaProvider.GetEnemyType());
