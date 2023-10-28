@@ -93,6 +93,18 @@ namespace _Project.Scripts.Services.GameMetaProvider
         ? symbolData.MaterialClassic
         : symbolData.MaterialBuhurt[(int) dragableData.GetSize()];
     }
+    
+    public Vector3 GetAngle(DragableData dragableData)
+    {
+      SymbolData symbolData = GetSymbolData(dragableData.GetSymbol(), dragableData.IsBot);
+      
+      if(symbolData.RotateAngle.Count == 0)
+        return Vector3.zero;
+      
+      return GetGame() == Game.Classic
+        ? symbolData.RotateAngle[0]
+        : symbolData.RotateAngle[(int) dragableData.GetSize()];
+    }
 
     public void AddScore(SymbolSign symbolSign)
     {

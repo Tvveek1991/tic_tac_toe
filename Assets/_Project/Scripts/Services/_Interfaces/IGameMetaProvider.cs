@@ -20,6 +20,7 @@ namespace _Project.Scripts.Services._Interfaces
 
     Mesh GetMesh(DragableData dragableData);
     Material GetMaterial(DragableData dragableData);
+    Vector3 GetAngle(DragableData dragableData);
     Sprite GetIcon(SymbolSign symbol);
     
     AudioId GetMusic();

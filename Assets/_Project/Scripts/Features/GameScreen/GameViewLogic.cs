@@ -196,7 +196,8 @@ namespace _Project.Scripts.Features.GameScreen
       for (var i = 0; i < FiguresState[symbol].Length; i++)
       {
         var dragableData = new DragableData(symbol, (SymbolSize) i);
-        _gameViewMono.GetFigures()[i].FirstLoadFigure(symbol, GameMetaProvider.GetMesh(dragableData), GameMetaProvider.GetMaterial(dragableData));
+        _gameViewMono.GetFigures()[i].FirstLoadFigure(symbol, GameMetaProvider.GetMesh(dragableData), GameMetaProvider.GetMaterial(dragableData), 
+          GameMetaProvider.GetAngle(dragableData));
       }
     }
 
@@ -205,7 +206,8 @@ namespace _Project.Scripts.Features.GameScreen
       for (var i = 0; i < FiguresState[symbol].Length; i++)
       {
         var dragableData = new DragableData(symbol, (SymbolSize) i, GameMetaProvider.GetEnemyType() == EnemyType.Bot);
-        _gameViewMono.GetFigures(true)[i].FirstLoadFigure(symbol, GameMetaProvider.GetMesh(dragableData), GameMetaProvider.GetMaterial(dragableData));
+        _gameViewMono.GetFigures(true)[i].FirstLoadFigure(symbol, GameMetaProvider.GetMesh(dragableData), GameMetaProvider.GetMaterial(dragableData), 
+        GameMetaProvider.GetAngle(dragableData));
       }
     }
 
@@ -229,7 +231,7 @@ namespace _Project.Scripts.Features.GameScreen
         if (item.GetSymbol() == SymbolSign.None)
         {
           var dragableData = new DragableData(symbolSign, SymbolSize.Default);
-          item.ShowPotentialTurn(GameMetaProvider.GetMesh(dragableData));
+          item.ShowPotentialTurn(GameMetaProvider.GetMesh(dragableData), GameMetaProvider.GetMaterial(dragableData), GameMetaProvider.GetAngle(dragableData));
         }
       });
     }
@@ -254,7 +256,7 @@ namespace _Project.Scripts.Features.GameScreen
         if (item.GetSize() < dragablePart.GetDragableData().GetSize() && item.GetSymbol() != dragablePart.GetDragableData().GetSymbol())
         {
           var dragableData = new DragableData(dragablePart.GetDragableData().GetSymbol(), dragablePart.GetDragableData().GetSize());
-          item.ShowPotentialTurn(GameMetaProvider.GetMesh(dragableData));
+          item.ShowPotentialTurn(GameMetaProvider.GetMesh(dragableData), GameMetaProvider.GetMaterial(dragableData), GameMetaProvider.GetAngle(dragableData));
         }
       });
     }

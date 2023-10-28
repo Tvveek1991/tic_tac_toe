@@ -38,7 +38,7 @@ namespace _Project.Scripts.Features.ShopScreen.Content
           if (i1 >= itemData.PreviewMeshes.Count) 
             return;
           
-          _shopViewPreview[i1].SetVisual(itemData.PreviewMeshes[i1]);
+          _shopViewPreview[i1].SetVisual(itemData.PreviewMeshes[i1], itemData.PreviewMaterials[i1]);
           _shopViewPreview[i1].Show(i1 == 0 ? itemData.PreviewScaleFactor : 1);
         });
       }

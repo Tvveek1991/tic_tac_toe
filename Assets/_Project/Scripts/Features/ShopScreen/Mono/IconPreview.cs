@@ -24,9 +24,10 @@ namespace _Project.Scripts.Features.ShopScreen.Mono
     public void Show(float factor) => 
       transform.DOScale(1f * factor, Duration);
 
-    public void SetVisual(Mesh mesh)
+    public void SetVisual(Mesh mesh, Material material)
     {
       _meshFilter.mesh = mesh;
+      _meshRenderer.material = material;
     }
   }
 }

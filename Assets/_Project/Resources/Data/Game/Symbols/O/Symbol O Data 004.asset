@@ -12,18 +12,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5b5ec39ba2530e4e80867090a5250c9, type: 3}
   m_Name: Symbol O Data 004
   m_EditorClassIdentifier: 
-  Id: 9f198c90-6bfd-4d44-9d11-f15c878b49e2
-  Name: ChessO
+  Id: 146a68c7-1ecf-4cd3-be78-1bfbabc8b04a
+  Name: CookieO
   Description: 
   _itemType: 1
-  _meshClassic: {fileID: -8045729741950306773, guid: a782b6ce6065d5c4e9b61a04dddd98f7, type: 3}
+  _meshClassic: {fileID: 5763435600152313747, guid: 8ad186f3d7eacc442a90a22a3adfb230, type: 3}
   _materialClassic: {fileID: 2100000, guid: b11cf2882e44a3743b46e922523bc69a, type: 2}
   _meshBuhurt:
-  - {fileID: 3683115806071932662, guid: a782b6ce6065d5c4e9b61a04dddd98f7, type: 3}
-  - {fileID: -3123338421696817655, guid: a782b6ce6065d5c4e9b61a04dddd98f7, type: 3}
-  - {fileID: -469777908102485080, guid: a782b6ce6065d5c4e9b61a04dddd98f7, type: 3}
-  - {fileID: -5692873075339752892, guid: a782b6ce6065d5c4e9b61a04dddd98f7, type: 3}
-  - {fileID: -1246051828757231802, guid: a782b6ce6065d5c4e9b61a04dddd98f7, type: 3}
+  - {fileID: 1619793442191740921, guid: 8ad186f3d7eacc442a90a22a3adfb230, type: 3}
+  - {fileID: 2756761512099773346, guid: 8ad186f3d7eacc442a90a22a3adfb230, type: 3}
+  - {fileID: -2603522112084426767, guid: 8ad186f3d7eacc442a90a22a3adfb230, type: 3}
+  - {fileID: 7199583130548135601, guid: 8ad186f3d7eacc442a90a22a3adfb230, type: 3}
+  - {fileID: 5763435600152313747, guid: 8ad186f3d7eacc442a90a22a3adfb230, type: 3}
   _materialBuhurt:
   - {fileID: 2100000, guid: b11cf2882e44a3743b46e922523bc69a, type: 2}
   - {fileID: 2100000, guid: b11cf2882e44a3743b46e922523bc69a, type: 2}

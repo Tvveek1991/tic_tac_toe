@@ -47,12 +47,14 @@ namespace _Project.Scripts.Features.Player.BuhurtModules
       _dragablePart = CreateDragableFromGameIconPrefab();
     }
 
-    public void FirstLoadFigure(SymbolSign symbolSign, Mesh mesh, Material material)
+    public void FirstLoadFigure(SymbolSign symbolSign, Mesh mesh, Material material, Vector3 angle)
     {
       Sign = symbolSign;
 
       _mesh.mesh = mesh;
       _meshRenderer.material = material;
+      
+      transform.localRotation = Quaternion.Euler(angle);
     }
 
     public void SetVisibility(bool isOn)

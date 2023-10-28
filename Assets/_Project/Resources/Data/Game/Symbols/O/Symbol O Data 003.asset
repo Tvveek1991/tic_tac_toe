@@ -12,22 +12,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5b5ec39ba2530e4e80867090a5250c9, type: 3}
   m_Name: Symbol O Data 003
   m_EditorClassIdentifier: 
-  Id: 59943283-d8ea-4310-8efa-a36f571e42c7
-  Name: DiceO
+  Id: 9f198c90-6bfd-4d44-9d11-f15c878b49e2
+  Name: ChessO
   Description: 
   _itemType: 1
-  _meshClassic: {fileID: 4170667394059517457, guid: 393453fb3be1c7d43957a3e2a495237f, type: 3}
+  _meshClassic: {fileID: 7502377544057204969, guid: 9c17dd28d2447e84a91f114e7d505d0d, type: 3}
   _materialClassic: {fileID: 2100000, guid: b11cf2882e44a3743b46e922523bc69a, type: 2}
   _meshBuhurt:
-  - {fileID: 4170667394059517457, guid: 393453fb3be1c7d43957a3e2a495237f, type: 3}
-  - {fileID: 4170667394059517457, guid: 393453fb3be1c7d43957a3e2a495237f, type: 3}
-  - {fileID: 4170667394059517457, guid: 393453fb3be1c7d43957a3e2a495237f, type: 3}
-  - {fileID: 4170667394059517457, guid: 393453fb3be1c7d43957a3e2a495237f, type: 3}
-  - {fileID: 4170667394059517457, guid: 393453fb3be1c7d43957a3e2a495237f, type: 3}
+  - {fileID: -1562275218897716241, guid: 9c17dd28d2447e84a91f114e7d505d0d, type: 3}
+  - {fileID: -7969978266939365281, guid: 9c17dd28d2447e84a91f114e7d505d0d, type: 3}
+  - {fileID: -5582133695706433325, guid: 9c17dd28d2447e84a91f114e7d505d0d, type: 3}
+  - {fileID: -2628482395200241503, guid: 9c17dd28d2447e84a91f114e7d505d0d, type: 3}
+  - {fileID: 7502377544057204969, guid: 9c17dd28d2447e84a91f114e7d505d0d, type: 3}
   _materialBuhurt:
-  - {fileID: 2100000, guid: b11cf2882e44a3743b46e922523bc69a, type: 2}
-  - {fileID: 2100000, guid: b11cf2882e44a3743b46e922523bc69a, type: 2}
-  - {fileID: 2100000, guid: b11cf2882e44a3743b46e922523bc69a, type: 2}
-  - {fileID: 2100000, guid: b11cf2882e44a3743b46e922523bc69a, type: 2}
-  - {fileID: 2100000, guid: b11cf2882e44a3743b46e922523bc69a, type: 2}
+  - {fileID: 2100000, guid: 60b1d773e703bcf4faeb254812b08c4f, type: 2}
+  - {fileID: 2100000, guid: 60b1d773e703bcf4faeb254812b08c4f, type: 2}
+  - {fileID: 2100000, guid: 60b1d773e703bcf4faeb254812b08c4f, type: 2}
+  - {fileID: 2100000, guid: 60b1d773e703bcf4faeb254812b08c4f, type: 2}
+  - {fileID: 2100000, guid: 60b1d773e703bcf4faeb254812b08c4f, type: 2}
   _icon: {fileID: 21300000, guid: 629673a401e74874cb1075fc99981615, type: 3}

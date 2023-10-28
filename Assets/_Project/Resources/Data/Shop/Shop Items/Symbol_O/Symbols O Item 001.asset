@@ -19,5 +19,10 @@ MonoBehaviour:
   _icon: {fileID: 21300000, guid: d67cea4228308f048a95670bb00b2b6b, type: 3}
   _previewScaleFactor: 1
   _previewMeshes:
-  - {fileID: 399550195671657263, guid: be1dd3e5ea761ef47ba1ba843fae6635, type: 3}
-  _previewMaterials: []
+  - {fileID: 2476545961082049557, guid: ac312b14b927e514497247feff0d9635, type: 3}
+  _previewMaterials:
+  - {fileID: 2100000, guid: b11cf2882e44a3743b46e922523bc69a, type: 2}
+  - {fileID: 2100000, guid: eeaee82c4b8d1d343b9744d0770a7a2a, type: 2}
+  - {fileID: 2100000, guid: 391dbf5ead166024db7e6eb098a72601, type: 2}
+  - {fileID: 2100000, guid: 18161d22a09b3d844a2f5d37d3470b4a, type: 2}
+  - {fileID: 2100000, guid: 21a071a36eb60ff4592685924eccdf71, type: 2}

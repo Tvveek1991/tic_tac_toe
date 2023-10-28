@@ -64,8 +64,8 @@ namespace _Project.Scripts.Features.Field.Mono
       _onClickCell.Invoke(dragableData);
     }
 
-    public void ShowPotentialTurn(Mesh getMesh) =>
-      _potentialTurn.ShowPotentialTurn(getMesh);
+    public void ShowPotentialTurn(Mesh getMesh, Material getMaterial, Vector3 angle) =>
+      _potentialTurn.ShowPotentialTurn(getMesh, getMaterial, angle);
 
     public void HidePotentialTurn() =>
       _potentialTurn.Hide();

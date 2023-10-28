@@ -4,6 +4,7 @@ using _Project.Scripts.Features.Data;
 using _Project.Scripts.Features.Field.Mono;
 using _Project.Scripts.Features.GameScreen.Serialized;
 using _Project.Scripts.Services._Interfaces;
+using UnityEngine;
 
 namespace _Project.Scripts.Features.Field
 {
@@ -76,6 +77,7 @@ namespace _Project.Scripts.Features.Field
 
       _cells[y, x].MeshFilter.mesh = _gameMetaProvider.GetMesh(dragableData);
       _cells[y, x].MeshRenderer.material = _gameMetaProvider.GetMaterial(dragableData);
+      _cells[y, x].transform.localRotation = Quaternion.Euler(_gameMetaProvider.GetAngle(dragableData)); 
       _cells[y, x].MeshRenderer.enabled = true;
 
       // Debug.Log("Win is " + CheckWin(_playerSymbol) + (CheckWin(_playerSymbol) ? " Is" + _playerSymbol : ""));

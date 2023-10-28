@@ -12,6 +12,7 @@ namespace _Project.Scripts.Features.Data
     
     [SerializeField] private List<Mesh> _meshBuhurt;
     [SerializeField] private List<Material> _materialBuhurt;
+    [SerializeField] private List<Vector3> _rotateAngle;
     
     [SerializeField] private Sprite _icon;
     
@@ -20,5 +21,6 @@ namespace _Project.Scripts.Features.Data
     public Sprite Icon => _icon;
     public List<Mesh> MeshBuhurt => _meshBuhurt;
     public List<Material> MaterialBuhurt => _materialBuhurt;
+    public List<Vector3> RotateAngle => _rotateAngle;
   }
 }
