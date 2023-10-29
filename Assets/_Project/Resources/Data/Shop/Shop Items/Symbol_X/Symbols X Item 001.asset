@@ -20,6 +20,10 @@ MonoBehaviour:
   _previewScaleFactor: 1
   _previewMeshes:
   - {fileID: 2476545961082049557, guid: ac312b14b927e514497247feff0d9635, type: 3}
+  - {fileID: 2476545961082049557, guid: ac312b14b927e514497247feff0d9635, type: 3}
+  - {fileID: 2476545961082049557, guid: ac312b14b927e514497247feff0d9635, type: 3}
+  - {fileID: 2476545961082049557, guid: ac312b14b927e514497247feff0d9635, type: 3}
+  - {fileID: 2476545961082049557, guid: ac312b14b927e514497247feff0d9635, type: 3}
   _previewMaterials:
   - {fileID: 2100000, guid: 9ab957ab3d704dc42aecb2a92b842ed6, type: 2}
   - {fileID: 2100000, guid: f7f975a73b4eaf84fb74a0cde294551b, type: 2}
