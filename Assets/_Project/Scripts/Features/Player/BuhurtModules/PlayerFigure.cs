@@ -26,6 +26,8 @@ namespace _Project.Scripts.Features.Player.BuhurtModules
 
     private IInputResolver _inputResolver;
 
+    private bool _isLock;
+
     public SymbolSign Sign { get; private set; }
     public SymbolSize Size => _size;
 
@@ -65,6 +67,7 @@ namespace _Project.Scripts.Features.Player.BuhurtModules
         return;
       }
 
+      _isLock = !isOn;
       _meshRenderer.material.SetFloat(_alpha, isOn ? 1 : .1f);
     }
 
@@ -77,6 +80,9 @@ namespace _Project.Scripts.Features.Player.BuhurtModules
         return;
       
       if (_size == SymbolSize.Default || _inputResolver.IsLocked)
+        return;
+
+      if (_isLock)
         return;
 
       _dragablePart.SetDragableData(new DragableData(Sign, _size));
@@ -97,9 +103,7 @@ namespace _Project.Scripts.Features.Player.BuhurtModules
       _showPotentialTurn.Invoke(_dragablePart);
     }
 
-    private void OnPin()
-    {
-    }
+    private void OnPin() { }
 
     private void OnReturn()
     {

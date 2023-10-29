@@ -173,7 +173,9 @@ namespace _Project.Scripts.Features.GameScreen
 
     private void SetPlayerUi(SymbolSign symbol)
     {
-      bool isMainPlayer = GameMetaProvider.GetEnemyType() == EnemyType.OneDevice ? symbol == SymbolSign.X : symbol == GameMetaProvider.GetPlayerView().GetSymbol();
+      bool isMainPlayer = GameMetaProvider.GetEnemyType() == EnemyType.OneDevice 
+        ? symbol == SymbolSign.X 
+        : symbol == GameMetaProvider.GetPlayerView().GetSymbol();
 
       _gameViewMono.GetSymbolPart().SetActivity(isMainPlayer);
       _gameViewMono.GetSymbolPart(true).SetActivity(!isMainPlayer);

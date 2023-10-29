@@ -19,7 +19,7 @@ namespace _Project.Scripts.Features.Field.Mono
     {
       _meshFilter.mesh = mesh;
       _meshRenderer.material = material;
-      _meshRenderer.material.SetFloat(_alpha, .5f);
+      _meshRenderer.material.SetFloat(_alpha, .2f);
       
       transform.localRotation = Quaternion.Euler(angle);
       
