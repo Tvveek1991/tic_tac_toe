@@ -36,8 +36,8 @@ namespace _Project.Scripts.Features.Field.Mono
 
       _image = GetComponent<Image>();
 
-      _meshFilter = GetComponentInChildren<MeshFilter>();
-      _meshRenderer = GetComponentInChildren<MeshRenderer>();
+      _meshFilter = GetComponentsInChildren<MeshFilter>()[1];
+      _meshRenderer = GetComponentsInChildren<MeshRenderer>()[1];
 
       _potentialTurn = GetComponentInChildren<PotentialTurn>();
       _potentialTurn.Construct();
