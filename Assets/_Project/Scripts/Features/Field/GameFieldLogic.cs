@@ -52,11 +52,11 @@ namespace _Project.Scripts.Features.Field
         _cells[y, x] = _gameField.GetPlayablePoint[y * FieldSizeY + x];
         int x1 = x;
         int y1 = y;
-        _cells[y, x].Construct(_audioService,
+        _cells[y, x].Construct(_audioService, _gameMetaProvider,
           delegate(DragableData dragableData)
           {
             _playerSymbol = dragableData.GetSymbol();
-            SetFieldCell(x1, y1, dragableData);
+            // SetFieldCell(x1, y1, dragableData);
 
             if (CheckWin(_playerSymbol) || CheckDraw())
               _onEndGame?.Invoke(CheckWin(_playerSymbol) ? _playerSymbol : SymbolSign.None);
@@ -75,10 +75,10 @@ namespace _Project.Scripts.Features.Field
       if (_cells[y, x] == null)
         return;
 
-      _cells[y, x].MeshFilter.mesh = _gameMetaProvider.GetMesh(dragableData);
+      /*_cells[y, x].MeshFilter.mesh = _gameMetaProvider.GetMesh(dragableData);
       _cells[y, x].MeshRenderer.material = _gameMetaProvider.GetMaterial(dragableData);
       _cells[y, x].transform.localRotation = Quaternion.Euler(_gameMetaProvider.GetAngle(dragableData)); 
-      _cells[y, x].MeshRenderer.enabled = true;
+      _cells[y, x].MeshRenderer.enabled = true;*/
 
       // Debug.Log("Win is " + CheckWin(_playerSymbol) + (CheckWin(_playerSymbol) ? " Is" + _playerSymbol : ""));
     }
