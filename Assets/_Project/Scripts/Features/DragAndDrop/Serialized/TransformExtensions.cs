@@ -11,6 +11,8 @@ namespace _Project.Scripts.Features.DragAndDrop.Serialized
       transform.localPosition = placeData.Position;
       transform.localRotation = placeData.Rotation;
       transform.localScale = placeData.LocalScale;
+      
+      Debug.Log(placeData.Rotation);
     }
     
     public static void DoPlaceData(this Transform transform, PlaceData placeData, float duration, Action onEnd)

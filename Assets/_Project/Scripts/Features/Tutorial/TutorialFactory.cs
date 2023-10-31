@@ -7,7 +7,7 @@ namespace _Project.Scripts.Features.Tutorial
   public class TutorialFactory : GameObjectFactory
   {
     private const string TutorialPath = "Features/Tutorial/Tutorial";
-    private const string BaseCanvas = "Canvas";
+    private const string BaseCanvas = "Popup Canvas";
     
     private readonly IAssetProvider _assetProvider;
 

@@ -23,8 +23,6 @@ namespace _Project.Scripts.Features.Player.BuhurtModules
 
     public void Construct(Action onStartDrag, Action onPin, Action onReturn)
     {
-      _originalPlaceData = GetPlaceData();
-
       _onPin = onPin;
       _onReturn = onReturn;
       _onStartDrag = onStartDrag;
@@ -32,6 +30,8 @@ namespace _Project.Scripts.Features.Player.BuhurtModules
 
     public void ToGameWorld()
     {
+      _originalPlaceData = GetPlaceData();
+      
       _onStartDrag?.Invoke();
       _baseParent = transform.parent;
       transform.SetParent(transform.parent);
@@ -41,6 +41,7 @@ namespace _Project.Scripts.Features.Player.BuhurtModules
     public void ReturnToBaseState()
     {
       transform.SetParent(_baseParent);
+      
       SetPlaceData(_originalPlaceData);
       _onReturn?.Invoke();
     }

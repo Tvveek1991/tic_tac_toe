@@ -10,7 +10,7 @@ namespace _Project.Scripts.Features.Player.BuhurtModules
 {
   public class PlayerFigure : MonoBehaviour, IPointerDownHandler
   {
-    private readonly int _alpha = Shader.PropertyToID("_Alpha");
+    private readonly int _color = Shader.PropertyToID("_Color");
     
     [SerializeField] private SymbolSize _size;
 
@@ -56,7 +56,7 @@ namespace _Project.Scripts.Features.Player.BuhurtModules
       _mesh.mesh = mesh;
       _meshRenderer.material = material;
       
-      transform.localRotation = Quaternion.Euler(angle);
+      _mesh.transform.localRotation = Quaternion.Euler(angle);
     }
 
     public void SetVisibility(bool isOn)
@@ -68,7 +68,10 @@ namespace _Project.Scripts.Features.Player.BuhurtModules
       }
 
       _isLock = !isOn;
-      _meshRenderer.material.SetFloat(_alpha, isOn ? 1 : .1f);
+
+      Color color = _meshRenderer.material.GetColor(_color);
+      color.a = isOn ? 1 : .4f;
+      _meshRenderer.material.SetColor(_color, color);
     }
 
     public void SetSizeToMoved() => 

@@ -18,6 +18,7 @@ namespace _Project.Scripts.Features.GameScreen
   public class GameFactory : GameObjectFactory, IGameFactory
   {
     private const string CanvasPath = "Canvas";
+    private const string PopupCanvasPath = "Popup Canvas";
 
     private const string ClassicPlayerPath = "Features/Player/Classic Player";
     private const string BuhurtPlayerPath = "Features/Player/Buhurt Player";
@@ -35,6 +36,7 @@ namespace _Project.Scripts.Features.GameScreen
     private readonly Dictionary<EnemyType, Action> _dictionaryGameMode;
 
     private readonly Transform _canvasParent;
+    private readonly Transform _popupCanvasParent;
 
     public WarningView WarningView { get; private set; }
     public BasePlayerViewMono PlayerViewMono { get; private set; }
@@ -66,6 +68,7 @@ namespace _Project.Scripts.Features.GameScreen
       };
       
       _canvasParent = GameObject.Find(CanvasPath).transform;
+      _popupCanvasParent = GameObject.Find(PopupCanvasPath).transform;
     }
 
     public void CreateScreen()
@@ -82,12 +85,12 @@ namespace _Project.Scripts.Features.GameScreen
 
     public void CreateEndGame()
     {
-      EndGameWindow = Create<EndGameMono>(EndGameScreenPath, _canvasParent);
+      EndGameWindow = Create<EndGameMono>(EndGameScreenPath, _popupCanvasParent);
       EndGameLogic = new EndGameLogic(EndGameWindow, _audioService, _localeSystem, _gameMetaProvider);
     }
 
     public void CreateWarningView() => 
-      WarningView = Create<WarningView>(WarningViewPath, _canvasParent);
+      WarningView = Create<WarningView>(WarningViewPath, _popupCanvasParent);
 
     public void SpawnPlayerObject()
     {

@@ -59,7 +59,7 @@ namespace _Project.Scripts.Features.Field.Mono
       _symbol = dragableData.GetSymbol();
       _size = dragableData.GetSize();
       
-      SetVisual(dragableData);
+      LoadCellModel(dragableData);
       
       _onClickCell.Invoke(dragableData);
     }
@@ -77,11 +77,11 @@ namespace _Project.Scripts.Features.Field.Mono
         .OnPlay(() => { _audioService.Play(AudioId.Tile); });
     }
 
-    private void SetVisual(DragableData dragableData)
+    private void LoadCellModel(DragableData dragableData)
     {
       _meshFilter.mesh = _gameMetaProvider.GetMesh(dragableData);
       _meshRenderer.material = _gameMetaProvider.GetMaterial(dragableData);
-      transform.localRotation = Quaternion.Euler(_gameMetaProvider.GetAngle(dragableData)); 
+      // _meshFilter.transform.localRotation = Quaternion.Euler(_gameMetaProvider.GetAngle(dragableData)); 
       _meshRenderer.enabled = true;
     }
   }

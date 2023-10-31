@@ -85,6 +85,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05300b8432f9bc94f93cba731cf1bc76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _meshFilter: {fileID: 5423901051383030224}
+  _meshRenderer: {fileID: 2134748523967339447}
 --- !u!65 &7820690283926990606
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -96,8 +98,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 228, y: 228, z: 228}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 228, y: 228, z: 500}
+  m_Center: {x: 0, y: 0, z: -50}
 --- !u!222 &5871024005317410001
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -152,7 +154,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3896517614654185118}
-  m_Mesh: {fileID: 0}
+  m_Mesh: {fileID: -7969978266939365281, guid: 9c17dd28d2447e84a91f114e7d505d0d, type: 3}
 --- !u!23 &7958549728146189835
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -162,7 +164,7 @@ MeshRenderer:
   m_GameObject: {fileID: 3896517614654185118}
   m_Enabled: 0
   m_CastShadows: 0
-  m_ReceiveShadows: 1
+  m_ReceiveShadows: 0
   m_DynamicOccludee: 1
   m_StaticShadowCaster: 0
   m_MotionVectors: 1

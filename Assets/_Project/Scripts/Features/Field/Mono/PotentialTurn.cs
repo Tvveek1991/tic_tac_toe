@@ -4,10 +4,12 @@ namespace _Project.Scripts.Features.Field.Mono
 {
   public class PotentialTurn : MonoBehaviour
   {
-    private readonly int _alpha = Shader.PropertyToID("_Alpha");
+    private readonly int _color = Shader.PropertyToID("_Color");
+    private readonly int _mainTex = Shader.PropertyToID("_MainTex");
     
     private MeshFilter _meshFilter;
     private MeshRenderer _meshRenderer;
+    
 
     public void Construct()
     {
@@ -18,8 +20,11 @@ namespace _Project.Scripts.Features.Field.Mono
     public void ShowPotentialTurn(Mesh mesh, Material material, Vector3 angle)
     {
       _meshFilter.mesh = mesh;
-      _meshRenderer.material = material;
-      _meshRenderer.material.SetFloat(_alpha, .2f);
+      _meshRenderer.material.SetTexture(_mainTex, material.GetTexture(_mainTex));
+
+      Color color = material.GetColor(_color);
+      color.a = .4f;
+      _meshRenderer.material.SetColor(_color, color);
       
       transform.localRotation = Quaternion.Euler(angle);
       
