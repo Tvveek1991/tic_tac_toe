@@ -17,7 +17,7 @@ MonoBehaviour:
   Description: 
   _itemType: 1
   _meshClassic: {fileID: -5495902117074765545, guid: 8ccfc167c0f8c6447b5270b825f2300f, type: 3}
-  _materialClassic: {fileID: 2100000, guid: b11cf2882e44a3743b46e922523bc69a, type: 2}
+  _materialClassic: {fileID: 2100000, guid: 483e0b70c948b5847b9a964cdf66c2b4, type: 2}
   _meshBuhurt:
   - {fileID: -5495902117074765545, guid: 8ccfc167c0f8c6447b5270b825f2300f, type: 3}
   - {fileID: -5495902117074765545, guid: 8ccfc167c0f8c6447b5270b825f2300f, type: 3}

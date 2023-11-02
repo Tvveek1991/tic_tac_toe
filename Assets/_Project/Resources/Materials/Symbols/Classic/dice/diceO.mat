@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: diceO
-  m_Shader: {fileID: 4800000, guid: 7e3d33372804f974a9fa304f5d45d433, type: 3}
+  m_Shader: {fileID: 4800000, guid: a92ae7bf345d84048bd08119766b9c7c, type: 3}
   m_ValidKeywords: []
   m_InvalidKeywords:
   - _ALPHAPREMULTIPLY_ON

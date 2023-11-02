@@ -12,6 +12,9 @@ namespace _Project.Scripts.Features.Field.Mono
   public class SymbolCell : MonoBehaviour
   {
     private const float Duration = .5f;
+    
+    private readonly int _color = Shader.PropertyToID("_Color");
+    private readonly int _mainTex = Shader.PropertyToID("_MainTex");
 
     [SerializeField] private MeshFilter _meshFilter;
     [SerializeField] private MeshRenderer _meshRenderer;
@@ -81,7 +84,10 @@ namespace _Project.Scripts.Features.Field.Mono
     {
       _meshFilter.mesh = _gameMetaProvider.GetMesh(dragableData);
       _meshRenderer.material = _gameMetaProvider.GetMaterial(dragableData);
-      // _meshFilter.transform.localRotation = Quaternion.Euler(_gameMetaProvider.GetAngle(dragableData)); 
+
+      Quaternion newAngle = Quaternion.Euler(_gameMetaProvider.GetAngle(dragableData) + (Vector3.right * 30));
+      _meshFilter.transform.localRotation = newAngle; 
+      
       _meshRenderer.enabled = true;
     }
   }

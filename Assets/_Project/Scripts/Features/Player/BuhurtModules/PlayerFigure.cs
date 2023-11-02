@@ -11,7 +11,8 @@ namespace _Project.Scripts.Features.Player.BuhurtModules
   public class PlayerFigure : MonoBehaviour, IPointerDownHandler
   {
     private readonly int _color = Shader.PropertyToID("_Color");
-    
+    private readonly int _mainTex = Shader.PropertyToID("_MainTex");
+
     [SerializeField] private SymbolSize _size;
 
     private BoxCollider _boxCollider;
@@ -28,6 +29,9 @@ namespace _Project.Scripts.Features.Player.BuhurtModules
 
     private bool _isLock;
 
+    private Material _activeFigure;
+    private Material _inactiveFigure;
+
     public SymbolSign Sign { get; private set; }
     public SymbolSize Size => _size;
 
@@ -42,7 +46,7 @@ namespace _Project.Scripts.Features.Player.BuhurtModules
 
       _hidePotentials = hidePotentials;
       _showPotentialTurn = showPotentialTurn;
-      
+
       _dragDrop = dragDrop;
       _inputResolver = inputResolver;
 
@@ -51,11 +55,15 @@ namespace _Project.Scripts.Features.Player.BuhurtModules
 
     public void FirstLoadFigure(SymbolSign symbolSign, Mesh mesh, Material material, Vector3 angle)
     {
+      _activeFigure = material;
+      _meshRenderer.material.SetTexture(_mainTex, material.GetTexture(_mainTex));
+      _inactiveFigure = _meshRenderer.materials[0];
+
       Sign = symbolSign;
 
       _mesh.mesh = mesh;
-      _meshRenderer.material = material;
-      
+      // _meshRenderer.material = _activeFigure;
+
       _mesh.transform.localRotation = Quaternion.Euler(angle);
     }
 
@@ -69,19 +77,21 @@ namespace _Project.Scripts.Features.Player.BuhurtModules
 
       _isLock = !isOn;
 
-      Color color = _meshRenderer.material.GetColor(_color);
+      /*Color color = _meshRenderer.material.GetColor(_color);
       color.a = isOn ? 1 : .4f;
-      _meshRenderer.material.SetColor(_color, color);
+      _meshRenderer.material.SetColor(_color, color);*/
+
+      _meshRenderer.material = isOn ? _activeFigure : _inactiveFigure;
     }
 
-    public void SetSizeToMoved() => 
+    public void SetSizeToMoved() =>
       _size = SymbolSize.Default;
 
     public void OnPointerDown(PointerEventData eventData)
     {
-      if(_dragDrop == null)
+      if (_dragDrop == null)
         return;
-      
+
       if (_size == SymbolSize.Default || _inputResolver.IsLocked)
         return;
 
@@ -106,7 +116,9 @@ namespace _Project.Scripts.Features.Player.BuhurtModules
       _showPotentialTurn.Invoke(_dragablePart);
     }
 
-    private void OnPin() { }
+    private void OnPin()
+    {
+    }
 
     private void OnReturn()
     {

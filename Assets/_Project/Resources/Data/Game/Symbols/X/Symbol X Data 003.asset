@@ -17,7 +17,7 @@ MonoBehaviour:
   Description: 
   _itemType: 0
   _meshClassic: {fileID: 7502377544057204969, guid: 9c17dd28d2447e84a91f114e7d505d0d, type: 3}
-  _materialClassic: {fileID: 2100000, guid: 9ab957ab3d704dc42aecb2a92b842ed6, type: 2}
+  _materialClassic: {fileID: 2100000, guid: 51c4416ae24801744ab3a85b3e15fced, type: 2}
   _meshBuhurt:
   - {fileID: -1562275218897716241, guid: 9c17dd28d2447e84a91f114e7d505d0d, type: 3}
   - {fileID: -7969978266939365281, guid: 9c17dd28d2447e84a91f114e7d505d0d, type: 3}
@@ -30,4 +30,5 @@ MonoBehaviour:
   - {fileID: 2100000, guid: 51c4416ae24801744ab3a85b3e15fced, type: 2}
   - {fileID: 2100000, guid: 51c4416ae24801744ab3a85b3e15fced, type: 2}
   - {fileID: 2100000, guid: 51c4416ae24801744ab3a85b3e15fced, type: 2}
+  _rotateAngle: []
   _icon: {fileID: 21300000, guid: 567787ab75ddbdb438a14598c07d87be, type: 3}

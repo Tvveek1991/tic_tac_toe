@@ -165,10 +165,10 @@ namespace _Project.Scripts.Features.GameScreen
       SetPlayerUi(nextSign);
       GameMetaProvider.GetPlayerView().SetPlayerTurn(isPlayerTurn);
 
+      HidePotentialTurn();
+      
       if (isPlayerTurn)
         ShowPotentialTurn(nextSign);
-      else
-        HidePotentialTurn();
     }
 
     private void SetPlayerUi(SymbolSign symbol)

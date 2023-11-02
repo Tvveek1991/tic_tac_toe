@@ -1,4 +1,4 @@
-Shader "Custom/UiUnlitTransparentAplha"
+Shader "Custom/TransparentFigure2D"
 {
     Properties
     {
