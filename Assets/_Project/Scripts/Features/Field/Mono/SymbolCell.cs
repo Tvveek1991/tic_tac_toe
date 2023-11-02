@@ -12,12 +12,11 @@ namespace _Project.Scripts.Features.Field.Mono
   public class SymbolCell : MonoBehaviour
   {
     private const float Duration = .5f;
-    
-    private readonly int _color = Shader.PropertyToID("_Color");
-    private readonly int _mainTex = Shader.PropertyToID("_MainTex");
 
     [SerializeField] private MeshFilter _meshFilter;
     [SerializeField] private MeshRenderer _meshRenderer;
+    
+    [SerializeField] private DOTweenAnimation _doTweenAnimation;
     
     private SymbolSign _symbol;
     private SymbolSize _size = SymbolSize.Default;
@@ -84,10 +83,14 @@ namespace _Project.Scripts.Features.Field.Mono
     {
       _meshFilter.mesh = _gameMetaProvider.GetMesh(dragableData);
       _meshRenderer.material = _gameMetaProvider.GetMaterial(dragableData);
-
-      Quaternion newAngle = Quaternion.Euler(_gameMetaProvider.GetAngle(dragableData) + (Vector3.right * 30));
-      _meshFilter.transform.localRotation = newAngle; 
       
+      if (_gameMetaProvider.GetAngle(dragableData) != Vector3.zero)
+      {
+        Quaternion newAngle = Quaternion.Euler(_gameMetaProvider.GetAngle(dragableData));
+        _meshFilter.transform.localRotation = newAngle;
+        _doTweenAnimation.DOPlay();
+      }
+
       _meshRenderer.enabled = true;
     }
   }

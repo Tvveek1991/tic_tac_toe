@@ -24,6 +24,9 @@ namespace _Project.Scripts.Features.Player
         return;
 
       var cell = hit.transform.gameObject.GetComponent<SymbolCell>();
+      
+      if(cell == null)
+        return;
 
       if (!_dragablePart.CanPin(cell.GetSize(), cell.GetSymbol()))
         return;

@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: chessO
-  m_Shader: {fileID: 4800000, guid: a92ae7bf345d84048bd08119766b9c7c, type: 3}
+  m_Shader: {fileID: 4800000, guid: 0ea2b9f58363d3140805f593adb5c586, type: 3}
   m_ValidKeywords: []
   m_InvalidKeywords:
   - _ALPHABLEND_ON

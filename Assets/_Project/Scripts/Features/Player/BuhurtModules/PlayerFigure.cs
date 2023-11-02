@@ -55,15 +55,11 @@ namespace _Project.Scripts.Features.Player.BuhurtModules
 
     public void FirstLoadFigure(SymbolSign symbolSign, Mesh mesh, Material material, Vector3 angle)
     {
-      _activeFigure = material;
-      _meshRenderer.material.SetTexture(_mainTex, material.GetTexture(_mainTex));
-      _inactiveFigure = _meshRenderer.materials[0];
+      PrepareMaterials(material);
 
       Sign = symbolSign;
 
       _mesh.mesh = mesh;
-      // _meshRenderer.material = _activeFigure;
-
       _mesh.transform.localRotation = Quaternion.Euler(angle);
     }
 
@@ -76,11 +72,6 @@ namespace _Project.Scripts.Features.Player.BuhurtModules
       }
 
       _isLock = !isOn;
-
-      /*Color color = _meshRenderer.material.GetColor(_color);
-      color.a = isOn ? 1 : .4f;
-      _meshRenderer.material.SetColor(_color, color);*/
-
       _meshRenderer.material = isOn ? _activeFigure : _inactiveFigure;
     }
 
@@ -100,6 +91,18 @@ namespace _Project.Scripts.Features.Player.BuhurtModules
 
       _dragablePart.SetDragableData(new DragableData(Sign, _size));
       _dragDrop.BindPartToCursor(_dragablePart);
+    }
+
+    private void PrepareMaterials(Material material)
+    {
+      var inactive = new Material(_meshRenderer.material);
+      Color color = material.GetColor(_color);
+      color.a = .4f;
+      inactive.SetColor(_color, color);
+      inactive.SetTexture(_mainTex, material.GetTexture(_mainTex));
+
+      _inactiveFigure = inactive;
+      _activeFigure = new Material(material);
     }
 
     private DragablePart CreateDragableFromGameIconPrefab()
