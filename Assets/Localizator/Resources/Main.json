@@ -50,11 +50,14 @@
     "EndGame.Lose": "Попробуй ещё",
     "On": "Вкл.",
     "Off": "Выкл.",
-    "OpponentSearching": "Поиск оппонента",
+    "WaitingOpponent": "Ожидание оппонента",
     "Tutorial.GoodTurn": "Если ваше число больше, чем у вашего противника, вы можете закрыть его фигуру",
     "Tutorial.Powers": "У тебя есть только 5 фигур для победы. Используй их с умом",
     "Tutorial.BadTurn": "Если ваше число меньше, чем у вашего противника, вы не сможете закрыть его фигуру",
-    "Tutorial.EqualTurn": "Если ваше число такое же, как у вашего противника, вы так же не сможете закрыть его фигуру. Удачи в игре!"
+    "Tutorial.EqualTurn": "Если ваше число такое же, как у вашего противника, вы так же не сможете закрыть его фигуру. Удачи в игре!",
+    "Ready": "Готов",
+    "GetReady": "Нажмите \"Готов\"",
+    "WhoIsFirst": "Кто первый?"
   },
   "en": {
     "Policy.PrivacyPolicy": "Privacy Policy",
@@ -107,11 +110,14 @@
     "EndGame.Lose": "Try again",
     "On": "On",
     "Off": "Off",
-    "OpponentSearching": "Search for an opponent",
+    "WaitingOpponent": "Waiting for your opponent",
     "Tutorial.GoodTurn": "If your number bigger than your opponent you can close it.",
     "Tutorial.Powers": "You only have 5 objects to win. Use them wisely.",
     "Tutorial.BadTurn": "If your number less than your opponent you can't close it.",
-    "Tutorial.EqualTurn": "If your number same as your opponent you can't close it too. Good luck in game!."
+    "Tutorial.EqualTurn": "If your number same as your opponent you can't close it too. Good luck in game!.",
+    "Ready": "Ready",
+    "GetReady": "Click \"Ready\"",
+    "WhoIsFirst": "Who is first?"
   },
   "pt": {
     "Policy.PrivacyPolicy": "Política de Privacidade",
@@ -164,11 +170,14 @@
     "EndGame.Lose": "Tente novamente",
     "On": "On",
     "Off": "Off",
-    "OpponentSearching": "Procure um oponente",
+    "WaitingOpponent": "Esperando pelo seu oponente",
     "Tutorial.GoodTurn": "Se o seu número for maior que o do seu oponente você pode fechá-lo.",
     "Tutorial.Powers": "Você só tem 5 objetos para ganhar. Use-os com sabedoria.",
     "Tutorial.BadTurn": "Se o seu número for menor que o do seu oponente, você não poderá fechá-lo.",
-    "Tutorial.EqualTurn": "Se o seu número for igual ao do seu oponente, você também não poderá fechá-lo. Boa sorte no jogo!"
+    "Tutorial.EqualTurn": "Se o seu número for igual ao do seu oponente, você também não poderá fechá-lo. Boa sorte no jogo!",
+    "Ready": "Pronto",
+    "GetReady": "Clique em \"Pronto\"",
+    "WhoIsFirst": "Quem é o primeiro?"
   },
   "es": {
     "Policy.PrivacyPolicy": "Política de privacidad",
@@ -221,10 +230,13 @@
     "EndGame.Lose": "Intentar otra vez",
     "On": "On",
     "Off": "Off",
-    "OpponentSearching": "Buscar un oponente",
+    "WaitingOpponent": "A la espera de su oponente",
     "Tutorial.GoodTurn": "Si tu número es mayor que el de tu oponente, puedes cerrarlo.",
     "Tutorial.Powers": "Sólo tienes 5 objetos para ganar. Úselos sabiamente.",
     "Tutorial.BadTurn": "Si tu número es menor que el de tu oponente, no puedes cerrarlo.",
-    "Tutorial.EqualTurn": "Si tu número es el mismo que el de tu oponente, no puedes cerrarlo también. ¡Buena suerte en el juego!."
+    "Tutorial.EqualTurn": "Si tu número es el mismo que el de tu oponente, no puedes cerrarlo también. ¡Buena suerte en el juego!.",
+    "Ready": "Listo",
+    "GetReady": "Haga clic en \"Listo\"",
+    "WhoIsFirst": "Quien es el primero"
   }
 }

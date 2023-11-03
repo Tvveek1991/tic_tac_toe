@@ -49,8 +49,11 @@ EndGame.Win	Победа	Win	Ganhar	Ganar
 EndGame.Lose	Попробуй ещё	Try again	Tente novamente	Intentar otra vez
 On	Вкл.	On	On	On
 Off	Выкл.	Off	Off	Off
-OpponentSearching	Поиск оппонента	Search for an opponent	Procure um oponente	Buscar un oponente
+WaitingOpponent	Ожидание оппонента	Waiting for your opponent	Esperando pelo seu oponente	A la espera de su oponente
 Tutorial.GoodTurn	Если ваше число больше, чем у вашего противника, вы можете закрыть его фигуру	If your number bigger than your opponent you can close it.	Se o seu número for maior que o do seu oponente você pode fechá-lo.	Si tu número es mayor que el de tu oponente, puedes cerrarlo.
 Tutorial.Powers	У тебя есть только 5 фигур для победы. Используй их с умом	You only have 5 objects to win. Use them wisely.	Você só tem 5 objetos para ganhar. Use-os com sabedoria.	Sólo tienes 5 objetos para ganar. Úselos sabiamente.
 Tutorial.BadTurn	Если ваше число меньше, чем у вашего противника, вы не сможете закрыть его фигуру	If your number less than your opponent you can't close it.	Se o seu número for menor que o do seu oponente, você não poderá fechá-lo.	Si tu número es menor que el de tu oponente, no puedes cerrarlo.
 Tutorial.EqualTurn	Если ваше число такое же, как у вашего противника, вы так же не сможете закрыть его фигуру. Удачи в игре!	If your number same as your opponent you can't close it too. Good luck in game!.	Se o seu número for igual ao do seu oponente, você também não poderá fechá-lo. Boa sorte no jogo!	Si tu número es el mismo que el de tu oponente, no puedes cerrarlo también. ¡Buena suerte en el juego!.
+Ready	Готов	Ready	Pronto	Listo
+GetReady	Нажмите "Готов"	Click "Ready"	Clique em "Pronto"	Haga clic en "Listo"
+WhoIsFirst	Кто первый?	Who is first?	Quem é o primeiro?	Quien es el primero
