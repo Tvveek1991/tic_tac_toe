@@ -57,7 +57,11 @@
     "Tutorial.EqualTurn": "Если ваше число такое же, как у вашего противника, вы так же не сможете закрыть его фигуру. Удачи в игре!",
     "Ready": "Готов",
     "GetReady": "Нажмите \"Готов\"",
-    "WhoIsFirst": "Кто первый?"
+    "WhoIsFirst": "Кто первый?",
+    "Quit.Title": "Предупреждение:",
+    "Quit.Description": "Желаете покинуть игру?",
+    "Yes": "Да",
+    "No": "Нет"
   },
   "en": {
     "Policy.PrivacyPolicy": "Privacy Policy",
@@ -117,7 +121,11 @@
     "Tutorial.EqualTurn": "If your number same as your opponent you can't close it too. Good luck in game!.",
     "Ready": "Ready",
     "GetReady": "Click \"Ready\"",
-    "WhoIsFirst": "Who is first?"
+    "WhoIsFirst": "Who is first?",
+    "Quit.Title": "Warning:",
+    "Quit.Description": "Do you want to leave the game?",
+    "Yes": "Yes",
+    "No": "No"
   },
   "pt": {
     "Policy.PrivacyPolicy": "Política de Privacidade",
@@ -177,7 +185,11 @@
     "Tutorial.EqualTurn": "Se o seu número for igual ao do seu oponente, você também não poderá fechá-lo. Boa sorte no jogo!",
     "Ready": "Pronto",
     "GetReady": "Clique em \"Pronto\"",
-    "WhoIsFirst": "Quem é o primeiro?"
+    "WhoIsFirst": "Quem é o primeiro?",
+    "Quit.Title": "Aviso:",
+    "Quit.Description": "Você quer sair do jogo?",
+    "Yes": "Sim",
+    "No": "Mas"
   },
   "es": {
     "Policy.PrivacyPolicy": "Política de privacidad",
@@ -237,6 +249,10 @@
     "Tutorial.EqualTurn": "Si tu número es el mismo que el de tu oponente, no puedes cerrarlo también. ¡Buena suerte en el juego!.",
     "Ready": "Listo",
     "GetReady": "Haga clic en \"Listo\"",
-    "WhoIsFirst": "Quien es el primero"
+    "WhoIsFirst": "Quien es el primero",
+    "Quit.Title": "Advertencia:",
+    "Quit.Description": "¿Quieres abandonar el juego?",
+    "Yes": "Sí",
+    "No": "Pero"
   }
 }

@@ -90,6 +90,7 @@ GameObject:
   - component: {fileID: 5833837887005245587}
   - component: {fileID: 3594107997362204416}
   - component: {fileID: 6918001171615357818}
+  - component: {fileID: -7010683993140496202}
   m_Layer: 5
   m_Name: Privacy Policy Window
   m_TagString: Untagged
@@ -220,6 +221,19 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 119
+--- !u!114 &-7010683993140496202
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 419297682594896414}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 717a02054ef2699498e6bd4234fd7995, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _containerSource: 0
 --- !u!1 &822544652691827033
 GameObject:
   m_ObjectHideFlags: 0
@@ -1745,7 +1759,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 078f66d4b59e8ee4ea72be9e3c554ee6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  textComponent: {fileID: 302856950684894522}
   key: Policy.Accept
 --- !u!1 &3436789859147956467
 GameObject:
@@ -1953,7 +1966,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 078f66d4b59e8ee4ea72be9e3c554ee6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  textComponent: {fileID: 6347867865739346057}
   key: Policy.Decription
 --- !u!1 &3769300546016894750
 GameObject:
@@ -3365,7 +3377,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 078f66d4b59e8ee4ea72be9e3c554ee6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  textComponent: {fileID: 4709090489319641320}
   key: Policy.PrivacyPolicy
 --- !u!1 &6813937205682015517
 GameObject:
@@ -3515,7 +3526,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 078f66d4b59e8ee4ea72be9e3c554ee6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  textComponent: {fileID: 7706860746654442677}
   key: Policy.PrivacyPolicy
 --- !u!1 &6977619296293786402
 GameObject:
@@ -4562,7 +4572,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 078f66d4b59e8ee4ea72be9e3c554ee6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  textComponent: {fileID: 8138257088302319347}
   key: Policy.Terms
 --- !u!1 &8960779733822107847
 GameObject:
@@ -4712,7 +4721,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 078f66d4b59e8ee4ea72be9e3c554ee6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  textComponent: {fileID: 8280734866479094666}
   key: Policy.Accept
 --- !u!1 &9144333066131562254
 GameObject:

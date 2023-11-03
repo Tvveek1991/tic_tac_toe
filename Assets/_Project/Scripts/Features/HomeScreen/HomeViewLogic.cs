@@ -55,18 +55,6 @@ namespace _Project.Scripts.Features.HomeScreen
 
       CreateAnimations();
       CreateSounds();
-
-      Localize(_localeSystem);
-    }
-
-    private void Localize(ILocaleSystem localeSystem)
-    {
-      List<LocalizedMainText> localizedTexts = _homeViewMono.transform.GetComponentsInChildren<LocalizedMainText>(true).ToList();
-      localizedTexts.ForEach(item =>
-      {
-        item.Construct(localeSystem);
-        item.Localize();
-      });
     }
 
     private void CreateAnimations()

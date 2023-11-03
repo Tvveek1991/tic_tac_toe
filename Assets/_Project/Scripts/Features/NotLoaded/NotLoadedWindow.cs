@@ -32,19 +32,8 @@ namespace _Project.Scripts.Features.NotLoaded
       new ButtonAnimation(OkBtn.transform);
       
       Blink();
-      Localize(localeSystem);
       
       OkBtn.onClick.AddListener(onClose.Invoke);
-    }
-
-    private void Localize(ILocaleSystem localeSystem)
-    {
-      List<LocalizedMainText> localizedTexts = transform.GetComponentsInChildren<LocalizedMainText>(true).ToList();
-      localizedTexts.ForEach(item =>
-      {
-        item.Construct(localeSystem);
-        item.Localize();
-      });
     }
 
     public void Open() => 

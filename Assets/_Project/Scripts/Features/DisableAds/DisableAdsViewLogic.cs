@@ -46,8 +46,6 @@ namespace _Project.Scripts.Features.DisableAds
 
       _disableAdsWindow.PurchasePrice.text = string.Format(_localeSystem.GetText("DisableAds.BuyFor"), price);
 
-      Localize(_localeSystem);
-
       new ButtonAnimation(_disableAdsWindow.ShowBtn.transform);
       new ButtonAnimation(_disableAdsWindow.CloseBtn.transform);
       new ButtonAnimation(_disableAdsWindow.ContinueBtn.transform);
@@ -121,16 +119,6 @@ namespace _Project.Scripts.Features.DisableAds
 
       _disableAdsWindow.ShowBtn.gameObject.SetActive(false);
       _disableAdsWindow.ContinueBtn.gameObject.SetActive(true);
-    }
-
-    private void Localize(ILocaleSystem localeSystem)
-    {
-      List<LocalizedMainText> localizedTexts = _disableAdsWindow.GetComponentsInChildren<LocalizedMainText>(true).ToList();
-      localizedTexts.ForEach(item =>
-      {
-        item.Construct(localeSystem);
-        item.Localize();
-      });
     }
   }
 }

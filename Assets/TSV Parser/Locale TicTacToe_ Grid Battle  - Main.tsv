@@ -57,3 +57,7 @@ Tutorial.EqualTurn	Если ваше число такое же, как у ва�
 Ready	Готов	Ready	Pronto	Listo
 GetReady	Нажмите "Готов"	Click "Ready"	Clique em "Pronto"	Haga clic en "Listo"
 WhoIsFirst	Кто первый?	Who is first?	Quem é o primeiro?	Quien es el primero
+Quit.Title	Предупреждение:	Warning:	Aviso:	Advertencia:
+Quit.Description	Желаете покинуть игру?	Do you want to leave the game?	Você quer sair do jogo?	¿Quieres abandonar el juego?
+Yes	Да	Yes	Sim	Sí
+No	Нет	No	Mas	Pero

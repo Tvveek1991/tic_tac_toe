@@ -3,6 +3,7 @@ using _Project.Scripts.Animation;
 using _Project.Scripts.Services._Interfaces;
 using _Project.Scripts.Services.Audio.Enum;
 using _Project.Scripts.Services.Audio.Executor;
+using _Project.Scripts.Services.Localization.Logic;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;

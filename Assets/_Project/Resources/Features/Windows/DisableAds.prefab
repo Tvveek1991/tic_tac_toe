@@ -683,7 +683,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 078f66d4b59e8ee4ea72be9e3c554ee6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  textComponent: {fileID: 795018343939114274}
   key: DIsableAds.24h
 --- !u!114 &795018343939114274
 MonoBehaviour:
@@ -1310,7 +1309,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 078f66d4b59e8ee4ea72be9e3c554ee6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  textComponent: {fileID: 4602768402966985667}
   key: DisableAds.Description.1
 --- !u!1 &1751609035858905590
 GameObject:
@@ -1675,7 +1673,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 078f66d4b59e8ee4ea72be9e3c554ee6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  textComponent: {fileID: 6773390527723952077}
   key: DisableAds.Info2
 --- !u!1 &2291325488284126330
 GameObject:
@@ -1689,6 +1686,7 @@ GameObject:
   - component: {fileID: 1765762580166021134}
   - component: {fileID: -3629704723289094471}
   - component: {fileID: 2873451085866119672}
+  - component: {fileID: 7032949300620216387}
   m_Layer: 5
   m_Name: DisableAds
   m_TagString: Untagged
@@ -1766,6 +1764,19 @@ MonoBehaviour:
   InfoPanelAfter: {fileID: 154060851866278224}
   AdsOfferEnabled: {fileID: 1799698750004191756}
   AdsOfferDisabled: {fileID: 814081399505307642}
+--- !u!114 &7032949300620216387
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2291325488284126330}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 717a02054ef2699498e6bd4234fd7995, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _containerSource: 0
 --- !u!1 &2741466537208273168
 GameObject:
   m_ObjectHideFlags: 0
@@ -2096,7 +2107,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 078f66d4b59e8ee4ea72be9e3c554ee6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  textComponent: {fileID: 3566673281711054696}
   key: DisableAds.Info1
 --- !u!1 &3867509379085506199
 GameObject:
@@ -2324,7 +2334,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 078f66d4b59e8ee4ea72be9e3c554ee6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  textComponent: {fileID: 3032212589884373499}
   key: DisableAds.Thanks
 --- !u!1 &4034126172401384047
 GameObject:
@@ -2580,7 +2589,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 078f66d4b59e8ee4ea72be9e3c554ee6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  textComponent: {fileID: 1076335889319241953}
   key: DisableAds.Description2
 --- !u!1 &5251417442732786679
 GameObject:
@@ -3427,7 +3435,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 078f66d4b59e8ee4ea72be9e3c554ee6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  textComponent: {fileID: 6862667776130843380}
   key: DisableAds.Description1
 --- !u!1 &6931767582833260670
 GameObject:
@@ -3653,7 +3660,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 078f66d4b59e8ee4ea72be9e3c554ee6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  textComponent: {fileID: 6066378648531731780}
   key: Policy.Accept
 --- !u!1 &7116548934016765737
 GameObject:

@@ -81,7 +81,6 @@ namespace _Project.Scripts.Features.GameScreen
       _gameViewMono.BackButton.onClick.AddListener(GameFactory.WarningView.Show);
 
       CreateTutorial();
-      Localize(_localeSystem);
       AppendButtonsAnimation();
       AppendClickSound(_audioService);
 
@@ -283,16 +282,6 @@ namespace _Project.Scripts.Features.GameScreen
 
     private void AppearAnimation() =>
       _gameViewMono.gameObject.SetActive(true);
-
-    private void Localize(ILocaleSystem localeSystem)
-    {
-      List<LocalizedMainText> localizedTexts = _gameViewMono.GetComponentsInChildren<LocalizedMainText>(true).ToList();
-      localizedTexts.ForEach(item =>
-      {
-        item.Construct(localeSystem);
-        item.Localize();
-      });
-    }
 
     private void AppendButtonsAnimation() =>
       new ButtonAnimation(_gameViewMono.BackButton.transform);

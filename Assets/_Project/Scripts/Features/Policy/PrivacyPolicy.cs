@@ -74,8 +74,6 @@ namespace _Project.Scripts.Features.Policy
       AssignAnimations();
       AssignListeners();
       
-      Localize(localeSystem);
-      
       VisibilityScrollPart(_gameSaveSystem.Get().IsPolicyAccepted);
 
       toggles.gameObject.SetActive(_gameSaveSystem.Get().IsPolicyAccepted);
@@ -129,16 +127,6 @@ namespace _Project.Scripts.Features.Policy
       new ButtonSound(_audioService, buttonLink.gameObject, AudioId.Click);
       new ButtonSound(_audioService, buttonYes.gameObject, AudioId.Click);
       new ButtonSound(_audioService, buttonNo.gameObject, AudioId.Click);
-    }
-
-    private void Localize(ILocaleSystem localeSystem)
-    {
-      List<LocalizedMainText> localizedTexts = transform.GetComponentsInChildren<LocalizedMainText>(true).ToList();
-      localizedTexts.ForEach(item =>
-      {
-        item.Construct(localeSystem);
-        item.Localize();
-      });
     }
 
     private void Accept()

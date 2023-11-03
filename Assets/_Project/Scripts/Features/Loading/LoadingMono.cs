@@ -16,9 +16,9 @@ namespace _Project.Scripts.Features.Loading
     private const float Duration = .2f;
     private const float DurationArrow = .4f;
     private const float WaitingTime = .5f;
-    
+
     [SerializeField] private TextMeshProUGUI _title;
-    
+
     [SerializeField] private CanvasGroup CanvasGroup;
     [SerializeField] private CanvasGroup RollingFirstTurn;
 
@@ -56,7 +56,7 @@ namespace _Project.Scripts.Features.Loading
     private IEnumerator WaitBotStart()
     {
       _title.text = _localeSystem.GetText("WaitingOpponent");
-      
+
       int rnd = IsBot() ? Random.Range(0, 4) : 0;
 
       if (IsBot())
@@ -67,10 +67,10 @@ namespace _Project.Scripts.Features.Loading
           .SetEase(Ease.Linear)
           .SetLoops(-1, LoopType.Restart);
       }
-      
+
       yield return new WaitForSecondsRealtime(rnd);
       Loading.DOFade(0f, Duration);
-      
+
       if (IsBot())
         StartCoroutine(RollFirstTurn());
       else
@@ -80,7 +80,7 @@ namespace _Project.Scripts.Features.Loading
     private IEnumerator RollFirstTurn()
     {
       _title.text = _localeSystem.GetText("WhoIsFirst");
-      
+
       _cycleCounter = Random.Range(5, 10);
       RollingFirstTurn.DOFade(1f, WaitingTime);
 
@@ -100,10 +100,8 @@ namespace _Project.Scripts.Features.Loading
       yield return new WaitForSecondsRealtime(IsPlayerSymbolX() ? 0 : Duration);
       Swap(IsPlayerSymbolX());
 
-      CanvasGroup.DOFade(0, WaitingTime * 3).SetDelay(0.2f);
-      yield return new WaitForSecondsRealtime(WaitingTime * 3);
-
-      _onEnd?.Invoke();
+      CanvasGroup.DOFade(0, WaitingTime * 3).SetDelay(0.2f)
+        .OnComplete(() => { _onEnd?.Invoke(); });
     }
 
     private void AnimateArrow()
@@ -125,6 +123,7 @@ namespace _Project.Scripts.Features.Loading
 
     private bool IsPlayerSymbolX() =>
       _gameMetaProvider.GetPlayerView().GetSymbol() == SymbolSign.X;
+
     private bool IsBot() =>
       _gameMetaProvider.GetEnemyType() == EnemyType.Bot;
   }

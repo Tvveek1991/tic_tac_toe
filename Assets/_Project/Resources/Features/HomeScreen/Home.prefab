@@ -423,7 +423,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 078f66d4b59e8ee4ea72be9e3c554ee6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  textComponent: {fileID: 137199676139266804}
   key: Mode.Buhurt
 --- !u!1 &859483343225716747
 GameObject:
@@ -1406,7 +1405,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 078f66d4b59e8ee4ea72be9e3c554ee6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  textComponent: {fileID: 3466051653569834068}
   key: Mode.Solo
 --- !u!1 &2432014233586290993
 GameObject:
@@ -2194,7 +2192,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 078f66d4b59e8ee4ea72be9e3c554ee6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  textComponent: {fileID: 1327305107680688539}
   key: Mode.Friends
 --- !u!1 &4789151553018747070
 GameObject:
@@ -2756,9 +2753,9 @@ RectTransform:
   m_Father: {fileID: 1083326574675796741}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 346.02997, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 346.02997, y: -63.000004}
   m_SizeDelta: {x: 0, y: 84}
   m_Pivot: {x: -0.000000055879354, y: 0.49999997}
 --- !u!222 &7532447563531708779
@@ -2870,7 +2867,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 078f66d4b59e8ee4ea72be9e3c554ee6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  textComponent: {fileID: 7019002040858016341}
   key: Modifications
 --- !u!114 &3852171664208659237
 MonoBehaviour:
@@ -2898,6 +2894,7 @@ GameObject:
   - component: {fileID: 2039196261344617913}
   - component: {fileID: 7593232582187878224}
   - component: {fileID: 9187084424813153056}
+  - component: {fileID: -8761453506642690500}
   m_Layer: 5
   m_Name: Home
   m_TagString: Untagged
@@ -2990,6 +2987,19 @@ MonoBehaviour:
   FriendsButton: {fileID: 3193887093141781391}
   SingleText: {fileID: 3466051653569834068}
   FriendsText: {fileID: 1327305107680688539}
+--- !u!114 &-8761453506642690500
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8021888900639250442}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 717a02054ef2699498e6bd4234fd7995, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _containerSource: 0
 --- !u!1 &8073814153942984108
 GameObject:
   m_ObjectHideFlags: 0
@@ -3970,5 +3980,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 078f66d4b59e8ee4ea72be9e3c554ee6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  textComponent: {fileID: 6287619246482304713}
   key: Mode.Classic

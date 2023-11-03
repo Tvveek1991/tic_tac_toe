@@ -101,7 +101,6 @@ namespace _Project.Scripts.Features.Settings
       _privacyPolicy.Construct(_gameSaveSystem, _audioService, localeSystem, analytics, _remote,
         () => { _gameStateMachine.Enter<LoadPolicyState>(); });
 
-      Localize(localeSystem);
       LoadSprites();
       AssignListeners();
       AssignFades();
@@ -137,16 +136,6 @@ namespace _Project.Scripts.Features.Settings
       gameObject.SetActive(true);
 
       _fadeCanvasGroups.ToArray().ForEach(x => x.Appear());
-    }
-
-    private void Localize(ILocaleSystem localeSystem)
-    {
-      List<LocalizedMainText> localizedTexts = transform.GetComponentsInChildren<LocalizedMainText>(true).ToList();
-      localizedTexts.ForEach(item =>
-      {
-        item.Construct(localeSystem);
-        item.Localize();
-      });
     }
 
     private void CloseWindow()

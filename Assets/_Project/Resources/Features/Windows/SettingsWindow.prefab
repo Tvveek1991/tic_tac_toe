@@ -1367,7 +1367,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 078f66d4b59e8ee4ea72be9e3c554ee6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  textComponent: {fileID: 81813340388366735}
   key: On
 --- !u!1 &3476201726955925705
 GameObject:
@@ -1517,7 +1516,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 078f66d4b59e8ee4ea72be9e3c554ee6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  textComponent: {fileID: 6273230342324383432}
   key: Sounds
 --- !u!1 &3644068599694717044
 GameObject:
@@ -2031,7 +2029,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 078f66d4b59e8ee4ea72be9e3c554ee6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  textComponent: {fileID: 3162741662407602952}
   key: Off
 --- !u!1 &5598431749613021858
 GameObject:
@@ -2047,6 +2044,7 @@ GameObject:
   - component: {fileID: -3654934903112860761}
   - component: {fileID: 2528435929916225642}
   - component: {fileID: 4841529299995275600}
+  - component: {fileID: 2197808165335242957}
   m_Layer: 5
   m_Name: SettingsWindow
   m_TagString: Untagged
@@ -2198,6 +2196,19 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
+--- !u!114 &2197808165335242957
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5598431749613021858}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 717a02054ef2699498e6bd4234fd7995, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _containerSource: 0
 --- !u!1 &5629592717613453239
 GameObject:
   m_ObjectHideFlags: 0
@@ -2346,7 +2357,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 078f66d4b59e8ee4ea72be9e3c554ee6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  textComponent: {fileID: 7425269704014882170}
   key: Off
 --- !u!1 &5734891288288598435
 GameObject:
@@ -2572,7 +2582,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 078f66d4b59e8ee4ea72be9e3c554ee6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  textComponent: {fileID: 1593773245338119459}
   key: On
 --- !u!1 &5894032934570897029
 GameObject:
@@ -2879,7 +2888,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 078f66d4b59e8ee4ea72be9e3c554ee6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  textComponent: {fileID: 8993999892340437824}
   key: Hints
 --- !u!1 &6169359040029862467
 GameObject:
@@ -2976,7 +2984,6 @@ GameObject:
   - component: {fileID: 4396465577909856434}
   - component: {fileID: 5816087940353954192}
   - component: {fileID: 4955646346019211235}
-  - component: {fileID: 311419951650055800}
   m_Layer: 5
   m_Name: Privacy Policy Button
   m_TagString: Untagged
@@ -3118,19 +3125,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 118119dca78e4a1282f9cee326893c4f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &311419951650055800
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6192658171920368557}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 717a02054ef2699498e6bd4234fd7995, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _containerSource: 0
 --- !u!1 &6494143295362163745
 GameObject:
   m_ObjectHideFlags: 0
@@ -3497,7 +3491,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 078f66d4b59e8ee4ea72be9e3c554ee6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  textComponent: {fileID: 2431579088499377466}
   key: Music
 --- !u!1 &7098085705952316710
 GameObject:
@@ -3647,7 +3640,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 078f66d4b59e8ee4ea72be9e3c554ee6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  textComponent: {fileID: 2162398455832393134}
   key: Rate
 --- !u!1 &7226968455460934196
 GameObject:
@@ -4356,7 +4348,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 078f66d4b59e8ee4ea72be9e3c554ee6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  textComponent: {fileID: 1186748219922034741}
   key: Policy.PrivacyPolicy
 --- !u!1 &8871274653277501618
 GameObject:
@@ -4506,7 +4497,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 078f66d4b59e8ee4ea72be9e3c554ee6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  textComponent: {fileID: 3134089012555965746}
   key: On
 --- !u!1 &8882303840797112151
 GameObject:
@@ -4656,7 +4646,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 078f66d4b59e8ee4ea72be9e3c554ee6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  textComponent: {fileID: 5698359967872597362}
   key: NoAds.Disable
 --- !u!1 &8903768951374992031
 GameObject:
@@ -5091,5 +5080,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 078f66d4b59e8ee4ea72be9e3c554ee6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  textComponent: {fileID: 2796995702539314895}
   key: Off

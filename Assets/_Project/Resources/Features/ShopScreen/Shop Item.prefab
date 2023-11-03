@@ -759,7 +759,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 078f66d4b59e8ee4ea72be9e3c554ee6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  textComponent: {fileID: 0}
   key: Shop.Choose
 --- !u!1 &1411822385516971212
 GameObject:
@@ -1565,6 +1564,7 @@ GameObject:
   - component: {fileID: 3668723184899448790}
   - component: {fileID: 5351758714733743272}
   - component: {fileID: 5059877749052993151}
+  - component: {fileID: -7071485496231012741}
   m_Layer: 0
   m_Name: Shop Item
   m_TagString: Untagged
@@ -1661,6 +1661,19 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &-7071485496231012741
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7864123718084557333}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 717a02054ef2699498e6bd4234fd7995, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _containerSource: 0
 --- !u!1 &8028569094731755908
 GameObject:
   m_ObjectHideFlags: 0
@@ -1906,7 +1919,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 078f66d4b59e8ee4ea72be9e3c554ee6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  textComponent: {fileID: 0}
   key: Get
 --- !u!1 &8455403375929686148
 GameObject:
@@ -2132,7 +2144,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 078f66d4b59e8ee4ea72be9e3c554ee6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  textComponent: {fileID: 0}
   key: Shop.Chosen
 --- !u!1 &9164928042652562749
 GameObject:

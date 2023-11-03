@@ -195,15 +195,5 @@ namespace _Project.Scripts.Features.ScrollView
         LockPanel.alpha = 0;
       }
     }
-
-    private void Localize(ILocaleSystem localeSystem)
-    {
-      List<LocalizedMainText> localizedTexts = transform.GetComponentsInChildren<LocalizedMainText>(true).ToList();
-      localizedTexts.ForEach(item =>
-      {
-        item.Construct(localeSystem);
-        item.Localize();
-      });
-    }
   }
 }
