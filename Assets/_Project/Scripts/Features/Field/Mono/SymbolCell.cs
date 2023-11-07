@@ -81,15 +81,15 @@ namespace _Project.Scripts.Features.Field.Mono
 
     private void LoadCellModel(DragableData dragableData)
     {
+      _meshFilter.transform.localPosition = _gameMetaProvider.GetPosition(dragableData);
+      _meshFilter.transform.localRotation = Quaternion.Euler(_gameMetaProvider.GetAngle(dragableData));
+      
       _meshFilter.mesh = _gameMetaProvider.GetMesh(dragableData);
       _meshRenderer.material = _gameMetaProvider.GetMaterial(dragableData);
       
-      if (_gameMetaProvider.GetAngle(dragableData) != Vector3.zero)
-      {
-        Quaternion newAngle = Quaternion.Euler(_gameMetaProvider.GetAngle(dragableData));
-        _meshFilter.transform.localRotation = newAngle;
+      
+      if (_gameMetaProvider.GetAngle(dragableData) != Vector3.zero) 
         _doTweenAnimation.DOPlay();
-      }
 
       _meshRenderer.enabled = true;
     }
