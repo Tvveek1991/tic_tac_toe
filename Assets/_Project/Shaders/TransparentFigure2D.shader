@@ -13,6 +13,7 @@ Shader "Custom/TransparentFigure2D"
             "RenderType"="Opaque" "Queue"="Transparent"
         }
         LOD 100
+        Cull Off
         Blend SrcAlpha OneMinusSrcAlpha
         Pass
         {

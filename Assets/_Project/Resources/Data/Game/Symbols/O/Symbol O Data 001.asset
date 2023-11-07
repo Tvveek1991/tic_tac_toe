@@ -30,4 +30,6 @@ MonoBehaviour:
   - {fileID: 2100000, guid: 391dbf5ead166024db7e6eb098a72601, type: 2}
   - {fileID: 2100000, guid: 18161d22a09b3d844a2f5d37d3470b4a, type: 2}
   - {fileID: 2100000, guid: 21a071a36eb60ff4592685924eccdf71, type: 2}
+  _rotateAngle: []
+  _symbolPosition: {x: 0, y: 0, z: -150}
   _icon: {fileID: 21300000, guid: 629673a401e74874cb1075fc99981615, type: 3}

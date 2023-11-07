@@ -16,8 +16,6 @@ namespace _Project.Scripts.Features.Field.Mono
     [SerializeField] private MeshFilter _meshFilter;
     [SerializeField] private MeshRenderer _meshRenderer;
     
-    [SerializeField] private DOTweenAnimation _doTweenAnimation;
-    
     private SymbolSign _symbol;
     private SymbolSize _size = SymbolSize.Default;
 
@@ -86,10 +84,10 @@ namespace _Project.Scripts.Features.Field.Mono
       
       _meshFilter.mesh = _gameMetaProvider.GetMesh(dragableData);
       _meshRenderer.material = _gameMetaProvider.GetMaterial(dragableData);
-      
-      
-      if (_gameMetaProvider.GetAngle(dragableData) != Vector3.zero) 
-        _doTweenAnimation.DOPlay();
+
+
+      if (_gameMetaProvider.GetAngle(dragableData) != Vector3.zero)
+        _meshFilter.transform.DORotate(Vector3.right * -20, .1f, RotateMode.WorldAxisAdd).SetEase(Ease.Linear);
 
       _meshRenderer.enabled = true;
     }

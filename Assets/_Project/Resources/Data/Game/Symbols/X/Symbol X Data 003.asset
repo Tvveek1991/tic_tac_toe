@@ -30,5 +30,11 @@ MonoBehaviour:
   - {fileID: 2100000, guid: 51c4416ae24801744ab3a85b3e15fced, type: 2}
   - {fileID: 2100000, guid: 51c4416ae24801744ab3a85b3e15fced, type: 2}
   - {fileID: 2100000, guid: 51c4416ae24801744ab3a85b3e15fced, type: 2}
-  _rotateAngle: []
+  _rotateAngle:
+  - {x: 0, y: 180, z: 0}
+  - {x: 0, y: 180, z: 0}
+  - {x: 0, y: 180, z: 0}
+  - {x: 0, y: 180, z: 0}
+  - {x: 0, y: 180, z: 0}
+  _symbolPosition: {x: 0, y: 30, z: -100}
   _icon: {fileID: 21300000, guid: 567787ab75ddbdb438a14598c07d87be, type: 3}

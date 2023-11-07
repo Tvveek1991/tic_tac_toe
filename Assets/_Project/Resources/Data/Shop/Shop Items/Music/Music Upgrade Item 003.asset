@@ -20,4 +20,5 @@ MonoBehaviour:
   _previewScaleFactor: 0.5
   _previewMeshes:
   - {fileID: 3351148692696618264, guid: 8fc1da715cabed7489a58c52afad1515, type: 3}
-  _previewMaterials: []
+  _previewMaterials:
+  - {fileID: 2100000, guid: 6f4b5c02e68e7fd4a905d8883b88f4a9, type: 2}
