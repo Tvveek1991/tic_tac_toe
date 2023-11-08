@@ -26,13 +26,11 @@ namespace _Project.Scripts.Features.HomeScreen
     private readonly IAdsService _adsService;
     private readonly ILocaleSystem _localeSystem;
     private readonly IAudioService _audioService;
-    private readonly IMoneyService _moneyService;
     private readonly IInAppService _inAppService;
     private readonly IUnlockService _unlockService;
     private readonly IAssetProvider _assetProvider;
     private readonly ICurrentScreen _currentScreen;
     private readonly IGameSaveSystem _gameSaveSystem;
-    private readonly IGameMetaProvider _gameMetaProvider;
     private readonly IGameStateMachine _gameStateMachine;
 
     private readonly GameCustomData[] _gameCustomsData;
@@ -43,20 +41,18 @@ namespace _Project.Scripts.Features.HomeScreen
     
     public HomeLogic(IGameStateMachine gameStateMachine, IAssetProvider assetProvider, ICurrentScreen currentScreen,
       IGameSaveSystem gameSaveSystem, IAdsService adsService, IAnalytics analytics, ILocaleSystem localeSystem, IAudioService audioService, 
-      IRemote remote, IMoneyService moneyService, IGameMetaProvider gameMetaProvider, IInAppService inAppService, IUnlockService unlockService)
+      IRemote remote, IGameMetaProvider gameMetaProvider, IInAppService inAppService, IUnlockService unlockService)
     {
       _remote = remote;
       _analytics = analytics;
       _adsService = adsService;
       _localeSystem = localeSystem;
       _audioService = audioService;
-      _moneyService = moneyService;
       _inAppService = inAppService;
       _unlockService = unlockService;
       _assetProvider = assetProvider;
       _currentScreen = currentScreen;
       _gameSaveSystem = gameSaveSystem;
-      _gameMetaProvider = gameMetaProvider;
       _gameStateMachine = gameStateMachine;
 
       _homeFactory = new HomeFactory(assetProvider, localeSystem, audioService, gameMetaProvider);
