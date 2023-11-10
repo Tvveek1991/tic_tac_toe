@@ -78,8 +78,12 @@ namespace _Project.Scripts.Features.GameScreen
         _gameStateMachine.Enter<LoadHomeState>);
     }
     
-    private void OnClickPlayAgain() => 
-      _gameStateMachine.Enter<LoadGameState>();
+    private void OnClickPlayAgain()
+    {
+      _adsService.CurrentInterstitial.ShowInterstitial(ScreenNames.Game,
+        _gameStateMachine.Enter<LoadHomeState>,
+        _gameStateMachine.Enter<LoadHomeState>);
+    }
 
     private void OnEndGame(SymbolSign symbol)
     {

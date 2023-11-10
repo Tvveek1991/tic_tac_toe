@@ -6,7 +6,6 @@ using _Project.Scripts.Core_Logic.StatesMachine.States;
 using _Project.Scripts.Features.Splashscreen;
 using _Project.Scripts.Services._Interfaces;
 using _Project.Scripts.Services.Consent;
-using _Project.Scripts.Services.InApps.Scripts;
 using FlurrySDK;
 using SableGamesAds.Scripts.Interfaces;
 using SableGamesAnalytics.Scripts.Interfaces;
@@ -132,7 +131,7 @@ namespace _Project.Scripts.Core_Logic
     {
       _adsService.CurrentInterstitial.ShowInterstitial("start",
         _gameStateMachine.Enter<LoadGameServicesState>,
-        _gameStateMachine.Enter<LoadGameServicesState>);
+        _gameStateMachine.Enter<LoadGameServicesState>, true);
     }
   }
 }
