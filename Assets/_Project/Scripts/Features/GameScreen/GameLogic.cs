@@ -81,8 +81,8 @@ namespace _Project.Scripts.Features.GameScreen
     private void OnClickPlayAgain()
     {
       _adsService.CurrentInterstitial.ShowInterstitial(ScreenNames.Game,
-        _gameStateMachine.Enter<LoadHomeState>,
-        _gameStateMachine.Enter<LoadHomeState>);
+        _gameStateMachine.Enter<LoadGameState>,
+        _gameStateMachine.Enter<LoadGameState>);
     }
 
     private void OnEndGame(SymbolSign symbol)

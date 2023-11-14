@@ -16,7 +16,7 @@ MonoBehaviour:
   Name: SignItem.Dice
   Description: 
   itemType: 0
-  _icon: {fileID: 21300000, guid: ce42a76897a28634486fb5ba7f675067, type: 3}
+  _icon: {fileID: 21300000, guid: 90b15b97ef89ea640984d46796cb8bf6, type: 3}
   _previewScaleFactor: 1
   _previewMeshes:
   - {fileID: -5495902117074765545, guid: 8ccfc167c0f8c6447b5270b825f2300f, type: 3}
