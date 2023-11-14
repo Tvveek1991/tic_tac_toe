@@ -12,15 +12,20 @@ namespace _Project.Scripts.Features.Field.Mono
   public class SymbolCell : MonoBehaviour
   {
     private const float Duration = .5f;
+    private const float DurationPotentialTurn = .25f;
 
     [SerializeField] private MeshFilter _meshFilter;
     [SerializeField] private MeshRenderer _meshRenderer;
     
+    [SerializeField] private Transform _potentialTurn;
+    
     private SymbolSign _symbol;
     private SymbolSize _size = SymbolSize.Default;
 
-    private PotentialTurn _potentialTurn;
+    // private PotentialTurn _potentialTurn;
 
+    private Vector3 _defaultPotentialTurnScale;
+    
     private Image _image;
     
     private Action<DragableData> _onClickCell;
@@ -36,8 +41,9 @@ namespace _Project.Scripts.Features.Field.Mono
 
       _image = GetComponent<Image>();
 
-      _potentialTurn = GetComponentInChildren<PotentialTurn>();
-      _potentialTurn.Construct();
+      _defaultPotentialTurnScale = _potentialTurn.localScale;
+      /*_potentialTurn = GetComponentInChildren<PotentialTurn>();
+      _potentialTurn.Construct();*/
 
       _image.DOFade(0f, 0);
       _image.transform.DOScale(0f, 0);
@@ -64,11 +70,17 @@ namespace _Project.Scripts.Features.Field.Mono
       _onClickCell.Invoke(dragableData);
     }
 
-    public void ShowPotentialTurn(Mesh getMesh, Material getMaterial, Vector3 angle) =>
-      _potentialTurn.ShowPotentialTurn(getMesh, getMaterial, angle);
+    public void HideNonPotentialTurn(Mesh getMesh, Material getMaterial, Vector3 angle)
+    {
+      _potentialTurn.DOScale(Vector3.zero, DurationPotentialTurn);
+      // _potentialTurn.ShowPotentialTurn(getMesh, getMaterial, angle);
+    }
 
-    public void HidePotentialTurn() =>
-      _potentialTurn.Hide();
+    public void ShowBackPotentialTurn()
+    {
+      _potentialTurn.DOScale(_defaultPotentialTurnScale, DurationPotentialTurn);
+      // _potentialTurn.Hide();
+    }
 
     public void ShowCell(float delay)
     {

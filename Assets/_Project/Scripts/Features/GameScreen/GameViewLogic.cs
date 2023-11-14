@@ -88,8 +88,8 @@ namespace _Project.Scripts.Features.GameScreen
 
       RefreshAfterChangeTurn(SymbolSign.X);
     }
-    
-    public virtual void StartGame() => 
+
+    public virtual void StartGame() =>
       GameFactory.GameFieldLogic.Show(null);
 
     private void CreateTutorial()
@@ -164,16 +164,16 @@ namespace _Project.Scripts.Features.GameScreen
       SetPlayerUi(nextSign);
       GameMetaProvider.GetPlayerView().SetPlayerTurn(isPlayerTurn);
 
-      HidePotentialTurn();
-      
-      if (isPlayerTurn)
-        ShowPotentialTurn(nextSign);
+      // ShowBackPotentialTurn();
+
+      // if (isPlayerTurn)
+      ShowPotentialTurn(nextSign);
     }
 
     private void SetPlayerUi(SymbolSign symbol)
     {
-      bool isMainPlayer = GameMetaProvider.GetEnemyType() == EnemyType.OneDevice 
-        ? symbol == SymbolSign.X 
+      bool isMainPlayer = GameMetaProvider.GetEnemyType() == EnemyType.OneDevice
+        ? symbol == SymbolSign.X
         : symbol == GameMetaProvider.GetPlayerView().GetSymbol();
 
       _gameViewMono.GetSymbolPart().SetActivity(isMainPlayer);
@@ -188,8 +188,8 @@ namespace _Project.Scripts.Features.GameScreen
     private void CreateDragDrop()
     {
       DragDrop = _gameViewMono.gameObject.AddComponent<DragDrop>();
-      _gameViewMono.GetFigures().ForEach(item => item.Construct(DragDrop, InputResolver, ShowPotentialTurn, HidePotentialTurn));
-      _gameViewMono.GetFigures(true).ForEach(item => item.Construct(DragDrop, InputResolver, ShowPotentialTurn, HidePotentialTurn));
+      _gameViewMono.GetFigures().ForEach(item => item.Construct(DragDrop, InputResolver, ShowPotentialTurn, ShowBackPotentialTurn));
+      _gameViewMono.GetFigures(true).ForEach(item => item.Construct(DragDrop, InputResolver, ShowPotentialTurn, ShowBackPotentialTurn));
     }
 
     private void LoadPlayerBuhurtPart(SymbolSign symbol)
@@ -197,7 +197,7 @@ namespace _Project.Scripts.Features.GameScreen
       for (var i = 0; i < FiguresState[symbol].Length; i++)
       {
         var dragableData = new DragableData(symbol, (SymbolSize) i);
-        _gameViewMono.GetFigures()[i].FirstLoadFigure(symbol, GameMetaProvider.GetMesh(dragableData), GameMetaProvider.GetMaterial(dragableData), 
+        _gameViewMono.GetFigures()[i].FirstLoadFigure(symbol, GameMetaProvider.GetMesh(dragableData), GameMetaProvider.GetMaterial(dragableData),
           GameMetaProvider.GetAngle(dragableData));
       }
     }
@@ -207,8 +207,8 @@ namespace _Project.Scripts.Features.GameScreen
       for (var i = 0; i < FiguresState[symbol].Length; i++)
       {
         var dragableData = new DragableData(symbol, (SymbolSize) i, GameMetaProvider.GetEnemyType() == EnemyType.Bot);
-        _gameViewMono.GetFigures(true)[i].FirstLoadFigure(symbol, GameMetaProvider.GetMesh(dragableData), GameMetaProvider.GetMaterial(dragableData), 
-        GameMetaProvider.GetAngle(dragableData));
+        _gameViewMono.GetFigures(true)[i].FirstLoadFigure(symbol, GameMetaProvider.GetMesh(dragableData), GameMetaProvider.GetMaterial(dragableData),
+          GameMetaProvider.GetAngle(dragableData));
       }
     }
 
@@ -217,23 +217,16 @@ namespace _Project.Scripts.Features.GameScreen
       if (GameMetaProvider.GetGame() == Game.Buhurt || _gameSaveSystem.Get().IsHintsDisabled)
         return;
 
-      var symbolCells = new SymbolCell[GameFactory.GameFieldLogic.GetField().Length];
-      var board = new SymbolSign[GameFactory.GameFieldLogic.GetField().Length];
-
-      for (var y = 0; y < FieldSizeY; y++)
-      for (var x = 0; x < FieldSizeX; x++)
-      {
-        symbolCells[3 * y + x] = GameFactory.GameFieldLogic.GetField()[y, x];
-        board[3 * y + x] = GameFactory.GameFieldLogic.GetField()[y, x].GetSymbol();
-      }
-
+      SymbolCell[] symbolCells = MakeSymbolCellsCopy();
       symbolCells.ForEach(item =>
       {
-        if (item.GetSymbol() == SymbolSign.None)
+        if (item.GetSymbol() != SymbolSign.None)
         {
           var dragableData = new DragableData(symbolSign, SymbolSize.Default);
-          item.ShowPotentialTurn(GameMetaProvider.GetMesh(dragableData), GameMetaProvider.GetMaterial(dragableData), GameMetaProvider.GetAngle(dragableData));
+          item.HideNonPotentialTurn(GameMetaProvider.GetMesh(dragableData), GameMetaProvider.GetMaterial(dragableData), GameMetaProvider.GetAngle(dragableData));
         }
+        else
+          item.ShowBackPotentialTurn();
       });
     }
 
@@ -242,30 +235,31 @@ namespace _Project.Scripts.Features.GameScreen
       if (_gameSaveSystem.Get().IsHintsDisabled)
         return;
 
-      var symbolCells = new SymbolCell[GameFactory.GameFieldLogic.GetField().Length];
-      var board = new SymbolSign[GameFactory.GameFieldLogic.GetField().Length];
-
-      for (var y = 0; y < FieldSizeY; y++)
-      for (var x = 0; x < FieldSizeX; x++)
-      {
-        symbolCells[3 * y + x] = GameFactory.GameFieldLogic.GetField()[y, x];
-        board[3 * y + x] = GameFactory.GameFieldLogic.GetField()[y, x].GetSymbol();
-      }
-
+      SymbolCell[] symbolCells = MakeSymbolCellsCopy();
       symbolCells.ForEach(item =>
       {
         if (item.GetSize() < dragablePart.GetDragableData().GetSize() && item.GetSymbol() != dragablePart.GetDragableData().GetSymbol())
-        {
-          var dragableData = new DragableData(dragablePart.GetDragableData().GetSymbol(), dragablePart.GetDragableData().GetSize());
-          item.ShowPotentialTurn(GameMetaProvider.GetMesh(dragableData), GameMetaProvider.GetMaterial(dragableData), GameMetaProvider.GetAngle(dragableData));
-        }
+          return;
+
+        var dragableData = new DragableData(dragablePart.GetDragableData().GetSymbol(), dragablePart.GetDragableData().GetSize());
+        item.HideNonPotentialTurn(GameMetaProvider.GetMesh(dragableData), GameMetaProvider.GetMaterial(dragableData), GameMetaProvider.GetAngle(dragableData));
       });
     }
 
-    private void HidePotentialTurn()
+    private SymbolCell[] MakeSymbolCellsCopy()
+    {
+      var symbolCells = new SymbolCell[GameFactory.GameFieldLogic.GetField().Length];
+
+      for (var y = 0; y < FieldSizeY; y++)
+      for (var x = 0; x < FieldSizeX; x++)
+        symbolCells[3 * y + x] = GameFactory.GameFieldLogic.GetField()[y, x];
+      return symbolCells;
+    }
+
+    private void ShowBackPotentialTurn()
     {
       foreach (SymbolCell symbolCell in GameFactory.GameFieldLogic.GetField())
-        symbolCell.HidePotentialTurn();
+        symbolCell.ShowBackPotentialTurn();
     }
 
     private bool IsBuhurtFiguresOver()

@@ -124,10 +124,7 @@ namespace _Project.Scripts.Features.Player.BuhurtModules
       _showPotentialTurn.Invoke(_dragablePart);
     }
 
-    private void OnPin()
-    {
-      // _frame.enabled = false;
-    }
+    private void OnPin() { }
 
     private void OnReturn()
     {
