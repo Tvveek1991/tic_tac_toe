@@ -163,11 +163,7 @@ namespace _Project.Scripts.Features.GameScreen
 
       SetPlayerUi(nextSign);
       GameMetaProvider.GetPlayerView().SetPlayerTurn(isPlayerTurn);
-
-      // ShowBackPotentialTurn();
-
-      // if (isPlayerTurn)
-      ShowPotentialTurn(nextSign);
+      ShowPotentialTurn();
     }
 
     private void SetPlayerUi(SymbolSign symbol)
@@ -212,7 +208,7 @@ namespace _Project.Scripts.Features.GameScreen
       }
     }
 
-    private void ShowPotentialTurn(SymbolSign symbolSign)
+    private void ShowPotentialTurn()
     {
       if (GameMetaProvider.GetGame() == Game.Buhurt || _gameSaveSystem.Get().IsHintsDisabled)
         return;
@@ -221,10 +217,7 @@ namespace _Project.Scripts.Features.GameScreen
       symbolCells.ForEach(item =>
       {
         if (item.GetSymbol() != SymbolSign.None)
-        {
-          var dragableData = new DragableData(symbolSign, SymbolSize.Default);
-          item.HideNonPotentialTurn(GameMetaProvider.GetMesh(dragableData), GameMetaProvider.GetMaterial(dragableData), GameMetaProvider.GetAngle(dragableData));
-        }
+          item.HideNonPotentialTurn();
         else
           item.ShowBackPotentialTurn();
       });
@@ -240,9 +233,8 @@ namespace _Project.Scripts.Features.GameScreen
       {
         if (item.GetSize() < dragablePart.GetDragableData().GetSize() && item.GetSymbol() != dragablePart.GetDragableData().GetSymbol())
           return;
-
-        var dragableData = new DragableData(dragablePart.GetDragableData().GetSymbol(), dragablePart.GetDragableData().GetSize());
-        item.HideNonPotentialTurn(GameMetaProvider.GetMesh(dragableData), GameMetaProvider.GetMaterial(dragableData), GameMetaProvider.GetAngle(dragableData));
+        
+        item.HideNonPotentialTurn();
       });
     }
 

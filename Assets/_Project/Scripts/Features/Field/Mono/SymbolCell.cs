@@ -22,8 +22,6 @@ namespace _Project.Scripts.Features.Field.Mono
     private SymbolSign _symbol;
     private SymbolSize _size = SymbolSize.Default;
 
-    // private PotentialTurn _potentialTurn;
-
     private Vector3 _defaultPotentialTurnScale;
     
     private Image _image;
@@ -42,8 +40,6 @@ namespace _Project.Scripts.Features.Field.Mono
       _image = GetComponent<Image>();
 
       _defaultPotentialTurnScale = _potentialTurn.localScale;
-      /*_potentialTurn = GetComponentInChildren<PotentialTurn>();
-      _potentialTurn.Construct();*/
 
       _image.DOFade(0f, 0);
       _image.transform.DOScale(0f, 0);
@@ -70,17 +66,11 @@ namespace _Project.Scripts.Features.Field.Mono
       _onClickCell.Invoke(dragableData);
     }
 
-    public void HideNonPotentialTurn(Mesh getMesh, Material getMaterial, Vector3 angle)
-    {
+    public void HideNonPotentialTurn() => 
       _potentialTurn.DOScale(Vector3.zero, DurationPotentialTurn);
-      // _potentialTurn.ShowPotentialTurn(getMesh, getMaterial, angle);
-    }
 
-    public void ShowBackPotentialTurn()
-    {
+    public void ShowBackPotentialTurn() =>
       _potentialTurn.DOScale(_defaultPotentialTurnScale, DurationPotentialTurn);
-      // _potentialTurn.Hide();
-    }
 
     public void ShowCell(float delay)
     {
