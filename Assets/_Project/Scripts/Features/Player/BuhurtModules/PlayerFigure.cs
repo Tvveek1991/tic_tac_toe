@@ -5,6 +5,7 @@ using _Project.Scripts.Features.GameScreen.Serialized;
 using _Project.Scripts.Services._Interfaces;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 namespace _Project.Scripts.Features.Player.BuhurtModules
 {
@@ -15,6 +16,7 @@ namespace _Project.Scripts.Features.Player.BuhurtModules
 
     [SerializeField] private SymbolSize _size;
 
+    private Image _frame;
     private BoxCollider _boxCollider;
 
     private MeshFilter _mesh;
@@ -42,6 +44,8 @@ namespace _Project.Scripts.Features.Player.BuhurtModules
     {
       _mesh = GetComponentInChildren<MeshFilter>();
       _meshRenderer = GetComponentInChildren<MeshRenderer>();
+      
+      _frame = GetComponent<Image>();
       _boxCollider = GetComponentInChildren<BoxCollider>();
 
       _hidePotentials = hidePotentials;
@@ -70,7 +74,7 @@ namespace _Project.Scripts.Features.Player.BuhurtModules
         _meshRenderer.enabled = false;
         return;
       }
-
+      
       _isLock = !isOn;
       _meshRenderer.material = isOn ? _activeFigure : _inactiveFigure;
     }
@@ -119,9 +123,8 @@ namespace _Project.Scripts.Features.Player.BuhurtModules
       _showPotentialTurn.Invoke(_dragablePart);
     }
 
-    private void OnPin()
-    {
-    }
+    private void OnPin() => 
+      _frame.enabled = false;
 
     private void OnReturn()
     {
