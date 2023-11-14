@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5b5ec39ba2530e4e80867090a5250c9, type: 3}
   m_Name: Symbol O Data 002
   m_EditorClassIdentifier: 
-  Id: 59943283-d8ea-4310-8efa-a36f571e42c7
+  Id: 2b3cebf3-7c5e-456f-bbac-905c42c59015
   Name: DiceO
   Description: 
   _itemType: 1

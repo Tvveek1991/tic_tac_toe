@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 436d9f43de05abd4fb1bdc7c1376e855, type: 3}
-  m_Name: Symbols O Item 003
+  m_Name: Symbols Item 003
   m_EditorClassIdentifier: 
-  Id: 9f198c90-6bfd-4d44-9d11-f15c878b49e2
+  Id: b74b7aad-c5ce-45b8-a5d6-76f8adc7f9a7
   Name: "SignItem.\u0421hess"
   Description: 
-  itemType: 1
-  _icon: {fileID: 21300000, guid: 7b6682b08b141694aa14db64da337b27, type: 3}
+  itemType: 0
+  _icon: {fileID: 21300000, guid: ce42a76897a28634486fb5ba7f675067, type: 3}
   _previewScaleFactor: 1
   _previewMeshes:
   - {fileID: 7502377544057204969, guid: 9c17dd28d2447e84a91f114e7d505d0d, type: 3}
@@ -25,8 +25,8 @@ MonoBehaviour:
   - {fileID: -5582133695706433325, guid: 9c17dd28d2447e84a91f114e7d505d0d, type: 3}
   - {fileID: -2628482395200241503, guid: 9c17dd28d2447e84a91f114e7d505d0d, type: 3}
   _previewMaterials:
-  - {fileID: 2100000, guid: 60b1d773e703bcf4faeb254812b08c4f, type: 2}
-  - {fileID: 2100000, guid: 60b1d773e703bcf4faeb254812b08c4f, type: 2}
-  - {fileID: 2100000, guid: 60b1d773e703bcf4faeb254812b08c4f, type: 2}
-  - {fileID: 2100000, guid: 60b1d773e703bcf4faeb254812b08c4f, type: 2}
-  - {fileID: 2100000, guid: 60b1d773e703bcf4faeb254812b08c4f, type: 2}
+  - {fileID: 2100000, guid: 51c4416ae24801744ab3a85b3e15fced, type: 2}
+  - {fileID: 2100000, guid: 51c4416ae24801744ab3a85b3e15fced, type: 2}
+  - {fileID: 2100000, guid: 51c4416ae24801744ab3a85b3e15fced, type: 2}
+  - {fileID: 2100000, guid: 51c4416ae24801744ab3a85b3e15fced, type: 2}
+  - {fileID: 2100000, guid: 51c4416ae24801744ab3a85b3e15fced, type: 2}

@@ -73,7 +73,7 @@ namespace _Project.Scripts.Features.ScrollView
 
       Button.onClick.AddListener(() => onClickItem());
 
-      // SetIcon();
+      SetIcon();
       SetDescription(description);
 
       SetLock();

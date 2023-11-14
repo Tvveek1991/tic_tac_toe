@@ -71,6 +71,7 @@ namespace _Project.Scripts.Features.Player.BuhurtModules
     {
       if (_size == SymbolSize.Default)
       {
+        _frame.enabled = false;
         _meshRenderer.enabled = false;
         return;
       }
@@ -123,8 +124,10 @@ namespace _Project.Scripts.Features.Player.BuhurtModules
       _showPotentialTurn.Invoke(_dragablePart);
     }
 
-    private void OnPin() => 
-      _frame.enabled = false;
+    private void OnPin()
+    {
+      // _frame.enabled = false;
+    }
 
     private void OnReturn()
     {

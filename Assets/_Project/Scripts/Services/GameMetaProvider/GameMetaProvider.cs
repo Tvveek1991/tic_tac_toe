@@ -149,8 +149,11 @@ namespace _Project.Scripts.Services.GameMetaProvider
 
     public void CreateBotData(SymbolSign botSign)
     {
-      List < SymbolData > list = GetAllDataType<SymbolData>(_gameCustomsData).Where(item => item.ItemType == _itemTypesTransfer[botSign]).ToList();
-      _botData[botSign] = list[Random.Range(0, list.Count)];
+      _botData[botSign] = GetCustomData<SymbolData>(_itemTypesTransfer[botSign]);
+      
+      // if we need bot random skin
+      // List < SymbolData > list = GetAllDataType<SymbolData>(_gameCustomsData).Where(item => item.ItemType == _itemTypesTransfer[botSign]).ToList();
+      // _botData[botSign] = list[Random.Range(0, list.Count)]; 
     }
 
     private SymbolData GetSymbolData(SymbolSign symbolSign, bool isBot = false) =>

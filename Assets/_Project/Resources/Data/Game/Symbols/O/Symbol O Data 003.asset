@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5b5ec39ba2530e4e80867090a5250c9, type: 3}
   m_Name: Symbol O Data 003
   m_EditorClassIdentifier: 
-  Id: 9f198c90-6bfd-4d44-9d11-f15c878b49e2
+  Id: b74b7aad-c5ce-45b8-a5d6-76f8adc7f9a7
   Name: ChessO
   Description: 
   _itemType: 1

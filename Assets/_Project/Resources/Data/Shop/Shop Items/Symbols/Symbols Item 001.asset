@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 436d9f43de05abd4fb1bdc7c1376e855, type: 3}
-  m_Name: Symbols X Item 001
+  m_Name: Symbols Item 001
   m_EditorClassIdentifier: 
   Id: 5d335299-b97a-4c62-8a3f-f7a249491121
   Name: SignItem.DefaultX

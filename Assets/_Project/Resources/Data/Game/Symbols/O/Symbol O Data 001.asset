@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5b5ec39ba2530e4e80867090a5250c9, type: 3}
   m_Name: Symbol O Data 001
   m_EditorClassIdentifier: 
-  Id: 5de557f0-58c9-4f63-951c-121e9a47d0fa
+  Id: 5d335299-b97a-4c62-8a3f-f7a249491121
   Name: ClassicO
   Description: 
   _itemType: 1
