@@ -44,7 +44,7 @@ namespace _Project.Scripts.Features.Player.BuhurtModules
     {
       _mesh = GetComponentInChildren<MeshFilter>();
       _meshRenderer = GetComponentInChildren<MeshRenderer>();
-      
+
       _frame = GetComponent<Image>();
       _boxCollider = GetComponentInChildren<BoxCollider>();
 
@@ -75,7 +75,7 @@ namespace _Project.Scripts.Features.Player.BuhurtModules
         _meshRenderer.enabled = false;
         return;
       }
-      
+
       _isLock = !isOn;
       _meshRenderer.material = isOn ? _activeFigure : _inactiveFigure;
     }
@@ -120,6 +120,7 @@ namespace _Project.Scripts.Features.Player.BuhurtModules
 
     private void OnStartDrag()
     {
+      _frame.enabled = false;
       _boxCollider.enabled = false;
       _showPotentialTurn.Invoke(_dragablePart);
     }
@@ -128,6 +129,7 @@ namespace _Project.Scripts.Features.Player.BuhurtModules
 
     private void OnReturn()
     {
+      _frame.enabled = _size != SymbolSize.Default;
       _boxCollider.enabled = true;
       _hidePotentials?.Invoke();
     }
