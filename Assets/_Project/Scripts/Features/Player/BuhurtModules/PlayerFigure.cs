@@ -11,6 +11,9 @@ namespace _Project.Scripts.Features.Player.BuhurtModules
 {
   public class PlayerFigure : MonoBehaviour, IPointerDownHandler
   {
+    private const string ActiveCellPath = "activeCell";
+    private const string InactiveCellPath = "inactiveCell";
+    
     private readonly int _color = Shader.PropertyToID("_Color");
     private readonly int _mainTex = Shader.PropertyToID("_MainTex");
 
@@ -34,13 +37,17 @@ namespace _Project.Scripts.Features.Player.BuhurtModules
     private Material _activeFigure;
     private Material _inactiveFigure;
 
+    private Sprite _activeCell;
+    private Sprite _inactiveCell;
+
     public SymbolSign Sign { get; private set; }
     public SymbolSize Size => _size;
 
     private Action _hidePotentials;
     private Action<DragablePart> _showPotentialTurn;
 
-    public void Construct(IDragDrop dragDrop, IInputResolver inputResolver, Action<DragablePart> showPotentialTurn, Action hidePotentials)
+    public void Construct(IDragDrop dragDrop, IInputResolver inputResolver, IAssetProvider assetProvider,
+      Action<DragablePart> showPotentialTurn, Action hidePotentials)
     {
       _mesh = GetComponentInChildren<MeshFilter>();
       _meshRenderer = GetComponentInChildren<MeshRenderer>();
@@ -55,6 +62,9 @@ namespace _Project.Scripts.Features.Player.BuhurtModules
       _inputResolver = inputResolver;
 
       _dragablePart = CreateDragableFromGameIconPrefab();
+
+      _activeCell = assetProvider.GetResource<Sprite>(ActiveCellPath);
+      _inactiveCell = assetProvider.GetResource<Sprite>(InactiveCellPath);
     }
 
     public void FirstLoadFigure(SymbolSign symbolSign, Mesh mesh, Material material, Vector3 angle)
@@ -77,6 +87,7 @@ namespace _Project.Scripts.Features.Player.BuhurtModules
       }
 
       _isLock = !isOn;
+      _frame.sprite = isOn ? _activeCell : _inactiveCell;
       _meshRenderer.material = isOn ? _activeFigure : _inactiveFigure;
     }
 
