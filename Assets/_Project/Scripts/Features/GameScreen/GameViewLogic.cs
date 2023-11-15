@@ -150,8 +150,8 @@ namespace _Project.Scripts.Features.GameScreen
       _gameViewMono.GetFigures().ForEach(item => item.SetVisibility(isMainPlayer));
       _gameViewMono.PlayerCanvasGroup.DOFade(isMainPlayer ? 1f : .1f, Duration);
 
-      _gameViewMono.GetFigures(true).ForEach(item => item.SetVisibility(!isMainPlayer));
-      _gameViewMono.OpponentCanvasGroup.DOFade(!isMainPlayer ? 1f : .1f, Duration);
+      _gameViewMono.GetFigures(true).ForEach(item => item.SetVisibility(!isMainPlayer && GameMetaProvider.GetEnemyType() != EnemyType.Bot));
+      _gameViewMono.OpponentCanvasGroup.DOFade(!isMainPlayer && GameMetaProvider.GetEnemyType() != EnemyType.Bot  ? 1f : .1f, Duration);
     }
 
     protected void RefreshAfterChangeTurn(SymbolSign nextSign)
