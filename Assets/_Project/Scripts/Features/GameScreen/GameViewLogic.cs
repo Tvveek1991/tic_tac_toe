@@ -150,8 +150,8 @@ namespace _Project.Scripts.Features.GameScreen
       _gameViewMono.GetFigures().ForEach(item => item.SetVisibility(isMainPlayer));
       _gameViewMono.PlayerCanvasGroup.DOFade(isMainPlayer ? 1f : .1f, Duration);
 
-      _gameViewMono.GetFigures(true).ForEach(item => item.SetVisibility(!isMainPlayer && GameMetaProvider.GetEnemyType() != EnemyType.Bot));
-      _gameViewMono.OpponentCanvasGroup.DOFade(!isMainPlayer && GameMetaProvider.GetEnemyType() != EnemyType.Bot  ? 1f : .1f, Duration);
+      _gameViewMono.GetFigures(true).ForEach(item => item.SetVisibility(!isMainPlayer && !IsEnemyEqual(EnemyType.Bot)));
+      _gameViewMono.OpponentCanvasGroup.DOFade(!isMainPlayer && !IsEnemyEqual(EnemyType.Bot)  ? 1f : .1f, Duration);
     }
 
     protected void RefreshAfterChangeTurn(SymbolSign nextSign)
@@ -159,7 +159,7 @@ namespace _Project.Scripts.Features.GameScreen
       if (IsBuhurtFiguresOver())
         return;
 
-      bool isPlayerTurn = GameMetaProvider.GetEnemyType() == EnemyType.OneDevice || nextSign == GameMetaProvider.GetPlayerView().GetSymbol();
+      bool isPlayerTurn = IsEnemyEqual(EnemyType.OneDevice) || nextSign == GameMetaProvider.GetPlayerView().GetSymbol();
 
       SetPlayerUi(nextSign);
       GameMetaProvider.GetPlayerView().SetPlayerTurn(isPlayerTurn);
@@ -168,7 +168,7 @@ namespace _Project.Scripts.Features.GameScreen
 
     private void SetPlayerUi(SymbolSign symbol)
     {
-      bool isMainPlayer = GameMetaProvider.GetEnemyType() == EnemyType.OneDevice
+      bool isMainPlayer = IsEnemyEqual(EnemyType.OneDevice)
         ? symbol == SymbolSign.X
         : symbol == GameMetaProvider.GetPlayerView().GetSymbol();
 
@@ -202,7 +202,7 @@ namespace _Project.Scripts.Features.GameScreen
     {
       for (var i = 0; i < FiguresState[symbol].Length; i++)
       {
-        var dragableData = new DragableData(symbol, (SymbolSize) i, GameMetaProvider.GetEnemyType() == EnemyType.Bot);
+        var dragableData = new DragableData(symbol, (SymbolSize) i, IsEnemyEqual(EnemyType.Bot));
         _gameViewMono.GetFigures(true)[i].FirstLoadFigure(symbol, GameMetaProvider.GetMesh(dragableData), GameMetaProvider.GetMaterial(dragableData),
           GameMetaProvider.GetAngle(dragableData));
       }
@@ -282,5 +282,8 @@ namespace _Project.Scripts.Features.GameScreen
     private bool CheckLastFiguresSymbol() =>
       FiguresState[SymbolSign.X].Count(size => size == SymbolSize.Default) + FiguresState[SymbolSign.O].Count(size => size == SymbolSize.Default) == 9
       && (FiguresState[SymbolSign.X].Contains(SymbolSize.Tiny) || FiguresState[SymbolSign.O].Contains(SymbolSize.Tiny));
+    
+    private bool IsEnemyEqual(EnemyType type) => 
+      GameMetaProvider.GetEnemyType() == type;
   }
 }
