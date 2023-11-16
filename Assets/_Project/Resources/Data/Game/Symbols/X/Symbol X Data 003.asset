@@ -36,6 +36,6 @@ MonoBehaviour:
   - {x: 0, y: 180, z: 0}
   - {x: 0, y: 180, z: 0}
   - {x: 0, y: 180, z: 0}
-  _symbolPosition: {x: 0, y: 40, z: -90}
+  _symbolPosition: {x: 0, y: 30, z: -110}
   _animationAngle: {x: -30, y: 0, z: 0}
   _icon: {fileID: 21300000, guid: 567787ab75ddbdb438a14598c07d87be, type: 3}
