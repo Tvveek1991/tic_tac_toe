@@ -89,7 +89,7 @@ namespace _Project.Scripts.Features.Field.Mono
 
 
       if (_gameMetaProvider.GetAngle(dragableData) != Vector3.zero)
-        _meshFilter.transform.DORotate(Vector3.right * -20, .1f, RotateMode.WorldAxisAdd).SetEase(Ease.Linear);
+        _meshFilter.transform.DORotate(_gameMetaProvider.GetAnimationAngle(dragableData), .1f, RotateMode.WorldAxisAdd).SetEase(Ease.Linear);
 
       _meshRenderer.enabled = true;
     }

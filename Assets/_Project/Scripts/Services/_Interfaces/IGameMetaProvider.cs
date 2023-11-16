@@ -22,6 +22,7 @@ namespace _Project.Scripts.Services._Interfaces
     Material GetMaterial(DragableData dragableData);
     Vector3 GetAngle(DragableData dragableData);
     Vector3 GetPosition(DragableData dragableData);
+    Vector3 GetAnimationAngle(DragableData dragableData);
     Sprite GetIcon(SymbolSign symbol);
     
     AudioId GetMusic();

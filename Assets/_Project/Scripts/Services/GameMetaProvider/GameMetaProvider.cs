@@ -111,6 +111,12 @@ namespace _Project.Scripts.Services.GameMetaProvider
       SymbolData symbolData = GetSymbolData(dragableData.GetSymbol(), dragableData.IsBot);
       return symbolData.SymbolPosition;
     }
+    
+    public Vector3 GetAnimationAngle(DragableData dragableData)
+    {
+      SymbolData symbolData = GetSymbolData(dragableData.GetSymbol(), dragableData.IsBot);
+      return symbolData.AnimationAngle;
+    }
 
     public void AddScore(SymbolSign symbolSign)
     {
