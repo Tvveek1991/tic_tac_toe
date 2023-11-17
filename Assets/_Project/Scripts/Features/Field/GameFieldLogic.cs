@@ -1,7 +1,9 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using _Project.Scripts.Features.Data;
 using _Project.Scripts.Features.Field.Mono;
+using _Project.Scripts.Features.GameScreen.Mono;
 using _Project.Scripts.Features.GameScreen.Serialized;
 using _Project.Scripts.Services._Interfaces;
 using UnityEngine;
@@ -25,6 +27,8 @@ namespace _Project.Scripts.Features.Field
 
     private Action<SymbolSign> _onEndGame;
 
+    private List<Transform> _wonCells;
+
     public GameFieldLogic(GameField gameField, IAudioService audioService, IGameMetaProvider gameMetaProvider)
     {
       _gameField = gameField;
@@ -35,7 +39,7 @@ namespace _Project.Scripts.Features.Field
       CreateCellsField();
     }
 
-    public void Construct(Action<SymbolSign> onEndGame) => 
+    public void Construct(Action<SymbolSign> onEndGame) =>
       _onEndGame = onEndGame;
 
     public void Show(Action onEnd) =>
@@ -50,14 +54,18 @@ namespace _Project.Scripts.Features.Field
       for (var x = 0; x < FieldSizeX; ++x)
       {
         _cells[y, x] = _gameField.GetPlayablePoint[y * FieldSizeY + x];
-        
+
         _cells[y, x].Construct(_audioService, _gameMetaProvider,
           delegate(DragableData dragableData)
           {
             _playerSymbol = dragableData.GetSymbol();
 
             if (CheckWin(_playerSymbol) || CheckDraw())
-              _onEndGame?.Invoke(CheckWin(_playerSymbol) ? _playerSymbol : SymbolSign.None);
+            {
+              var winAnimation = _gameField.gameObject.AddComponent<WinAnimation>();
+              winAnimation.Construct(_wonCells, () => { _onEndGame?.Invoke(CheckWin(_playerSymbol) ? _playerSymbol : SymbolSign.None); },
+                _playerSymbol == _gameMetaProvider.GetPlayerView().GetSymbol());
+            }
           });
       }
     }
@@ -99,10 +107,14 @@ namespace _Project.Scripts.Features.Field
       if (!IsValidCell(farX, farY))
         return false;
 
+      _wonCells = new List<Transform>();
+
       for (var i = 0; i < len; i++)
       {
         if (_cells[y + i * vy, x + i * vx].GetSymbol() != sign)
           return false;
+
+        _wonCells.Add(_cells[y + i * vy, x + i * vx].transform);
       }
 
       return true;
