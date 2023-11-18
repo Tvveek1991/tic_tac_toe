@@ -28,7 +28,7 @@ namespace _Project.Scripts.Features.GameScreen.Mono
       _defaultMaterial.SetColor(_color, isPlayerWin ? new Color32(96, 223, 109, 255) : new Color32(255, 83, 83, 255));
       
       _lineRenderer = gameObject.AddComponent<LineRenderer>();
-      _lineRenderer.startWidth = .3f;
+      _lineRenderer.startWidth = .25f;
       Vector3[] positions = {_startPos, _startPos};
       _lineRenderer.SetPositions(positions);
       _lineRenderer.material = _defaultMaterial;

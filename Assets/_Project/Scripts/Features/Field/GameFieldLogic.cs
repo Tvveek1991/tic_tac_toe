@@ -23,16 +23,18 @@ namespace _Project.Scripts.Features.Field
     private readonly GameField _gameField;
 
     private readonly IAudioService _audioService;
+    private readonly IInputResolver _inputResolver;
     private readonly IGameMetaProvider _gameMetaProvider;
 
     private Action<SymbolSign> _onEndGame;
 
     private List<Transform> _wonCells;
 
-    public GameFieldLogic(GameField gameField, IAudioService audioService, IGameMetaProvider gameMetaProvider)
+    public GameFieldLogic(GameField gameField, IAudioService audioService, IGameMetaProvider gameMetaProvider, IInputResolver inputResolver)
     {
       _gameField = gameField;
       _audioService = audioService;
+      _inputResolver = inputResolver;
       _gameMetaProvider = gameMetaProvider;
 
       SetField();
@@ -62,6 +64,8 @@ namespace _Project.Scripts.Features.Field
 
             if (CheckWin(_playerSymbol) || CheckDraw())
             {
+              _inputResolver.Disable();
+              
               var winAnimation = _gameField.gameObject.AddComponent<WinAnimation>();
               winAnimation.Construct(_wonCells, () => { _onEndGame?.Invoke(CheckWin(_playerSymbol) ? _playerSymbol : SymbolSign.None); },
                 _playerSymbol == _gameMetaProvider.GetPlayerView().GetSymbol());

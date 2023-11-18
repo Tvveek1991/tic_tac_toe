@@ -80,7 +80,7 @@ namespace _Project.Scripts.Features.GameScreen
     public void CreateField()
     {
       GameField = Create<GameField>(GameFieldPath, _canvasParent);
-      GameFieldLogic = new GameFieldLogic(GameField, _audioService, _gameMetaProvider);
+      GameFieldLogic = new GameFieldLogic(GameField, _audioService, _gameMetaProvider, _inputResolver);
     }
 
     public void CreateEndGame()
