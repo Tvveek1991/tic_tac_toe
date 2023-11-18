@@ -7,7 +7,7 @@ namespace _Project.Scripts.Features.GameScreen.Mono
 {
   public class WinAnimation : MonoBehaviour
   {
-    private const int ZPos = -3;
+    private const int ZPos = -4;
     private const float Duration = .3f;
     
     private readonly int _color = Shader.PropertyToID("_Color");

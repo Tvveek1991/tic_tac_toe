@@ -129,9 +129,13 @@ namespace _Project.Scripts.Core_Logic
 
     private void LaunchGameStateMachine()
     {
-      _adsService.CurrentInterstitial.ShowInterstitial("start",
-        _gameStateMachine.Enter<LoadGameServicesState>,
-        _gameStateMachine.Enter<LoadGameServicesState>, true);
+      _adsService.CurrentInterstitial.ShowInterstitial("start", Load, Load, true);
+
+      void Load()
+      {
+        _splashLogic.Clear();
+        _gameStateMachine.Enter<LoadGameServicesState>();
+      }
     }
   }
 }

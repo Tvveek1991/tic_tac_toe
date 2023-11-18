@@ -31,7 +31,7 @@ MonoBehaviour:
   - {fileID: 2100000, guid: cbb7566f1f4aa3248b9d68a3212d7457, type: 2}
   - {fileID: 2100000, guid: cbb7566f1f4aa3248b9d68a3212d7457, type: 2}
   _rotateAngle:
-  - {x: 90, y: 0, z: 0}
+  - {x: 0, y: -90, z: -90}
   - {x: 0, y: 90, z: 0}
   - {x: 0, y: 180, z: 0}
   - {x: 0, y: 1, z: -90}

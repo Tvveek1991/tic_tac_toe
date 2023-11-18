@@ -17,10 +17,7 @@ namespace _Project.Scripts.Features.Splashscreen
     public void Launch(Action onEnd)
     {
       _splash.Construct(() =>
-      {
-        Clear();
-        onEnd?.Invoke();
-      });
+      { onEnd?.Invoke(); });
       
       _splash.Launch();
     }
@@ -28,7 +25,7 @@ namespace _Project.Scripts.Features.Splashscreen
     public void Complete() => 
       _splash.Complete();
 
-    private void Clear() => 
+    public void Clear() => 
       _splashFactory.Clear();
   }
 }
