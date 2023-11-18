@@ -86,9 +86,8 @@ namespace _Project.Scripts.Features.Field.Mono
       
       _meshFilter.mesh = _gameMetaProvider.GetMesh(dragableData);
       _meshRenderer.material = _gameMetaProvider.GetMaterial(dragableData);
-
-
-      if (_gameMetaProvider.GetAngle(dragableData) != Vector3.zero)
+      
+      if (_gameMetaProvider.GetAnimationAngle(dragableData) != Vector3.zero)
         _meshFilter.transform.DORotate(_gameMetaProvider.GetAnimationAngle(dragableData), .1f, RotateMode.WorldAxisAdd).SetEase(Ease.Linear);
 
       _meshRenderer.enabled = true;

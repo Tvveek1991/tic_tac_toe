@@ -31,5 +31,6 @@ MonoBehaviour:
   - {fileID: 2100000, guid: 1d446bdde63223b478334f587f6f23cf, type: 2}
   - {fileID: 2100000, guid: d41923b57a2f0ae4daa3e390dd2ffebf, type: 2}
   _rotateAngle: []
-  _symbolPosition: {x: 0, y: 0, z: -150}
+  _symbolPosition: {x: 0, y: -150, z: -150}
+  _animationAngle: {x: -60, y: 0, z: 0}
   _icon: {fileID: 21300000, guid: 567787ab75ddbdb438a14598c07d87be, type: 3}
