@@ -62,14 +62,15 @@ namespace _Project.Scripts.Features.Field
           {
             _playerSymbol = dragableData.GetSymbol();
 
-            if (CheckWin(_playerSymbol) || CheckDraw())
+            if (CheckWin(_playerSymbol))
             {
               _inputResolver.Disable();
               
               var winAnimation = _gameField.gameObject.AddComponent<WinAnimation>();
               winAnimation.Construct(_wonCells, () => { _onEndGame?.Invoke(CheckWin(_playerSymbol) ? _playerSymbol : SymbolSign.None); },
                 _playerSymbol == _gameMetaProvider.GetPlayerView().GetSymbol());
-            }
+            }else if (CheckDraw()) 
+              _onEndGame?.Invoke(CheckWin(_playerSymbol) ? _playerSymbol : SymbolSign.None);
           });
       }
     }
