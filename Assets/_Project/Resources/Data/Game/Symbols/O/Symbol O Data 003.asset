@@ -38,4 +38,4 @@ MonoBehaviour:
   - {x: 0, y: 180, z: 0}
   _symbolPosition: {x: 0, y: -30, z: -110}
   _animationAngle: {x: -90, y: 0, z: 0}
-  _icon: {fileID: 21300000, guid: 629673a401e74874cb1075fc99981615, type: 3}
+  _icon: {fileID: 21300000, guid: 94dda01064ecd3946aa5e7fdda31d35e, type: 3}

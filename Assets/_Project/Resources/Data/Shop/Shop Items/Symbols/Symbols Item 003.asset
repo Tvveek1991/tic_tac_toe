@@ -16,7 +16,7 @@ MonoBehaviour:
   Name: "SignItem.\u0421hess"
   Description: 
   itemType: 0
-  _icon: {fileID: 21300000, guid: 90b15b97ef89ea640984d46796cb8bf6, type: 3}
+  _icon: {fileID: 21300000, guid: 68046fa47481789438a4b83e06ce4e3a, type: 3}
   _previewScaleFactor: 1
   _previewMeshes:
   - {fileID: 7502377544057204969, guid: 9c17dd28d2447e84a91f114e7d505d0d, type: 3}
