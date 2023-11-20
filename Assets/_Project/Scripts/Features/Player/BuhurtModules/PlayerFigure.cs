@@ -24,6 +24,7 @@ namespace _Project.Scripts.Features.Player.BuhurtModules
 
     private MeshFilter _mesh;
     private MeshRenderer _meshRenderer;
+    private MeshRenderer _whiteBack;
 
     private DragableData _dragableData;
     private DragablePart _dragablePart;
@@ -33,6 +34,7 @@ namespace _Project.Scripts.Features.Player.BuhurtModules
     private IInputResolver _inputResolver;
 
     private bool _isLock;
+    private bool _isBackOn;
 
     private Material _activeFigure;
     private Material _inactiveFigure;
@@ -47,10 +49,11 @@ namespace _Project.Scripts.Features.Player.BuhurtModules
     private Action<DragablePart> _showPotentialTurn;
 
     public void Construct(IDragDrop dragDrop, IInputResolver inputResolver, IAssetProvider assetProvider,
-      Action<DragablePart> showPotentialTurn, Action hidePotentials)
+      Action<DragablePart> showPotentialTurn, Action hidePotentials, bool isBackOn) 
     {
       _mesh = GetComponentInChildren<MeshFilter>();
       _meshRenderer = GetComponentInChildren<MeshRenderer>();
+      _whiteBack = GetComponentsInChildren<MeshRenderer>()[1];
 
       _frame = GetComponent<Image>();
       _boxCollider = GetComponentInChildren<BoxCollider>();
@@ -58,6 +61,8 @@ namespace _Project.Scripts.Features.Player.BuhurtModules
       _hidePotentials = hidePotentials;
       _showPotentialTurn = showPotentialTurn;
 
+      _isBackOn = isBackOn;
+      
       _dragDrop = dragDrop;
       _inputResolver = inputResolver;
 
@@ -132,6 +137,7 @@ namespace _Project.Scripts.Features.Player.BuhurtModules
     private void OnStartDrag()
     {
       _frame.enabled = false;
+      _whiteBack.enabled = _isBackOn;
       _boxCollider.enabled = false;
       _showPotentialTurn.Invoke(_dragablePart);
     }
@@ -140,6 +146,7 @@ namespace _Project.Scripts.Features.Player.BuhurtModules
 
     private void OnReturn()
     {
+      _whiteBack.enabled = false;
       _frame.enabled = _size != SymbolSize.Default;
       _boxCollider.enabled = true;
       _hidePotentials?.Invoke();

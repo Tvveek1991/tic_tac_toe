@@ -17,6 +17,7 @@ namespace _Project.Scripts.Features.Data
     [SerializeField] private Vector3 _animationAngle;
     
     [SerializeField] private Sprite _icon;
+    [SerializeField] private bool _isBackOn;
     
     public Mesh MeshClassic => _meshClassic;
     public Material MaterialClassic => _materialClassic;
@@ -26,5 +27,6 @@ namespace _Project.Scripts.Features.Data
     public List<Vector3> RotateAngle => _rotateAngle;
     public Vector3 SymbolPosition => _symbolPosition;
     public Vector3 AnimationAngle => _animationAngle;
+    public bool IsBackOn => _isBackOn;
   }
 }

@@ -17,12 +17,13 @@ namespace _Project.Scripts.Services._Interfaces
     
     void SetGame(Game game);
     Game GetGame();
-
+    
+    bool IsBackOn();
     Mesh GetMesh(DragableData dragableData);
     Material GetMaterial(DragableData dragableData);
     Vector3 GetAngle(DragableData dragableData);
-    Vector3 GetPosition(DragableData dragableData);
-    Vector3 GetAnimationAngle(DragableData dragableData);
+    Vector3 GetPosition();
+    Vector3 GetAnimationAngle();
     Sprite GetIcon(SymbolSign symbol);
     
     AudioId GetMusic();

@@ -34,3 +34,4 @@ MonoBehaviour:
   _symbolPosition: {x: 0, y: -150, z: -150}
   _animationAngle: {x: -60, y: 0, z: 0}
   _icon: {fileID: 21300000, guid: b63451983648aca45ac0464aebf9e821, type: 3}
+  _isBackOn: 1

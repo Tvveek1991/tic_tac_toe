@@ -184,8 +184,10 @@ namespace _Project.Scripts.Features.GameScreen
     private void CreateDragDrop()
     {
       DragDrop = _gameViewMono.gameObject.AddComponent<DragDrop>();
-      _gameViewMono.GetFigures().ForEach(item => item.Construct(DragDrop, InputResolver, _assetProvider, ShowPotentialTurn, ShowBackPotentialTurn));
-      _gameViewMono.GetFigures(true).ForEach(item => item.Construct(DragDrop, InputResolver, _assetProvider, ShowPotentialTurn, ShowBackPotentialTurn));
+      _gameViewMono.GetFigures().ForEach(item => item.Construct(DragDrop, InputResolver, _assetProvider, ShowPotentialTurn,
+        ShowBackPotentialTurn, GameMetaProvider.IsBackOn()));
+      _gameViewMono.GetFigures(true).ForEach(item => item.Construct(DragDrop, InputResolver, _assetProvider, ShowPotentialTurn,
+        ShowBackPotentialTurn, GameMetaProvider.IsBackOn()));
     }
 
     private void LoadPlayerBuhurtPart(SymbolSign symbol)

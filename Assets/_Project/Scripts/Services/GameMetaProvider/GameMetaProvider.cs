@@ -106,16 +106,22 @@ namespace _Project.Scripts.Services.GameMetaProvider
         : symbolData.RotateAngle[(int) dragableData.GetSize()];
     }
     
-    public Vector3 GetPosition(DragableData dragableData)
+    public Vector3 GetPosition()
     {
-      SymbolData symbolData = GetSymbolData(dragableData.GetSymbol(), dragableData.IsBot);
+      SymbolData symbolData = GetSymbolData(BasePlayerViewMono.GetSymbol());
       return symbolData.SymbolPosition;
     }
     
-    public Vector3 GetAnimationAngle(DragableData dragableData)
+    public Vector3 GetAnimationAngle()
     {
-      SymbolData symbolData = GetSymbolData(dragableData.GetSymbol(), dragableData.IsBot);
+      SymbolData symbolData = GetSymbolData(BasePlayerViewMono.GetSymbol());
       return symbolData.AnimationAngle;
+    }
+    
+    public bool IsBackOn()
+    {
+      SymbolData symbolData = GetSymbolData(BasePlayerViewMono.GetSymbol());
+      return symbolData.IsBackOn;
     }
 
     public void AddScore(SymbolSign symbolSign)
