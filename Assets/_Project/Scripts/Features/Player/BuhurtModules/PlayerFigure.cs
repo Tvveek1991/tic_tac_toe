@@ -24,6 +24,10 @@ namespace _Project.Scripts.Features.Player.BuhurtModules
 
     private MeshFilter _mesh;
     private MeshRenderer _meshRenderer;
+    
+    private MeshFilter _shadowMesh;
+    private MeshRenderer _shadowRenderer;
+    
     private MeshRenderer _whiteBack;
 
     private DragableData _dragableData;
@@ -53,7 +57,11 @@ namespace _Project.Scripts.Features.Player.BuhurtModules
     {
       _mesh = GetComponentInChildren<MeshFilter>();
       _meshRenderer = GetComponentInChildren<MeshRenderer>();
-      _whiteBack = GetComponentsInChildren<MeshRenderer>()[1];
+      
+      _shadowMesh = GetComponentsInChildren<MeshFilter>()[1];
+      _shadowRenderer = GetComponentsInChildren<MeshRenderer>()[1];
+      
+      _whiteBack = GetComponentsInChildren<MeshRenderer>()[2];
 
       _frame = GetComponent<Image>();
       _boxCollider = GetComponentInChildren<BoxCollider>();
@@ -80,6 +88,8 @@ namespace _Project.Scripts.Features.Player.BuhurtModules
 
       _mesh.mesh = mesh;
       _mesh.transform.localRotation = Quaternion.Euler(angle);
+      
+      _shadowMesh.mesh = mesh;
     }
 
     public void SetVisibility(bool isOn)
@@ -137,6 +147,7 @@ namespace _Project.Scripts.Features.Player.BuhurtModules
     private void OnStartDrag()
     {
       _frame.enabled = false;
+      _shadowRenderer.enabled = _isBackOn;
       _whiteBack.enabled = _isBackOn;
       _boxCollider.enabled = false;
       _showPotentialTurn.Invoke(_dragablePart);
@@ -147,6 +158,7 @@ namespace _Project.Scripts.Features.Player.BuhurtModules
     private void OnReturn()
     {
       _whiteBack.enabled = false;
+      _shadowRenderer.enabled = false;
       _frame.enabled = _size != SymbolSize.Default;
       _boxCollider.enabled = true;
       _hidePotentials?.Invoke();
