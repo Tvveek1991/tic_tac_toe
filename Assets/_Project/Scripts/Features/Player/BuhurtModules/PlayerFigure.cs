@@ -127,8 +127,8 @@ namespace _Project.Scripts.Features.Player.BuhurtModules
     private void PrepareMaterials(Material material)
     {
       var inactive = new Material(_meshRenderer.material);
-      Color color = material.GetColor(_color);
-      color.a = .4f;
+      var color = new Color32(180, 180, 180, 255); /*material.GetColor(_color);*/
+      // color.a = .4f;
       inactive.SetColor(_color, color);
       inactive.SetTexture(_mainTex, material.GetTexture(_mainTex));
 
