@@ -13,16 +13,18 @@ namespace _Project.Scripts.Features.Field.Mono
   {
     private const float Duration = .5f;
     private const float DurationPotentialTurn = .25f;
+    
+    private readonly int _color = Shader.PropertyToID("_Color");
 
     [SerializeField] private MeshFilter _meshFilter;
     [SerializeField] private MeshRenderer _meshRenderer;
     
-    [SerializeField] private Transform _potentialTurn;
+    [SerializeField] private MeshRenderer _potentialTurn;
     
     private SymbolSign _symbol;
     private SymbolSize _size = SymbolSize.Default;
 
-    private Vector3 _defaultPotentialTurnScale;
+    private float _fadeValue = .75f;
     
     private Image _image;
     
@@ -39,7 +41,7 @@ namespace _Project.Scripts.Features.Field.Mono
 
       _image = GetComponent<Image>();
 
-      _defaultPotentialTurnScale = _potentialTurn.localScale;
+      // _defaultPotentialTurnScale = _potentialTurn.localScale;
 
       _image.DOFade(0f, 0);
       _image.transform.DOScale(0f, 0);
@@ -56,7 +58,7 @@ namespace _Project.Scripts.Features.Field.Mono
       _audioService.Play(AudioId.StandFigure);
 
       if (_image != null)
-        _image.transform.DOPunchScale(-Vector3.one * .3f, .5f, 5);
+        _image.transform.DOPunchScale(-Vector3.one * .1f, .5f, 5);
 
       _symbol = dragableData.GetSymbol();
       _size = dragableData.GetSize();
@@ -66,11 +68,29 @@ namespace _Project.Scripts.Features.Field.Mono
       _onClickCell.Invoke(dragableData);
     }
 
-    public void HideNonPotentialTurn() => 
-      _potentialTurn.DOScale(Vector3.zero, DurationPotentialTurn);
+    public void HideNonPotentialTurn()
+    {
+      DOTween.To(() => _fadeValue, x => _fadeValue = x, 0.1f, DurationPotentialTurn)
+        .OnUpdate(() =>
+        {
+          Color color = _potentialTurn.material.GetColor(_color);
+          color.a = _fadeValue;
+          _potentialTurn.material.SetColor(_color, color);
+        });
+      // _potentialTurn.DOScale(Vector3.zero, DurationPotentialTurn);
+    }
 
-    public void ShowBackPotentialTurn() =>
-      _potentialTurn.DOScale(_defaultPotentialTurnScale, DurationPotentialTurn);
+    public void ShowBackPotentialTurn()
+    {
+      DOTween.To(() => _fadeValue, x => _fadeValue = x, .75f, DurationPotentialTurn)
+        .OnUpdate(() =>
+        {
+          Color color = _potentialTurn.material.GetColor(_color);
+          color.a = _fadeValue;
+          _potentialTurn.material.SetColor(_color, color);
+        });
+      // _potentialTurn.DOScale(_defaultPotentialTurnScale, DurationPotentialTurn);
+    }
 
     public void ShowCell(float delay)
     {

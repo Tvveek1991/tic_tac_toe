@@ -87,7 +87,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _meshFilter: {fileID: 5423901051383030224}
   _meshRenderer: {fileID: 2134748523967339447}
-  _potentialTurn: {fileID: 7498052116828326471}
+  _potentialTurn: {fileID: 9119350075450880984}
 --- !u!65 &7820690283926990606
 BoxCollider:
   m_ObjectHideFlags: 0
