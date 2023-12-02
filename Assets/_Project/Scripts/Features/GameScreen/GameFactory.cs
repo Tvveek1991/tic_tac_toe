@@ -11,13 +11,13 @@ using _Project.Scripts.Features.Player;
 using _Project.Scripts.Services._Interfaces;
 using _Project.Scripts.Services.Localization.Logic;
 using UnityEngine;
-using UnityEngine.Animations;
 
 namespace _Project.Scripts.Features.GameScreen
 {
   public class GameFactory : GameObjectFactory, IGameFactory
   {
     private const string CanvasPath = "Canvas";
+    private const string ScreensCanvasPath = "Popup Canvas/Screens";
     private const string PopupCanvasPath = "Popup Canvas";
 
     private const string ClassicPlayerPath = "Features/Player/Classic Player";
@@ -27,7 +27,8 @@ namespace _Project.Scripts.Features.GameScreen
     private const string GameFieldPath = "Features/GameScreen/Fields/Game Field";
     private const string EndGameScreenPath = "Features/GameScreen/End Game Screen";
     private const string WarningViewPath = "Features/GameScreen/Warning View";
-    
+    private const string PlayersPreparingPath = "Features/Windows/PlayersPreparing";
+
     private readonly IAudioService _audioService;
     private readonly ILocaleSystem _localeSystem;
     private readonly IInputResolver _inputResolver;
@@ -37,13 +38,15 @@ namespace _Project.Scripts.Features.GameScreen
 
     private readonly Transform _canvasParent;
     private readonly Transform _popupCanvasParent;
+    private readonly Transform _screensCanvasParent;
 
     public WarningView WarningView { get; private set; }
+    public PreparingMono PreparingMono { get; private set; }
     public BasePlayerViewMono PlayerViewMono { get; private set; }
     public IGameFieldLogic GameFieldLogic { get; private set; }
     public IGameViewLogic GameViewLogic { get; private set; }
     public IEndGameLogic EndGameLogic { get; private set; }
-    
+
     private GameViewMono GameViewMono { get; set; }
     private GameField GameField { get; set; }
     private EndGameMono EndGameWindow { get; set; }
@@ -61,19 +64,25 @@ namespace _Project.Scripts.Features.GameScreen
 
       _dictionaryGameMode = new Dictionary<EnemyType, Action>
       {
-        {EnemyType.Bot, () => GameViewLogic = new BotGameViewLogic(GameViewMono, this, localeSystem, 
-          _gameMetaProvider, _audioService, inputResolver, assetProvider, gameSaveSystem)},
-        {EnemyType.OneDevice, () => GameViewLogic = new OneDeviceGameViewLogic(GameViewMono, this, localeSystem, 
-          _gameMetaProvider, _audioService, inputResolver, assetProvider, gameSaveSystem)},
+        {
+          EnemyType.Bot, () => GameViewLogic = new BotGameViewLogic(GameViewMono, PreparingMono, this, localeSystem,
+            _gameMetaProvider, _audioService, inputResolver, assetProvider, gameSaveSystem)
+        },
+        {
+          EnemyType.OneDevice, () => GameViewLogic = new OneDeviceGameViewLogic(GameViewMono, this, localeSystem,
+            _gameMetaProvider, _audioService, inputResolver, assetProvider, gameSaveSystem)
+        },
       };
-      
+
       _canvasParent = GameObject.Find(CanvasPath).transform;
       _popupCanvasParent = GameObject.Find(PopupCanvasPath).transform;
+      _screensCanvasParent = GameObject.Find(ScreensCanvasPath).transform;
     }
 
     public void CreateScreen()
     {
       GameViewMono = Create<GameViewMono>(GameViewPath, _canvasParent);
+      PreparingMono = Create<PreparingMono>(PlayersPreparingPath, _screensCanvasParent);
       _dictionaryGameMode[_gameMetaProvider.GetEnemyType()].Invoke();
     }
 
@@ -85,12 +94,12 @@ namespace _Project.Scripts.Features.GameScreen
 
     public void CreateEndGame()
     {
-      EndGameWindow = Create<EndGameMono>(EndGameScreenPath, _popupCanvasParent);
+      EndGameWindow = Create<EndGameMono>(EndGameScreenPath, _screensCanvasParent);
       EndGameLogic = new EndGameLogic(EndGameWindow, _audioService, _localeSystem, _gameMetaProvider);
     }
 
-    public void CreateWarningView() => 
-      WarningView = Create<WarningView>(WarningViewPath, _popupCanvasParent);
+    public void CreateWarningView() =>
+      WarningView = Create<WarningView>(WarningViewPath, _screensCanvasParent);
 
     public void SpawnPlayerObject()
     {
@@ -105,6 +114,12 @@ namespace _Project.Scripts.Features.GameScreen
       {
         Clear(GameViewMono.gameObject);
         GameViewMono = null;
+      }
+
+      if (PreparingMono != null)
+      {
+        Clear(PreparingMono.gameObject);
+        PreparingMono = null;
       }
 
       if (GameField != null)
@@ -124,7 +139,7 @@ namespace _Project.Scripts.Features.GameScreen
         Clear(PlayerViewMono.gameObject);
         PlayerViewMono = null;
       }
-      
+
       if (WarningView != null)
       {
         Clear(WarningView.gameObject);

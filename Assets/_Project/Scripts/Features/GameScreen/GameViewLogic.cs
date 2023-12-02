@@ -13,7 +13,6 @@ using _Project.Scripts.Features.Tutorial;
 using _Project.Scripts.Services._Interfaces;
 using _Project.Scripts.Services.Audio.Enum;
 using _Project.Scripts.Services.Localization.Logic;
-using _Project.Scripts.Services.Localization.Mono;
 using DG.Tweening;
 using Sirenix.Utilities;
 
@@ -27,6 +26,7 @@ namespace _Project.Scripts.Features.GameScreen
     private const int FieldSizeY = 3;
 
     protected readonly IGameFactory GameFactory;
+    protected readonly ILocaleSystem LocaleSystem;
     protected readonly IInputResolver InputResolver;
     protected readonly IGameMetaProvider GameMetaProvider;
 
@@ -40,7 +40,6 @@ namespace _Project.Scripts.Features.GameScreen
 
     private readonly IGameSaveSystem _gameSaveSystem;
     private readonly IAssetProvider _assetProvider;
-    private readonly ILocaleSystem _localeSystem;
     private readonly IAudioService _audioService;
 
     private readonly GameViewMono _gameViewMono;
@@ -49,17 +48,17 @@ namespace _Project.Scripts.Features.GameScreen
 
     public IDragDrop DragDrop { get; private set; }
 
-    protected GameViewLogic(GameViewMono gameViewMono, IGameFactory gameFactory, ILocaleSystem localeSystem, IGameMetaProvider gameMetaProvider,
-      IAudioService audioService, IInputResolver inputResolver, IAssetProvider assetProvider, IGameSaveSystem gameSaveSystem)
+    protected GameViewLogic(GameViewMono gameViewMono, IGameFactory gameFactory, ILocaleSystem localeSystem,
+      IGameMetaProvider gameMetaProvider, IAudioService audioService, IInputResolver inputResolver, IAssetProvider assetProvider, IGameSaveSystem gameSaveSystem)
     {
       _gameViewMono = gameViewMono;
 
       _gameSaveSystem = gameSaveSystem;
       _assetProvider = assetProvider;
-      _localeSystem = localeSystem;
       _audioService = audioService;
 
       GameFactory = gameFactory;
+      LocaleSystem = localeSystem;
       InputResolver = inputResolver;
       GameMetaProvider = gameMetaProvider;
 
@@ -89,15 +88,14 @@ namespace _Project.Scripts.Features.GameScreen
       RefreshAfterChangeTurn(SymbolSign.X);
     }
 
-    public virtual void StartGame() =>
-      GameFactory.GameFieldLogic.Show(null);
+    public virtual void StartGame() { }
 
     private void CreateTutorial()
     {
       if (GameMetaProvider.GetGame() != Game.Buhurt)
         return;
 
-      _tutorialLogic = new TutorialLogic(_assetProvider, _localeSystem, _gameSaveSystem);
+      _tutorialLogic = new TutorialLogic(_assetProvider, LocaleSystem, _gameSaveSystem);
       _tutorialLogic.Construct();
 
       _gameViewMono.TutorialButton.onClick.AddListener(() => _tutorialLogic.SetActivity(true));
@@ -151,7 +149,7 @@ namespace _Project.Scripts.Features.GameScreen
       _gameViewMono.PlayerCanvasGroup.DOFade(isMainPlayer ? 1f : .1f, Duration);
 
       _gameViewMono.GetFigures(true).ForEach(item => item.SetVisibility(!isMainPlayer && !IsEnemyEqual(EnemyType.Bot)));
-      _gameViewMono.OpponentCanvasGroup.DOFade(!isMainPlayer && !IsEnemyEqual(EnemyType.Bot)  ? 1f : .1f, Duration);
+      _gameViewMono.OpponentCanvasGroup.DOFade(!isMainPlayer && !IsEnemyEqual(EnemyType.Bot) ? 1f : .1f, Duration);
     }
 
     protected void RefreshAfterChangeTurn(SymbolSign nextSign)
@@ -235,7 +233,7 @@ namespace _Project.Scripts.Features.GameScreen
       {
         if (item.GetSize() < dragablePart.GetDragableData().GetSize() && item.GetSymbol() != dragablePart.GetDragableData().GetSymbol())
           return;
-        
+
         item.HideNonPotentialTurn();
       });
     }
@@ -284,8 +282,8 @@ namespace _Project.Scripts.Features.GameScreen
     private bool CheckLastFiguresSymbol() =>
       FiguresState[SymbolSign.X].Count(size => size == SymbolSize.Default) + FiguresState[SymbolSign.O].Count(size => size == SymbolSize.Default) == 9
       && (FiguresState[SymbolSign.X].Contains(SymbolSize.Tiny) || FiguresState[SymbolSign.O].Contains(SymbolSize.Tiny));
-    
-    private bool IsEnemyEqual(EnemyType type) => 
+
+    private bool IsEnemyEqual(EnemyType type) =>
       GameMetaProvider.GetEnemyType() == type;
   }
 }

@@ -9,23 +9,32 @@ namespace _Project.Scripts.Features.GameScreen
   public class BotGameViewLogic : GameViewLogic
   {
     private readonly Bot _bot;
+    private readonly PreparingMono _preparingMono;
 
-    public BotGameViewLogic(GameViewMono gameViewMono, IGameFactory gameFactory, ILocaleSystem localeSystem, IGameMetaProvider gameMetaProvider,
-      IAudioService audioService, IInputResolver inputResolver, IAssetProvider assetProvider, IGameSaveSystem gameSaveSystem)
+    public BotGameViewLogic(GameViewMono gameViewMono, PreparingMono preparingMono, IGameFactory gameFactory, ILocaleSystem localeSystem,
+      IGameMetaProvider gameMetaProvider, IAudioService audioService, IInputResolver inputResolver, IAssetProvider assetProvider, 
+      IGameSaveSystem gameSaveSystem)
       : base(gameViewMono, gameFactory, localeSystem, gameMetaProvider, audioService, inputResolver, assetProvider, gameSaveSystem)
     {
+      _preparingMono = preparingMono;
+      
       _bot = GameMetaProvider.GetGame() == Game.Classic ? new ClassicBot(gameFactory, gameMetaProvider) : new BuhurtBot(gameFactory, gameMetaProvider, FiguresState);
       _bot.Construct();
     }
 
     public override void StartGame()
     {
-      GameFactory.GameFieldLogic.Show(() =>
+      _preparingMono.Construct(GameMetaProvider, LocaleSystem, () =>
       {
-        if (GameMetaProvider.GetPlayerView().GetSymbol() == SymbolSign.O)
-          BotTurn();
+        GameFactory.GameFieldLogic.Show(null);
+        InputResolver.Enable();
+        
+        GameFactory.GameFieldLogic.Show(() =>
+        {
+          if (GameMetaProvider.GetPlayerView().GetSymbol() == SymbolSign.O)
+            BotTurn();
+        });
       });
-      
     }
 
     public override void ChangeTurningPlayer(SymbolSign activeSign)

@@ -1,6 +1,5 @@
 using System;
 using _Project.Scripts.Services._Interfaces;
-using _Project.Scripts.Services.Localization.Logic;
 
 namespace _Project.Scripts.Features.Loading
 {
@@ -8,14 +7,13 @@ namespace _Project.Scripts.Features.Loading
   {
     private readonly ILoadingFactory _loadingFactory;
 
-    public LoadingLogic(IAssetProvider assetProvider, IGameMetaProvider gameMetaProvider, ILocaleSystem localeSystem) => 
-      _loadingFactory = new LoadingFactory(assetProvider, gameMetaProvider, localeSystem);
+    public LoadingLogic(IAssetProvider assetProvider) => 
+      _loadingFactory = new LoadingFactory(assetProvider);
 
     public void Enter(Action onEnd) => 
       _loadingFactory.CreateScreen(() =>
       {
         onEnd?.Invoke();
-        Exit();
       });
 
     public void Exit() => 

@@ -3,6 +3,7 @@ using _Project.Scripts.Core_Logic.StatesMachine.Interfaces;
 using _Project.Scripts.Core_Logic.StatesMachine.States;
 using _Project.Scripts.Features.Data;
 using _Project.Scripts.Features.DisableAds;
+using _Project.Scripts.Features.Loading;
 using _Project.Scripts.Features.Policy;
 using _Project.Scripts.Services._Interfaces;
 using _Project.Scripts.Services.Localization.Logic;
@@ -24,6 +25,7 @@ namespace _Project.Scripts.Features.HomeScreen
     private readonly IRemote _remote;
     private readonly IAnalytics _analytics;
     private readonly IAdsService _adsService;
+    private readonly ILoadingLogic _loadingLogic;
     private readonly ILocaleSystem _localeSystem;
     private readonly IAudioService _audioService;
     private readonly IInAppService _inAppService;
@@ -41,11 +43,12 @@ namespace _Project.Scripts.Features.HomeScreen
     
     public HomeLogic(IGameStateMachine gameStateMachine, IAssetProvider assetProvider, ICurrentScreen currentScreen,
       IGameSaveSystem gameSaveSystem, IAdsService adsService, IAnalytics analytics, ILocaleSystem localeSystem, IAudioService audioService, 
-      IRemote remote, IGameMetaProvider gameMetaProvider, IInAppService inAppService, IUnlockService unlockService)
+      IRemote remote, IGameMetaProvider gameMetaProvider, IInAppService inAppService, IUnlockService unlockService, ILoadingLogic loadingLogic)
     {
       _remote = remote;
       _analytics = analytics;
       _adsService = adsService;
+      _loadingLogic = loadingLogic;
       _localeSystem = localeSystem;
       _audioService = audioService;
       _inAppService = inAppService;
@@ -112,10 +115,12 @@ namespace _Project.Scripts.Features.HomeScreen
     private void ToGame()
     {
       // _gameMetaProvider.ClearScore();
-      
-      _adsService.CurrentInterstitial.ShowInterstitial(ScreenNames.Game,
-        () => _gameStateMachine.Enter<LoadGameState>(),
-        () => _gameStateMachine.Enter<LoadGameState>());
+      _loadingLogic.Enter(() =>
+      {
+        _adsService.CurrentInterstitial.ShowInterstitial(ScreenNames.Game,
+          () => _gameStateMachine.Enter<LoadGameState>(),
+          () => _gameStateMachine.Enter<LoadGameState>());
+      });
     }
 
     private void ToNoAds()

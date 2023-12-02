@@ -21,7 +21,7 @@ namespace _Project.Scripts.Features.GameScreen
     private readonly IGameStateMachine _gameStateMachine;
 
     public GameLogic(IGameStateMachine gameStateMachine, IAssetProvider assetProvider, IAdsService adsService, ILocaleSystem localeSystem,
-      IAudioService audioService, IGameMetaProvider gameMetaProvider, IInputResolver inputResolver, ILoadingLogic loadingLogic, IGameSaveSystem gameSaveSystem)
+      IAudioService audioService, IGameMetaProvider gameMetaProvider, IInputResolver inputResolver, IGameSaveSystem gameSaveSystem, ILoadingLogic loadingLogic)
     {
       _adsService = adsService;
       _loadingLogic = loadingLogic;
@@ -37,19 +37,7 @@ namespace _Project.Scripts.Features.GameScreen
       _inputResolver.Disable();
       
       LoadGame();
-      
-      if (_gameMetaProvider.GetEnemyType() == EnemyType.OneDevice)
-      {
-        _gameFactory.GameViewLogic.StartGame();
-        _inputResolver.Enable();
-        return;
-      }
-      
-      _loadingLogic.Enter(() =>
-      {
-        _gameFactory.GameViewLogic.StartGame();
-        _inputResolver.Enable();
-      });
+      _gameFactory.GameViewLogic.StartGame();
     }
 
     public void Exit()
@@ -71,11 +59,14 @@ namespace _Project.Scripts.Features.GameScreen
 
     private void OnClickBack()
     {
-      _gameMetaProvider.ClearScore();
+      _loadingLogic.Enter(() =>
+      {
+        _gameMetaProvider.ClearScore();
+        _adsService.CurrentInterstitial.ShowInterstitial(ScreenNames.Home,
+          _gameStateMachine.Enter<LoadHomeState>,
+          _gameStateMachine.Enter<LoadHomeState>);
+      });
       
-      _adsService.CurrentInterstitial.ShowInterstitial(ScreenNames.Home,
-        _gameStateMachine.Enter<LoadHomeState>,
-        _gameStateMachine.Enter<LoadHomeState>);
     }
     
     private void OnClickPlayAgain()

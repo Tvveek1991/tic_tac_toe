@@ -1,6 +1,7 @@
 using _Project.Scripts.Features.EndGameScreen;
 using _Project.Scripts.Features.Field;
 using _Project.Scripts.Features.GameScreen.Mono;
+using _Project.Scripts.Features.Loading;
 using _Project.Scripts.Features.Player;
 
 namespace _Project.Scripts.Features.GameScreen
@@ -8,6 +9,7 @@ namespace _Project.Scripts.Features.GameScreen
   public interface IGameFactory
   {
     WarningView WarningView { get; }
+    PreparingMono PreparingMono { get; }
     BasePlayerViewMono PlayerViewMono { get; }
     void CreateScreen();
     void CreateField();

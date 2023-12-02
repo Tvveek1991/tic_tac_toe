@@ -163,7 +163,7 @@ GameObject:
   - component: {fileID: 2449765257578937582}
   - component: {fileID: 2449765257578937576}
   - component: {fileID: 2449765257578937577}
-  - component: {fileID: 9136759529019863509}
+  - component: {fileID: 410263719333602533}
   - component: {fileID: 6903654437569149006}
   - component: {fileID: -351890588478717264}
   m_Layer: 5
@@ -232,7 +232,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &9136759529019863509
+--- !u!114 &410263719333602533
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -241,17 +241,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 2449765257578937583}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a2dbb1c1dcd08cb47b6c42069025c7b4, type: 3}
+  m_Script: {fileID: 11500000, guid: efcbfc500e490914696d64aee814cbcd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _title: {fileID: 0}
   CanvasGroup: {fileID: 6903654437569149006}
-  RollingFirstTurn: {fileID: 0}
-  Loading: {fileID: 0}
-  Arrow: {fileID: 0}
-  StartButton: {fileID: 0}
-  SecondPlayer: {fileID: 0}
-  FirstPlayer: {fileID: 0}
+  Icon: {fileID: 7168329899099823568}
 --- !u!225 &6903654437569149006
 CanvasGroup:
   m_ObjectHideFlags: 0
