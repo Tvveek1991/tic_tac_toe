@@ -9,7 +9,7 @@ namespace _Project.Scripts.Features.Loading
   public class LoadingFactory : GameObjectFactory, ILoadingFactory
   {
     private const string BaseCanvas = "Popup Canvas";
-    private const string LoadingPrefabPath = "Features/Windows/Loading";
+    private const string LoadingPrefabPath = "Features/Windows/PlayersPreparing";
 
     private readonly ILocaleSystem _localeSystem;
     private readonly IGameMetaProvider _gameMetaProvider;
