@@ -14,13 +14,10 @@ namespace _Project.Scripts.Features
 
     private const string BaseCanvas = "Canvas";
 
-    private readonly IAssetProvider _assetProvider;
-
     public SettingsView SettingsView { get; private set;}
     public NotLoadedWindow NoInternetView { get; private set;}
 
-    public UiFactory(IAssetProvider assetProvider) : base(assetProvider) => 
-      _assetProvider = assetProvider;
+    public UiFactory(IAssetProvider assetProvider) : base(assetProvider) {}
 
     public void CreateSettingsView()
     {

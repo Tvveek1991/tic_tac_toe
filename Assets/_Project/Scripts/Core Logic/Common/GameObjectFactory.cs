@@ -7,10 +7,8 @@ namespace _Project.Scripts.Core_Logic.Common
   {
     private readonly IAssetProvider _assetProvider;
 
-    protected GameObjectFactory(IAssetProvider assetProvider)
-    {
+    protected GameObjectFactory(IAssetProvider assetProvider) => 
       _assetProvider = assetProvider;
-    }
 
     protected T Create<T>(string prefabPath) where T : MonoBehaviour
     {
