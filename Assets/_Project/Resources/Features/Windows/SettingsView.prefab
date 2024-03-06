@@ -2041,12 +2041,12 @@ GameObject:
   - component: {fileID: 168954401464908603}
   - component: {fileID: 5403461735727478486}
   - component: {fileID: 2310668444785203119}
-  - component: {fileID: -3654934903112860761}
+  - component: {fileID: 7451164523926283908}
   - component: {fileID: 2528435929916225642}
   - component: {fileID: 4841529299995275600}
   - component: {fileID: 2197808165335242957}
   m_Layer: 5
-  m_Name: SettingsWindow
+  m_Name: SettingsView
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2111,7 +2111,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &-3654934903112860761
+--- !u!114 &7451164523926283908
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2120,10 +2120,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 5598431749613021858}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dc84a3b9598283f43aa29a3b7e51c30c, type: 3}
+  m_Script: {fileID: 11500000, guid: 6aefcd80b715af6429b15ec4e935a757, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Background: {fileID: 4192141699666062438}
+  Background: {fileID: 3647720650178258117}
   ButtonBack: {fileID: 5646391499037765844}
   ButtonPrivacyPolicy: {fileID: 4396465577909856434}
   ButtonRate: {fileID: 982313642922138400}
@@ -2132,14 +2132,9 @@ MonoBehaviour:
   ButtonSound: {fileID: 585498651594433857}
   ButtonHints: {fileID: 8095208283977905010}
   Screen: {fileID: 2528435929916225642}
-  IconMusic: {fileID: 2720400286754513359}
-  IconSound: {fileID: 5890628685258275677}
   SwitcherMusic: {fileID: 2067411976808393041}
   SwitcherSound: {fileID: 8178457011048600704}
   SwitcherHints: {fileID: 5135540824572878859}
-  Active: {fileID: 21300000, guid: 4c69db43dbd474a2987be5807129b4cc, type: 3}
-  Inactive: {fileID: 21300000, guid: 898f886a39d714db5b90d2c36676c894, type: 3}
-  InactiveColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!114 &2528435929916225642
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2697,7 +2692,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 328, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 656, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &6873142654501490527
@@ -2927,7 +2922,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 328, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 656, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &5713043775323399571

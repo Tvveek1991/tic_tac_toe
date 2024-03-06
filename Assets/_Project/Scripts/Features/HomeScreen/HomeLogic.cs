@@ -5,6 +5,7 @@ using _Project.Scripts.Features.Data;
 using _Project.Scripts.Features.DisableAds;
 using _Project.Scripts.Features.Loading;
 using _Project.Scripts.Features.Policy;
+using _Project.Scripts.Features.Settings;
 using _Project.Scripts.Services._Interfaces;
 using _Project.Scripts.Services.Localization.Logic;
 using _Project.Scripts.Services.Unlocker;
@@ -37,6 +38,7 @@ namespace _Project.Scripts.Features.HomeScreen
 
     private readonly GameCustomData[] _gameCustomsData;
     
+    private SettingsLogic _settingsLogic;
     private DisableAdsLogic _disableAdsLogic;
 
     private string _ipAddress;
@@ -64,28 +66,17 @@ namespace _Project.Scripts.Features.HomeScreen
       _gameCustomsData = assetProvider.GetAllResources<GameCustomData>(GameDataPath);
     }
     
-    public void CreateHomeView()
+    public void Enter()
     {
       _currentScreen.SetCurrentScreen(ScreenNames.Home);
       
       UnlockFree();
 
-      _homeFactory.CreateHomeView();
-      _homeFactory.HomeViewLogic.Construct(OpenSettingsWindow, ToShop, ToGame, ToNoAds);
-
-      IPrivacyPolicyFactory privacyPolicyFactory = new PrivacyPolicyFactory(_assetProvider);
-
-      _uiFactory.SpawnSettingsWindow();
-      _uiFactory.SettingsWindow.Construct(_gameStateMachine, _gameSaveSystem, _audioService, _localeSystem,
-        _analytics, privacyPolicyFactory, _currentScreen, _remote);
-
+      CreateHomeView();
+      CreateSettings();
       CheckNetwork();
+      CreateDisableAdsPopup();
 
-      _disableAdsLogic = new DisableAdsLogic(_assetProvider, _gameSaveSystem, _analytics, _adsService, _localeSystem, _inAppService, _audioService, delegate { Debug.Log("OnDisable"); },
-        delegate { Debug.Log("OnSwitchDisableAds"); });
-      
-      _inAppService.AddInAppCallback(_disableAdsLogic);
-      
       _adsService.Banner.HideBanner();
     }
 
@@ -93,8 +84,31 @@ namespace _Project.Scripts.Features.HomeScreen
     {
       _disableAdsLogic?.Cleanup();
 
+      _settingsLogic.Clear();
       _homeFactory.ClearHomeView();
       _uiFactory.ClearSettingsWindow();
+    }
+
+    private void CreateHomeView()
+    {
+      _homeFactory.CreateHomeView();
+      _homeFactory.HomeViewLogic.Construct(OpenSettingsWindow, ToShop, ToGame, ToNoAds);
+    }
+
+    private void CreateDisableAdsPopup()
+    {
+      _disableAdsLogic = new DisableAdsLogic(_assetProvider, _gameSaveSystem, _analytics, _adsService, _localeSystem, _inAppService,
+        _audioService, delegate { Debug.Log("OnDisable"); }, delegate { Debug.Log("OnSwitchDisableAds"); });
+      _inAppService.AddInAppCallback(_disableAdsLogic);
+    }
+
+    private void CreateSettings()
+    {
+      _uiFactory.CreateSettingsView();
+      
+      _settingsLogic = new SettingsLogic(_uiFactory.SettingsView, _gameStateMachine, _gameSaveSystem, _audioService, _localeSystem,
+        _analytics, _assetProvider, _currentScreen, _remote);
+      _settingsLogic.Construct();
     }
 
     private void CheckNetwork()
@@ -114,7 +128,6 @@ namespace _Project.Scripts.Features.HomeScreen
 
     private void ToGame()
     {
-      // _gameMetaProvider.ClearScore();
       _loadingLogic.Enter(() =>
       {
         _adsService.CurrentInterstitial.ShowInterstitial(ScreenNames.Game,
@@ -132,7 +145,7 @@ namespace _Project.Scripts.Features.HomeScreen
     private void OpenSettingsWindow()
     {
       _analytics.Send("btn_setting");
-      _uiFactory.SettingsWindow.OpenWindow();
+      _settingsLogic.OpenWindow();
     }
     
     private void UnlockFree()
