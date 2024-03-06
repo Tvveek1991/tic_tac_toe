@@ -1,3 +1,4 @@
+using _Project.Scripts.Core_Logic.Common;
 using _Project.Scripts.Features.ScrollView;
 using _Project.Scripts.Features.ShopScreen.Mono;
 using _Project.Scripts.Services._Interfaces;
@@ -5,7 +6,7 @@ using UnityEngine;
 
 namespace _Project.Scripts.Features.ShopScreen
 {
-  public class ShopFactory : IShopFactory
+  public class ShopFactory : GameObjectFactory, IShopFactory
   {
     private const string ShopPath = "Features/ShopScreen/Shop Window";
 
@@ -16,28 +17,25 @@ namespace _Project.Scripts.Features.ShopScreen
 
     private readonly IAssetProvider _assetProvider;
 
-    public ShopFactory(IAssetProvider assetProvider)
-    {
-      _assetProvider = assetProvider;
-    }
+    public ShopFactory(IAssetProvider assetProvider) : base(assetProvider){}
 
     public ShopView CreateShopView()
     {
       Transform parent = GameObject.Find(BaseCanvas).transform;
 
-      var homeScreen = _assetProvider.GetResource<ShopView>(ShopPath);
+      var homeScreen = Create<ShopView>(ShopPath);
       return Object.Instantiate(homeScreen, parent);
     }
 
     public ScrollViewItemsView CreateItemsView(Transform parent)
     {
-      var homeScreen = _assetProvider.GetResource<ScrollViewItemsView>(ItemsViewPath);
+      var homeScreen =  Create<ScrollViewItemsView>(ItemsViewPath);
       return Object.Instantiate(homeScreen, parent);
     }
 
     public ScrollViewItemButton CreateItemButton(Transform parent)
     {
-      var homeScreen = _assetProvider.GetResource<ScrollViewItemButton>(ItemButtonPath);
+      var homeScreen = Create<ScrollViewItemButton>(ItemButtonPath);
       return Object.Instantiate(homeScreen, parent);
     }
   }

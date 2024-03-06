@@ -47,7 +47,6 @@ namespace _Project.Scripts.Features.ShopScreen
     private readonly Dictionary<ItemType, ScrollViewItemsView> _shopItemsView = new();
     private readonly Dictionary<ItemType, ScrollViewItemButton[]> _shopItemButtons = new();
 
-    private readonly ShopItemData[] _shopItemData;
     private readonly ShopTypeData[] _shopTypesData;
 
     private IContentViewLogic _contentViewLogic;
@@ -71,12 +70,12 @@ namespace _Project.Scripts.Features.ShopScreen
 
       _shopFactory = new ShopFactory(assetProvider);
 
-      _shopItemData = assetProvider.GetAllResources<ShopItemData>(ShopItemDataPath);
+      ShopItemData[] shopItemData = assetProvider.GetAllResources<ShopItemData>(ShopItemDataPath);
       _shopTypesData = assetProvider.GetAllResources<ShopTypeData>(ShopTypeDataPath);
 
       foreach (ShopTypeData typeData in _shopTypesData)
       {
-        ShopItemData[] itemsData = _shopItemData?.Where(item => item.ItemType == typeData.Type).ToArray();
+        ShopItemData[] itemsData = shopItemData?.Where(item => item.ItemType == typeData.Type).ToArray();
         _itemsDataMap.Add(typeData.Type, itemsData);
       }
 
