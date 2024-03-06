@@ -12,17 +12,17 @@ namespace _Project.Scripts.Features.DragAndDrop.Serialized
       transform.localRotation = placeData.Rotation;
       transform.localScale = placeData.LocalScale;
     }
-    
+
     public static void DoPlaceData(this Transform transform, PlaceData placeData, float duration, Action onEnd)
     {
       transform.DOLocalMove(placeData.Position, duration);
-      transform.DOLocalRotate(placeData.Rotation.eulerAngles, duration).SetEase(Ease.OutExpo).onComplete += () => {onEnd?.Invoke();};
+      transform.DOLocalRotate(placeData.Rotation.eulerAngles, duration).SetEase(Ease.OutExpo).onComplete += () => { onEnd?.Invoke(); };
       transform.DOScale(placeData.LocalScale, duration);
     }
-    
+
     public static PlaceData GetPlaceData(this Transform transform)
     {
-      return new PlaceData()
+      return new()
       {
         Position = transform.localPosition,
         Rotation = transform.localRotation,

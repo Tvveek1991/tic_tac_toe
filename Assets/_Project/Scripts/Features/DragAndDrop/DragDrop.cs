@@ -23,7 +23,7 @@ namespace _Project.Scripts.Features.DragAndDrop
     {
       set
       {
-        value.z = 0;
+        value.z = -5;
         CurrentActiveDragPart.transform.position = value;
       }
       get => CurrentActiveDragPart.transform.position;

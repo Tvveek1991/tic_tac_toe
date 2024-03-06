@@ -5,7 +5,7 @@ using DG.Tweening.Core;
 using DG.Tweening.Plugins.Options;
 using UnityEngine;
 
-namespace _Project.Scripts.Animations.UI
+namespace _Project.Scripts.Animation
 {
   public class FadeCanvasGroup
   {

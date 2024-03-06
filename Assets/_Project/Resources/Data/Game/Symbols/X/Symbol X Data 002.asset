@@ -12,22 +12,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5b5ec39ba2530e4e80867090a5250c9, type: 3}
   m_Name: Symbol X Data 002
   m_EditorClassIdentifier: 
-  Id: 4ec6d87e-2a4a-41a0-ad00-af34d758fcdd
-  Name: ZeroX
+  Id: 2b3cebf3-7c5e-456f-bbac-905c42c59015
+  Name: DiceX
   Description: 
   _itemType: 0
-  _meshClassic: {fileID: 399550195671657263, guid: be1dd3e5ea761ef47ba1ba843fae6635, type: 3}
-  _materialClassic: {fileID: 2100000, guid: 9ab957ab3d704dc42aecb2a92b842ed6, type: 2}
+  _meshClassic: {fileID: -5495902117074765545, guid: 8ccfc167c0f8c6447b5270b825f2300f, type: 3}
+  _materialClassic: {fileID: 2100000, guid: cbb7566f1f4aa3248b9d68a3212d7457, type: 2}
   _meshBuhurt:
-  - {fileID: 399550195671657263, guid: be1dd3e5ea761ef47ba1ba843fae6635, type: 3}
-  - {fileID: 6011809011165250197, guid: be1dd3e5ea761ef47ba1ba843fae6635, type: 3}
-  - {fileID: -1429219403518120334, guid: be1dd3e5ea761ef47ba1ba843fae6635, type: 3}
-  - {fileID: -7426737757391274571, guid: be1dd3e5ea761ef47ba1ba843fae6635, type: 3}
-  - {fileID: 4380242030400289872, guid: be1dd3e5ea761ef47ba1ba843fae6635, type: 3}
+  - {fileID: -5495902117074765545, guid: 8ccfc167c0f8c6447b5270b825f2300f, type: 3}
+  - {fileID: -5495902117074765545, guid: 8ccfc167c0f8c6447b5270b825f2300f, type: 3}
+  - {fileID: -5495902117074765545, guid: 8ccfc167c0f8c6447b5270b825f2300f, type: 3}
+  - {fileID: -5495902117074765545, guid: 8ccfc167c0f8c6447b5270b825f2300f, type: 3}
+  - {fileID: -5495902117074765545, guid: 8ccfc167c0f8c6447b5270b825f2300f, type: 3}
   _materialBuhurt:
-  - {fileID: 2100000, guid: 9ab957ab3d704dc42aecb2a92b842ed6, type: 2}
-  - {fileID: 2100000, guid: 9ab957ab3d704dc42aecb2a92b842ed6, type: 2}
-  - {fileID: 2100000, guid: 9ab957ab3d704dc42aecb2a92b842ed6, type: 2}
-  - {fileID: 2100000, guid: 9ab957ab3d704dc42aecb2a92b842ed6, type: 2}
-  - {fileID: 2100000, guid: 9ab957ab3d704dc42aecb2a92b842ed6, type: 2}
-  _icon: {fileID: 21300000, guid: 567787ab75ddbdb438a14598c07d87be, type: 3}
+  - {fileID: 2100000, guid: cbb7566f1f4aa3248b9d68a3212d7457, type: 2}
+  - {fileID: 2100000, guid: cbb7566f1f4aa3248b9d68a3212d7457, type: 2}
+  - {fileID: 2100000, guid: cbb7566f1f4aa3248b9d68a3212d7457, type: 2}
+  - {fileID: 2100000, guid: cbb7566f1f4aa3248b9d68a3212d7457, type: 2}
+  - {fileID: 2100000, guid: cbb7566f1f4aa3248b9d68a3212d7457, type: 2}
+  _rotateAngle:
+  - {x: 0, y: -90, z: -90}
+  - {x: 0, y: 90, z: 0}
+  - {x: 0, y: 180, z: 0}
+  - {x: 0, y: 1, z: -90}
+  - {x: -90, y: 0, z: -90}
+  _symbolPosition: {x: 0, y: -80, z: -90}
+  _animationAngle: {x: -30, y: 0, z: 0}
+  _icon: {fileID: 21300000, guid: 1903644d718844749b14d9a8208dce21, type: 3}

@@ -17,67 +17,95 @@ namespace _Project.Scripts.Features.GameScreen
   public class GameFactory : GameObjectFactory, IGameFactory
   {
     private const string CanvasPath = "Canvas";
+    private const string ScreensCanvasPath = "Popup Canvas/Screens";
+    private const string PopupCanvasPath = "Popup Canvas";
 
     private const string ClassicPlayerPath = "Features/Player/Classic Player";
     private const string BuhurtPlayerPath = "Features/Player/Buhurt Player";
-    
+
     private const string GameViewPath = "Features/GameScreen/Game Window";
     private const string GameFieldPath = "Features/GameScreen/Fields/Game Field";
     private const string EndGameScreenPath = "Features/GameScreen/End Game Screen";
+    private const string WarningViewPath = "Features/GameScreen/Warning View";
+    private const string PlayersPreparingPath = "Features/Windows/PlayersPreparing";
+
+    private readonly IAudioService _audioService;
+    private readonly ILocaleSystem _localeSystem;
+    private readonly IInputResolver _inputResolver;
+    private readonly IGameMetaProvider _gameMetaProvider;
+
+    private readonly Dictionary<EnemyType, Action> _dictionaryGameMode;
+
+    private readonly Transform _canvasParent;
+    private readonly Transform _popupCanvasParent;
+    private readonly Transform _screensCanvasParent;
+
+    public WarningView WarningView { get; private set; }
+    public PreparingMono PreparingMono { get; private set; }
+    public BasePlayerViewMono PlayerViewMono { get; private set; }
+    public IGameFieldLogic GameFieldLogic { get; private set; }
+    public IGameViewLogic GameViewLogic { get; private set; }
+    public IEndGameLogic EndGameLogic { get; private set; }
 
     private GameViewMono GameViewMono { get; set; }
     private GameField GameField { get; set; }
     private EndGameMono EndGameWindow { get; set; }
 
-    public IGameFieldLogic GameFieldLogic { get; private set; }
-    public IGameViewLogic GameViewLogic { get; private set; }
-    public IEndGameLogic EndGameLogic { get; private set; }
-
-    private readonly IAudioService _audioService;
-    private readonly ILocaleSystem _localeSystem;
-    private readonly IGameMetaProvider _gameMetaProvider;
-
-    private readonly Dictionary<EnemyType, Action> _dictionaryGameMode;
 
     // private delegate void ConnectHandler(string guid, uint cost, Action onSpend, Action<UnlockType> onFail); example delegate
 
-    public GameFactory(IAssetProvider assetProvider, ILocaleSystem localeSystem, IAudioService audioService, 
-      IGameMetaProvider gameMetaProvider, IInputResolver inputResolver) : base(assetProvider)
+    public GameFactory(IAssetProvider assetProvider, ILocaleSystem localeSystem, IAudioService audioService,
+      IGameMetaProvider gameMetaProvider, IInputResolver inputResolver, IGameSaveSystem gameSaveSystem) : base(assetProvider)
     {
       _audioService = audioService;
+      _inputResolver = inputResolver;
       _localeSystem = localeSystem;
       _gameMetaProvider = gameMetaProvider;
 
       _dictionaryGameMode = new Dictionary<EnemyType, Action>
       {
-        {EnemyType.Bot, () => GameViewLogic = new BotGameViewLogic(GameViewMono, this, localeSystem, _gameMetaProvider, _audioService, inputResolver)},
-        {EnemyType.OneDevice, () => GameViewLogic = new OneDeviceGameViewLogic(GameViewMono, this, localeSystem, _gameMetaProvider, _audioService, inputResolver)},
-        // {GameMode.Multiplayer, () => GameViewLogic = new MultiplayerGameViewLogic(GameViewMono, localeSystem, network, _gameMetaProvider, _audioService, inputResolver)},
+        {
+          EnemyType.Bot, () => GameViewLogic = new BotGameViewLogic(GameViewMono, PreparingMono, this, localeSystem,
+            _gameMetaProvider, _audioService, inputResolver, assetProvider, gameSaveSystem)
+        },
+        {
+          EnemyType.OneDevice, () => GameViewLogic = new OneDeviceGameViewLogic(GameViewMono, this, localeSystem,
+            _gameMetaProvider, _audioService, inputResolver, assetProvider, gameSaveSystem)
+        },
       };
+
+      _canvasParent = GameObject.Find(CanvasPath).transform;
+      _popupCanvasParent = GameObject.Find(PopupCanvasPath).transform;
+      _screensCanvasParent = GameObject.Find(ScreensCanvasPath).transform;
     }
 
     public void CreateScreen()
     {
-      GameViewMono = Create<GameViewMono>(GameViewPath, GameObject.Find(CanvasPath).transform);
+      GameViewMono = Create<GameViewMono>(GameViewPath, _canvasParent);
+      PreparingMono = Create<PreparingMono>(PlayersPreparingPath, _screensCanvasParent);
       _dictionaryGameMode[_gameMetaProvider.GetEnemyType()].Invoke();
     }
 
     public void CreateField()
     {
-      GameField = Create<GameField>(GameFieldPath);
-      GameFieldLogic = new GameFieldLogic(GameField, _audioService, _gameMetaProvider);
+      GameField = Create<GameField>(GameFieldPath, _canvasParent);
+      GameFieldLogic = new GameFieldLogic(GameField, _audioService, _gameMetaProvider, _inputResolver);
     }
+
     public void CreateEndGame()
     {
-      EndGameWindow = Create<EndGameMono>(EndGameScreenPath, GameObject.Find(CanvasPath).transform);
+      EndGameWindow = Create<EndGameMono>(EndGameScreenPath, _screensCanvasParent);
       EndGameLogic = new EndGameLogic(EndGameWindow, _audioService, _localeSystem, _gameMetaProvider);
     }
 
+    public void CreateWarningView() =>
+      WarningView = Create<WarningView>(WarningViewPath, _screensCanvasParent);
+
     public void SpawnPlayerObject()
     {
-      var playerViewMono = Create<BasePlayerViewMono>(_gameMetaProvider.GetGame() == Game.Classic ? ClassicPlayerPath : BuhurtPlayerPath);
-      
-      _gameMetaProvider.SetPlayerViewMono(playerViewMono);
+      PlayerViewMono = Create<BasePlayerViewMono>(_gameMetaProvider.GetGame() == Game.Classic ? ClassicPlayerPath : BuhurtPlayerPath);
+      PlayerViewMono.Construct(this, _gameMetaProvider, _inputResolver);
+      _gameMetaProvider.SetPlayerViewMono(PlayerViewMono);
     }
 
     public void ClearScreen()
@@ -88,16 +116,34 @@ namespace _Project.Scripts.Features.GameScreen
         GameViewMono = null;
       }
 
+      if (PreparingMono != null)
+      {
+        Clear(PreparingMono.gameObject);
+        PreparingMono = null;
+      }
+
       if (GameField != null)
       {
         Clear(GameField.gameObject);
         GameField = null;
       }
-      
+
       if (EndGameWindow != null)
       {
         Clear(EndGameWindow.gameObject);
         EndGameWindow = null;
+      }
+
+      if (PlayerViewMono != null)
+      {
+        Clear(PlayerViewMono.gameObject);
+        PlayerViewMono = null;
+      }
+
+      if (WarningView != null)
+      {
+        Clear(WarningView.gameObject);
+        WarningView = null;
       }
     }
   }

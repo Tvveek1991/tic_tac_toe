@@ -19,11 +19,11 @@ namespace _Project.Scripts.Features.Player.Bots
     protected override int GetBestMove(SymbolSign[] board, SymbolCell[] symbolCells)
     {
       BestScores = new Dictionary<int, Potential>();
-      DragableData = new DragableData(BotSign, SymbolSize.Default);
+      DragableData = new DragableData(BotSign, SymbolSize.Default, true);
 
       for (var cell = 0; cell < 9; cell++)
       {
-        if (board[cell] != 0)
+        if (board[cell] != SymbolSign.None)
           continue;
 
         var newBoard = (SymbolSign[]) board.Clone();
@@ -38,9 +38,12 @@ namespace _Project.Scripts.Features.Player.Bots
 
       if (BestScores.Count == 0)
         return -1;
-      
+
       if (FindAllPotentialTurns(Potential.Winner))
+      {
+        IsWinnTurn = true;
         return BestTurns[Random.Range(0, BestTurns.Count)];
+      }
 
       if (CheckDifficult(out int bestMove))
         return bestMove;

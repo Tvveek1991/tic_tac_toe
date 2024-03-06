@@ -29,14 +29,12 @@ namespace _Project.Scripts.Features.ShopScreen
     private const string ShopTypeDataPath = "Data/Shop/Shop Types/";
     private const string ShopItemDataPath = "Data/Shop/Shop Items/";
 
-    private readonly IUiFactory _uiFactory;
     private readonly IShopFactory _shopFactory;
 
     private readonly IAnalytics _analytics;
     private readonly IAdsService _adsService;
     private readonly ILocaleSystem _localeSystem;
     private readonly IAudioService _audioService;
-    private readonly IAssetProvider _assetProvider;
     private readonly ICurrentScreen _currentScreen;
     private readonly IUnlockService _unlockService;
     private readonly IGameSaveSystem _gameSaveSystem;
@@ -65,18 +63,16 @@ namespace _Project.Scripts.Features.ShopScreen
       _localeSystem = localeSystem;
       _audioService = audioService;
       _currentScreen = currentScreen;
-      _assetProvider = assetProvider;
       _unlockService = unlockService;
       _gameSaveSystem = gameSaveSystem;
       _gameSaveSystem = gameSaveSystem;
       _gameMetaProvider = gameMetaProvider;
       _gameStateMachine = gameStateMachine;
 
-      _uiFactory = new UiFactory(_assetProvider);
-      _shopFactory = new ShopFactory(_assetProvider);
+      _shopFactory = new ShopFactory(assetProvider);
 
-      _shopItemData = _assetProvider.GetAllResources<ShopItemData>(ShopItemDataPath);
-      _shopTypesData = _assetProvider.GetAllResources<ShopTypeData>(ShopTypeDataPath);
+      _shopItemData = assetProvider.GetAllResources<ShopItemData>(ShopItemDataPath);
+      _shopTypesData = assetProvider.GetAllResources<ShopTypeData>(ShopTypeDataPath);
 
       foreach (ShopTypeData typeData in _shopTypesData)
       {
@@ -100,6 +96,8 @@ namespace _Project.Scripts.Features.ShopScreen
 
       CreateSounds();
       CreateAnimation();
+      
+      _adsService.Banner.ShowBanner();
     }
 
     public void ClearShopView()
@@ -128,6 +126,9 @@ namespace _Project.Scripts.Features.ShopScreen
 
       foreach (ShopTypeData t in _shopTypesData)
       {
+        if(_shopView.GetSectionButton(t.Type) == null)
+          continue;
+        
         CreateSectionButton(t);
         CreateScrollItemsView(t);
         CreateItems(t);
@@ -232,8 +233,6 @@ namespace _Project.Scripts.Features.ShopScreen
         GetItemButton(itemData)?.OpenContent(fromInit);
         OnClickItem(itemData, fromInit);
 
-        // RefreshProgressBar();
-
         SendOpenEvent(itemData);
       });
 
@@ -271,14 +270,6 @@ namespace _Project.Scripts.Features.ShopScreen
         else
           itemButton.SetChooseState();
       }
-      // RefreshProgressBar();
-    }
-
-    private void RefreshProgressBar()
-    {
-      List<ShopItemData> upgradeDatas = _shopItemData.ToList().FindAll(item => _unlockService.GetUnlockType(item.Id) == UnlockType.Money);
-      int boughtForMoney = upgradeDatas.Count(item => _gameSaveSystem.Get().UnlockedShopContent.Contains(item.Id));
-      _shopView.AddProgress(boughtForMoney, upgradeDatas.Count);
     }
 
     private void ShowSelectedPreview(ItemType type)

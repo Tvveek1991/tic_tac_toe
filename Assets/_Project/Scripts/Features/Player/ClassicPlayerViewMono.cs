@@ -25,6 +25,9 @@ namespace _Project.Scripts.Features.Player
         return;
 
       var cell = hit.transform.gameObject.GetComponent<SymbolCell>();
+      
+      if(cell == null)
+        return;
 
       if (cell.GetSymbol() != SymbolSign.None)
         return;

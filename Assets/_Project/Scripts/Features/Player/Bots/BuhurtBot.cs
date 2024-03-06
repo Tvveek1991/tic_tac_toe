@@ -7,7 +7,6 @@ using _Project.Scripts.Features.GameScreen;
 using _Project.Scripts.Features.GameScreen.Serialized;
 using _Project.Scripts.Features.Player.Bots.Serialized;
 using _Project.Scripts.Services._Interfaces;
-using UnityEngine;
 using Random = UnityEngine.Random;
 
 namespace _Project.Scripts.Features.Player.Bots
@@ -51,7 +50,10 @@ namespace _Project.Scripts.Features.Player.Bots
         return -1;
 
       if (FindAllPotentialTurns(Potential.Winner))
+      {
+        IsWinnTurn = true;
         return ChooseSizeTurn();
+      }
       
       if (FindAllPotentialTurns(Potential.Lose))
         return ChooseSizeTurn();
@@ -84,15 +86,14 @@ namespace _Project.Scripts.Features.Player.Bots
       
       List<SymbolSize> sizeTurn = GetAvailableSizes(rnd);
       SymbolSize size = sizeTurn[Random.Range(0, sizeTurn.Count)];
-      CreateDragableData(size);
-
+      
+      DragableData = new DragableData(BotSign, size, true);
+      GameFactory.GameViewLogic.SetFigureState(DragableData.GetSymbol(), DragableData.GetSize());
+      
       _figures[BotSign][(int) size] = SymbolSize.Default;
 
       return rnd;
     }
-
-    private void CreateDragableData(SymbolSize size) => 
-      DragableData = new DragableData(BotSign, size);
 
     private List<SymbolSize> GetAvailableSizes(int rnd)
     {

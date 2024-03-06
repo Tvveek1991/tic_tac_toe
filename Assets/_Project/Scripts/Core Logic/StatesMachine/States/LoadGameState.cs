@@ -11,7 +11,7 @@ using SableGamesRemote.Scripts.Interfaces;
 
 namespace _Project.Scripts.Core_Logic.StatesMachine.States
 {
-  public class LoadGameState : IPayloadedState<bool>
+  public class LoadGameState : IState
   {
     private readonly IRemote _remote;
     private readonly IAnalytics _analytics;
@@ -19,9 +19,9 @@ namespace _Project.Scripts.Core_Logic.StatesMachine.States
     private readonly ILocaleSystem _localeSystem;
     private readonly IAudioService _audioService;
     private readonly IMoneyService _moneyService;
-    private readonly ILoadingLogic _loadingLogic;
     private readonly IInputResolver _inputResolver;
     private readonly ICurrentScreen _currentScreen;
+    private readonly ILoadingLogic _loadingLogic;
     private readonly IAssetProvider _assetProvider;
     private readonly IGameSaveSystem _gameSaveSystem;
     private readonly IGameMetaProvider _gameMetaProvider;
@@ -38,9 +38,9 @@ namespace _Project.Scripts.Core_Logic.StatesMachine.States
       _analytics = analytics;
       _adsService = adsService;
       _localeSystem = localeSystem;
-      _loadingLogic = loadingLogic;
       _audioService = audioService;
       _moneyService = moneyService;
+      _loadingLogic = loadingLogic;
       _inputResolver = inputResolver;
       _assetProvider = assetProvider;
       _currentScreen = currentScreen;
@@ -51,17 +51,17 @@ namespace _Project.Scripts.Core_Logic.StatesMachine.States
     public void Construct(IGameStateMachine gameStateMachine) =>
       _gameStateMachine = gameStateMachine;
 
-    public void Enter(bool isHost)
+    public void Enter()
     {
-      _gameLogic = new GameLogic(_gameStateMachine, _assetProvider, _currentScreen, _gameSaveSystem, _adsService,
-        _analytics, _localeSystem, _audioService, _remote, _gameMetaProvider, _inputResolver, _loadingLogic);
-      _gameLogic.Enter(isHost);
+      _gameLogic = new GameLogic(_gameStateMachine, _assetProvider, _adsService,
+        _localeSystem, _audioService, _gameMetaProvider, _inputResolver, _gameSaveSystem, _loadingLogic);
+      _gameLogic.Enter();
     }
 
     public void Exit() =>
       _gameLogic.Exit();
 
-    public Task AsyncEnter(bool isHost) =>
+    public Task AsyncEnter() =>
       throw new NotImplementedException();
   }
 }

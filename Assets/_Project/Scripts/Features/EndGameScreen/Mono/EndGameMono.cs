@@ -13,16 +13,25 @@ namespace _Project.Scripts.Features.EndGameScreen.Mono
     public Button ButtonPlayAgain;
 
     public CanvasGroup CanvasGroup;
+    
+    public RectTransform Offer;
 
     public List<Result> ResultList;
 
     public GameObject ScorePanel;
+    public Image WinnerSymbol;
     
-    public Image TitleIcon;
-    public TextMeshProUGUI TitleText;
-    
+    [Space(20)]
+    public GameObject WinStreakPanel;
+    public TextMeshProUGUI ResultText;
     public TextMeshProUGUI BestWinStreakText;
     public TextMeshProUGUI WinStreakText;
+
+    [Space(20)]
+    public Image ResultIcon;
+    public Sprite WinIcon;
+    public Sprite LoseIcon;
+    public Sprite DrawIcon;
 
     [Serializable]
     public class Result

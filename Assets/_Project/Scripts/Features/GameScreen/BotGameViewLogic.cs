@@ -1,4 +1,3 @@
-using System;
 using _Project.Scripts.Features.GameScreen.Mono;
 using _Project.Scripts.Features.GameScreen.Serialized;
 using _Project.Scripts.Features.Player.Bots;
@@ -10,22 +9,32 @@ namespace _Project.Scripts.Features.GameScreen
   public class BotGameViewLogic : GameViewLogic
   {
     private readonly Bot _bot;
+    private readonly PreparingMono _preparingMono;
 
-    public BotGameViewLogic(GameViewMono gameViewMono, IGameFactory gameFactory, ILocaleSystem localeSystem, IGameMetaProvider gameMetaProvider,
-      IAudioService audioService, IInputResolver inputResolver)
-      : base(gameViewMono, gameFactory, localeSystem, gameMetaProvider, audioService, inputResolver) =>
-      _bot = GameMetaProvider.GetGame() == Game.Classic ? new ClassicBot(gameFactory, gameMetaProvider) : new BuhurtBot(gameFactory, gameMetaProvider, FiguresState);
-
-    public override void Construct(Action onBack, Action onCreatePlayer, Action<SymbolSign> onEndGame)
+    public BotGameViewLogic(GameViewMono gameViewMono, PreparingMono preparingMono, IGameFactory gameFactory, ILocaleSystem localeSystem,
+      IGameMetaProvider gameMetaProvider, IAudioService audioService, IInputResolver inputResolver, IAssetProvider assetProvider, 
+      IGameSaveSystem gameSaveSystem)
+      : base(gameViewMono, gameFactory, localeSystem, gameMetaProvider, audioService, inputResolver, assetProvider, gameSaveSystem)
     {
-      base.Construct(onBack, onCreatePlayer, onEndGame);
-
-      _bot.Construct();
+      _preparingMono = preparingMono;
       
-      RefreshAfterChangeTurn(SymbolSign.X);
+      _bot = GameMetaProvider.GetGame() == Game.Classic ? new ClassicBot(gameFactory, gameMetaProvider) : new BuhurtBot(gameFactory, gameMetaProvider, FiguresState);
+      _bot.Construct();
+    }
 
-      if (GameMetaProvider.GetPlayerView().GetSymbol() == SymbolSign.O)
-        BotTurn();
+    public override void StartGame()
+    {
+      _preparingMono.Construct(GameMetaProvider, LocaleSystem, () =>
+      {
+        GameFactory.GameFieldLogic.Show(null);
+        InputResolver.Enable();
+        
+        GameFactory.GameFieldLogic.Show(() =>
+        {
+          if (GameMetaProvider.GetPlayerView().GetSymbol() == SymbolSign.O)
+            BotTurn();
+        });
+      });
     }
 
     public override void ChangeTurningPlayer(SymbolSign activeSign)
@@ -39,10 +48,7 @@ namespace _Project.Scripts.Features.GameScreen
     private void BotTurn()
     {
       InputResolver.Disable();
-      _bot?.BotTurn(OnTurnEnd, () =>
-      {
-        OnEndGame?.Invoke(SymbolSign.None);
-      });
+      _bot?.BotTurn(OnTurnEnd, () => { OnEndGame?.Invoke(SymbolSign.None); });
 
       void OnTurnEnd()
       {

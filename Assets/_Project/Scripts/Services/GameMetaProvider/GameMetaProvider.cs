@@ -78,20 +78,50 @@ namespace _Project.Scripts.Services.GameMetaProvider
     public MapData GetMap() =>
       GetCustomData<MapData>(ItemType.Field);
 
-    public Mesh GetMesh(SymbolSign symbolSign, SymbolSize symbolSize)
+    public Mesh GetMesh(DragableData dragableData)
     {
-      SymbolData symbolData = GetSymbolData(symbolSign);
+      SymbolData symbolData = GetSymbolData(dragableData.GetSymbol(), dragableData.IsBot);
       return GetGame() == Game.Classic
         ? symbolData.MeshClassic
-        : symbolData.MeshBuhurt[(int) symbolSize];
+        : symbolData.MeshBuhurt[(int) dragableData.GetSize()];
     }
 
-    public Material GetMaterial(SymbolSign symbolSign, SymbolSize symbolSize)
+    public Material GetMaterial(DragableData dragableData)
     {
-      SymbolData symbolData = GetSymbolData(symbolSign);
+      SymbolData symbolData = GetSymbolData(dragableData.GetSymbol(), dragableData.IsBot);
       return GetGame() == Game.Classic
         ? symbolData.MaterialClassic
-        : symbolData.MaterialBuhurt[(int) symbolSize];
+        : symbolData.MaterialBuhurt[(int) dragableData.GetSize()];
+    }
+    
+    public Vector3 GetAngle(DragableData dragableData)
+    {
+      SymbolData symbolData = GetSymbolData(dragableData.GetSymbol(), dragableData.IsBot);
+      
+      if(symbolData.RotateAngle.Count == 0)
+        return Vector3.zero;
+      
+      return GetGame() == Game.Classic
+        ? symbolData.RotateAngle[0]
+        : symbolData.RotateAngle[(int) dragableData.GetSize()];
+    }
+    
+    public Vector3 GetPosition()
+    {
+      SymbolData symbolData = GetSymbolData(BasePlayerViewMono.GetSymbol());
+      return symbolData.SymbolPosition;
+    }
+    
+    public Vector3 GetAnimationAngle()
+    {
+      SymbolData symbolData = GetSymbolData(BasePlayerViewMono.GetSymbol());
+      return symbolData.AnimationAngle;
+    }
+    
+    public bool IsBackOn()
+    {
+      SymbolData symbolData = GetSymbolData(BasePlayerViewMono.GetSymbol());
+      return symbolData.IsBackOn;
     }
 
     public void AddScore(SymbolSign symbolSign)
@@ -116,7 +146,7 @@ namespace _Project.Scripts.Services.GameMetaProvider
       if (_winStreak <= _gameSaveSystem.Get().WinStreak)
         return;
 
-      _gameSaveSystem.Get().WinStreak = (uint) _winStreak;
+      _gameSaveSystem.Get().WinStreak = _winStreak;
       _gameSaveSystem.Save();
     }
 
@@ -129,18 +159,17 @@ namespace _Project.Scripts.Services.GameMetaProvider
         Object.Destroy(BasePlayerViewMono.gameObject);
     }
 
-    public void CreateBotData(SymbolSign botSign) => 
-      SetOpponentData(botSign);
-
-    private void SetOpponentData(SymbolSign sign)
+    public void CreateBotData(SymbolSign botSign)
     {
-      List<SymbolData> list = GetAllDataType<SymbolData>(_gameCustomsData).Where(item => item.ItemType == _itemTypesTransfer[sign]).ToList();
-      _botData[sign] = list[Random.Range(0, list.Count)];
-      Debug.Log(_botData[sign].Name);
+      _botData[botSign] = GetCustomData<SymbolData>(_itemTypesTransfer[botSign]);
+      
+      // if we need bot random skin
+      // List < SymbolData > list = GetAllDataType<SymbolData>(_gameCustomsData).Where(item => item.ItemType == _itemTypesTransfer[botSign]).ToList();
+      // _botData[botSign] = list[Random.Range(0, list.Count)]; 
     }
 
-    private SymbolData GetSymbolData(SymbolSign symbolSign) =>
-      !BasePlayerViewMono.GetPlayerTurn() && GetEnemyType() == EnemyType.Bot
+    private SymbolData GetSymbolData(SymbolSign symbolSign, bool isBot = false) =>
+      isBot
         ? _botData[symbolSign]
         : GetCustomData<SymbolData>(_itemTypesTransfer[symbolSign]);
 

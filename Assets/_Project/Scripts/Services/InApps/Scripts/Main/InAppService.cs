@@ -24,8 +24,20 @@ namespace _Project.Scripts.Services.InApps.Scripts.Main
     public InAppService() =>
       _builder = ConfigurationBuilder.Instance(StandardPurchasingModule.Instance());
 
-    public void Initialize() =>
+    public void Initialize()
+    {
+      AddProduct(new Product
+      {
+        ProductName = ProductId.noads.ToString(),
+        ProductType = ProductType.NonConsumable,
+        IDs = new Dictionary<string, string>
+        {
+          {ProductId.noads.ToString(), GooglePlay.Name}
+        }
+      });
+      
       UnityPurchasing.Initialize(this, _builder);
+    }
 
     public void Purchase(string productId) =>
       _controller.InitiatePurchase(productId);

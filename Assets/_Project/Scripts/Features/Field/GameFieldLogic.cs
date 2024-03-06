@@ -1,9 +1,12 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using _Project.Scripts.Features.Data;
 using _Project.Scripts.Features.Field.Mono;
+using _Project.Scripts.Features.GameScreen.Mono;
 using _Project.Scripts.Features.GameScreen.Serialized;
 using _Project.Scripts.Services._Interfaces;
+using UnityEngine;
 
 namespace _Project.Scripts.Features.Field
 {
@@ -20,62 +23,63 @@ namespace _Project.Scripts.Features.Field
     private readonly GameField _gameField;
 
     private readonly IAudioService _audioService;
+    private readonly IInputResolver _inputResolver;
     private readonly IGameMetaProvider _gameMetaProvider;
 
     private Action<SymbolSign> _onEndGame;
 
-    public GameFieldLogic(GameField gameField, IAudioService audioService, IGameMetaProvider gameMetaProvider)
+    private List<Transform> _wonCells;
+
+    public GameFieldLogic(GameField gameField, IAudioService audioService, IGameMetaProvider gameMetaProvider, IInputResolver inputResolver)
     {
       _gameField = gameField;
       _audioService = audioService;
+      _inputResolver = inputResolver;
       _gameMetaProvider = gameMetaProvider;
 
       SetField();
       CreateCellsField();
     }
 
-    public void Construct(Action<SymbolSign> onEndGame)
-    {
+    public void Construct(Action<SymbolSign> onEndGame) =>
       _onEndGame = onEndGame;
-    }
+
+    public void Show(Action onEnd) =>
+      ShowCells(onEnd);
 
     public SymbolCell[,] GetField() =>
       _cells;
-    
+
     private void CreateCellsField()
     {
       for (var y = 0; y < FieldSizeY; ++y)
       for (var x = 0; x < FieldSizeX; ++x)
       {
         _cells[y, x] = _gameField.GetPlayablePoint[y * FieldSizeY + x];
-        int x1 = x;
-        int y1 = y;
-        _cells[y, x].Construct(
+
+        _cells[y, x].Construct(_audioService, _gameMetaProvider,
           delegate(DragableData dragableData)
           {
             _playerSymbol = dragableData.GetSymbol();
-            SetFieldCell(x1, y1, dragableData);
 
-            if (CheckWin(_playerSymbol) || CheckDraw())
+            if (CheckWin(_playerSymbol))
+            {
+              _inputResolver.Disable();
+              
+              var winAnimation = _gameField.gameObject.AddComponent<WinAnimation>();
+              winAnimation.Construct(_wonCells, () => { _onEndGame?.Invoke(CheckWin(_playerSymbol) ? _playerSymbol : SymbolSign.None); },
+                _playerSymbol == _gameMetaProvider.GetPlayerView().GetSymbol());
+            }else if (CheckDraw()) 
               _onEndGame?.Invoke(CheckWin(_playerSymbol) ? _playerSymbol : SymbolSign.None);
           });
       }
     }
 
+    private void ShowCells(Action onEnd) =>
+      new FieldAnimationHelper(_cells, onEnd);
+
     private void SetField() =>
       _gameField.SetField(_gameMetaProvider.GetMap());
-
-    private void SetFieldCell(int x, int y, DragableData dragableData)
-    {
-      if (_cells[y, x] == null)
-        return;
-
-      _cells[y, x].MeshFilter.mesh = _gameMetaProvider.GetMesh(dragableData.GetSymbol(), dragableData.GetSize());
-      _cells[y, x].MeshRenderer.material = _gameMetaProvider.GetMaterial(dragableData.GetSymbol(), dragableData.GetSize());
-      _cells[y, x].MeshRenderer.enabled = true;
-
-      // Debug.Log("Win is " + CheckWin(_playerSymbol) + (CheckWin(_playerSymbol) ? " Is" + _playerSymbol : ""));
-    }
 
     private bool CheckWin(SymbolSign symbol)
     {
@@ -108,10 +112,14 @@ namespace _Project.Scripts.Features.Field
       if (!IsValidCell(farX, farY))
         return false;
 
+      _wonCells = new List<Transform>();
+
       for (var i = 0; i < len; i++)
       {
         if (_cells[y + i * vy, x + i * vx].GetSymbol() != sign)
           return false;
+
+        _wonCells.Add(_cells[y + i * vy, x + i * vx].transform);
       }
 
       return true;

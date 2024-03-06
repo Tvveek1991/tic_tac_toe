@@ -2,6 +2,7 @@ using _Project.Scripts.Features.Loading;
 using _Project.Scripts.Services._Interfaces;
 using _Project.Scripts.Services.AssetProvider;
 using _Project.Scripts.Services.Audio;
+using _Project.Scripts.Services.Consent;
 using _Project.Scripts.Services.GameMetaProvider;
 using _Project.Scripts.Services.InApps.Scripts.Main;
 using _Project.Scripts.Services.InputResolver;
@@ -36,6 +37,7 @@ namespace _Project.Scripts.Core_Logic.Zenject
       BindSingleService<IAdsLogger, AdsLogger>();
       BindSingleService<IUnlockService, UnlockService>();
       BindSingleService<ILoadingLogic, LoadingLogic>();
+      BindSingleService<ICmpManager, CmpManager>();
     }
 
     private void BindSingleService<T, T2>() where T2 : T => 

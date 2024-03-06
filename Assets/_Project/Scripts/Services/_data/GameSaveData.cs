@@ -5,7 +5,7 @@ namespace _Project.Scripts.Services._data
 {
   public class GameSaveData
   {
-    public bool IsFirstSession = true;
+    public bool IsFirstBuhurtSession;
 
     public bool IsPolicyAccepted;
 
@@ -17,6 +17,7 @@ namespace _Project.Scripts.Services._data
     
     public bool IsMusicDisabled;
     public bool IsSoundDisabled;
+    public bool IsHintsDisabled;
     public bool IsVibrationDisabled;
 
     public uint WinStreak;

@@ -14,7 +14,6 @@ namespace _Project.Scripts.Features.Loading
       _loadingFactory.CreateScreen(() =>
       {
         onEnd?.Invoke();
-        Exit();
       });
 
     public void Exit() => 

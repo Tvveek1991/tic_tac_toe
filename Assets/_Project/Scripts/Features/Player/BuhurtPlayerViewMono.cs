@@ -1,5 +1,4 @@
 using _Project.Scripts.Features.Field.Mono;
-using _Project.Scripts.Features.GameScreen.Serialized;
 using _Project.Scripts.Features.Player.BuhurtModules;
 using UnityEngine;
 
@@ -25,6 +24,9 @@ namespace _Project.Scripts.Features.Player
         return;
 
       var cell = hit.transform.gameObject.GetComponent<SymbolCell>();
+      
+      if(cell == null)
+        return;
 
       if (!_dragablePart.CanPin(cell.GetSize(), cell.GetSymbol()))
         return;

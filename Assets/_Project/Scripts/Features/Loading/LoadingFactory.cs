@@ -7,19 +7,19 @@ namespace _Project.Scripts.Features.Loading
 {
   public class LoadingFactory : GameObjectFactory, ILoadingFactory
   {
-    private const string BaseCanvas = "Canvas";
-    private const string LoadingPrefabPath = "Features/Windows/Loading";
-
+    private const string BaseCanvas = "Popup Canvas";
+    private const string LoadingPath = "Features/Windows/Loading";
+    
     public LoadingMono LoadingMono { get; private set; }
 
     public LoadingFactory(IAssetProvider assetProvider) : base(assetProvider)
-    {}
+    { }
 
-    public void CreateScreen(Action onEnd)
+    public void CreateScreen(Action onLoad)
     {
       ClearScreen();
-      LoadingMono = Create<LoadingMono>(LoadingPrefabPath, GameObject.Find(BaseCanvas).transform);
-      LoadingMono.Construct(onEnd);
+      LoadingMono = Create<LoadingMono>(LoadingPath, GameObject.Find(BaseCanvas).transform);
+      LoadingMono.Construct(onLoad, ClearScreen);
     }
 
     public void ClearScreen()

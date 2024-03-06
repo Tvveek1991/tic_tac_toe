@@ -1,33 +1,26 @@
 using _Project.Scripts.Services.Localization.Logic;
 using TMPro;
 using UnityEngine;
+using Zenject;
 
 namespace _Project.Scripts.Services.Localization.Mono
 {
-  [RequireComponent(typeof(TMP_Text))]
+  [RequireComponent(typeof(TextMeshProUGUI))]
   public class LocalizedMainText : MonoBehaviour
   {
-    [SerializeField] private TMP_Text textComponent;
     [SerializeField] private string key;
 
+    private TextMeshProUGUI _textComponent;
     private ILocaleSystem _localeSystem;
 
-    public void Construct(ILocaleSystem localeSystem)
+    public void Awake()
     {
-      _localeSystem = localeSystem;
-       Localize();
+      _textComponent = GetComponent<TextMeshProUGUI>();
+      _textComponent.text = _localeSystem.GetText(key);
     }
 
-    public void Localize()
-    {
-      if (_localeSystem != null && textComponent != null)
-        textComponent.text = _localeSystem.GetText(key);
-    }
-    
-    public void SetNewKey(string newKey)
-    {
-      key = newKey;
-      Localize();
-    }
+    [Inject]
+    private void Construct(ILocaleSystem localeSystem) => 
+      _localeSystem = localeSystem;
   }
 }

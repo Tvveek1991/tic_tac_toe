@@ -16,8 +16,9 @@ MonoBehaviour:
   Name: MusicItem.Name_2
   Description: 
   itemType: 3
-  _icon: {fileID: 21300000, guid: 32e3b19ed0b43b74587cb975d9dfab7f, type: 3}
+  _icon: {fileID: 21300000, guid: b241345513902244eb5fd8ac54fe2317, type: 3}
   _previewScaleFactor: 0.5
   _previewMeshes:
   - {fileID: 3351148692696618264, guid: 8fc1da715cabed7489a58c52afad1515, type: 3}
-  _previewMaterials: []
+  _previewMaterials:
+  - {fileID: 2100000, guid: 6f4b5c02e68e7fd4a905d8883b88f4a9, type: 2}

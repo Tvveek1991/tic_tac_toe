@@ -6,95 +6,75 @@ using _Project.Scripts.Features.Loading;
 using _Project.Scripts.Services._Interfaces;
 using _Project.Scripts.Services.Localization.Logic;
 using SableGamesAds.Scripts.Interfaces;
-using SableGamesAnalytics.Scripts.Interfaces;
-using SableGamesRemote.Scripts.Interfaces;
 using UnityEngine;
 
 namespace _Project.Scripts.Features.GameScreen
 {
   public class GameLogic
   {
-    private readonly IUiFactory _uiFactory;
     private readonly IGameFactory _gameFactory;
 
-    private readonly IRemote _remote;
-    private readonly IAnalytics _analytics;
     private readonly IAdsService _adsService;
-    private readonly ILocaleSystem _localeSystem;
-    private readonly IAudioService _audioService;
     private readonly ILoadingLogic _loadingLogic;
     private readonly IInputResolver _inputResolver;
-    private readonly ICurrentScreen _currentScreen;
-    private readonly IGameSaveSystem _gameSaveSystem;
     private readonly IGameMetaProvider _gameMetaProvider;
     private readonly IGameStateMachine _gameStateMachine;
-    private readonly IAssetProvider _assetProvider;
 
-    public GameLogic(IGameStateMachine gameStateMachine, IAssetProvider assetProvider, ICurrentScreen currentScreen,
-      IGameSaveSystem gameSaveSystem, IAdsService adsService, IAnalytics analytics, ILocaleSystem localeSystem,
-      IAudioService audioService, IRemote remote, IGameMetaProvider gameMetaProvider, IInputResolver inputResolver, ILoadingLogic loadingLogic)
+    public GameLogic(IGameStateMachine gameStateMachine, IAssetProvider assetProvider, IAdsService adsService, ILocaleSystem localeSystem,
+      IAudioService audioService, IGameMetaProvider gameMetaProvider, IInputResolver inputResolver, IGameSaveSystem gameSaveSystem, ILoadingLogic loadingLogic)
     {
-      _remote = remote;
-      _analytics = analytics;
       _adsService = adsService;
-      _localeSystem = localeSystem;
-      _audioService = audioService;
       _loadingLogic = loadingLogic;
       _inputResolver = inputResolver;
-      _currentScreen = currentScreen;
-      _assetProvider = assetProvider;
-      _gameSaveSystem = gameSaveSystem;
       _gameMetaProvider = gameMetaProvider;
       _gameStateMachine = gameStateMachine;
-
-      _uiFactory = new UiFactory(assetProvider);
-      _gameFactory = new GameFactory(assetProvider, localeSystem, audioService, gameMetaProvider, inputResolver);
       
+      _gameFactory = new GameFactory(assetProvider, localeSystem, audioService, gameMetaProvider, inputResolver, gameSaveSystem);
     }
 
-    public void Enter(bool isHost)
+    public void Enter()
     {
       _inputResolver.Disable();
       
-      _gameFactory.CreateField();
-      _gameFactory.CreateScreen();
-      _gameFactory.CreateEndGame();
-
-      _gameFactory.EndGameLogic.Construct(OnClickBack, OnClickPlayAgain);
-      _gameFactory.GameFieldLogic.Construct(OnEndGame);
-      _gameFactory.GameViewLogic.Construct(OnClickBack, OnCreatePlayer, OnEndGame);
-      _gameFactory.GameViewLogic.OpenWindow();
-
-      if (_gameMetaProvider.GetEnemyType() == EnemyType.OneDevice)
-      {
-        _inputResolver.Enable();
-        return;
-      }
-      
-      _loadingLogic.Enter(() => _inputResolver.Enable());
+      LoadGame();
+      _gameFactory.GameViewLogic.StartGame();
     }
 
     public void Exit()
     {
       _gameFactory.ClearScreen();
-      _gameMetaProvider.Clear();
+      _gameFactory.GameViewLogic.Clear();
+    }
+
+    private void LoadGame()
+    {
+      _gameFactory.CreateScreen();
+      _gameFactory.CreateField();
+      _gameFactory.CreateEndGame();
+
+      _gameFactory.EndGameLogic.Construct(OnClickBack, OnClickPlayAgain);
+      _gameFactory.GameFieldLogic.Construct(OnEndGame);
+      _gameFactory.GameViewLogic.Construct(OnClickBack, OnEndGame);
     }
 
     private void OnClickBack()
     {
-      _gameMetaProvider.ClearScore();
+      _loadingLogic.Enter(() =>
+      {
+        _gameMetaProvider.ClearScore();
+        _adsService.CurrentInterstitial.ShowInterstitial(ScreenNames.Home,
+          _gameStateMachine.Enter<LoadHomeState>,
+          _gameStateMachine.Enter<LoadHomeState>);
+      });
       
-      _adsService.CurrentInterstitial.ShowInterstitial(ScreenNames.Home,
-        _gameStateMachine.Enter<LoadHomeState>,
-        _gameStateMachine.Enter<LoadHomeState>);
     }
     
-    private void OnClickPlayAgain() => 
-      _gameStateMachine.Enter<LoadGameState, bool>(false);
-
-
-    private void OnCreatePlayer() =>
-      _gameFactory.SpawnPlayerObject();
+    private void OnClickPlayAgain()
+    {
+      _adsService.CurrentInterstitial.ShowInterstitial(ScreenNames.Game,
+        _gameStateMachine.Enter<LoadGameState>,
+        _gameStateMachine.Enter<LoadGameState>);
+    }
 
     private void OnEndGame(SymbolSign symbol)
     {
@@ -106,7 +86,7 @@ namespace _Project.Scripts.Features.GameScreen
       if(_gameMetaProvider.GetGame() != Game.Buhurt)
         return;
       
-      _gameFactory.GameViewLogic.HideBottomPanel();
+      _gameFactory.GameViewLogic.HidePlayersPanels();
     }
   }
 }

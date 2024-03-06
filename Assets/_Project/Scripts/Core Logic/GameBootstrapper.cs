@@ -5,6 +5,7 @@ using _Project.Scripts.Core_Logic.StatesMachine.Interfaces;
 using _Project.Scripts.Core_Logic.StatesMachine.States;
 using _Project.Scripts.Features.Splashscreen;
 using _Project.Scripts.Services._Interfaces;
+using _Project.Scripts.Services.Consent;
 using FlurrySDK;
 using SableGamesAds.Scripts.Interfaces;
 using SableGamesAnalytics.Scripts.Interfaces;
@@ -23,8 +24,12 @@ namespace _Project.Scripts.Core_Logic
     private IRemote _remote;
     private IAdsService _adsService;
 
+    private ICmpManager _cmpManager;
+
     private IGameStateMachine _gameStateMachine;
     private SplashLogic _splashLogic;
+
+    private IInAppService _inAppService;
 
     private void Awake()
     {
@@ -37,18 +42,21 @@ namespace _Project.Scripts.Core_Logic
       IRemote remote,
       IAdsService adsService,
       IAnalytics analytics,
+      ICmpManager cmpManager,
       ICurrentScreen screenManager,
+      IInAppService inAppService,
       IGameStateMachine gameStateMachine)
     {
+      _inAppService = inAppService;
       _adsService = adsService;
       _remote = remote;
       _assetProvider = assetProvider;
       _analytics = analytics;
+      _cmpManager = cmpManager;
       _gameStateMachine = gameStateMachine;
-      
+
       _screenManager = screenManager;
       _screenManager.SetCurrentScreen(ScreenNames.Splash);
-
     }
 
     private void LaunchWithSplash(Action initializeGame)
@@ -61,29 +69,19 @@ namespace _Project.Scripts.Core_Logic
 
     private void InitializeRemote()
     {
-      _remote.OnFetch += InitializeAnalytics;
+      _remote.OnFetch += StartCmp;
       _remote.Initialize();
     }
 
+    private void StartCmp() =>
+      _cmpManager.Request(InitializeAnalytics);
+
     private void InitializeAnalytics()
     {
-      _analytics.OnInitialize += InitializeAds;
+      _analytics.OnInitialize += SendRemoteEvents;
       _analytics.Initialize();
     }
 
-    private void InitializeAds()
-    {
-      SendRemoteEvents();
-      
-      _adsService.Initialize(_remote.GetPlacementType(), () =>
-      {
-#if !WITHOUT_BANNER
-        _adsService.Banner.OnBannerLoad += () => { _adsService.Banner.HideBanner(); };
-        _adsService.Banner.HideBanner();
-#endif
-        _splashLogic.Complete();
-      });
-    }
 
     private void SendRemoteEvents()
     {
@@ -96,13 +94,48 @@ namespace _Project.Scripts.Core_Logic
 
       if (_analytics.IsFirstLaunch)
         _analytics.Send($"v{Application.version.Replace(".", "_")}", true);
+      
+      InitializeInApps();
     }
+
+    private void InitializeInApps()
+    {
+      _inAppService.OnInitializedEvent += OnInitializeInApps;
+      _inAppService.OnInitializeFailEvent += OnInitializeInApps;
+
+      _inAppService.Initialize();
+    }
+
+    private void OnInitializeInApps()
+    {
+      _inAppService.OnInitializedEvent -= OnInitializeInApps;
+      _inAppService.OnInitializeFailEvent -= OnInitializeInApps;
+
+      InitializeAds();
+    }
+
+    private void InitializeAds()
+    {
+      _adsService.Initialize(_remote.GetPlacementType(), () =>
+      {
+#if !WITHOUT_BANNER
+        _adsService.Banner.OnBannerLoad += () => { _adsService.Banner.HideBanner(); };
+        _adsService.Banner.HideBanner();
+#endif
+        _splashLogic.Complete();
+      });
+    }
+
 
     private void LaunchGameStateMachine()
     {
-      _adsService.CurrentInterstitial.ShowInterstitial("start",
-        _gameStateMachine.Enter<LoadGameServicesState>,
-        _gameStateMachine.Enter<LoadGameServicesState>);
+      _adsService.CurrentInterstitial.ShowInterstitial("start", Load, Load, true);
+
+      void Load()
+      {
+        _splashLogic.Clear();
+        _gameStateMachine.Enter<LoadGameServicesState>();
+      }
     }
   }
 }

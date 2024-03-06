@@ -11,12 +11,16 @@ namespace _Project.Scripts.Features.DisableAds.Mono
     public Button ContinueBtn;
     public Button PurchaseBtn;
 
+    public SpriteSwap SwapperBackIcon;
+    
     public Text PurchasePrice;
     
-    public Text AdsWatchedProgress;
-    public Text[] DisableAdsTimers;
+    public TextMeshProUGUI AdsWatchedProgress;
+    public TextMeshProUGUI[] DisableAdsTimers;
 
-    public GameObject InfoPanelBefore, InfoPanelAfter;
-    public GameObject AdsOfferEnabled, AdsOfferDisabled;
+    public GameObject InfoPanelBefore;
+    public Transform InfoPanelAfter;
+    public GameObject AdsOfferEnabled;
+    public GameObject AdsOfferDisabled;
   }
 }

@@ -1,11 +1,9 @@
 ﻿using System;
 using DG.Tweening;
-using DG.Tweening.Core;
-using DG.Tweening.Plugins.Options;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace _Project.Scripts.Animations.UI
+namespace _Project.Scripts.Animation
 {
   public class FadeImage
   {

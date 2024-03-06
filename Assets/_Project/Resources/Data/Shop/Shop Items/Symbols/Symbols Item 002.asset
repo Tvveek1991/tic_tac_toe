@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 436d9f43de05abd4fb1bdc7c1376e855, type: 3}
+  m_Name: Symbols Item 002
+  m_EditorClassIdentifier: 
+  Id: 2b3cebf3-7c5e-456f-bbac-905c42c59015
+  Name: SignItem.Dice
+  Description: 
+  itemType: 0
+  _icon: {fileID: 21300000, guid: 1903644d718844749b14d9a8208dce21, type: 3}
+  _previewScaleFactor: 1
+  _previewMeshes:
+  - {fileID: -5495902117074765545, guid: 8ccfc167c0f8c6447b5270b825f2300f, type: 3}
+  _previewMaterials:
+  - {fileID: 2100000, guid: cbb7566f1f4aa3248b9d68a3212d7457, type: 2}

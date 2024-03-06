@@ -7,10 +7,11 @@ namespace _Project.Scripts.Features.GameScreen
   public interface IGameViewLogic
   {
     IDragDrop DragDrop { get; }
-    void Construct(Action onClickBack, Action onCreatePlayer, Action<SymbolSign> onEndGame);
-    void OpenWindow();
+    void Construct(Action onClickBack, Action<SymbolSign> onEndGame);
+    void StartGame();
     void ChangeTurningPlayer(SymbolSign activeSign = SymbolSign.None);
     void SetFigureState(SymbolSign symbol, SymbolSize size);
-    void HideBottomPanel();
+    void HidePlayersPanels();
+    void Clear();
   }
 }
