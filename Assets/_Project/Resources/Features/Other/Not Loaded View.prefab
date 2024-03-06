@@ -164,7 +164,7 @@ GameObject:
   - component: {fileID: 473884228369986750}
   - component: {fileID: 7847688921726979820}
   m_Layer: 5
-  m_Name: Not Loaded Window
+  m_Name: Not Loaded View
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

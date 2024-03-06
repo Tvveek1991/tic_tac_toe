@@ -77,7 +77,7 @@ namespace _Project.Scripts.Services.Unlocker
       {
         onFail?.Invoke(UnlockType.Advertising);
 
-        INotLoadedWindowLogic notLoadedWindowLogic = new NotLoadedWindowLogic(_localeSystem, _assetProvider);
+        INotLoadedWindowLogic notLoadedWindowLogic = new NotLoadedWindowLogic(_assetProvider);
         notLoadedWindowLogic.Open();
       });
     }
