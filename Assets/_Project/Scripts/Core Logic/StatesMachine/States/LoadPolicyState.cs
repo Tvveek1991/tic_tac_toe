@@ -15,29 +15,17 @@ namespace _Project.Scripts.Core_Logic.StatesMachine.States
     
     private readonly IAssetProvider _assetProvider;
     private readonly IGameSaveSystem _gameSaveSystem;
-    private readonly IAudioService _audioService;
-    private readonly ILocaleSystem _localeSystem;
     private readonly ICurrentScreen _screenManager;
-    private readonly IAnalytics _analytics;
-    private readonly IRemote _remote;
     
     private IPrivacyPolicyFactory _privacyPolicyFactory;
 
     public LoadPolicyState(
       IAssetProvider assetProvider,
       IGameSaveSystem gameSaveSystem,
-      IAudioService audioService,
-      ILocaleSystem localeSystem,
-      ICurrentScreen screenManager,
-      IAnalytics analytics,
-      IRemote remote)
+      ICurrentScreen screenManager)
     {
-      _remote = remote;
-      _analytics = analytics;
       _assetProvider = assetProvider;
       _gameSaveSystem = gameSaveSystem;
-      _audioService = audioService;
-      _localeSystem = localeSystem;
       _screenManager = screenManager;
     }
 
@@ -75,14 +63,6 @@ namespace _Project.Scripts.Core_Logic.StatesMachine.States
       }*/
       else
         Next();
-
-      LoadSound();
-    }
-
-    private void LoadSound()
-    {
-      _audioService.MuteMusic(_gameSaveSystem.Get().IsMusicDisabled);
-      _audioService.MuteSounds(_gameSaveSystem.Get().IsSoundDisabled);
     }
 
     private void Next() => 
