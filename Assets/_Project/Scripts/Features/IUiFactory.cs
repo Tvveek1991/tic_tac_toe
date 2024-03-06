@@ -10,7 +10,7 @@ namespace _Project.Scripts.Features
     // LoadWindow CreateLoadWindow();
 
     MoneyCounter SpawnMoneyCounter();
-    void SpawnSettingsWindow();
+    void CreateSettingsView();
     void SpawnNoInternetConnection();
     void ClearLoadWindow();
     void ClearSettingsWindow();

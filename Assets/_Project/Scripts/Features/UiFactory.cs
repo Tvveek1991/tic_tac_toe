@@ -45,7 +45,7 @@ namespace _Project.Scripts.Features
       return Object.Instantiate(window, parent);
     }
     
-    public void SpawnSettingsWindow()
+    public void CreateSettingsView()
     {
       Transform parent = GameObject.Find(BaseCanvas).transform;
 
