@@ -31,8 +31,7 @@ namespace _Project.Scripts.Features.EndGameScreen
 
     public void Construct(Action onClickHome, Action onClickPlayAgain)
     {
-      _endGameWindow.ButtonHome.onClick.AddListener(() => onClickHome?.Invoke());
-      _endGameWindow.ButtonPlayAgain.onClick.AddListener(() => onClickPlayAgain?.Invoke());
+      AddListeners(onClickHome, onClickPlayAgain);
 
       AddAnimations();
       AddSounds();
@@ -52,6 +51,12 @@ namespace _Project.Scripts.Features.EndGameScreen
 
       _endGameWindow.CanvasGroup.DOFade(1f, Duration)
         .OnComplete(() => { _endGameWindow.CanvasGroup.blocksRaycasts = true; });
+    }
+
+    private void AddListeners(Action onClickHome, Action onClickPlayAgain)
+    {
+      _endGameWindow.ButtonHome.onClick.AddListener(() => onClickHome?.Invoke());
+      _endGameWindow.ButtonPlayAgain.onClick.AddListener(() => onClickPlayAgain?.Invoke());
     }
 
     private void AddSounds()

@@ -24,15 +24,15 @@ namespace _Project.Scripts.Features.GameScreen.Mono
       _startPos = new Vector3(wonCells[0].position.x, wonCells[0].position.y, ZPos);
       _endPos = new Vector3(wonCells[2].position.x, wonCells[2].position.y, ZPos);
       
-      _defaultMaterial = new Material(Shader.Find("Sprites/Default"));
-      _defaultMaterial.SetColor(_color, isPlayerWin ? new Color32(96, 223, 109, 255) : new Color32(255, 83, 83, 255));
-      
-      _lineRenderer = gameObject.AddComponent<LineRenderer>();
-      _lineRenderer.startWidth = .25f;
-      Vector3[] positions = {_startPos, _startPos};
-      _lineRenderer.SetPositions(positions);
-      _lineRenderer.material = _defaultMaterial;
+      SetMaterial(isPlayerWin);
 
+      SetLineRendererSettings();
+
+      Animate(wonCells, onEnd);
+    }
+
+    private void Animate(List<Transform> wonCells, Action onEnd)
+    {
       for (var i = 0; i < wonCells.Count; i++)
       {
         int i1 = i;
@@ -42,19 +42,34 @@ namespace _Project.Scripts.Features.GameScreen.Mono
           .SetEase(Ease.Linear)
           .OnComplete(() =>
           {
-            if(i1 != 2)
+            if (i1 != 2)
               return;
-            
+
             DOTween.To(() => _startPos, x => _startPos = x, _endPos, .75f)
               .SetEase(Ease.Linear)
-              .OnUpdate(() =>  _lineRenderer.SetPosition(0, _startPos))
+              .OnUpdate(() => _lineRenderer.SetPosition(0, _startPos))
               .OnComplete(() =>
               {
                 onEnd?.Invoke();
-                Debug.Log("Анимация завершена!");
+                Debug.Log("Animation complete!");
               });
           });
       }
+    }
+
+    private void SetLineRendererSettings()
+    {
+      _lineRenderer = gameObject.AddComponent<LineRenderer>();
+      _lineRenderer.startWidth = .25f;
+      Vector3[] positions = {_startPos, _startPos};
+      _lineRenderer.SetPositions(positions);
+      _lineRenderer.material = _defaultMaterial;
+    }
+
+    private void SetMaterial(bool isPlayerWin)
+    {
+      _defaultMaterial = new Material(Shader.Find("Sprites/Default"));
+      _defaultMaterial.SetColor(_color, isPlayerWin ? new Color32(96, 223, 109, 255) : new Color32(255, 83, 83, 255));
     }
   }
 }

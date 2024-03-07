@@ -36,13 +36,15 @@ namespace _Project.Scripts.Features.Field
       _audioService = audioService;
       _inputResolver = inputResolver;
       _gameMetaProvider = gameMetaProvider;
+    }
+
+    public void Construct(Action<SymbolSign> onEndGame)
+    {
+      _onEndGame = onEndGame;
 
       SetField();
       CreateCellsField();
     }
-
-    public void Construct(Action<SymbolSign> onEndGame) =>
-      _onEndGame = onEndGame;
 
     public void Show(Action onEnd) =>
       ShowCells(onEnd);
@@ -65,11 +67,9 @@ namespace _Project.Scripts.Features.Field
             if (CheckWin(_playerSymbol))
             {
               _inputResolver.Disable();
-              
-              var winAnimation = _gameField.gameObject.AddComponent<WinAnimation>();
-              winAnimation.Construct(_wonCells, () => { _onEndGame?.Invoke(CheckWin(_playerSymbol) ? _playerSymbol : SymbolSign.None); },
-                _playerSymbol == _gameMetaProvider.GetPlayerView().GetSymbol());
-            }else if (CheckDraw()) 
+              StartWinAnimation();
+            }
+            else if (CheckDraw()) 
               _onEndGame?.Invoke(CheckWin(_playerSymbol) ? _playerSymbol : SymbolSign.None);
           });
       }
@@ -123,6 +123,13 @@ namespace _Project.Scripts.Features.Field
       }
 
       return true;
+    }
+
+    private void StartWinAnimation()
+    {
+      var winAnimation = _gameField.gameObject.AddComponent<WinAnimation>();
+      winAnimation.Construct(_wonCells, () => { _onEndGame?.Invoke(CheckWin(_playerSymbol) ? _playerSymbol : SymbolSign.None); },
+        _playerSymbol == _gameMetaProvider.GetPlayerView().GetSymbol());
     }
 
     private bool IsValidCell(int farX, int farY)
