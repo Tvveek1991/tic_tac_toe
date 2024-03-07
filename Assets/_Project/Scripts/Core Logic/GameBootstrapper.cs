@@ -126,7 +126,6 @@ namespace _Project.Scripts.Core_Logic
       });
     }
 
-
     private void LaunchGameStateMachine()
     {
       _adsService.CurrentInterstitial.ShowInterstitial("start", Load, Load, true);
