@@ -279,7 +279,8 @@ namespace _Project.Scripts.Features.ShopScreen
           _contentViewLogic.LoadContent(item);
       }
     }
-
+    
+    //Move back to homeScreen
     private void CloseShop()
     {
       _adsService.CurrentInterstitial.ShowInterstitial(ScreenNames.Home,

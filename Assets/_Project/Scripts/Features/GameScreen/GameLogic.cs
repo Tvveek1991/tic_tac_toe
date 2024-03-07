@@ -57,6 +57,7 @@ namespace _Project.Scripts.Features.GameScreen
       _gameFactory.GameViewLogic.Construct(OnClickBack, OnEndGame);
     }
 
+    //Move back to homeScreen
     private void OnClickBack()
     {
       _loadingLogic.Enter(() =>
@@ -69,6 +70,7 @@ namespace _Project.Scripts.Features.GameScreen
       
     }
     
+    //Remove to gameScreen
     private void OnClickPlayAgain()
     {
       _adsService.CurrentInterstitial.ShowInterstitial(ScreenNames.Game,

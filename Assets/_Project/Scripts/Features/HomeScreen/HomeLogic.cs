@@ -119,10 +119,13 @@ namespace _Project.Scripts.Features.HomeScreen
       _uiFactory.NoInternetView.Construct(() => { _uiFactory.ClearNoInternetView(); });
     }
 
+    
+    //Move to shopScreen
     private void ToShop() =>
       _adsService.CurrentInterstitial.ShowInterstitial(ScreenNames.Game,
         () => _gameStateMachine.Enter<LoadShopState>(), () => _gameStateMachine.Enter<LoadShopState>());
 
+    //Move to gameScreen
     private void ToGame()
     {
       _loadingLogic.Enter(() =>
