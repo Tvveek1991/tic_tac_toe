@@ -12,7 +12,7 @@ namespace _Project.Scripts.Features.Field
     private readonly int _fieldSizeY;
     private readonly SymbolCell[,] _cells;
 
-    private Action _onEnd;
+    private readonly Action _onEnd;
 
     public FieldAnimationHelper(SymbolCell[,] cells, Action onEnd)
     {

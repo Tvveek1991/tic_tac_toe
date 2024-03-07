@@ -20,17 +20,14 @@ namespace _Project.Scripts.Features.GameScreen
 {
   public class GameViewLogic : IGameViewLogic
   {
-    private const float Duration = .25f;
-
     private const int FieldSizeX = 3;
     private const int FieldSizeY = 3;
+    private const float Duration = .25f;
 
     protected readonly IGameFactory GameFactory;
     protected readonly ILocaleSystem LocaleSystem;
     protected readonly IInputResolver InputResolver;
     protected readonly IGameMetaProvider GameMetaProvider;
-
-    protected Action<SymbolSign> OnEndGame;
 
     protected readonly Dictionary<SymbolSign, SymbolSize[]> FiguresState = new()
     {
@@ -43,6 +40,8 @@ namespace _Project.Scripts.Features.GameScreen
     private readonly IAudioService _audioService;
 
     private readonly GameViewMono _gameViewMono;
+
+    protected Action<SymbolSign> OnEndGame;
 
     private TutorialLogic _tutorialLogic;
 
@@ -64,20 +63,15 @@ namespace _Project.Scripts.Features.GameScreen
 
       gameFactory.SpawnPlayerObject();
 
-      if (GameMetaProvider.GetGame() != Game.Buhurt)
-        return;
-
-      CreateDragDrop();
+      if (GameMetaProvider.GetGame() == Game.Buhurt)
+        CreateDragDrop();
     }
 
     public virtual void Construct(Action onBack, Action<SymbolSign> onEndGame)
     {
       OnEndGame = onEndGame;
 
-      GameFactory.CreateWarningView();
-      GameFactory.WarningView.Construct(InputResolver, _audioService, onBack);
-
-      _gameViewMono.BackButton.onClick.AddListener(GameFactory.WarningView.Show);
+      CreateWarningView(onBack);
 
       CreateTutorial();
       AppendButtonsAnimation();
@@ -86,9 +80,42 @@ namespace _Project.Scripts.Features.GameScreen
       FirstLoadPlayersUI(GameMetaProvider.GetGame());
 
       RefreshAfterChangeTurn(SymbolSign.X);
+
+      _gameViewMono.BackButton.onClick.AddListener(GameFactory.WarningView.Show);
+    }
+
+    private void CreateWarningView(Action onBack)
+    {
+      GameFactory.CreateWarningView();
+      GameFactory.WarningView.Construct(InputResolver, _audioService, onBack);
     }
 
     public virtual void StartGame() { }
+
+    public virtual void ChangeTurningPlayer(SymbolSign activeSign)
+    {
+      SymbolSign nextSign = activeSign == SymbolSign.X ? SymbolSign.O : SymbolSign.X;
+      RefreshAfterChangeTurn(nextSign);
+    }
+
+    public void SetFigureState(SymbolSign symbol, SymbolSize size)
+    {
+      FiguresState[symbol][(int) size] = SymbolSize.Default;
+      _gameViewMono.GetFigures().Find(item => item.Sign == symbol && item.Size == size)?.SetSizeToMoved();
+      _gameViewMono.GetFigures(true).Find(item => item.Sign == symbol && item.Size == size)?.SetSizeToMoved();
+    }
+
+    public void HidePlayersPanels()
+    {
+      _gameViewMono.GetFigures().ForEach(item => item.SetVisibility(false));
+      _gameViewMono.PlayerCanvasGroup.DOFade(0f, Duration);
+
+      _gameViewMono.GetFigures(true).ForEach(item => item.SetVisibility(false));
+      _gameViewMono.OpponentCanvasGroup.DOFade(0f, Duration);
+    }
+
+    public void Clear() =>
+      _tutorialLogic?.Exit();
 
     private void CreateTutorial()
     {
@@ -117,31 +144,6 @@ namespace _Project.Scripts.Features.GameScreen
         LoadOpponentBuhurtPart(symbol == SymbolSign.X ? SymbolSign.O : SymbolSign.X);
       }
     }
-
-    public virtual void ChangeTurningPlayer(SymbolSign activeSign)
-    {
-      SymbolSign nextSign = activeSign == SymbolSign.X ? SymbolSign.O : SymbolSign.X;
-      RefreshAfterChangeTurn(nextSign);
-    }
-
-    public void SetFigureState(SymbolSign symbol, SymbolSize size)
-    {
-      FiguresState[symbol][(int) size] = SymbolSize.Default;
-      _gameViewMono.GetFigures().Find(item => item.Sign == symbol && item.Size == size)?.SetSizeToMoved();
-      _gameViewMono.GetFigures(true).Find(item => item.Sign == symbol && item.Size == size)?.SetSizeToMoved();
-    }
-
-    public void HidePlayersPanels()
-    {
-      _gameViewMono.GetFigures().ForEach(item => item.SetVisibility(false));
-      _gameViewMono.PlayerCanvasGroup.DOFade(0f, Duration);
-
-      _gameViewMono.GetFigures(true).ForEach(item => item.SetVisibility(false));
-      _gameViewMono.OpponentCanvasGroup.DOFade(0f, Duration);
-    }
-
-    public void Clear() =>
-      _tutorialLogic?.Exit();
 
     private void SetVisibilityFiguresPanel(bool isMainPlayer = false)
     {

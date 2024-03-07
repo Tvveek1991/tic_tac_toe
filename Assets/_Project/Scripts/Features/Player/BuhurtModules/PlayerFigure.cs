@@ -1,4 +1,5 @@
 using System;
+using System.Threading.Tasks;
 using _Project.Scripts.Features.Data;
 using _Project.Scripts.Features.DragAndDrop.Interface;
 using _Project.Scripts.Features.GameScreen.Serialized;
@@ -76,8 +77,13 @@ namespace _Project.Scripts.Features.Player.BuhurtModules
 
       _dragablePart = CreateDragableFromGameIconPrefab();
 
-      _activeCell = assetProvider.GetResource<Sprite>(ActiveCellPath);
-      _inactiveCell = assetProvider.GetResource<Sprite>(InactiveCellPath);
+      LoadResources(assetProvider);
+    }
+
+    private async void LoadResources(IAssetProvider assetProvider)
+    {
+      _activeCell = await assetProvider.Load<Sprite>(ActiveCellPath);
+      _inactiveCell = await assetProvider.Load<Sprite>(InactiveCellPath);
     }
 
     public void FirstLoadFigure(SymbolSign symbolSign, Mesh mesh, Material material, Vector3 angle)

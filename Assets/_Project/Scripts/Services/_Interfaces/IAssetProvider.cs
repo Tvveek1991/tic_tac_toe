@@ -8,5 +8,7 @@ namespace _Project.Scripts.Services._Interfaces
   {
     T GetResource<T>(string path) where T : Object;
     T[] GetAllResources<T>(string path) where T : Object;
+    Task<T> Load<T>(string address) where T : class;
+    void Release(string address);
   }
 }

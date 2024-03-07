@@ -35,23 +35,22 @@ namespace _Project.Scripts.Core_Logic.StatesMachine.States
     public Task AsyncEnter() =>
       throw new System.NotImplementedException();
 
+    //Enter to first privacy policy offer
     public void Enter()
     {
       _screenManager.SetCurrentScreen(ScreenNames.Privacy);
 
       _privacyPolicyFactory = new PrivacyPolicyFactory(_assetProvider);
 
-      if (!_gameSaveSystem.Get().IsPolicyAccepted)
-      {
-        _gameSaveSystem.Get().IsPolicyAccepted = true;
-        _gameSaveSystem.Save();
+      LaunchPolicy();
+    }
 
-        Next();
-      }
+    private void LaunchPolicy()
+    {
       /*if (!_gameSaveSystem.Get().IsPolicyAccepted)
       {
         var privacyPolicy = _privacyPolicyFactory.SpawnPrivacyPolicy();
-        privacyPolicy.Construct(_gameSaveSystem, _audioService, _localeSystem, _analytics, _remote);
+        privacyPolicy.Construct(_gameSaveSystem, _audioService, _analytics, _remote);
         privacyPolicy.ClosingFinished += OnClosingFinished;
         privacyPolicy.OpenWindow();
 
@@ -61,10 +60,19 @@ namespace _Project.Scripts.Core_Logic.StatesMachine.States
           privacyPolicy.ClosingFinished -= OnClosingFinished;
         }
       }*/
+      if (!_gameSaveSystem.Get().IsPolicyAccepted)
+      {
+        _gameSaveSystem.Get().IsPolicyAccepted = true;
+        _gameSaveSystem.Save();
+
+        Next();
+      }
       else
         Next();
     }
 
+    
+    //Move to homeScreen
     private void Next() => 
       _gameStateMachine.Enter<LoadHomeState>();
 

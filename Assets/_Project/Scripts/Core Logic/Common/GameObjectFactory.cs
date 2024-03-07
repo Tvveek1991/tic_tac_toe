@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using _Project.Scripts.Services._Interfaces;
 using UnityEngine;
 
@@ -7,10 +8,8 @@ namespace _Project.Scripts.Core_Logic.Common
   {
     private readonly IAssetProvider _assetProvider;
 
-    protected GameObjectFactory(IAssetProvider assetProvider)
-    {
+    protected GameObjectFactory(IAssetProvider assetProvider) => 
       _assetProvider = assetProvider;
-    }
 
     protected T Create<T>(string prefabPath) where T : MonoBehaviour
     {
@@ -25,12 +24,22 @@ namespace _Project.Scripts.Core_Logic.Common
       T obj = Object.Instantiate(prefab, parent);
       return obj;
     }
+    
+    protected async Task<GameObject> CreateAsync(string prefabPath, Transform parent)
+    {
+      var prefab = await _assetProvider.Load<GameObject>(prefabPath);
+      var obj = Object.Instantiate(prefab, parent);
+      return obj;
+    }
 
     protected T Find<T>(string path) where T : Object
     {
       var prefab = _assetProvider.GetResource<T>(path);
       return prefab;
     }
+
+    protected void Release(string address) =>
+      _assetProvider.Release(address);
 
     protected void Clear(GameObject obj)
     {

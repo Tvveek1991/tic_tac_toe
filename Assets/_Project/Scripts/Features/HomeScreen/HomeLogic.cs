@@ -4,7 +4,6 @@ using _Project.Scripts.Core_Logic.StatesMachine.States;
 using _Project.Scripts.Features.Data;
 using _Project.Scripts.Features.DisableAds;
 using _Project.Scripts.Features.Loading;
-using _Project.Scripts.Features.Policy;
 using _Project.Scripts.Features.Settings;
 using _Project.Scripts.Services._Interfaces;
 using _Project.Scripts.Services.Localization.Logic;
@@ -60,9 +59,9 @@ namespace _Project.Scripts.Features.HomeScreen
       _gameSaveSystem = gameSaveSystem;
       _gameStateMachine = gameStateMachine;
 
-      _homeFactory = new HomeFactory(assetProvider, localeSystem, audioService, gameMetaProvider);
       _uiFactory = new UiFactory(assetProvider);
-      
+      _homeFactory = new HomeFactory(assetProvider, localeSystem, audioService, gameMetaProvider);
+
       _gameCustomsData = assetProvider.GetAllResources<GameCustomData>(GameDataPath);
     }
     
@@ -86,7 +85,7 @@ namespace _Project.Scripts.Features.HomeScreen
 
       _settingsLogic.Clear();
       _homeFactory.ClearHomeView();
-      _uiFactory.ClearSettingsWindow();
+      _uiFactory.ClearSettingsView();
     }
 
     private void CreateHomeView()
@@ -116,16 +115,17 @@ namespace _Project.Scripts.Features.HomeScreen
       if (Application.internetReachability != NetworkReachability.NotReachable) 
         return;
 
-      _uiFactory.SpawnNoInternetConnection();
-      _uiFactory.NoInternetWindow.Construct(_localeSystem, () => { _uiFactory.ClearNoInternetWindow(); });
+      _uiFactory.SpawnNoInternetConnectionView();
+      _uiFactory.NoInternetView.Construct(() => { _uiFactory.ClearNoInternetView(); });
     }
 
-    private void ToShop()
-    {
+    
+    //Move to shopScreen
+    private void ToShop() =>
       _adsService.CurrentInterstitial.ShowInterstitial(ScreenNames.Game,
         () => _gameStateMachine.Enter<LoadShopState>(), () => _gameStateMachine.Enter<LoadShopState>());
-    }
 
+    //Move to gameScreen
     private void ToGame()
     {
       _loadingLogic.Enter(() =>

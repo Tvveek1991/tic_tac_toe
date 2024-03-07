@@ -41,16 +41,15 @@ namespace _Project.Scripts.Features.GameScreen
     private readonly Transform _screensCanvasParent;
 
     public WarningView WarningView { get; private set; }
-    public PreparingMono PreparingMono { get; private set; }
-    public BasePlayerViewMono PlayerViewMono { get; private set; }
     public IGameFieldLogic GameFieldLogic { get; private set; }
     public IGameViewLogic GameViewLogic { get; private set; }
     public IEndGameLogic EndGameLogic { get; private set; }
 
+    private PreparingMono PreparingMono { get; set; }
     private GameViewMono GameViewMono { get; set; }
+    private BasePlayerViewMono PlayerViewMono { get; set; }
     private GameField GameField { get; set; }
     private EndGameMono EndGameWindow { get; set; }
-
 
     // private delegate void ConnectHandler(string guid, uint cost, Action onSpend, Action<UnlockType> onFail); example delegate
 

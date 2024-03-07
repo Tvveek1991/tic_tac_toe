@@ -60,7 +60,7 @@ namespace _Project.Scripts.Features.Policy
     private Action _onDeny;
 
     public void Construct(IGameSaveSystem gameSaveSystem, IAudioService audioService,
-      ILocaleSystem localeSystem, IAnalytics analytics, IRemote remote, Action onDeny = null)
+      IAnalytics analytics, IRemote remote, Action onDeny = null)
     {
       _onDeny = onDeny;
       

@@ -70,7 +70,7 @@ namespace _Project.Scripts.Features.Settings
 
     public void Construct()
     {
-      CreatePolicy(_localeSystem, _analytics, _assetProvider);
+      CreatePolicy(_analytics, _assetProvider);
 
       LoadSprites();
       AssignListeners();
@@ -98,11 +98,11 @@ namespace _Project.Scripts.Features.Settings
     public void Clear() =>
       _privacyPolicyFactory.Clear();
 
-    private void CreatePolicy(ILocaleSystem localeSystem, IAnalytics analytics, IAssetProvider assetProvider)
+    private void CreatePolicy(IAnalytics analytics, IAssetProvider assetProvider)
     {
       _privacyPolicyFactory = new PrivacyPolicyFactory(assetProvider);
       _privacyPolicy = _privacyPolicyFactory.SpawnPrivacyPolicy();
-      _privacyPolicy.Construct(_gameSaveSystem, _audioService, localeSystem, analytics, _remote,
+      _privacyPolicy.Construct(_gameSaveSystem, _audioService, analytics, _remote,
         () => { _gameStateMachine.Enter<LoadPolicyState>(); });
     }
 

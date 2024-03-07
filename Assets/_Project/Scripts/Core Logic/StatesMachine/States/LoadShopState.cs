@@ -12,10 +12,8 @@ namespace _Project.Scripts.Core_Logic.StatesMachine.States
 {
   public class LoadShopState : IState
   {
-    private readonly IRemote _remote;
     private readonly IAnalytics _analytics;
     private readonly IAdsService _adsService;
-    private readonly IMoneyService _moneyService;
     private readonly ILocaleSystem _localeSystem;
     private readonly IAudioService _audioService;
     private readonly IUnlockService _unlockService;
@@ -29,13 +27,11 @@ namespace _Project.Scripts.Core_Logic.StatesMachine.States
     private ShopLogic _shopLogic;
 
     private LoadShopState(IAssetProvider assetProvider, ICurrentScreen currentScreen, IGameSaveSystem gameSaveSystem,
-      IAdsService adsService, IAnalytics analytics, ILocaleSystem localeSystem, IAudioService audioService, IRemote remote,
-      IUnlockService unlockService, IMoneyService moneyService, IGameMetaProvider gameMetaProvider)
+      IAdsService adsService, IAnalytics analytics, ILocaleSystem localeSystem, IAudioService audioService,
+      IUnlockService unlockService, IGameMetaProvider gameMetaProvider)
     {
-      _remote = remote;
       _analytics = analytics;
       _adsService = adsService;
-      _moneyService = moneyService;
       _localeSystem = localeSystem;
       _audioService = audioService;
       _unlockService = unlockService;

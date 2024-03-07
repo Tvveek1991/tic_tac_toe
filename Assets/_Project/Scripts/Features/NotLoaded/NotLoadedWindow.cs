@@ -27,7 +27,7 @@ namespace _Project.Scripts.Features.NotLoaded
     
     private Action _clear;
 
-    public void Construct(ILocaleSystem localeSystem, Action onClose)
+    public void Construct(Action onClose)
     {
       new ButtonAnimation(OkBtn.transform);
       

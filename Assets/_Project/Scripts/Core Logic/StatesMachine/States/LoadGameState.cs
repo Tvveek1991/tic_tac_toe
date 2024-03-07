@@ -13,14 +13,10 @@ namespace _Project.Scripts.Core_Logic.StatesMachine.States
 {
   public class LoadGameState : IState
   {
-    private readonly IRemote _remote;
-    private readonly IAnalytics _analytics;
     private readonly IAdsService _adsService;
     private readonly ILocaleSystem _localeSystem;
     private readonly IAudioService _audioService;
-    private readonly IMoneyService _moneyService;
     private readonly IInputResolver _inputResolver;
-    private readonly ICurrentScreen _currentScreen;
     private readonly ILoadingLogic _loadingLogic;
     private readonly IAssetProvider _assetProvider;
     private readonly IGameSaveSystem _gameSaveSystem;
@@ -30,20 +26,16 @@ namespace _Project.Scripts.Core_Logic.StatesMachine.States
 
     private GameLogic _gameLogic;
 
-    public LoadGameState(IAssetProvider assetProvider, ICurrentScreen currentScreen, IGameSaveSystem gameSaveSystem,
-      IAdsService adsService, IAnalytics analytics, ILocaleSystem localeSystem, IAudioService audioService, IRemote remote,
-      IMoneyService moneyService, IGameMetaProvider gameMetaProvider, IInputResolver inputResolver, ILoadingLogic loadingLogic)
+    public LoadGameState(IAssetProvider assetProvider, IGameSaveSystem gameSaveSystem, IAdsService adsService,
+      ILocaleSystem localeSystem, IAudioService audioService, IGameMetaProvider gameMetaProvider, IInputResolver inputResolver, 
+      ILoadingLogic loadingLogic)
     {
-      _remote = remote;
-      _analytics = analytics;
       _adsService = adsService;
       _localeSystem = localeSystem;
       _audioService = audioService;
-      _moneyService = moneyService;
       _loadingLogic = loadingLogic;
       _inputResolver = inputResolver;
       _assetProvider = assetProvider;
-      _currentScreen = currentScreen;
       _gameSaveSystem = gameSaveSystem;
       _gameMetaProvider = gameMetaProvider;
     }
