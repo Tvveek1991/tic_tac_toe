@@ -19,7 +19,6 @@ namespace _Project.Scripts.Core_Logic.StatesMachine.States
     private readonly ILoadingLogic _loadingLogic;
     private readonly ILocaleSystem _localeSystem;
     private readonly IAudioService _audioService;
-    private readonly IMoneyService _moneyService;
     private readonly IInAppService _inAppService;
     private readonly ICurrentScreen _currentScreen;
     private readonly IAssetProvider _assetProvider;
@@ -32,7 +31,7 @@ namespace _Project.Scripts.Core_Logic.StatesMachine.States
     private HomeLogic _homeLogic;
 
     public LoadHomeState(IAssetProvider assetProvider, ICurrentScreen currentScreen, IGameSaveSystem gameSaveSystem, IAdsService adsService,
-      IAnalytics analytics, ILocaleSystem localeSystem, IAudioService audioService, IRemote remote, IMoneyService moneyService,
+      IAnalytics analytics, ILocaleSystem localeSystem, IAudioService audioService, IRemote remote,
       IGameMetaProvider gameMetaProvider, IInAppService inAppService, IUnlockService unlockService, ILoadingLogic loadingLogic)
     {
       _remote = remote;
@@ -42,7 +41,6 @@ namespace _Project.Scripts.Core_Logic.StatesMachine.States
       _localeSystem = localeSystem;
       _inAppService = inAppService;
       _audioService = audioService;
-      _moneyService = moneyService;
       _unlockService = unlockService;
       _assetProvider = assetProvider;
       _currentScreen = currentScreen;
