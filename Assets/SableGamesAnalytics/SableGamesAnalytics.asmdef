@@ -1,0 +1,28 @@
+{
+    "name": "SableGamesAnalytics",
+    "rootNamespace": "",
+    "references": [
+        "GUID:60bfecf5cb232594891bc622f40d6bed",
+        "GUID:7bb1ee73ebb9f114188944f67b1333d6"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": true,
+    "precompiledReferences": [
+        "Facebook.Unity.dll",
+        "Facebook.Unity.Editor.dll",
+        "Facebook.Unity.Gameroom.dll",
+        "Facebook.Unity.Settings.dll",
+        "FacebookNamedPipeClient.dll",
+        "Firebase.Editor.dll",
+        "Firebase.Analytics.dll",
+        "Firebase.App.dll",
+        "Firebase.Platform.dll",
+        "Firebase.TaskExtension.dll"
+    ],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

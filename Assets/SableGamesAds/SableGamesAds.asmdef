@@ -1,0 +1,17 @@
+{
+    "name": "SableGamesAds",
+    "rootNamespace": "",
+    "references": [
+        "GUID:620a36052608ee94aac94e540f905faa",
+        "GUID:f58f26829632462b8c6cd0dba4c764ea"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

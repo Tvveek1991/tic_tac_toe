@@ -1,0 +1,14 @@
+{
+  "name": "com.sablegames.analytics",
+  "displayName": "Sable Games Analytics",
+  "version": "1.0.0",
+  "unity": "2019.4",
+  "description": "Full pack of game analytics",
+  "keywords": [ "package", "unity" ],
+  "author": {
+    "name": "Sable Games"
+  },
+  "dependencies": {
+    "com.google.firebase.analytics": "9.4.0"
+  }
+}
