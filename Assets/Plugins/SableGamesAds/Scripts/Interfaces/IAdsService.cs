@@ -1,14 +1,9 @@
 using System;
-using GoogleMobileAds.Api;
 using SableGamesAds.Scripts.Common;
 using SableGamesAds.Scripts.Data;
 using SableGamesRemote.Scripts.Data;
-using UnityEngine.Events;
-#if ENABLED_ADMOB
 
-#endif
-
-namespace SableGamesAds.Scripts.Interfaces
+namespace Plugins.SableGamesAds.Scripts.Interfaces
 {
   public interface IAdsService : IService
   {
@@ -24,11 +19,5 @@ namespace SableGamesAds.Scripts.Interfaces
     IInterstitialBase CurrentInterstitial { get; set; }
     bool AdsEnabled { get; set; }
     void EnableAds(bool isSplash);
-    
-    
-#if ENABLED_ADMOB
-    void AddListenerOnPaidEvent(UnityAction<AdValueEventArgs, string, string> action);
-    void RemoveListenerOnPaidEvent(UnityAction<AdValueEventArgs, string, string> action);
-#endif
   }
 }

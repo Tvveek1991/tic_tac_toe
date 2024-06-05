@@ -1,19 +1,15 @@
 using System.Collections.Generic;
-using GoogleMobileAds.Api;
+using Plugins.SableGamesAds.Scripts.Interfaces;
 using SableGamesAds.Scripts.Common;
-using SableGamesAds.Scripts.Interfaces;
 using SableGamesAnalytics.Scripts.Interfaces;
 using UnityEngine;
 using UnityEngine.Events;
-using AdRequest = YandexMobileAds.Base.AdRequest;
 #if ENABLED_YANDEX
+using AdRequest = YandexMobileAds.Base.AdRequest;
 using RewardedAd = YandexMobileAds.RewardedAd;
 #endif
-#if ENABLED_ADMOB
 
-#endif
-
-namespace SableGamesAds.Scripts.YandexMobileAds
+namespace Plugins.SableGamesAds.Scripts.YandexMobileAds
 {
   public class YandexMobileAdsRewardedAd : IRewarded
   {
@@ -45,10 +41,10 @@ namespace SableGamesAds.Scripts.YandexMobileAds
 #if ENABLED_YANDEX
       _rewardedAd = new RewardedAd(_placementId);
 
-      _rewardedAd.OnRewardedAdFailedToLoad += (sender, args) => { _failMessage = args.Message; };
-      _rewardedAd.OnRewardedAdShown += (sender, args) => { };
-      _rewardedAd.OnRewardedAdDismissed += (sender, args) => { HandleRewardClosed(); };
-      _rewardedAd.OnRewarded += (sender, args) => { HandleRewardBasedVideoRewarded(); };
+      _rewardedAd.OnRewardedAdFailedToLoad += (_, args) => { _failMessage = args.Message; };
+      _rewardedAd.OnRewardedAdShown += (_, _) => { };
+      _rewardedAd.OnRewardedAdDismissed += (_, _) => { HandleRewardClosed(); };
+      _rewardedAd.OnRewarded += (_, _) => { HandleRewardBasedVideoRewarded(); };
 #endif
     }
 
@@ -121,15 +117,5 @@ namespace SableGamesAds.Scripts.YandexMobileAds
 
     private void HandleRewardClosed() =>
       UnityThread.Enqueue(RequestRewardedVideo);
-
-#if ENABLED_ADMOB
-    public void AddListenerOnPaidEvent(UnityAction<AdValueEventArgs, string, string> action)
-    {
-    }
-
-    public void RemoveListenerOnPaidEvent(UnityAction<AdValueEventArgs, string, string> action)
-    {
-    }
-#endif
   }
 }

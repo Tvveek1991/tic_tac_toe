@@ -8,7 +8,7 @@ using _Project.Scripts.Features.Settings;
 using _Project.Scripts.Services._Interfaces;
 using _Project.Scripts.Services.Localization.Logic;
 using _Project.Scripts.Services.Unlocker;
-using SableGamesAds.Scripts.Interfaces;
+using Plugins.SableGamesAds.Scripts.Interfaces;
 using SableGamesAnalytics.Scripts.Interfaces;
 using SableGamesRemote.Scripts.Interfaces;
 using UnityEngine;

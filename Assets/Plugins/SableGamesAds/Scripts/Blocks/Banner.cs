@@ -2,15 +2,12 @@
 using System;
 using System.Collections.Generic;
 using GoogleMobileAds.Api;
-using SableGamesAds.Scripts.Common;
-using SableGamesAds.Scripts.Interfaces;
+using Plugins.SableGamesAds.Scripts.Interfaces;
 using SableGamesAnalytics.Scripts.Interfaces;
 using UnityEngine;
 using UnityEngine.Events;
-#if ENABLED_ADMOB
-#endif
 
-namespace SableGamesAds.Scripts.Blocks
+namespace Plugins.SableGamesAds.Scripts.Blocks
 {
   public class Banner : IBanner
   {
@@ -19,8 +16,6 @@ namespace SableGamesAds.Scripts.Blocks
     private readonly string _bannerID;
 #if ENABLED_ADMOB
     private BannerView _banner;
-    
-    UnityAction<AdValueEventArgs, string, string> _onPaidEvent;
 #endif
 
     private UnityAction<bool> _onBannerShow;
@@ -49,15 +44,17 @@ namespace SableGamesAds.Scripts.Blocks
       if(!_isEnabled)
         return;
       
-      _banner?.Destroy();
-      
+      Debug.Log("Creating banner view");
+
+      if (_banner != null) 
+        DestroyAd();
+
       _banner = new BannerView(_bannerID, AdSize.Banner, AdPosition.Bottom);
       
-      _banner.OnAdLoaded += Banner_OnAdLoaded;
-      _banner.OnAdFailedToLoad += Banner_OnAdFailedToLoad;
-      _banner.OnPaidEvent += Banner_AdOnPaidEvent;
-
-      _banner.LoadAd(GetRequest());
+      var adRequest = new AdRequest();
+      _banner.LoadAd(adRequest);
+      
+      ListenToAdEvents();
 #endif
     }
 
@@ -91,45 +88,20 @@ namespace SableGamesAds.Scripts.Blocks
 
     public void RemoveBannerShowListener(UnityAction<bool> onShow) =>
       _onBannerShow -= onShow;
-
+    
 #if ENABLED_ADMOB
-    private AdRequest GetRequest()
+    private void OnPaid(AdValue adValue)
     {
-      var adRequest = new AdRequest.Builder();
-      
-      adRequest.AddExtra("npa", PlayerPrefs.GetString("PersonilizedAds", "0"));
-
-      return adRequest.Build();
-    }
-#endif
-
-#if ENABLED_ADMOB
-    private void Banner_AdOnPaidEvent(object sender, AdValueEventArgs args) => 
-     OnPaid(args);
-
-    private void OnPaid(AdValueEventArgs args)
-    {
-      if(args.AdValue.Value == 0)
+      if(adValue.Value == 0)
         return;
 
       _analytics.Send("ad_ban_paid", new Dictionary<string, object>
       {
         {"placement_id", _bannerID},
-        {"price", args.AdValue.Value/DefaultDenominator}
+        {"price", adValue.Value/DefaultDenominator}
       });
-      
-      TrackOnPaidEvent(args, _bannerID, "banner");
     }
-
-    public void AddListenerOnPaidEvent(UnityAction<AdValueEventArgs, string, string> action) => 
-      _onPaidEvent += action;
-
-    public void RemoveListenerOnPaidEvent(UnityAction<AdValueEventArgs, string, string> action) => 
-      _onPaidEvent -= action;
 #endif
-
-    private void Banner_OnAdLoaded(object sender, EventArgs e) => 
-      UnityThread.Enqueue(OnLoad);
 
     private void OnLoad()
     {
@@ -152,17 +124,28 @@ namespace SableGamesAds.Scripts.Blocks
     }
 
 #if ENABLED_ADMOB
-    private void TrackOnPaidEvent(AdValueEventArgs args, string placement, string unit) =>
-      _onPaidEvent?.Invoke(args, placement, unit);
-    
-    private void Banner_OnAdFailedToLoad(object sender, AdFailedToLoadEventArgs e) => 
-      UnityThread.Enqueue(OnFail);
-
     private void OnFail()
     {
       _heightInPixels = 0;
       _isLoaded = false;
       _onBannerShow?.Invoke(_isLoaded);
+    }
+
+    private void ListenToAdEvents()
+    {
+      _banner.OnBannerAdLoaded += OnLoad;
+      _banner.OnBannerAdLoadFailed += _ => OnFail();
+      _banner.OnAdPaid += OnPaid;
+    }
+    
+    private void DestroyAd()
+    {
+      if (_banner != null)
+      {
+        Debug.Log("Destroying banner ad.");
+        _banner.Destroy();
+        _banner = null;
+      }
     }
 #endif
   }

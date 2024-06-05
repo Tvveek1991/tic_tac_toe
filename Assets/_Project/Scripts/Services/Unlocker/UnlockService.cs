@@ -4,7 +4,7 @@ using _Project.Scripts.Features.NotLoaded;
 using _Project.Scripts.Services._data;
 using _Project.Scripts.Services._Interfaces;
 using _Project.Scripts.Services.Localization.Logic;
-using SableGamesAds.Scripts.Interfaces;
+using Plugins.SableGamesAds.Scripts.Interfaces;
 using SableGamesRemote.Scripts.Interfaces;
 using UnityEngine;
 

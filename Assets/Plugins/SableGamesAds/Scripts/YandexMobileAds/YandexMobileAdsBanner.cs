@@ -2,18 +2,14 @@
 #if ENABLED_YANDEX
 using System;
 using System.Collections.Generic;
+using Plugins.SableGamesAds.Scripts.Interfaces;
+using SableGamesAds.Scripts.Common;
+using SableGamesAnalytics.Scripts.Interfaces;
+using UnityEngine.Events;
 using YandexMobileAds;
 using AdPosition = YandexMobileAds.Base.AdPosition;
 using AdRequest = YandexMobileAds.Base.AdRequest;
 using AdSize = YandexMobileAds.Base.AdSize;
-#endif
-#if ENABLED_ADMOB
-using GoogleMobileAds.Api;
-using SableGamesAds.Scripts.Common;
-using SableGamesAds.Scripts.Interfaces;
-using SableGamesAnalytics.Scripts.Interfaces;
-using UnityEngine.Events;
-
 #endif
 
 namespace SableGamesAds.Scripts.YandexMobileAds
@@ -36,10 +32,10 @@ namespace SableGamesAds.Scripts.YandexMobileAds
 #if ENABLED_YANDEX
       _banner = new Banner(bannerId, AdSize.BANNER_320x50, AdPosition.BottomCenter);
 
-      _banner.OnAdLoaded += (sender, args) => 
+      _banner.OnAdLoaded += (_, _) => 
         UnityThread.Enqueue(() => OnLoad(analytics, bannerId));
       
-      _banner.OnAdFailedToLoad += (sender, args) => _isLoaded = false;
+      _banner.OnAdFailedToLoad += (_, _) => _isLoaded = false;
 #endif
     }
 
@@ -98,11 +94,6 @@ namespace SableGamesAds.Scripts.YandexMobileAds
       _isEnabled = value;
       HideBanner();
     }
-    
-#if ENABLED_ADMOB
-    public void AddListenerOnPaidEvent(UnityAction<AdValueEventArgs, string, string> action) {}
-    public void RemoveListenerOnPaidEvent(UnityAction<AdValueEventArgs, string, string> action){}
-#endif
   }
 }
 #endif

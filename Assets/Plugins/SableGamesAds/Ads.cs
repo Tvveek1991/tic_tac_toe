@@ -1,20 +1,21 @@
 using System;
 using System.Collections.Generic;
 using GoogleMobileAds.Api;
+using Plugins.SableGamesAds.Scripts.Blocks;
+using Plugins.SableGamesAds.Scripts.Interfaces;
+using Plugins.SableGamesAds.Scripts.YandexMobileAds;
 using SableGamesAds.Scripts.Additional;
-using SableGamesAds.Scripts.Blocks;
 using SableGamesAds.Scripts.Data;
-using SableGamesAds.Scripts.Interfaces;
 using SableGamesAds.Scripts.Logger;
 using SableGamesAds.Scripts.YandexMobileAds;
 using SableGamesAnalytics.Scripts.Interfaces;
 using SableGamesRemote.Scripts.Data;
 using UnityEngine;
-using UnityEngine.Events;
+
 #if ENABLED_ADMOB
 #endif
 
-namespace SableGamesAds
+namespace Plugins.SableGamesAds
 {
   public class AdsService : IAdsService
   {
@@ -213,6 +214,7 @@ namespace SableGamesAds
       if (!_isSng)
       {
 #if ENABLED_ADMOB
+        MobileAds.RaiseAdEventsOnUnityMainThread = true;
 #if UNITY_IOS
         MobileAds.SetiOSAppPauseOnBackground(true);
 #endif
@@ -249,26 +251,6 @@ namespace SableGamesAds
         _videoID = _placements[placementType]["_videoID"];
       }
     }
-
-#if ENABLED_ADMOB
-    public void AddListenerOnPaidEvent(UnityAction<AdValueEventArgs, string, string> action)
-    {
-      Rewarded.AddListenerOnPaidEvent(action);
-#if !WITHOUT_BANNER
-      Banner.AddListenerOnPaidEvent(action);
-#endif
-      _interstitial.AddListenerOnPaidEvent(action);
-    }
-
-    public void RemoveListenerOnPaidEvent(UnityAction<AdValueEventArgs, string, string> action)
-    {
-      Rewarded.RemoveListenerOnPaidEvent(action);
-#if !WITHOUT_BANNER
-      Banner.RemoveListenerOnPaidEvent(action);
-#endif
-      _interstitial.RemoveListenerOnPaidEvent(action);
-    }
-#endif
     
     private bool ShouldEnableAlternativeAds(string countryCode)
     {

@@ -1,4 +1,4 @@
-namespace SableGamesAds.Scripts.Interfaces
+namespace Plugins.SableGamesAds.Scripts.Interfaces
 {
   public interface IInterstitial : IInterstitialBase
   {}

@@ -1,20 +1,16 @@
-#if ENABLED_ADMOB
-#endif
 using System;
 using System.Collections.Generic;
 using GoogleMobileAds.Api;
-using SableGamesAds.Scripts.Common;
-using SableGamesAds.Scripts.Interfaces;
+using Plugins.SableGamesAds.Scripts.Interfaces;
 using SableGamesAnalytics.Scripts.Interfaces;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace SableGamesAds.Scripts.Blocks
+namespace Plugins.SableGamesAds.Scripts.Blocks
 {
   public class Interstitial : IInterstitial
   {
     private const float DefaultDenominator = 1000000;
-    private const string InterstitialCounterKey = "InterstitialCounter";
 
     private readonly string _interstitialSplashID;
     private readonly string _interstitialID;
@@ -23,14 +19,12 @@ namespace SableGamesAds.Scripts.Blocks
     private readonly IAnalytics _analytics;
 #if ENABLED_ADMOB
     private InterstitialAd _interstitialAd;
-    
+
     UnityAction<AdValueEventArgs, string, string> _onPaidEvent;
 #endif
 
     UnityAction _onEndInterstitial;
-
-    private int _requestCounter;
-
+    
     private string _targetScreen;
     private Action _onInterstitialLoaded;
 
@@ -39,17 +33,10 @@ namespace SableGamesAds.Scripts.Blocks
     public Action InterstitialLaunched { get; set; }
 
     private bool _isEnabled = true;
+    private bool _isInitialized;
 
-    private bool _isInitialized = false;
+    private AdError _adError;
     
-    private LoadAdError _adError;
-
-    private int InterstitialCounter
-    {
-      get => PlayerPrefs.GetInt(InterstitialCounterKey, 0);
-      set => PlayerPrefs.SetInt(InterstitialCounterKey, value);
-    }
-
     public Interstitial(string interstitialSplashID, string interstitialID, IAnalytics analytics, Action onInterstitialLoaded)
     {
       _onInterstitialLoaded = onInterstitialLoaded;
@@ -59,13 +46,13 @@ namespace SableGamesAds.Scripts.Blocks
       _interstitialSplashID = interstitialSplashID;
     }
 
-    public void SetEnabled(bool value) => 
+    public void SetEnabled(bool value) =>
       _isEnabled = value;
 
     public bool InterstitialIsLoaded()
     {
 #if ENABLED_ADMOB
-      return _interstitialAd.IsLoaded();
+      return _interstitialAd != null && _interstitialAd.CanShowAd();
 #else
       return false;
 #endif
@@ -105,69 +92,79 @@ namespace SableGamesAds.Scripts.Blocks
 
       _currentId = isSplash ? _interstitialSplashID : _interstitialID;
 
-      if (_interstitialAd == null)
+      if (_interstitialAd != null)
       {
-        _interstitialAd = new InterstitialAd(_currentId);
-        _interstitialAd.OnAdClosed += InterstitialOnAdClosed;
-        _interstitialAd.OnAdLoaded += InterstitialOnAdLoaded;
-        _interstitialAd.OnAdFailedToLoad += InterstitialOnAdFailedToLoad;
-        _interstitialAd.OnPaidEvent += InterstitialAdOnPaidEvent;
+        _interstitialAd.Destroy();
+        _interstitialAd = null;
       }
 
-      _interstitialAd.LoadAd(GetRequestInterstitial());
+      Debug.Log("Loading the interstitial ad.");
 
-      _requestCounter++;
+      var adRequest = new AdRequest();
+
+      // send the request to load the ad.
+      InterstitialAd.Load(_currentId, adRequest,
+        (ad, error) =>
+        {
+          // if error is not null, the load request failed.
+          if (error != null || ad == null)
+          {
+            Debug.LogError("interstitial ad failed to load an ad " +
+                           "with error : " + error);
+            
+            LoadCallback();
+            
+            return;
+          }
+
+          Debug.Log("Interstitial ad loaded with response : "
+                    + ad.GetResponseInfo());
+
+          _interstitialAd = ad;
+          
+          RegisterEventHandlers(_interstitialAd);
+          RegisterReloadHandler(_interstitialAd);
+          
+          LoadCallback();
+        });
 #endif
     }
 
 #if ENABLED_ADMOB
-    private void InterstitialOnAdFailedToLoad(object sender, AdFailedToLoadEventArgs e)
-    {
-      _adError = e.LoadAdError;
-      UnityThread.Enqueue(LoadCallback);
-    }
 
-    private void InterstitialAdOnPaidEvent(object sender, AdValueEventArgs args) => 
-      OnPaid(args);
-
-    private void OnPaid(AdValueEventArgs args)
+    private void OnPaid(AdValue adValue)
     {
-      if(args.AdValue.Value == 0)
+      if (adValue.Value == 0)
         return;
 
       _analytics.Send("ad_int_paid", new Dictionary<string, object>
       {
-        {"placement_id", _currentId},
-        {"to_screen", _targetScreen},
-        {"price", args.AdValue.Value / DefaultDenominator}
+        { "placement_id", _currentId },
+        { "to_screen", _targetScreen },
+        { "price", adValue.Value / DefaultDenominator }
       });
 
       _analytics.Send("ad_int_show", new Dictionary<string, object>
       {
-        {"to_screen", _targetScreen},
-        {"placement_id", _currentId}
+        { "to_screen", _targetScreen },
+        { "placement_id", _currentId }
       });
-
-      //TrackOnPaidEvent(args, _currentId, "interstitial");
     }
 
 #endif
 
     private void LoadCallback()
-    {   
+    {
       Debug.Log("[IAnalytics] InterstitialAdOnOnAdLoaded");
 
-      if(_isInitialized)
+      if (_isInitialized)
         return;
-      
+
       _isInitialized = true;
-      
+
       _onInterstitialLoaded?.Invoke();
       _onInterstitialLoaded = null;
     }
-    
-    private void InterstitialOnAdLoaded(object sender, EventArgs e) => 
-      UnityThread.Enqueue(LoadCallback);
 
     private void InnerInterstitialShow(string targetScreen, UnityAction onFail)
     {
@@ -177,28 +174,26 @@ namespace SableGamesAds.Scripts.Blocks
 
       _analytics.Send("ad_int_trig", new Dictionary<string, object>
       {
-        {"to_screen", targetScreen}, 
-        {"placement_id", _currentId}
+        { "to_screen", targetScreen },
+        { "placement_id", _currentId }
       });
 
-      if (_interstitialAd.IsLoaded())
+      if (_interstitialAd != null && _interstitialAd.CanShowAd())
       {
         InterstitialLaunched?.Invoke();
         _interstitialAd.Show();
         _analytics.Send("ad_int_start", new Dictionary<string, object>
         {
-          {"to_screen", targetScreen}, 
-          {"placement_id", _currentId}
+          { "to_screen", targetScreen },
+          { "placement_id", _currentId }
         });
-
-        InterstitialCounter++;
       }
       else
       {
         var parameters = new Dictionary<string, object>
         {
-          {"to_screen", targetScreen}, 
-          {"placement_id", _currentId}
+          { "to_screen", targetScreen },
+          { "placement_id", _currentId }
         };
 
         if (_adError != null)
@@ -208,7 +203,7 @@ namespace SableGamesAds.Scripts.Blocks
         }
 
         _analytics.Send("ad_int_fail", parameters);
-        
+
         onFail?.Invoke();
       }
 #else
@@ -216,32 +211,33 @@ namespace SableGamesAds.Scripts.Blocks
 #endif
     }
 
-    private void InterstitialOnAdClosed(object sender, EventArgs e) => 
-      UnityThread.Enqueue(OnInterstitialClosed);
-
     private void OnInterstitialClosed()
-    {    
+    {
       RequestInterstitial(false);
       _onEndInterstitial?.Invoke();
     }
 
 #if ENABLED_ADMOB
-    private AdRequest GetRequestInterstitial()
+    private void RegisterEventHandlers(InterstitialAd ad)
     {
-      var adRequest = new AdRequest.Builder();
-      adRequest.AddExtra("npa", PlayerPrefs.GetString("PersonilizedAds", "0"));
-
-      return adRequest.Build();
+      ad.OnAdPaid += OnPaid;
+      ad.OnAdFullScreenContentClosed += OnInterstitialClosed;
+      ad.OnAdFullScreenContentFailed += error =>
+      {
+        _adError = error;
+        Debug.LogError("Rewarded ad failed to open full screen content " +
+                       "with error : " + error);
+      };
     }
-    
-    private void TrackOnPaidEvent(AdValueEventArgs args, string placement, string unit) =>
-      _onPaidEvent?.Invoke(args, placement, unit);
 
-    public void AddListenerOnPaidEvent(UnityAction<AdValueEventArgs, string, string> action) => 
-      _onPaidEvent += action;
+    private void RegisterReloadHandler(InterstitialAd ad)
+    {
+      // Raised when the ad closed full screen content.
+      ad.OnAdFullScreenContentClosed += () => RequestInterstitial(false);
 
-    public void RemoveListenerOnPaidEvent(UnityAction<AdValueEventArgs, string, string> action) => 
-      _onPaidEvent -= action;
+      // Raised when the ad failed to open full screen content.
+      ad.OnAdFullScreenContentFailed += _ => RequestInterstitial(false);
+    }
 #endif
   }
 }

@@ -1,18 +1,16 @@
-#if ENABLED_YANDEX
-using YandexMobileAds;
-using AdRequest = YandexMobileAds.Base.AdRequest;
-#endif
-#if ENABLED_ADMOB
-#endif
 using System;
 using System.Collections.Generic;
-using GoogleMobileAds.Api;
+using Plugins.SableGamesAds.Scripts.Interfaces;
 using SableGamesAds.Scripts.Common;
-using SableGamesAds.Scripts.Interfaces;
 using SableGamesAnalytics.Scripts.Interfaces;
 using UnityEngine;
 using UnityEngine.Events;
+using YandexMobileAds;
 using YandexMobileAds.Base;
+#if ENABLED_YANDEX
+using AdRequest = YandexMobileAds.Base.AdRequest;
+
+#endif
 
 namespace SableGamesAds.Scripts.YandexMobileAds
 {
@@ -32,7 +30,7 @@ namespace SableGamesAds.Scripts.YandexMobileAds
     private string _targetScreen;
     private readonly string _currentId;
 
-    private bool _isInitialized = false;
+    private bool _isInitialized;
 
     private int InterstitialCounter
     {
@@ -54,9 +52,9 @@ namespace SableGamesAds.Scripts.YandexMobileAds
 #if ENABLED_YANDEX
       _interstitialAd = new Interstitial(placementId);
 
-      _interstitialAd.OnInterstitialLoaded += (sender, args) => InterstitialLoaded();
-      _interstitialAd.OnInterstitialFailedToLoad += (sender, args) => InterstitialFailedToLoad(args);
-      _interstitialAd.OnInterstitialDismissed += (sender, args) => InterstitialClosed();
+      _interstitialAd.OnInterstitialLoaded += (_, _) => InterstitialLoaded();
+      _interstitialAd.OnInterstitialFailedToLoad += (_, args) => InterstitialFailedToLoad(args);
+      _interstitialAd.OnInterstitialDismissed += (_, _) => InterstitialClosed();
 #endif
     }
 
@@ -177,15 +175,5 @@ namespace SableGamesAds.Scripts.YandexMobileAds
 
       _onEndInterstitial?.Invoke();
     }
-
-#if ENABLED_ADMOB
-    public void AddListenerOnPaidEvent(UnityAction<AdValueEventArgs, string, string> action)
-    {
-    }
-
-    public void RemoveListenerOnPaidEvent(UnityAction<AdValueEventArgs, string, string> action)
-    {
-    }
-#endif
   }
 }

@@ -7,7 +7,7 @@ using _Project.Scripts.Features.Splashscreen;
 using _Project.Scripts.Services._Interfaces;
 using _Project.Scripts.Services.Consent;
 using FlurrySDK;
-using SableGamesAds.Scripts.Interfaces;
+using Plugins.SableGamesAds.Scripts.Interfaces;
 using SableGamesAnalytics.Scripts.Interfaces;
 using SableGamesRemote.Scripts.Interfaces;
 using UnityEngine;

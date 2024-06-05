@@ -1,15 +1,10 @@
 {
-  "scopedRegistries": [
-    {
-      "name": "Tools",
-      "url": "http://165.227.167.227:4873",
-      "scopes": [
-        "com.sablegames",
-        "com.google"
-      ]
-    }
-  ],
+  "scopedRegistries": [],
   "dependencies": {
+    "com.google.external-dependency-manager": "file:com.google.external-dependency-manager-1.2.175.tgz",
+    "com.google.firebase.analytics": "file:com.google.firebase.analytics-9.4.0.tgz",
+    "com.google.firebase.app": "file:com.google.firebase.app-9.4.0.tgz",
+    "com.google.firebase.remote-config": "file:com.google.firebase.remote-config-9.4.0.tgz",
     "com.unity.2d.sprite": "1.0.0",
     "com.unity.addressables": "1.21.19",
     "com.unity.ai.navigation": "1.1.5",

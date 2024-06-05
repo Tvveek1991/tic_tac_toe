@@ -8,7 +8,7 @@ using _Project.Scripts.Services.Localization.Logic;
 using _Project.Scripts.Services.Timer;
 using _Project.Scripts.Services.Timer.Interfaces;
 using _Project.Scripts.Timer.Interfaces;
-using SableGamesAds.Scripts.Interfaces;
+using Plugins.SableGamesAds.Scripts.Interfaces;
 using SableGamesAnalytics.Scripts.Interfaces;
 using UnityEngine;
 using UnityEngine.Purchasing;
