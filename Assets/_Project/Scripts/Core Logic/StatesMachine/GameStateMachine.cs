@@ -16,7 +16,7 @@ namespace _Project.Scripts.Core_Logic.StatesMachine
     private IExitableState _activeExitableState;
 
     public GameStateMachine(
-      IFactory<LoadGameServicesState> loadGameServicesStateFactory,
+      IFactory<LoadStartupState> loadStartupStateFactory,
       IFactory<LoadPolicyState> loadPolicyStateFactory,
       IFactory<LoadHomeState> loadHomeStateFactory,
       IFactory<LoadGameState> loadGameStateFactory,
@@ -24,7 +24,7 @@ namespace _Project.Scripts.Core_Logic.StatesMachine
     {
       _states = new Dictionary<Type, IExitableState>
       {
-        [typeof(LoadGameServicesState)] = loadGameServicesStateFactory.Create(),
+        [typeof(LoadStartupState)] = loadStartupStateFactory.Create(),
         [typeof(LoadPolicyState)] = loadPolicyStateFactory.Create(),
         [typeof(LoadHomeState)] = loadHomeStateFactory.Create(),
         [typeof(LoadGameState)] = loadGameStateFactory.Create(),
@@ -35,9 +35,6 @@ namespace _Project.Scripts.Core_Logic.StatesMachine
 
       Debug.Log("Game State Machine Initialize");
     }
-
-    public IExitableState GetState(Type type) =>
-      _states[type];
 
     public void Enter<TState>() where TState : class, IState
     {
@@ -63,10 +60,13 @@ namespace _Project.Scripts.Core_Logic.StatesMachine
       await exitableState.AsyncEnter();
     }
 
+    private IExitableState GetState(Type type) =>
+      _states[type];
+
     private TState ChangeState<TState>() where TState : class, IExitableState
     {
       _activeExitableState?.Exit();
-      TState state = GetState<TState>();
+      var state = GetState<TState>();
       _activeExitableState = state;
       return state;
     }

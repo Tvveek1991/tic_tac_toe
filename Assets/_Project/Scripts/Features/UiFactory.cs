@@ -23,16 +23,16 @@ namespace _Project.Scripts.Features
     {
       Transform parent = GameObject.Find(BaseCanvas).transform;
       
-      var window = Create<SettingsView>(SettingsPath);
-      SettingsView = Object.Instantiate(window, parent);
+      var settings = Create<SettingsView>(SettingsPath, parent);
+      SettingsView = settings;
     }
 
     public void SpawnNoInternetConnectionView()
     {
       Transform parent = GameObject.Find(BaseCanvas).transform;
 
-      var window = Create<NotLoadedWindow>(NoInternetWindowPath);
-      NoInternetView = Object.Instantiate(window, parent);
+      var notLoadedWindow = Create<NotLoadedWindow>(NoInternetWindowPath, parent);
+      NoInternetView = notLoadedWindow;
     }
 
     public void ClearSettingsView()

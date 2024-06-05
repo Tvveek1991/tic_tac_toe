@@ -6,7 +6,6 @@ using _Project.Scripts.Core_Logic.StatesMachine.States;
 using _Project.Scripts.Features.Splashscreen;
 using _Project.Scripts.Services._Interfaces;
 using _Project.Scripts.Services.Consent;
-using FlurrySDK;
 using Plugins.SableGamesAds.Scripts.Interfaces;
 using SableGamesAnalytics.Scripts.Interfaces;
 using SableGamesRemote.Scripts.Interfaces;
@@ -85,8 +84,6 @@ namespace _Project.Scripts
 
     private void SendRemoteEvents()
     {
-      Flurry.UserProperties.Add("AB_remote_config", _remote.GetPlacementType().ToString());
-
       _analytics.Send("AB_remote_config", new Dictionary<string, object>()
       {
         {"group", _remote.GetPlacementType()}
@@ -133,7 +130,7 @@ namespace _Project.Scripts
       void Load()
       {
         _splashLogic.Clear();
-        _gameStateMachine.Enter<LoadGameServicesState>();
+        _gameStateMachine.Enter<LoadStartupState>();
       }
     }
   }

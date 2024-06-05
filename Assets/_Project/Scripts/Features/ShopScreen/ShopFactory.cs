@@ -23,20 +23,20 @@ namespace _Project.Scripts.Features.ShopScreen
     {
       Transform parent = GameObject.Find(BaseCanvas).transform;
 
-      var homeScreen = Create<ShopView>(ShopPath);
-      return Object.Instantiate(homeScreen, parent);
+      var shopView = Create<ShopView>(ShopPath, parent);
+      return shopView;
     }
 
     public ScrollViewItemsView CreateItemsView(Transform parent)
     {
-      var homeScreen =  Create<ScrollViewItemsView>(ItemsViewPath);
-      return Object.Instantiate(homeScreen, parent);
+      var scrollViewItemsView =  Create<ScrollViewItemsView>(ItemsViewPath, parent);
+      return scrollViewItemsView;
     }
 
     public ScrollViewItemButton CreateItemButton(Transform parent)
     {
-      var homeScreen = Create<ScrollViewItemButton>(ItemButtonPath);
-      return Object.Instantiate(homeScreen, parent);
+      var scrollViewItemButton = Create<ScrollViewItemButton>(ItemButtonPath, parent);
+      return scrollViewItemButton;
     }
   }
 }

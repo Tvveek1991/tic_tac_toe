@@ -10,7 +10,7 @@ namespace _Project.Scripts.Core_Logic.Zenject
     public override void InstallBindings()
     {
       Container.Bind<IGameStateMachine>().To<GameStateMachine>().AsSingle();
-      Container.BindIFactory<LoadGameServicesState>().ToSelf().AsSingle();
+      Container.BindIFactory<LoadStartupState>().ToSelf().AsSingle();
       Container.BindIFactory<LoadPolicyState>().ToSelf().AsSingle();
       Container.BindIFactory<LoadHomeState>().ToSelf().AsSingle();
       Container.BindIFactory<LoadGameState>().ToSelf().AsSingle();

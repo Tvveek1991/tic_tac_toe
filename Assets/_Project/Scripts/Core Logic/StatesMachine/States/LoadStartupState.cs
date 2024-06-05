@@ -4,14 +4,14 @@ using _Project.Scripts.Services._Interfaces;
 
 namespace _Project.Scripts.Core_Logic.StatesMachine.States
 {
-  public class LoadGameServicesState : IState
+  public class LoadStartupState : IState
   {
     private readonly IAudioService _audioService;
     private readonly IGameSaveSystem _gameSaveSystem;
     
     private IGameStateMachine _gameStateMachine;
 
-    public LoadGameServicesState(IAudioService audioService, IGameSaveSystem gameSaveSystem)
+    public LoadStartupState(IAudioService audioService, IGameSaveSystem gameSaveSystem)
     {
       _audioService = audioService;
       _gameSaveSystem = gameSaveSystem;
