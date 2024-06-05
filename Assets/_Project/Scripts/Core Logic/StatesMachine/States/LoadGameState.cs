@@ -5,7 +5,7 @@ using _Project.Scripts.Features.GameScreen;
 using _Project.Scripts.Features.Loading;
 using _Project.Scripts.Services._Interfaces;
 using _Project.Scripts.Services.Localization.Logic;
-using SableGamesAds.Scripts.Interfaces;
+using Plugins.SableGamesAds.Scripts.Interfaces;
 using SableGamesAnalytics.Scripts.Interfaces;
 using SableGamesRemote.Scripts.Interfaces;
 

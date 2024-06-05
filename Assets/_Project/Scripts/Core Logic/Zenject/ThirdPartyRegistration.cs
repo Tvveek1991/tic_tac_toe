@@ -1,5 +1,5 @@
-using SableGamesAds;
-using SableGamesAds.Scripts.Interfaces;
+using Plugins.SableGamesAds;
+using Plugins.SableGamesAds.Scripts.Interfaces;
 using SableGamesAnalytics.Scripts.Interfaces;
 using SableGamesRemote;
 using SableGamesRemote.Scripts.Interfaces;

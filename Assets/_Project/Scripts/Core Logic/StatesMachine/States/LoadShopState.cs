@@ -4,7 +4,7 @@ using _Project.Scripts.Core_Logic.StatesMachine.Interfaces;
 using _Project.Scripts.Features.ShopScreen;
 using _Project.Scripts.Services._Interfaces;
 using _Project.Scripts.Services.Localization.Logic;
-using SableGamesAds.Scripts.Interfaces;
+using Plugins.SableGamesAds.Scripts.Interfaces;
 using SableGamesAnalytics.Scripts.Interfaces;
 using SableGamesRemote.Scripts.Interfaces;
 

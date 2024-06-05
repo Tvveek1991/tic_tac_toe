@@ -1,0 +1,14 @@
+{
+  "name": "com.sablegames.remote",
+  "displayName": "Sable Games Remote",
+  "version": "1.0.0",
+  "unity": "2019.4",
+  "description": "Full pack of Sable Games remote",
+  "keywords": [ "package", "unity" ],
+  "author": {
+    "name": "Sable Games"
+  },
+  "dependencies": {
+    "com.google.firebase.remote-config": "9.4.0"
+  }
+}
