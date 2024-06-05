@@ -13,7 +13,7 @@ using SableGamesRemote.Scripts.Interfaces;
 using UnityEngine;
 using Zenject;
 
-namespace _Project.Scripts.Core_Logic
+namespace _Project.Scripts
 {
   public class GameBootstrapper : MonoBehaviour
   {
