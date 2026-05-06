@@ -47,7 +47,7 @@ namespace Lean.Touch
 
 				if (rigidbody3D != null)
 				{
-					rigidbody3D.velocity = vector * ForceMultiplier;
+					rigidbody3D.linearVelocity = vector * ForceMultiplier;
 				}
 
 				// Apply 2D force?
@@ -55,7 +55,7 @@ namespace Lean.Touch
 
 				if (rigidbody2D != null)
 				{
-					rigidbody2D.velocity = vector * ForceMultiplier;
+					rigidbody2D.linearVelocity = vector * ForceMultiplier;
 				}
 			}
 		}

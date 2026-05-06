@@ -200,7 +200,7 @@ namespace Lean.Touch
 
 				if (rigidbody3D != null)
 				{
-					rigidbody3D.velocity = direction * ThrowForce;
+					rigidbody3D.linearVelocity = direction * ThrowForce;
 				}
 
 				// Apply 2D force?
@@ -208,7 +208,7 @@ namespace Lean.Touch
 
 				if (rigidbody2D != null)
 				{
-					rigidbody2D.velocity = direction * ThrowForce;
+					rigidbody2D.linearVelocity = direction * ThrowForce;
 				}
 			}
 		}

@@ -34,7 +34,7 @@ namespace Lean.Touch
 					// Make sure the direction is valid
 					if (worldDirection.sqrMagnitude > 0.0f)
 					{
-						rigidbody3D.velocity = worldDirection.normalized * Speed;
+						rigidbody3D.linearVelocity = worldDirection.normalized * Speed;
 					}
 				}
 			}

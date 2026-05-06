@@ -36,7 +36,7 @@ namespace Lean.Touch
 			var worldDelta = Camera.main.ScreenToWorldPoint(screenPosition) - transform.position;
 				
 			// Set the velocity and divide it by 0.1, because velocity is applied over 1 second, and our delta is currently only for 0.1 second
-			body.velocity = worldDelta / 0.1f;
+			body.linearVelocity = worldDelta / 0.1f;
 		}
 	}
 }
