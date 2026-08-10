@@ -1,5 +1,6 @@
 using System;
 using _Project.Scripts.Services._Interfaces;
+using UnityEngine;
 
 namespace _Project.Scripts.Features.Loading
 {
@@ -14,6 +15,7 @@ namespace _Project.Scripts.Features.Loading
       _loadingFactory.CreateScreen(() =>
       {
         onEnd?.Invoke();
+        Debug.Log("Test");
       });
 
     public void Exit() => 
